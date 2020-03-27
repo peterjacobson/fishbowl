@@ -28,27 +28,18 @@ function CreateList(props) {
 
   return (
     <div>
-      <header>
-        <h1>Welcome to the Grocery List app!</h1>
-      </header>
-      <div className="create-container">
-        <div>
-          <form name="createListForm">
-            <p>
-              <label>What is your name?</label>
-            </p>
-            <p>
-              <input type="text" name="userName" />
-            </p>
-            <ErrorMessage errorCode={error}></ErrorMessage>
-            <p>
-              <button onClick={createGroceryList}>
-                Create a new grocery list
-              </button>
-            </p>
-          </form>
-        </div>
-      </div>
+      <form name="createListForm">
+        <p>
+          <label>What is your name?</label>
+        </p>
+        <p>
+          <input type="text" name="userName" />
+        </p>
+        <ErrorMessage errorCode={error}></ErrorMessage>
+        <p>
+          <button onClick={createGroceryList}>New check-in room</button>
+        </p>
+      </form>
     </div>
   );
 }
