@@ -37,7 +37,9 @@ function CreateList(props) {
         </p>
         <ErrorMessage errorCode={error}></ErrorMessage>
         <p>
-          <button onClick={createroom}>New check-in room</button>
+          <button onClick={createroom}>
+            New private Heartwork check-in room
+          </button>
         </p>
       </form>
     </div>

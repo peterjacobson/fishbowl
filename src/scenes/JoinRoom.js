@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import * as FirestoreService from "../services/firestore";
 
-function JoinList(props) {
+function JoinRoom(props) {
   const { users, roomId, onSelectUser, onCloseroom, userId } = props;
 
   const [error, setError] = useState();
@@ -48,7 +48,7 @@ function JoinList(props) {
   return (
     <div>
       <header>
-        <h1>Welcome to the Grocery List app!</h1>
+        <h1>Welcome to a private Heartwork check-in room</h1>
       </header>
       <div className="join-container">
         <div>
@@ -64,7 +64,7 @@ function JoinList(props) {
             <p>
               ...or{" "}
               <a href="/" onClick={onCreateListClick}>
-                create a new grocery list
+                create a new check-in room
               </a>
             </p>
           </form>
@@ -74,4 +74,4 @@ function JoinList(props) {
   );
 }
 
-export default JoinList;
+export default JoinRoom;

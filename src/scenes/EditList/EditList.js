@@ -29,7 +29,7 @@ function EditList(props) {
       </div>
       <footer className="app-footer">
         <p>
-          Share your list with others using{" "}
+          Share this private room with others using{" "}
           <a
             href={`/?listId=${roomId}`}
             target="_blank"
@@ -39,7 +39,7 @@ function EditList(props) {
           </a>{" "}
           or{" "}
           <a href="/" onClick={onCreateListClick}>
-            create a new grocery list
+            create a new private Heartwork check-in room
           </a>
           .
         </p>
