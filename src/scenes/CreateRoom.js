@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./CreateList.css";
-import * as FirestoreService from "../../services/firestore";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+import * as FirestoreService from "../services/firestore";
+import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 
 function CreateList(props) {
   const { onCreate, userId } = props;

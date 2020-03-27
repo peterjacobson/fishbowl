@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import "./JoinList.css";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
-import * as FirestoreService from "../../services/firestore";
+import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
+import * as FirestoreService from "../services/firestore";
 
 function JoinList(props) {
   const { users, roomId, onSelectUser, onCloseroom, userId } = props;
