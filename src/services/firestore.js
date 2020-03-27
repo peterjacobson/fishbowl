@@ -22,8 +22,8 @@ export const authenticateAnonymously = () => {
   return firebase.auth().signInAnonymously();
 };
 
-export const createGroceryList = (userName, userId) => {
-  return db.collection("groceryLists").add({
+export const createroom = (userName, userId) => {
+  return db.collection("rooms").add({
     created: firebase.firestore.FieldValue.serverTimestamp(),
     createdBy: userId,
     users: [
@@ -35,34 +35,34 @@ export const createGroceryList = (userName, userId) => {
   });
 };
 
-export const getGroceryList = groceryListId => {
+export const getroom = roomId => {
   return db
-    .collection("groceryLists")
-    .doc(groceryListId)
+    .collection("rooms")
+    .doc(roomId)
     .get();
 };
 
-export const getGroceryListItems = groceryListId => {
+export const getroomItems = roomId => {
   return db
-    .collection("groceryLists")
-    .doc(groceryListId)
+    .collection("rooms")
+    .doc(roomId)
     .collection("items")
     .get();
 };
 
-export const streamGroceryListItems = (groceryListId, observer) => {
+export const streamroomItems = (roomId, observer) => {
   return db
-    .collection("groceryLists")
-    .doc(groceryListId)
+    .collection("rooms")
+    .doc(roomId)
     .collection("items")
     .orderBy("created")
     .onSnapshot(observer);
 };
 
-export const addUserToGroceryList = (userName, groceryListId, userId) => {
+export const addUserToroom = (userName, roomId, userId) => {
   return db
-    .collection("groceryLists")
-    .doc(groceryListId)
+    .collection("rooms")
+    .doc(roomId)
     .update({
       users: firebase.firestore.FieldValue.arrayUnion({
         userId: userId,
@@ -71,20 +71,19 @@ export const addUserToGroceryList = (userName, groceryListId, userId) => {
     });
 };
 
-export const addGroceryListItem = (item, groceryListId, userId) => {
-  return getGroceryListItems(groceryListId)
+export const addroomItem = (item, roomId, userId) => {
+  return getroomItems(roomId)
     .then(querySnapshot => querySnapshot.docs)
-    .then(groceryListItems =>
-      groceryListItems.find(
-        groceryListItem =>
-          groceryListItem.data().name.toLowerCase() === item.toLowerCase()
+    .then(roomItems =>
+      roomItems.find(
+        roomItem => roomItem.data().name.toLowerCase() === item.toLowerCase()
       )
     )
     .then(matchingItem => {
       if (!matchingItem) {
         return db
-          .collection("groceryLists")
-          .doc(groceryListId)
+          .collection("rooms")
+          .doc(roomId)
           .collection("items")
           .add({
             name: item,

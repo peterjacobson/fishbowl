@@ -8,7 +8,7 @@ function CreateList(props) {
 
   const [error, setError] = useState();
 
-  function createGroceryList(e) {
+  function createroom(e) {
     e.preventDefault();
     setError(null);
 
@@ -17,7 +17,7 @@ function CreateList(props) {
       setError("user-name-required");
       return;
     }
-    FirestoreService.createGroceryList(userName, userId)
+    FirestoreService.createroom(userName, userId)
       .then(docRef => {
         onCreate(docRef.id, userName);
       })
@@ -37,7 +37,7 @@ function CreateList(props) {
         </p>
         <ErrorMessage errorCode={error}></ErrorMessage>
         <p>
-          <button onClick={createGroceryList}>New check-in room</button>
+          <button onClick={createroom}>New check-in room</button>
         </p>
       </form>
     </div>
