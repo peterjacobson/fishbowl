@@ -37,11 +37,16 @@ const LoungeImageBottom = styled(LoungeImage)`
 
 const LittleButton = styled.button`
   font-size: 1em;
-  display: inline block;
+  display: inline-block;
 `;
 
 const SpanH2 = styled.h2`
-  display: inline block;
+  display: inline-block;
+  margin-right: 10px;
+`;
+
+const CopyToClipboardSpan = styled(CopyToClipboard)`
+  display: inline-block;
 `;
 
 const Intro = styled.p`
@@ -85,14 +90,13 @@ const Need = styled(CheckInItem)`
 `;
 
 function InsideRoom(props) {
-  const { users, roomId, user, onCloseroom, userId, enqueueSnackbar } = props;
+  const { users, roomId, user, onCloseroom, userId } = props;
   const [roomUsers, setRoomUsers] = useState([]);
   const [checkIn, setCheckIn] = useState({});
   const [checkIns, setCheckIns] = useState([]);
   const [error, setError] = useState();
   const { width, height } = useWindowSize();
-
-  console.log("enqueueSnackbar: ", enqueueSnackbar);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   function onCreateListClick(e) {
     e.preventDefault();
@@ -140,8 +144,6 @@ function InsideRoom(props) {
         })
       };
     });
-
-  console.log("othersCheckIns: ", othersCheckIns);
 
   const othersCheckInsElements = othersCheckIns.map(anotherUser => (
     <>
@@ -298,9 +300,13 @@ function InsideRoom(props) {
       <LoungeImageTop source={room4} />
       <Confetti width={width} height={height} recycle={false} />
       <SpanH2>👋 Welcome {user} 😌</SpanH2>
-      <CopyToClipboard text={`${window.location.origin}/?listId=${roomId}`}>
+      <CopyToClipboardSpan
+        text={`${window.location.origin}/?listId=${roomId}`}
+        onCopy={() => setLinkCopied(true)}
+      >
         <LittleButton>Copy link to this room</LittleButton>
-      </CopyToClipboard>
+      </CopyToClipboardSpan>
+      <span>{linkCopied ? "Link Copied 🙌" : null}</span>
       <Intro>
         You're jumping into a call with some other people! Why?
         <br />
