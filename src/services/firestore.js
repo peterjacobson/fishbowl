@@ -86,19 +86,7 @@ export const addUserToroom = (userName, roomId, userId) => {
     });
 };
 
-export const updateRoomUser = (roomId, userIndex, userCheckin) => {
-  console.log("userIndex: ", userIndex);
-  console.log("thing: ", { [`users[${userIndex}].checkIn`]: userCheckin });
-  // return db
-  //   .collection("rooms")
-  //   .doc(roomId)
-  //   .update({
-  //     [`users[${userIndex}].checkIn`]: userCheckin
-  //   });
-};
-
 export const updateCheckIn = (checkIn, roomId, userId) => {
-  console.log("userId: ", userId);
   db.collection("rooms")
     .doc(roomId)
     .collection("checkIns")
