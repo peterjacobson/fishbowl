@@ -213,6 +213,7 @@ function InsideRoom(props) {
   const selectSetup = [
     {
       name: "greenFeeling",
+      // value: checkIn.greenFeeling,
       placeholder: "[last 24hrs] A feeling I had",
       options: greenFeelings,
       colors: colors.green,
@@ -220,6 +221,7 @@ function InsideRoom(props) {
     },
     {
       name: "peachFeeling",
+      // value: checkIn.peachFeeling,
       placeholder: "[last 24hrs] A feeling I had",
       options: peachFeelings,
       colors: colors.peach,
@@ -227,6 +229,7 @@ function InsideRoom(props) {
     },
     {
       name: "need1",
+      // value: checkIn.need1,
       placeholder: "[this meeting] A need I'd love to meet",
       options: needs,
       colors: colors.need,
@@ -234,6 +237,7 @@ function InsideRoom(props) {
     },
     {
       name: "need2",
+      // value: checkIn.need2,
       placeholder: "[this meeting] A need I'd love to meet",
       options: needs,
       colors: colors.need,
@@ -241,6 +245,7 @@ function InsideRoom(props) {
     },
     {
       name: "need3",
+      // value: checkIn.greenFeeling,
       placeholder: "[this meeting] A need I'd love to meet",
       options: needs,
       colors: colors.need
@@ -253,6 +258,7 @@ function InsideRoom(props) {
 
     return (
       <Select
+        // value={select.value}
         name={select.name}
         placeholder={select.placeholder}
         options={convertToOptions(select.options)}
