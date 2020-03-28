@@ -231,8 +231,8 @@ function InsideRoom(props) {
     return {
       container: (base, state) => ({
         ...base,
-        transform: `rotate(${tilt}deg)`,
-        marginLeft: shunt,
+        // transform: `rotate(${tilt}deg)`,
+        // marginLeft: shunt,
         marginBottom: -4,
         fontSize: "1.3em",
         maxWidth: 440,
@@ -332,7 +332,7 @@ function InsideRoom(props) {
         name={select.name}
         placeholder={select.placeholder}
         options={convertToOptions(select.options)}
-        maxMenuHeight={9000}
+        // maxMenuHeight={9000}
         onChange={updateMyCheckIn}
         styles={
           checkIn.greenFeeling === ""
