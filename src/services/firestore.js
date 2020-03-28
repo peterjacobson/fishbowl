@@ -66,7 +66,7 @@ export const streamRoomUsers = (roomId, observer) => {
     .onSnapshot(observer);
 };
 
-export const streamRoomUserCheckins = (roomId, observer) => {
+export const streamRoomCheckIns = (roomId, observer) => {
   return db
     .collection("rooms")
     .doc(roomId)

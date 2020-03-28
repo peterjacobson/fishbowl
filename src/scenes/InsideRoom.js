@@ -11,6 +11,7 @@ function InsideRoom(props) {
   const { users, roomId, user, onCloseroom, userId } = props;
   const [roomUsers, setRoomUsers] = useState([]);
   const [checkIn, setCheckIn] = useState({});
+  const [checkIns, setCheckIns] = useState([]);
   // const [greenFeeling, setGreenFeeling] = useState("");
   // const [peachFeeling, setPeachFeeling] = useState("");
   // const [topNeeds, setTopNeeds] = useState([]);
@@ -31,6 +32,16 @@ function InsideRoom(props) {
     });
     return unsubscribe;
   }, [roomId, setRoomUsers]);
+
+  useEffect(() => {
+    const unsubscribe = FirestoreService.streamRoomCheckIns(roomId, {
+      next: querySnapshot => {
+        setCheckIns(querySnapshot.docs.map(docSnapshot => docSnapshot.data()));
+      },
+      error: () => setError("grocery-list-item-get-fail")
+    });
+    return unsubscribe;
+  }, [roomId, setCheckIns]);
 
   const roomUserElements = roomUsers.map((user, i) => (
     <div key={i}>
@@ -55,7 +66,6 @@ function InsideRoom(props) {
   }
 
   function updateMyCheckIn(option, action) {
-    console.log("user: ", user);
     const updatedField = { [action.name]: option.value };
     FirestoreService.updateCheckIn(updatedField, roomId, userId);
     // console.log("user: ", user);
@@ -114,6 +124,11 @@ function InsideRoom(props) {
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
         <div>{roomUserElements}</div>
+        <div>
+          {checkIns.map(checkIn => (
+            <div>{JSON.stringify(checkIn)}</div>
+          ))}
+        </div>
       </div>
       <footer className="app-footer">
         <p>
