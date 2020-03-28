@@ -10,6 +10,12 @@ import Confetti from "react-confetti";
 import styled from "styled-components";
 import room4 from "../img/room4.jpg";
 
+const colors = {
+  peach: ["#E88FA2", "#EB9B81"],
+  green: ["#1696A0", "#88C072"],
+  need: ["#2A3076", "#1792C8"]
+};
+
 const LoungeImage = styled.div`
   width: 100%;
   height: 100px;
@@ -148,12 +154,6 @@ function InsideRoom(props) {
     };
   }
 
-  const colors = {
-    peach: ["#E88FA2", "#EB9B81"],
-    green: ["#1696A0", "#88C072"],
-    need: ["#2A3076", "#1792C8"]
-  };
-
   const selectSetup = [
     {
       name: "greenFeeling",
@@ -207,6 +207,14 @@ function InsideRoom(props) {
             ? null
             : customStyles(select.colors, tilt, shunt, select.z)
         }
+        theme={theme => ({
+          ...theme,
+          colors: {
+            ...theme.colors,
+            primary25: "rgba(0, 0, 0, 0.4)",
+            primary: "rgba(0, 0, 0, 0.8)"
+          }
+        })}
       />
     );
   });
@@ -229,6 +237,7 @@ function InsideRoom(props) {
           beautiful universal human needs, met or unmet.
         </Intro>
       </header>
+      <h2>My check-in</h2>
       <form name="myCheckIn">{selectElements}</form>
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
