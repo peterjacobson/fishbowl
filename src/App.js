@@ -21,6 +21,13 @@ const HeartworkLink = styled.a`
   margin-left: -29px;
 `;
 
+const AppWrapper = styled.div`
+  /* justify-self: center; */
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 function App() {
   const [user, setUser] = useState();
   const [userId, setUserId] = useState();
@@ -100,13 +107,13 @@ function App() {
   }
 
   return (
-    <>
+    <AppWrapper>
       <HeartworkLink
         href="http://heartwork.co.nz/"
         target="_blank"
       ></HeartworkLink>
       {renderScene()}
-    </>
+    </AppWrapper>
   );
 }
 

@@ -95,6 +95,7 @@ const Need = styled(CheckInItem)`
 const ClarePeterPhoto = styled.img`
   align-self: center;
   max-width: 220px;
+  display: block;
 `;
 
 function InsideRoom(props) {
