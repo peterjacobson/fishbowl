@@ -10,6 +10,7 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import styled from "styled-components";
 import room4 from "../img/room4.jpg";
+import clarePeter from "../img/clarepete.jpg";
 
 const colors = {
   peach: ["#E88FA2", "#EB9B81"],
@@ -89,6 +90,11 @@ const Need = styled(CheckInItem)`
     ${colors.need[0]},
     ${colors.need[1]}
   );
+`;
+
+const ClarePeterPhoto = styled.img`
+  align-self: center;
+  max-width: 220px;
 `;
 
 function InsideRoom(props) {
@@ -391,14 +397,33 @@ function InsideRoom(props) {
           create a new private Heartwork check-in room
         </LittleButton>
       </a>
+      <ClarePeterPhoto src={clarePeter} />
+      <Intro>
+        We're Clare and Peter. We made this in to support people around the
+        world to meet their needs for social connection during COVID. We live in
+        Te Whanganui-a-Tara (Wellington), Aotearoa (New Zealand). We're
+        committed to helping people #chooselove and creating the more beautiful
+        world our hearts know is possible.
+      </Intro>
       <a
-        href="https://www.heartwork.co.nz/checkout/donate?donatePageId=5e783ded7531ce4dfe646d2b"
+        href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=j-7gFqjxXqJ7BmTm9Yt2L2sI1Kb1p_mtD_enWqAV"
+        target="_blank"
+      >
+        <LittleButton>support us with a weekly coffee - $4.50</LittleButton>
+      </a>
+      <a
+        href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=AqsVsyGxX5pj_eiztgD9mKwRRwlTNg-o0mrSM4a3"
         target="_blank"
       >
         <LittleButton>
-          contribute to the Heartwork team to keep them fed and their other
-          needs cared for
+          support us with a weekly beer at your local - $11
         </LittleButton>
+      </a>
+      <a
+        href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=Y65SCIbzcDHc-yVcClx9zcdvwESJc-kP6EjZuhKm"
+        target="_blank"
+      >
+        <LittleButton>support us a weekly pizza - $23</LittleButton>
       </a>
     </>
   );

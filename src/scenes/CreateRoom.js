@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import styled from "styled-components";
-import buildRoom from "../img/buildroom.jpg";
 import room4 from "../img/room4.jpg";
 
 const Background = styled.div`
