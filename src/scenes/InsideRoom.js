@@ -184,6 +184,7 @@ function InsideRoom(props) {
         }
       }),
       singleValue: base => ({
+        paddingLeft: 60,
         color: "white"
       }),
       menu: base => ({
@@ -192,6 +193,7 @@ function InsideRoom(props) {
         // borderRadius: 0,
         // kill the gap
         marginTop: 0,
+        paddingLeft: 60,
         color: "white",
         backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]})`
       }),
