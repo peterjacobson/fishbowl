@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import Select from "react-select";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import needs from "../data/needs";
 import greenFeelings from "../data/greenFeelings";
 import peachFeelings from "../data/peachFeelings";
@@ -32,6 +33,15 @@ const LoungeImageCenter = styled(LoungeImage)`
 const LoungeImageBottom = styled(LoungeImage)`
   background-position: bottom;
   height: 300px;
+`;
+
+const LittleButton = styled.button`
+  font-size: 1em;
+  display: inline block;
+`;
+
+const SpanH2 = styled.h2`
+  display: inline block;
 `;
 
 const Intro = styled.p`
@@ -75,12 +85,14 @@ const Need = styled(CheckInItem)`
 `;
 
 function InsideRoom(props) {
-  const { users, roomId, user, onCloseroom, userId } = props;
+  const { users, roomId, user, onCloseroom, userId, enqueueSnackbar } = props;
   const [roomUsers, setRoomUsers] = useState([]);
   const [checkIn, setCheckIn] = useState({});
   const [checkIns, setCheckIns] = useState([]);
   const [error, setError] = useState();
   const { width, height } = useWindowSize();
+
+  console.log("enqueueSnackbar: ", enqueueSnackbar);
 
   function onCreateListClick(e) {
     e.preventDefault();
@@ -285,7 +297,10 @@ function InsideRoom(props) {
     <>
       <LoungeImageTop source={room4} />
       <Confetti width={width} height={height} recycle={false} />
-      <h2>👋 Welcome {user} 😌</h2>
+      <SpanH2>👋 Welcome {user} 😌</SpanH2>
+      <CopyToClipboard text={`${window.location.origin}/?listId=${roomId}`}>
+        <LittleButton>Copy link to this room</LittleButton>
+      </CopyToClipboard>
       <Intro>
         You're jumping into a call with some other people! Why?
         <br />
@@ -302,6 +317,10 @@ function InsideRoom(props) {
         beautiful universal human needs, met or unmet.
       </Intro>
       <LoungeImageCenter />
+      <h3>
+        <strong>Step #1:</strong> choose my check-in feelings and universal
+        human needs
+      </h3>
       <h2>My check-in</h2>
       <p>
         Green & Peach feelings in last 24hrs + three needs I'd love to meet in
@@ -309,28 +328,25 @@ function InsideRoom(props) {
       </p>
       <form name="myCheckIn">{selectElements}</form>
       <ErrorMessage errorCode={error}></ErrorMessage>
+      <h3>
+        <strong>Step #2:</strong> when everyone else has chosed their check-in
+        feelings and needs, take 1 min for each person to speak to the words
+        they chose
+      </h3>
       {othersCheckInsElements}
       <br />
       <LoungeImageBottom />
-      <footer className="app-footer">
-        <p>
-          Share this private room with others by sharing this link:{" "}
-          <strong>{`${window.location.origin}/?listId=${roomId}`}</strong>
-          {/* using{" "}
-          <a
-            href={`/?listId=${roomId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            this link
-          </a>{" "} */}
-          or{" "}
-          <a href="/" onClick={onCreateListClick}>
-            create a new private Heartwork check-in room
-          </a>
-          .
-        </p>
-      </footer>
+      <br />
+
+      <a
+        href="/"
+        target="_blank"
+        // onClick={onCreateListClick}
+      >
+        <LittleButton>
+          create a new private Heartwork check-in room
+        </LittleButton>
+      </a>
     </>
   );
 }
