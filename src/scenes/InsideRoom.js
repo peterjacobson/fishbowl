@@ -106,6 +106,7 @@ function InsideRoom(props) {
   const [error, setError] = useState();
   const { width, height } = useWindowSize();
   const [linkCopied, setLinkCopied] = useState(false);
+  const [timer, setTimer] = useState([]);
 
   function onCreateListClick(e) {
     e.preventDefault();
@@ -132,6 +133,12 @@ function InsideRoom(props) {
     return unsubscribe;
   }, [roomId, setCheckIns]);
 
+  function startTimerNow() {
+    FirestoreService.startTimer(Date.now(), roomId, userId);
+  }
+
+  startTimerNow();
+
   function convertToOptions(array) {
     return array.map(item => {
       return { value: item, label: item };
@@ -144,7 +151,7 @@ function InsideRoom(props) {
   }
 
   const othersCheckIns = users
-    .filter(user => user.userId !== userId)
+    // .filter(user => user.userId !== userId)
     .map(user => {
       return {
         ...user,
@@ -171,17 +178,20 @@ function InsideRoom(props) {
 
   const othersCheckInsElements = othersCheckIns.map(anotherUser => (
     <>
-      <h2>{anotherUser.name}'s check-in:</h2>
+      <h2>
+        {anotherUser.userId === userId ? "My" : `${anotherUser.name}'s`}{" "}
+        check-in:
+      </h2>
       <CheckInItemRow>
-        {anotherUser.peachFeeling ? (
-          <PeachFeeling style={rotateStyle()}>
-            {anotherUser.peachFeeling}
-          </PeachFeeling>
-        ) : null}
         {anotherUser.greenFeeling ? (
           <GreenFeeling style={rotateStyle()}>
             {anotherUser.greenFeeling}
           </GreenFeeling>
+        ) : null}
+        {anotherUser.peachFeeling ? (
+          <PeachFeeling style={rotateStyle()}>
+            {anotherUser.peachFeeling}
+          </PeachFeeling>
         ) : null}
       </CheckInItemRow>
       <CheckInItemRow>
@@ -351,8 +361,8 @@ function InsideRoom(props) {
         <em>
           <strong>Step #1</strong>
         </em>{" "}
-        paste the link to this room in your zoom chat, email, slack, whatsapp or
-        whatever:{" "}
+        Get everyone in the room! You can invite people by pasting the link to
+        this room into your zoom chat, email, slack, whatsapp or whatever:{" "}
       </h3>
       <CopyToClipboardSpan
         text={`${window.location.origin}/?listId=${roomId}`}

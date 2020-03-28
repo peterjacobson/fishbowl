@@ -96,3 +96,25 @@ export const updateCheckIn = (checkIn, roomId, userId) => {
       }
     });
 };
+
+export const startTimer = (timeStamp, roomId, userId) => {
+  db.collection("rooms")
+    .doc(roomId)
+    .collection("timers")
+    .get()
+    .then(querySnapshot => querySnapshot.docs)
+    .then(timers => {
+      if (timers.length < 1) {
+        db.collection("rooms")
+          .doc(roomId)
+          .collection("timers")
+          .add({
+            startTime: timeStamp,
+            roomId: roomId,
+            userId: userId
+          });
+      } else {
+      }
+      // console.log(timers[0].data());
+    });
+};
