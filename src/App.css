@@ -11,6 +11,10 @@ p {
   font-size: 1.3em;
 }
 
+div {
+  font-family: "Sen", sans-serif;
+}
+
 h1 {
   font-size: 2em;
 }

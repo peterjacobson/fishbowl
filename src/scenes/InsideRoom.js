@@ -37,6 +37,42 @@ const Intro = styled.p`
   max-width: 440px;
 `;
 
+const CheckInItemRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const CheckInItem = styled.div`
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 1.3em;
+  color: white;
+`;
+
+const PeachFeeling = styled(CheckInItem)`
+  background: linear-gradient(
+    to bottom right,
+    ${colors.peach[0]},
+    ${colors.peach[1]}
+  );
+`;
+const GreenFeeling = styled(CheckInItem)`
+  background: linear-gradient(
+    to bottom right,
+    ${colors.green[0]},
+    ${colors.green[1]}
+  );
+`;
+const Need = styled(CheckInItem)`
+  background: linear-gradient(
+    to bottom right,
+    ${colors.need[0]},
+    ${colors.need[1]}
+  );
+`;
+
 function InsideRoom(props) {
   const { users, roomId, user, onCloseroom, userId } = props;
   const [roomUsers, setRoomUsers] = useState([]);
@@ -92,17 +128,25 @@ function InsideRoom(props) {
       };
     });
 
-  const othersCheckInsElements = othersCheckIns.map(otherRoomUser => (
-    <div>
-      <p>{otherRoomUser.name}</p>
-      <ul>
-        <li>{otherRoomUser.greenFeeling}</li>
-        <li>{otherRoomUser.peachFeeling}</li>
-        <li>{otherRoomUser.need1}</li>
-        <li>{otherRoomUser.need2}</li>
-        <li>{otherRoomUser.need3}</li>
-      </ul>
-    </div>
+  console.log("othersCheckIns: ", othersCheckIns);
+
+  const othersCheckInsElements = othersCheckIns.map(anotherUser => (
+    <>
+      <h2>{anotherUser.name}'s check-in:</h2>
+      <CheckInItemRow>
+        {anotherUser.peachFeeling ? (
+          <PeachFeeling>{anotherUser.peachFeeling}</PeachFeeling>
+        ) : null}
+        {anotherUser.greenFeeling ? (
+          <GreenFeeling>{anotherUser.greenFeeling}</GreenFeeling>
+        ) : null}
+      </CheckInItemRow>
+      <CheckInItemRow>
+        {anotherUser.need1 ? <Need>{anotherUser.need1}</Need> : null}
+        {anotherUser.need2 ? <Need>{anotherUser.need2}</Need> : null}
+        {anotherUser.need3 ? <Need>{anotherUser.need3}</Need> : null}
+      </CheckInItemRow>
+    </>
   ));
 
   const otherUsers = users
@@ -247,14 +291,12 @@ function InsideRoom(props) {
       <LoungeImageCenter />
       <h2>My check-in</h2>
       <p>
-        Green & Peach feeling in last 24hrs + Three needs I'd love to meet in
-        this call
+        Green & Peach feelings in last 24hrs + three needs I'd love to meet in
+        this call:
       </p>
       <form name="myCheckIn">{selectElements}</form>
-      <div>
-        <ErrorMessage errorCode={error}></ErrorMessage>
-        {othersCheckInsElements}
-      </div>
+      <ErrorMessage errorCode={error}></ErrorMessage>
+      {othersCheckInsElements}
       <footer className="app-footer">
         <p>
           Share this private room with others using{" "}
