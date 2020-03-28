@@ -3,15 +3,18 @@ import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import styled from "styled-components";
 import buildRoom from "../img/buildroom.jpg";
+import room4 from "../img/room4.jpg";
 
 const Background = styled.div`
   height: calc(100vh - 38px);
   background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.3),
+      135deg,
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.3)
     ),
-    url(${buildRoom});
+    url(${room4});
   background-size: cover;
   padding-top: 20px;
   padding-left: 30px;
@@ -50,7 +53,7 @@ function CreateList(props) {
   return (
     <Background>
       <h1>
-        Make a new
+        Open a new
         <br />
         Heartwork
         <br />

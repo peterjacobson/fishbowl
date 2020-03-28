@@ -3,15 +3,19 @@ import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import * as FirestoreService from "../services/firestore";
 import styled from "styled-components";
 import enterRoom from "../img/enterroom.jpg";
+import room4 from "../img/room4.jpg";
 
 const Background = styled.div`
   height: calc(100vh - 38px);
   background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 1)
+      135deg,
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.3)
     ),
-    url(${enterRoom});
+    url(${room4});
   background-size: cover;
   background-position: center;
   padding-top: 20px;
