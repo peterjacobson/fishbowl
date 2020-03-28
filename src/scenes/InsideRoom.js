@@ -218,27 +218,21 @@ function InsideRoom(props) {
       <header className="app-header">
         <h2>👋 Welcome {user} 😌</h2>
         <Intro>
-          This is a space to breathe easy and connect,
-          <br />
-          with <strong>yourself</strong>,<br />
-          and with <strong>{otherUserNameList}</strong>
+          Why are you connecting? This is a quick way to connect with
+          authenticity and surface the highest priority needs in this call.
         </Intro>
         <Intro>
-          All your feelings are precious - all sensations in your body point to
-          beautiful universal human needs, met or unmet
+          You're in this private room with <strong>{otherUserNameList}</strong>.
+        </Intro>
+        <Intro>
+          All feelings are precious - all sensations people experience point to
+          beautiful universal human needs, met or unmet.
         </Intro>
       </header>
       <form name="myCheckIn">{selectElements}</form>
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
         {othersCheckInsElements}
-        {/*         
-        <div>{roomUserElements}</div>
-        <div>
-          {checkIns.map(checkIn => (
-            <div>{JSON.stringify(checkIn)}</div>
-          ))}
-        </div> */}
       </div>
       <footer className="app-footer">
         <p>
