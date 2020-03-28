@@ -21,7 +21,16 @@ const LoungeImage = styled.div`
   height: 100px;
   background: url(${room4});
   background-size: cover;
+`;
+
+const LoungeImageTop = styled(LoungeImage)`
+  background-position: top;
+`;
+const LoungeImageCenter = styled(LoungeImage)`
   background-position: center;
+`;
+const LoungeImageBottom = styled(LoungeImage)`
+  background-position: bottom;
 `;
 
 const Intro = styled.p`
@@ -221,23 +230,26 @@ function InsideRoom(props) {
 
   return (
     <>
-      <LoungeImage source={room4}></LoungeImage>
+      <LoungeImageTop source={room4} />
       <Confetti width={width} height={height} recycle={false} />
-      <header className="app-header">
-        <h2>👋 Welcome {user} 😌</h2>
-        <Intro>
-          Why are you connecting? This is a quick way to connect with
-          authenticity and surface the highest priority needs in this call.
-        </Intro>
-        <Intro>
-          You're in this private room with <strong>{otherUserNameList}</strong>.
-        </Intro>
-        <Intro>
-          All feelings are precious - all sensations people experience point to
-          beautiful universal human needs, met or unmet.
-        </Intro>
-      </header>
+      <h2>👋 Welcome {user} 😌</h2>
+      <Intro>
+        Why are you connecting? This is a quick way to connect with authenticity
+        and surface the highest priority needs in this call.
+      </Intro>
+      <Intro>
+        You're in this private room with <strong>{otherUserNameList}</strong>.
+      </Intro>
+      <Intro>
+        All feelings are precious - all sensations people experience point to
+        beautiful universal human needs, met or unmet.
+      </Intro>
+      <LoungeImageCenter />
       <h2>My check-in</h2>
+      <p>
+        Green & Peach feeling in last 24hrs + Three needs I'd love to meet in
+        this call
+      </p>
       <form name="myCheckIn">{selectElements}</form>
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
@@ -260,6 +272,7 @@ function InsideRoom(props) {
           .
         </p>
       </footer>
+      <LoungeImageBottom />
     </>
   );
 }
