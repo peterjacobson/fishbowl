@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
 import * as FirestoreService from "./services/firestore";
 import "./App.css";
@@ -6,8 +7,18 @@ import CreateRoom from "./scenes/CreateRoom";
 import JoinRoom from "./scenes/JoinRoom";
 import InsideRoom from "./scenes/InsideRoom";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import heartworklogo from "./img/heartworklogo.png";
 
 import useQueryString from "./hooks/useQueryString";
+
+const HeartworkLink = styled.a`
+  position: absolute;
+  background: url(${heartworklogo});
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  margin-top: 20px;
+`;
 
 function App() {
   const [user, setUser] = useState();
@@ -59,28 +70,41 @@ function App() {
   }
 
   // render a scene based on the current state
-  if (room && user) {
-    return (
-      <InsideRoom
-        users={room.users}
-        {...{ roomId, user, onCloseroom, userId }}
-      ></InsideRoom>
-    );
-  } else if (room) {
+
+  function renderScene() {
+    if (room && user) {
+      return (
+        <InsideRoom
+          users={room.users}
+          {...{ roomId, user, onCloseroom, userId }}
+        ></InsideRoom>
+      );
+    } else if (room) {
+      return (
+        <>
+          <ErrorMessage errorCode={error}></ErrorMessage>
+          <JoinRoom
+            users={room.users}
+            {...{ roomId, onSelectUser, onCloseroom, userId }}
+          ></JoinRoom>
+        </>
+      );
+    }
     return (
       <>
         <ErrorMessage errorCode={error}></ErrorMessage>
-        <JoinRoom
-          users={room.users}
-          {...{ roomId, onSelectUser, onCloseroom, userId }}
-        ></JoinRoom>
+        <CreateRoom onCreate={onroomCreate} userId={userId}></CreateRoom>
       </>
     );
   }
+
   return (
     <>
-      <ErrorMessage errorCode={error}></ErrorMessage>
-      <CreateRoom onCreate={onroomCreate} userId={userId}></CreateRoom>
+      <HeartworkLink
+        href="http://heartwork.co.nz/"
+        target="_blank"
+      ></HeartworkLink>
+      {renderScene()}
     </>
   );
 }
