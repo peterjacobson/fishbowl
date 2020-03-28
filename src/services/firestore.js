@@ -42,23 +42,6 @@ export const getroom = roomId => {
     .get();
 };
 
-export const getroomItems = roomId => {
-  return db
-    .collection("rooms")
-    .doc(roomId)
-    .collection("items")
-    .get();
-};
-
-export const streamroomItems = (roomId, observer) => {
-  return db
-    .collection("rooms")
-    .doc(roomId)
-    .collection("items")
-    .orderBy("created")
-    .onSnapshot(observer);
-};
-
 export const streamRoomUsers = (roomId, observer) => {
   return db
     .collection("rooms")
@@ -113,32 +96,5 @@ export const updateCheckIn = (checkIn, roomId, userId) => {
           .doc(matchingCheckIn.id)
           .update(checkIn);
       }
-    });
-};
-
-export const addroomItem = (item, roomId, userId) => {
-  return getroomItems(roomId)
-    .then(querySnapshot => querySnapshot.docs)
-    .then(roomItems =>
-      roomItems.find(
-        roomItem => roomItem.data().name.toLowerCase() === item.toLowerCase()
-      )
-    )
-    .then(matchingItem => {
-      if (!matchingItem) {
-        return db
-          .collection("rooms")
-          .doc(roomId)
-          .collection("items")
-          .add({
-            name: item,
-            created: firebase.firestore.FieldValue.serverTimestamp(),
-            createdBy: userId
-          });
-      } else {
-        return;
-        return matchingItem.update({});
-      }
-      throw new Error("duplicate-item-error");
     });
 };
