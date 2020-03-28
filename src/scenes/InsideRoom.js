@@ -68,22 +68,36 @@ function InsideRoom(props) {
   function updateMyCheckIn(option, action) {
     const updatedField = { [action.name]: option.value };
     FirestoreService.updateCheckIn(updatedField, roomId, userId);
-    // console.log("user: ", user);
-    // console.log("users: ", users);
-    // console.log("updatedField: ", updatedField);
-    // console.log("checkIn: ", checkIn);
-    // setCheckIn({ ...checkIn, updatedField });
-    // console.log("checkIn: ", checkIn);
-    // const userWithCheckin = { userName: user, userId: userId, ...checkIn };
-    // console.log("userWithCheckin: ", userWithCheckin);
-    // const userIndex = 1;
-    // FirestoreService.updateRoomUser(roomId, userIndex, userWithCheckin);
   }
+
+  const othersCheckIns = users
+    .filter(user => user.userId !== userId)
+    .map(user => {
+      return {
+        ...user,
+        ...checkIns.find(checkIn => {
+          return checkIn.userId === user.userId;
+        })
+      };
+    });
+
+  const othersCheckInsElements = othersCheckIns.map(otherRoomUser => (
+    <div>
+      <p>{otherRoomUser.name}</p>
+      <ul>
+        <li>{otherRoomUser.greenFeeling}</li>
+        <li>{otherRoomUser.peachFeeling}</li>
+        <li>{otherRoomUser.need1}</li>
+        <li>{otherRoomUser.need2}</li>
+        <li>{otherRoomUser.need3}</li>
+      </ul>
+    </div>
+  ));
 
   return (
     <div>
       <header className="app-header">
-        <h1>Private check-in room</h1>
+        <h1>Heartwork Private Check-in room</h1>
         <p>
           <strong>Hi {user}!</strong>
         </p>
@@ -123,12 +137,14 @@ function InsideRoom(props) {
 
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
+        {othersCheckInsElements}
+        {/*         
         <div>{roomUserElements}</div>
         <div>
           {checkIns.map(checkIn => (
             <div>{JSON.stringify(checkIn)}</div>
           ))}
-        </div>
+        </div> */}
       </div>
       <footer className="app-footer">
         <p>
