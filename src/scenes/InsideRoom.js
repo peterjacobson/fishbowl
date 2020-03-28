@@ -18,6 +18,10 @@ const LoungeImage = styled.div`
   background-position: center;
 `;
 
+const Intro = styled.p`
+  max-width: 440px;
+`;
+
 function InsideRoom(props) {
   const { users, roomId, user, onCloseroom, userId } = props;
   const [roomUsers, setRoomUsers] = useState([]);
@@ -90,6 +94,9 @@ function InsideRoom(props) {
     .filter(user => user.userId !== userId)
     .map(user => user.name);
 
+  const otherUserNameList =
+    otherUsers.slice(0, -1).join(", ") + " and " + otherUsers.slice(-1);
+
   function customStyles(colors, tilt, shunt, z) {
     return {
       container: (base, state) => ({
@@ -98,11 +105,12 @@ function InsideRoom(props) {
         marginLeft: shunt,
         marginBottom: 10,
         fontSize: "1.3em",
-        width: 440,
+        maxWidth: 440,
         zIndex: z
       }),
       control: (base, state) => ({
         ...base,
+        height: 50,
         backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]}) !important`,
         // // match with the menu
         // borderRadius: state.isFocused ? "3px 3px 0 0" : 3,
@@ -209,13 +217,16 @@ function InsideRoom(props) {
       <Confetti width={width} height={height} recycle={false} />
       <header className="app-header">
         <h2>👋 Welcome {user} 😌</h2>
-        <p>
-          This is a space to breathe easy and connect, with yourself and with
-        </p>
-        <p>
+        <Intro>
+          This is a space to breathe easy and connect,
+          <br />
+          with <strong>yourself</strong>,<br />
+          and with <strong>{otherUserNameList}</strong>
+        </Intro>
+        <Intro>
           All your feelings are precious - all sensations in your body point to
           beautiful universal human needs, met or unmet
-        </p>
+        </Intro>
       </header>
       <form name="myCheckIn">{selectElements}</form>
       <div>

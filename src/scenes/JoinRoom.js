@@ -71,27 +71,32 @@ function JoinRoom(props) {
   return (
     <Background>
       <div className="join-container">
-        <div>
-          <form name="addUserToListForm">
-            <p>Select your name if you're returning...</p>
-            {getUserButtonList()}
-            <p>...or enter your name to enter the check-in room...</p>
-            <InputName
-              type="text"
-              name="name"
-              autoFocus={true}
-              placeholder="My name is..."
-            />
-            <button onClick={addNewUser}>Join</button>
-            <ErrorMessage errorCode={error}></ErrorMessage>
-            <p>
-              ...or{" "}
-              <a href="/" onClick={onCreateListClick}>
-                create a new check-in room
-              </a>
-            </p>
-          </form>
-        </div>
+        <h1>
+          😌 You're invited
+          <br />
+          to a heartwork
+          <br />
+          check-in 👌
+        </h1>
+        <form name="addUserToListForm">
+          <p>Select your name if you're returning...</p>
+          {getUserButtonList()}
+          <p>...or enter your name to enter the check-in room...</p>
+          <InputName
+            type="text"
+            name="name"
+            autoFocus={true}
+            placeholder="My name is..."
+          />
+          <button onClick={addNewUser}>Join</button>
+          <ErrorMessage errorCode={error}></ErrorMessage>
+          <p>
+            ...or{" "}
+            <a href="/" onClick={onCreateListClick}>
+              create a new check-in room
+            </a>
+          </p>
+        </form>
       </div>
     </Background>
   );
