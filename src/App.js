@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 
 import * as FirestoreService from "./services/firestore";
 
-import CreateList from "./scenes/CreateList/CreateList";
-import JoinList from "./scenes/JoinList/JoinList";
-import EditList from "./scenes/EditList/EditList";
+import CreateRoom from "./scenes/CreateRoom";
+import JoinRoom from "./scenes/JoinRoom";
+import InsideRoom from "./scenes/InsideRoom";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 
 import useQueryString from "./hooks/useQueryString";
@@ -60,22 +60,27 @@ function App() {
 
   // render a scene based on the current state
   if (room && user) {
-    return <EditList {...{ roomId, user, onCloseroom, userId }}></EditList>;
+    return (
+      <InsideRoom
+        users={room.users}
+        {...{ roomId, user, onCloseroom, userId }}
+      ></InsideRoom>
+    );
   } else if (room) {
     return (
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
-        <JoinList
+        <JoinRoom
           users={room.users}
           {...{ roomId, onSelectUser, onCloseroom, userId }}
-        ></JoinList>
+        ></JoinRoom>
       </div>
     );
   }
   return (
     <div>
       <ErrorMessage errorCode={error}></ErrorMessage>
-      <CreateList onCreate={onroomCreate} userId={userId}></CreateList>
+      <CreateRoom onCreate={onroomCreate} userId={userId}></CreateRoom>
     </div>
   );
 }

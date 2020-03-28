@@ -59,6 +59,13 @@ export const streamroomItems = (roomId, observer) => {
     .onSnapshot(observer);
 };
 
+export const streamRoomUsers = (roomId, observer) => {
+  return db
+    .collection("rooms")
+    .doc(roomId)
+    .onSnapshot(observer);
+};
+
 export const addUserToroom = (userName, roomId, userId) => {
   return db
     .collection("rooms")
@@ -69,6 +76,17 @@ export const addUserToroom = (userName, roomId, userId) => {
         name: userName
       })
     });
+};
+
+export const updateRoomUser = (roomId, userIndex, userCheckin) => {
+  console.log("userIndex: ", userIndex);
+  console.log("thing: ", { [`users[${userIndex}].checkIn`]: userCheckin });
+  // return db
+  //   .collection("rooms")
+  //   .doc(roomId)
+  //   .update({
+  //     [`users[${userIndex}].checkIn`]: userCheckin
+  //   });
 };
 
 export const addroomItem = (item, roomId, userId) => {

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./CreateList.css";
 import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 
