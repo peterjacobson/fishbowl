@@ -31,6 +31,7 @@ const LoungeImageCenter = styled(LoungeImage)`
 `;
 const LoungeImageBottom = styled(LoungeImage)`
   background-position: bottom;
+  height: 300px;
 `;
 
 const Intro = styled.p`
@@ -280,8 +281,12 @@ function InsideRoom(props) {
       <Confetti width={width} height={height} recycle={false} />
       <h2>👋 Welcome {user} 😌</h2>
       <Intro>
-        Why are you connecting? This is a quick way to connect with authenticity
-        and surface the highest priority needs in this call.
+        You're jumping into a call with some other people! Why?
+        <br />
+        This is a quick way to <strong>
+          connect with authenticity
+        </strong> and <strong>surface the highest priority needs</strong> in
+        this call.
       </Intro>
       <Intro>
         You're in this private room with <strong>{otherUserNameList}</strong>.
@@ -299,16 +304,20 @@ function InsideRoom(props) {
       <form name="myCheckIn">{selectElements}</form>
       <ErrorMessage errorCode={error}></ErrorMessage>
       {othersCheckInsElements}
+      <br />
+      <LoungeImageBottom />
       <footer className="app-footer">
         <p>
-          Share this private room with others using{" "}
+          Share this private room with others by sharing this link:{" "}
+          <strong>{`${window.location.origin}/?listId=${roomId}`}</strong>
+          {/* using{" "}
           <a
             href={`/?listId=${roomId}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             this link
-          </a>{" "}
+          </a>{" "} */}
           or{" "}
           <a href="/" onClick={onCreateListClick}>
             create a new private Heartwork check-in room
@@ -316,7 +325,6 @@ function InsideRoom(props) {
           .
         </p>
       </footer>
-      <LoungeImageBottom />
     </>
   );
 }
