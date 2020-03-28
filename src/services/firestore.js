@@ -66,6 +66,14 @@ export const streamRoomUsers = (roomId, observer) => {
     .onSnapshot(observer);
 };
 
+export const streamRoomUserCheckins = (roomId, observer) => {
+  return db
+    .collection("rooms")
+    .doc(roomId)
+    .collection("checkIns")
+    .onSnapshot(observer);
+};
+
 export const addUserToroom = (userName, roomId, userId) => {
   return db
     .collection("rooms")
@@ -89,6 +97,37 @@ export const updateRoomUser = (roomId, userIndex, userCheckin) => {
   //   });
 };
 
+export const updateCheckIn = (checkIn, roomId, userId) => {
+  console.log("userId: ", userId);
+  db.collection("rooms")
+    .doc(roomId)
+    .collection("checkIns")
+    .get()
+    .then(querySnapshot => querySnapshot.docs)
+    .then(checkIns =>
+      checkIns.find(checkIn => checkIn.data().userId === userId)
+    )
+    .then(matchingCheckIn => {
+      if (!matchingCheckIn) {
+        return db
+          .collection("rooms")
+          .doc(roomId)
+          .collection("checkIns")
+          .add({
+            userId: userId,
+            ...checkIn
+          });
+      } else {
+        return db
+          .collection("rooms")
+          .doc(roomId)
+          .collection("checkIns")
+          .doc(matchingCheckIn.id)
+          .update(checkIn);
+      }
+    });
+};
+
 export const addroomItem = (item, roomId, userId) => {
   return getroomItems(roomId)
     .then(querySnapshot => querySnapshot.docs)
@@ -108,6 +147,9 @@ export const addroomItem = (item, roomId, userId) => {
             created: firebase.firestore.FieldValue.serverTimestamp(),
             createdBy: userId
           });
+      } else {
+        return;
+        return matchingItem.update({});
       }
       throw new Error("duplicate-item-error");
     });

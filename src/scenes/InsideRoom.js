@@ -54,18 +54,20 @@ function InsideRoom(props) {
     });
   }
 
-  function updateCheckIn(option, action) {
+  function updateMyCheckIn(option, action) {
     console.log("user: ", user);
-    console.log("users: ", users);
     const updatedField = { [action.name]: option.value };
-    console.log("updatedField: ", updatedField);
-    console.log("checkIn: ", checkIn);
-    setCheckIn({ ...checkIn, updatedField });
-    console.log("checkIn: ", checkIn);
-    const userWithCheckin = { userName: user, userId: userId, ...checkIn };
-    console.log("userWithCheckin: ", userWithCheckin);
-    const userIndex = 1;
-    FirestoreService.updateRoomUser(roomId, userIndex, userWithCheckin);
+    FirestoreService.updateCheckIn(updatedField, roomId, userId);
+    // console.log("user: ", user);
+    // console.log("users: ", users);
+    // console.log("updatedField: ", updatedField);
+    // console.log("checkIn: ", checkIn);
+    // setCheckIn({ ...checkIn, updatedField });
+    // console.log("checkIn: ", checkIn);
+    // const userWithCheckin = { userName: user, userId: userId, ...checkIn };
+    // console.log("userWithCheckin: ", userWithCheckin);
+    // const userIndex = 1;
+    // FirestoreService.updateRoomUser(roomId, userIndex, userWithCheckin);
   }
 
   return (
@@ -81,31 +83,31 @@ function InsideRoom(props) {
           name="greenFeeling"
           options={convertToOptions(greenFeelings)}
           maxMenuHeight={9000}
-          onChange={updateCheckIn}
+          onChange={updateMyCheckIn}
         />
         <Select
           name="peachFeeling"
           options={convertToOptions(peachFeelings)}
           maxMenuHeight={9000}
-          onChange={updateCheckIn}
+          onChange={updateMyCheckIn}
         />
         <Select
           name="need1"
           options={convertToOptions(needs)}
           maxMenuHeight={1000}
-          onChange={updateCheckIn}
+          onChange={updateMyCheckIn}
         />
         <Select
           name="need2"
           options={convertToOptions(needs)}
           maxMenuHeight={1000}
-          onChange={updateCheckIn}
+          onChange={updateMyCheckIn}
         />
         <Select
           name="need3"
           options={convertToOptions(needs)}
           maxMenuHeight={1000}
-          onChange={updateCheckIn}
+          onChange={updateMyCheckIn}
         />
       </form>
 
