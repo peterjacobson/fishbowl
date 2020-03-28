@@ -213,7 +213,19 @@ function InsideRoom(props) {
     .map(user => user.name);
 
   const otherUserNameList =
-    otherUsers.slice(0, -1).join(", ") + " and " + otherUsers.slice(-1);
+    otherUsers.length === 0
+      ? "This is a private room, you're the only one here so far. Invite people by sharing the link"
+      : otherUsers.length === 1
+      ? "You're in this private room with " + otherUsers[0]
+      : otherUsers.length === 2
+      ? "You're in this private room with " +
+        otherUsers[0] +
+        " and " +
+        otherUsers[1]
+      : "You're in this private room with " +
+        otherUsers.slice(0, -1).join(", ") +
+        " and " +
+        otherUsers.slice(-1);
 
   function customStyles(colors, tilt, shunt, z) {
     return {
@@ -349,9 +361,7 @@ function InsideRoom(props) {
         This is a quick way to <strong>connect with authenticity</strong> and{" "}
         <strong>surface the highest priority needs</strong> in this call.
       </Intro>
-      <Intro>
-        You're in this private room with <strong>{otherUserNameList}</strong>.
-      </Intro>
+      <Intro>{otherUserNameList}</Intro>
       <Intro>
         All feelings are precious - all sensations people experience point to
         beautiful universal human needs, met or unmet.

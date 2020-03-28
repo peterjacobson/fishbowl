@@ -114,6 +114,15 @@ export const startTimer = (timeStamp, roomId, userId) => {
             userId: userId
           });
       } else {
+        db.collection("rooms")
+          .doc(roomId)
+          .collection("timers")
+          .doc(timers[0].id)
+          .update({
+            startTime: timeStamp,
+            roomId: roomId,
+            userId: userId
+          });
       }
       // console.log(timers[0].data());
     });
