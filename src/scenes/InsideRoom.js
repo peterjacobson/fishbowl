@@ -150,7 +150,7 @@ function InsideRoom(props) {
     FirestoreService.updateCheckIn(updatedField, roomId, userId);
   }
 
-  const othersCheckIns = users
+  const othersCheckIns = roomUsers
     // .filter(user => user.userId !== userId)
     .map(user => {
       return {
@@ -329,6 +329,7 @@ function InsideRoom(props) {
     return (
       <Select
         // value={select.value}
+        inputProps={{ readOnly: true }}
         name={select.name}
         placeholder={select.placeholder}
         options={convertToOptions(select.options)}
@@ -446,6 +447,8 @@ function InsideRoom(props) {
       >
         <LittleButton>support us a weekly pizza - $23</LittleButton>
       </a>
+      <button onClick={() => console.log(roomUsers)}>users</button>
+      <button onClick={() => console.log(checkIns)}>checkIns</button>
     </>
   );
 }
