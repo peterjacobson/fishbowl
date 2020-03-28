@@ -1,6 +1,29 @@
 import React, { useState } from "react";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import * as FirestoreService from "../services/firestore";
+import styled from "styled-components";
+import enterRoom from "../img/enterroom.jpg";
+
+const Background = styled.div`
+  height: 100vh;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 1)
+    ),
+    url(${enterRoom});
+  background-size: cover;
+  background-position: center;
+  padding-top: 20px;
+  padding-left: 30px;
+`;
+
+const InputName = styled.input`
+  border: none;
+  border-bottom: 3px solid #d62346;
+  font-size: 3em;
+  background: none;
+`;
 
 function JoinRoom(props) {
   const { users, roomId, onSelectUser, onCloseroom, userId } = props;
@@ -46,20 +69,20 @@ function JoinRoom(props) {
   }
 
   return (
-    <div>
-      <header>
-        <h1>Welcome to a private Heartwork check-in room</h1>
-      </header>
+    <Background>
       <div className="join-container">
         <div>
           <form name="addUserToListForm">
-            <p>Select your name if you previously joined the list...</p>
+            <p>Select your name if you're returning...</p>
             {getUserButtonList()}
-            <p>...or enter your name to join the list...</p>
-            <p>
-              <input type="text" name="name" />
-              <button onClick={addNewUser}>Join</button>
-            </p>
+            <p>...or enter your name to enter the check-in room...</p>
+            <InputName
+              type="text"
+              name="name"
+              autofocus="true"
+              placeholder="My name is..."
+            />
+            <button onClick={addNewUser}>Join</button>
             <ErrorMessage errorCode={error}></ErrorMessage>
             <p>
               ...or{" "}
@@ -70,7 +93,7 @@ function JoinRoom(props) {
           </form>
         </div>
       </div>
-    </div>
+    </Background>
   );
 }
 

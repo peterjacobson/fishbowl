@@ -8,6 +8,29 @@ import greenFeelings from "../data/greenFeelings";
 import peachFeelings from "../data/peachFeelings";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
+import styled from "styled-components";
+import room4 from "../img/room4.jpg";
+
+const Background = styled.div`
+  height: 100vh;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 1)
+    ),
+    url(${room4});
+  background-size: cover;
+  padding-top: 20px;
+  padding-left: 30px;
+`;
+
+const LoungeImage = styled.div`
+  width: 100%;
+  height: 100px;
+  background: url(${room4});
+  background-size: cover;
+  background-position: center;
+`;
 
 function InsideRoom(props) {
   const { users, roomId, user, onCloseroom, userId } = props;
@@ -77,84 +100,138 @@ function InsideRoom(props) {
     </div>
   ));
 
-  const customStyles = {
-    control: (base, state) => ({
-      ...base,
-      backgroundImage: "linear-gradient(to bottom right, #1696A0, #88C072)",
-      // // match with the menu
-      // borderRadius: state.isFocused ? "3px 3px 0 0" : 3,
-      // // Overwrittes the different states of border
-      // borderColor: state.isFocused ? "yellow" : "green",
-      // // Removes weird border around container
-      // boxShadow: state.isFocused ? null : null,
-      "&:hover": {
-        // Overwrittes the different states of border
-        // borderColor: state.isFocused ? "red" : "blue"
-      }
-    }),
-    menu: base => ({
-      ...base,
-      // override border radius to match the box
-      // borderRadius: 0,
-      // // kill the gap
-      // marginTop: 0,
-      backgroundImage: "linear-gradient(to bottom right, #1696A0, #88C072)"
-    }),
-    menuList: base => ({
-      ...base
-      // kill the white space on first and last option
-      // padding: 0
-    })
+  const otherUsers = users
+    .filter(user => user.userId !== userId)
+    .map(user => user.name);
+
+  function customStyles(colors, tilt, shunt, z) {
+    return {
+      container: (base, state) => ({
+        ...base,
+        transform: `rotate(${tilt}deg)`,
+        marginLeft: shunt,
+        marginBottom: 10,
+        fontSize: "1.3em",
+        width: 440,
+        zIndex: z
+      }),
+      control: (base, state) => ({
+        ...base,
+        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]}) !important`,
+        // // match with the menu
+        // borderRadius: state.isFocused ? "3px 3px 0 0" : 3,
+        // // Overwrittes the different states of border
+        // borderColor: state.isFocused ? "yellow" : "green",
+        // Removes weird border around container
+        border: "none",
+        boxShadow: state.isFocused ? null : null,
+        "&:hover": {
+          // Overwrittes the different states of border
+          // borderColor: state.isFocused ? "red" : "blue"
+        }
+      }),
+      singleValue: base => ({
+        color: "white"
+      }),
+      menu: base => ({
+        ...base,
+        // override border radius to match the box
+        // borderRadius: 0,
+        // kill the gap
+        marginTop: 0,
+        color: "white",
+        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]})`
+      }),
+      menuList: base => ({
+        ...base,
+        // kill the white space on first and last option
+        padding: 0
+      }),
+      placeholder: base => ({
+        ...base,
+        color: "#eee"
+      })
+    };
+  }
+
+  const colors = {
+    peach: ["#E88FA2", "#EB9B81"],
+    green: ["#1696A0", "#88C072"],
+    need: ["#2A3076", "#1792C8"]
   };
 
+  const selectSetup = [
+    {
+      name: "greenFeeling",
+      placeholder: "[last 24hrs] A feeling I had",
+      options: greenFeelings,
+      colors: colors.green,
+      z: 100
+    },
+    {
+      name: "peachFeeling",
+      placeholder: "[last 24hrs] A feeling I had",
+      options: peachFeelings,
+      colors: colors.peach,
+      z: 99
+    },
+    {
+      name: "need1",
+      placeholder: "[this meeting] A need I'd love to meet",
+      options: needs,
+      colors: colors.need,
+      z: 98
+    },
+    {
+      name: "need2",
+      placeholder: "[this meeting] A need I'd love to meet",
+      options: needs,
+      colors: colors.need,
+      z: 97
+    },
+    {
+      name: "need3",
+      placeholder: "[this meeting] A need I'd love to meet",
+      options: needs,
+      colors: colors.need
+    }
+  ];
+
+  const selectElements = selectSetup.map(select => {
+    const tilt = Math.random() - 0.5;
+    const shunt = (Math.random() - 0.5) * 2;
+
+    return (
+      <Select
+        name={select.name}
+        placeholder={select.placeholder}
+        options={convertToOptions(select.options)}
+        maxMenuHeight={9000}
+        onChange={updateMyCheckIn}
+        styles={
+          checkIn.greenFeeling === ""
+            ? null
+            : customStyles(select.colors, tilt, shunt, select.z)
+        }
+      />
+    );
+  });
+
   return (
-    <div>
+    <>
+      <LoungeImage source={room4}></LoungeImage>
       <Confetti width={width} height={height} recycle={false} />
       <header className="app-header">
-        <h1>Heartwork Private Check-in room</h1>
+        <h2>👋 Welcome {user} 😌</h2>
         <p>
-          <strong>Hi {user}!</strong>
+          This is a space to breathe easy and connect, with yourself and with
+        </p>
+        <p>
+          All your feelings are precious - all sensations in your body point to
+          beautiful universal human needs, met or unmet
         </p>
       </header>
-      <form name="myCheckIn">
-        <Select
-          name="greenFeeling"
-          placeholder="select a green feeling you had in the last 24hrs"
-          options={convertToOptions(greenFeelings)}
-          maxMenuHeight={9000}
-          onChange={updateMyCheckIn}
-          styles={checkIn.greenFeeling === "" ? null : customStyles}
-        />
-        <Select
-          name="peachFeeling"
-          placeholder="select an peach feeling you had in the last 24hrs"
-          options={convertToOptions(peachFeelings)}
-          maxMenuHeight={9000}
-          onChange={updateMyCheckIn}
-        />
-        <Select
-          name="need1"
-          placeholder="select a need you'd love to meet in this meeting"
-          options={convertToOptions(needs)}
-          maxMenuHeight={1000}
-          onChange={updateMyCheckIn}
-        />
-        <Select
-          name="need2"
-          placeholder="select another need you'd love to meet in this meeting"
-          options={convertToOptions(needs)}
-          maxMenuHeight={1000}
-          onChange={updateMyCheckIn}
-        />
-        <Select
-          name="need3"
-          placeholder="select another need you'd love to meet in this meeting"
-          options={convertToOptions(needs)}
-          maxMenuHeight={1000}
-          onChange={updateMyCheckIn}
-        />
-      </form>
-
+      <form name="myCheckIn">{selectElements}</form>
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
         {othersCheckInsElements}
@@ -183,7 +260,7 @@ function InsideRoom(props) {
           .
         </p>
       </footer>
-    </div>
+    </>
   );
 }
 

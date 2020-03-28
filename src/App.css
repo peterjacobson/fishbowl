@@ -1,0 +1,52 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+input,
+form,
+button,
+p {
+  font-family: "Sen", sans-serif;
+  font-size: 1.3em;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.3em;
+}
+
+p {
+  font-size: 1em;
+}
+
+form {
+  font-size: 1em;
+}
+
+input {
+  font-family: "Caveat", cursive;
+  font-size: 2em;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+h1 {
+  font-size: 50px;
+}
+
+button {
+  border: none;
+  padding: 10px;
+  color: white;
+  background: linear-gradient(to bottom right, #d62346, #f0aa71);
+  -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import * as FirestoreService from "./services/firestore";
-
+import "./App.css";
 import CreateRoom from "./scenes/CreateRoom";
 import JoinRoom from "./scenes/JoinRoom";
 import InsideRoom from "./scenes/InsideRoom";
@@ -68,20 +68,20 @@ function App() {
     );
   } else if (room) {
     return (
-      <div>
+      <>
         <ErrorMessage errorCode={error}></ErrorMessage>
         <JoinRoom
           users={room.users}
           {...{ roomId, onSelectUser, onCloseroom, userId }}
         ></JoinRoom>
-      </div>
+      </>
     );
   }
   return (
-    <div>
+    <>
       <ErrorMessage errorCode={error}></ErrorMessage>
       <CreateRoom onCreate={onroomCreate} userId={userId}></CreateRoom>
-    </div>
+    </>
   );
 }
 
