@@ -26,6 +26,11 @@ h3 {
   font-size: 1.15em;
 }
 
+em {
+  font-size: 2em;
+  font-style: normal;
+}
+
 p {
   font-size: 1em;
 }

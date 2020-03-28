@@ -5,7 +5,7 @@ import styled from "styled-components";
 import buildRoom from "../img/buildroom.jpg";
 
 const Background = styled.div`
-  height: 100vh;
+  height: calc(100vh - 38px);
   background: linear-gradient(
       0deg,
       rgba(255, 255, 255, 0.3),
@@ -49,7 +49,13 @@ function CreateList(props) {
 
   return (
     <Background>
-      <h1>new check-in room</h1>
+      <h1>
+        Make a new
+        <br />
+        Heartwork
+        <br />
+        check-in room
+      </h1>
       <form name="createListForm">
         <InputName
           autoFocus={true}
@@ -58,7 +64,7 @@ function CreateList(props) {
           placeholder="My name is..."
         />
         <ErrorMessage errorCode={error}></ErrorMessage>
-        <button onClick={createroom}>[Enter] Build my room</button>
+        <button onClick={createroom}>Go</button>
       </form>
     </Background>
   );

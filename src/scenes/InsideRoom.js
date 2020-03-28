@@ -42,7 +42,7 @@ const LittleButton = styled.button`
 
 const SpanH2 = styled.h2`
   display: inline-block;
-  margin-right: 10px;
+  margin-bottom: 4px;
 `;
 
 const CopyToClipboardSpan = styled(CopyToClipboard)`
@@ -54,8 +54,9 @@ const Intro = styled.p`
 `;
 
 const CheckInItemRow = styled.div`
-  display: flex;
-  flex-direction: row;
+  /* display: flex; */
+  /* flex-direction: row; */
+  width: 100%;
 `;
 
 const CheckInItem = styled.div`
@@ -65,6 +66,7 @@ const CheckInItem = styled.div`
   padding: 10px 20px;
   font-size: 1.3em;
   color: white;
+  display: inline-block;
 `;
 
 const PeachFeeling = styled(CheckInItem)`
@@ -145,21 +147,46 @@ function InsideRoom(props) {
       };
     });
 
+  function rotateStyle() {
+    const angleDeg = (Math.random() - 0.5) * 4;
+    return { transform: `rotate(${angleDeg}deg)` };
+  }
+
+  const allCheckinNeeds = checkIns
+    .map(checkin => [checkin.need1, checkin.need2, checkin.need3])
+    .flat()
+    .filter(el => el !== undefined)
+    .sort();
+
+  const allCheckinNeedsElements = allCheckinNeeds.map(need => (
+    <Need style={rotateStyle()}>{need}</Need>
+  ));
+
   const othersCheckInsElements = othersCheckIns.map(anotherUser => (
     <>
       <h2>{anotherUser.name}'s check-in:</h2>
       <CheckInItemRow>
         {anotherUser.peachFeeling ? (
-          <PeachFeeling>{anotherUser.peachFeeling}</PeachFeeling>
+          <PeachFeeling style={rotateStyle()}>
+            {anotherUser.peachFeeling}
+          </PeachFeeling>
         ) : null}
         {anotherUser.greenFeeling ? (
-          <GreenFeeling>{anotherUser.greenFeeling}</GreenFeeling>
+          <GreenFeeling style={rotateStyle()}>
+            {anotherUser.greenFeeling}
+          </GreenFeeling>
         ) : null}
       </CheckInItemRow>
       <CheckInItemRow>
-        {anotherUser.need1 ? <Need>{anotherUser.need1}</Need> : null}
-        {anotherUser.need2 ? <Need>{anotherUser.need2}</Need> : null}
-        {anotherUser.need3 ? <Need>{anotherUser.need3}</Need> : null}
+        {anotherUser.need1 ? (
+          <Need style={rotateStyle()}>{anotherUser.need1}</Need>
+        ) : null}
+        {anotherUser.need2 ? (
+          <Need style={rotateStyle()}>{anotherUser.need2}</Need>
+        ) : null}
+        {anotherUser.need3 ? (
+          <Need style={rotateStyle()}>{anotherUser.need3}</Need>
+        ) : null}
       </CheckInItemRow>
     </>
   ));
@@ -177,14 +204,14 @@ function InsideRoom(props) {
         ...base,
         transform: `rotate(${tilt}deg)`,
         marginLeft: shunt,
-        marginBottom: 10,
+        marginBottom: -4,
         fontSize: "1.3em",
         maxWidth: 440,
         zIndex: z
       }),
       control: (base, state) => ({
         ...base,
-        height: 50,
+        height: 70,
         backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]}) !important`,
         // // match with the menu
         // borderRadius: state.isFocused ? "3px 3px 0 0" : 3,
@@ -300,20 +327,10 @@ function InsideRoom(props) {
       <LoungeImageTop source={room4} />
       <Confetti width={width} height={height} recycle={false} />
       <SpanH2>👋 Welcome {user} 😌</SpanH2>
-      <CopyToClipboardSpan
-        text={`${window.location.origin}/?listId=${roomId}`}
-        onCopy={() => setLinkCopied(true)}
-      >
-        <LittleButton>Copy link to this room</LittleButton>
-      </CopyToClipboardSpan>
-      <span>{linkCopied ? "Link Copied 🙌" : null}</span>
+      <Intro>You're jumping into a call with some other people - Why?</Intro>
       <Intro>
-        You're jumping into a call with some other people! Why?
-        <br />
-        This is a quick way to <strong>
-          connect with authenticity
-        </strong> and <strong>surface the highest priority needs</strong> in
-        this call.
+        This is a quick way to <strong>connect with authenticity</strong> and{" "}
+        <strong>surface the highest priority needs</strong> in this call.
       </Intro>
       <Intro>
         You're in this private room with <strong>{otherUserNameList}</strong>.
@@ -324,8 +341,24 @@ function InsideRoom(props) {
       </Intro>
       <LoungeImageCenter />
       <h3>
-        <strong>Step #1:</strong> choose my check-in feelings and universal
-        human needs
+        <em>
+          <strong>Step #1</strong>
+        </em>{" "}
+        paste the link to this room in your zoom chat, email, slack, whatsapp or
+        whatever:{" "}
+      </h3>
+      <CopyToClipboardSpan
+        text={`${window.location.origin}/?listId=${roomId}`}
+        onCopy={() => setLinkCopied(true)}
+      >
+        <LittleButton>Copy link to this room</LittleButton>
+      </CopyToClipboardSpan>
+      <span>{linkCopied ? "Link Copied 🙌" : null}</span>
+      <h3>
+        <em>
+          <strong>Step #2</strong>
+        </em>{" "}
+        choose my check-in feelings and universal human needs
       </h3>
       <h2>My check-in</h2>
       <p>
@@ -335,22 +368,36 @@ function InsideRoom(props) {
       <form name="myCheckIn">{selectElements}</form>
       <ErrorMessage errorCode={error}></ErrorMessage>
       <h3>
-        <strong>Step #2:</strong> when everyone else has chosed their check-in
-        feelings and needs, take 1 min for each person to speak to the words
-        they chose
+        <em>
+          <strong>Step #3</strong>
+        </em>{" "}
+        when everyone else has chosen their check-in feelings and needs, take 1
+        min for each person to speak to the words they chose
       </h3>
       {othersCheckInsElements}
+      <h3>
+        <em>
+          <strong>Step #4</strong>
+        </em>{" "}
+        Check at the end of the meeting if you met these checkin needs. How
+        might you meet more needs together?
+      </h3>
+      <CheckInItemRow>{allCheckinNeedsElements}</CheckInItemRow>
       <br />
       <LoungeImageBottom />
       <br />
-
-      <a
-        href="/"
-        target="_blank"
-        // onClick={onCreateListClick}
-      >
+      <a href="/" target="_blank">
         <LittleButton>
           create a new private Heartwork check-in room
+        </LittleButton>
+      </a>
+      <a
+        href="https://www.heartwork.co.nz/checkout/donate?donatePageId=5e783ded7531ce4dfe646d2b"
+        target="_blank"
+      >
+        <LittleButton>
+          contribute to the Heartwork team to keep them fed and their other
+          needs cared for
         </LittleButton>
       </a>
     </>

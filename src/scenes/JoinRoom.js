@@ -5,7 +5,7 @@ import styled from "styled-components";
 import enterRoom from "../img/enterroom.jpg";
 
 const Background = styled.div`
-  height: 100vh;
+  height: calc(100vh - 38px);
   background: linear-gradient(
       0deg,
       rgba(255, 255, 255, 0.5),

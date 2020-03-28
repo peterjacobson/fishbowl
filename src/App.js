@@ -15,9 +15,10 @@ const HeartworkLink = styled.a`
   position: absolute;
   background: url(${heartworklogo});
   background-size: cover;
-  width: 40px;
-  height: 40px;
-  margin-top: 20px;
+  width: 60px;
+  height: 60px;
+  margin-top: -26px;
+  margin-left: -29px;
 `;
 
 function App() {
