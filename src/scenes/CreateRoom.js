@@ -52,7 +52,7 @@ function CreateList(props) {
       <h1>new check-in room</h1>
       <form name="createListForm">
         <InputName
-          autofocus="true"
+          autoFocus={true}
           type="text"
           name="userName"
           placeholder="My name is..."

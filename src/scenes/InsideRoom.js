@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import get from "lodash.get";
 import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import Select from "react-select";
@@ -10,19 +9,6 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import styled from "styled-components";
 import room4 from "../img/room4.jpg";
-
-const Background = styled.div`
-  height: 100vh;
-  background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.9),
-      rgba(255, 255, 255, 1)
-    ),
-    url(${room4});
-  background-size: cover;
-  padding-top: 20px;
-  padding-left: 30px;
-`;
 
 const LoungeImage = styled.div`
   width: 100%;

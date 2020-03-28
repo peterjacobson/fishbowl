@@ -79,7 +79,7 @@ function JoinRoom(props) {
             <InputName
               type="text"
               name="name"
-              autofocus="true"
+              autoFocus={true}
               placeholder="My name is..."
             />
             <button onClick={addNewUser}>Join</button>
