@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import styled from "styled-components";
+import Select from "react-select";
+
 import room4 from "../img/room4.jpg";
+
+const colors = {
+  peach: ["#E88FA2", "#EB9B81"],
+  green: ["#1696A0", "#88C072"],
+  need: ["#2A3076", "#1792C8"]
+};
 
 const Background = styled.div`
   height: calc(100vh - 38px);
@@ -30,6 +38,7 @@ function CreateList(props) {
   const { onCreate, userId } = props;
 
   const [error, setError] = useState();
+  const [meetingConfig, setMeetingConfig] = useState();
 
   function createroom(e) {
     e.preventDefault();
@@ -49,6 +58,64 @@ function CreateList(props) {
       });
   }
 
+  function customStyles(colors, z) {
+    return {
+      container: (base, state) => ({
+        ...base,
+        marginBottom: -4,
+        fontSize: "1.3em",
+        maxWidth: 440,
+        zIndex: z
+      }),
+      control: (base, state) => ({
+        ...base,
+        height: 70,
+        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]}) !important`,
+        border: "none",
+        boxShadow: state.isFocused ? null : null
+      }),
+      singleValue: base => ({
+        paddingLeft: 60,
+        color: "white"
+      }),
+      menu: base => ({
+        ...base,
+        marginTop: 0,
+        paddingLeft: 60,
+        color: "white",
+        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]})`
+      }),
+      menuList: base => ({
+        ...base,
+        padding: 0
+      }),
+      placeholder: base => ({
+        ...base,
+        color: "#eee"
+      })
+    };
+  }
+
+  function convertToOptions(array) {
+    return array.map(item => {
+      return { label: item[0], value: item[1] };
+    });
+  }
+
+  // get approx number of people in meeting
+  // everybody get into zoom + check-in rooms
+  // everybody does self reflection
+  // sharing per person
+  // extra time to dive deeper
+
+  const meetingConfigOptions = [
+    "Family Check-in",
+    "Energising quick work check-in",
+    "Tension at work check-in",
+    "Lover Check-in",
+    "Small group unblocking check-in"
+  ];
+
   return (
     <Background>
       <h1>
@@ -65,6 +132,22 @@ function CreateList(props) {
           name="userName"
           placeholder="My name is..."
         />
+        {/* <Select
+          inputProps={{ readOnly: true }}
+          name="meetingConfig"
+          placeholder="Pick the meeting check-in you'd love!"
+          options={convertToOptions(meetingConfigOptions)}
+          // onChange={updateMyCheckIn}
+          styles={customStyles(colors.need, 100)}
+          theme={theme => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary25: "rgba(0, 0, 0, 0.4)",
+              primary: "rgba(0, 0, 0, 0.8)"
+            }
+          })}
+        /> */}
         <ErrorMessage errorCode={error}></ErrorMessage>
         <button onClick={createroom}>Go</button>
       </form>

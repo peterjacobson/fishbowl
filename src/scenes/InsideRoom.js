@@ -134,10 +134,8 @@ function InsideRoom(props) {
   }, [roomId, setCheckIns]);
 
   function startTimerNow() {
-    FirestoreService.startTimer(Date.now(), roomId, userId);
+    FirestoreService.startTimer(Date.now(), roomId, userId, user);
   }
-
-  startTimerNow();
 
   function convertToOptions(array) {
     return array.map(item => {
@@ -402,6 +400,7 @@ function InsideRoom(props) {
         when everyone else has chosen their check-in feelings and needs, take 1
         min for each person to speak to the words they chose
       </h3>
+      <button onClick={startTimerNow}>Start 1min timer</button>
       {othersCheckInsElements}
       <h3>
         <em>
@@ -447,8 +446,8 @@ function InsideRoom(props) {
       >
         <LittleButton>support us a weekly pizza - $23</LittleButton>
       </a>
-      <button onClick={() => console.log(roomUsers)}>users</button>
-      <button onClick={() => console.log(checkIns)}>checkIns</button>
+      {/* <button onClick={() => console.log(roomUsers)}>users</button>
+      <button onClick={() => console.log(checkIns)}>checkIns</button> */}
     </>
   );
 }
