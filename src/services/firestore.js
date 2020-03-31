@@ -40,7 +40,7 @@ export const getroom = roomId => {
     .get();
 };
 
-export const streamRoomUsers = (roomId, observer) => {
+export const streamRoom = (roomId, observer) => {
   return db
     .collection("rooms")
     .doc(roomId)

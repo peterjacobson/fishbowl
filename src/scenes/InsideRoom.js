@@ -7,7 +7,7 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import styled from "styled-components";
 import { Line } from "rc-progress";
-import dayjs from "dayjs";
+import Timer from "react-compound-timer";
 import needs from "../data/needs";
 import greenFeelings from "../data/greenFeelings";
 import peachFeelings from "../data/peachFeelings";
@@ -108,16 +108,10 @@ function InsideRoom(props) {
   const [error, setError] = useState();
   const { width, height } = useWindowSize();
   const [linkCopied, setLinkCopied] = useState(false);
-  const [timer, setTimer] = useState([]);
-  const [now, setNow] = useState();
-
-  function onCreateListClick(e) {
-    e.preventDefault();
-    onCloseroom();
-  }
+  const [timer, setTimer] = useState({});
 
   useEffect(() => {
-    const unsubscribe = FirestoreService.streamRoomUsers(roomId, {
+    const unsubscribe = FirestoreService.streamRoom(roomId, {
       next: querySnapshot => {
         setRoomUsers(querySnapshot.data().users);
       },
@@ -127,7 +121,7 @@ function InsideRoom(props) {
   }, [roomId, setRoomUsers]);
 
   useEffect(() => {
-    const unsubscribe = FirestoreService.streamRoomUsers(roomId, {
+    const unsubscribe = FirestoreService.streamRoom(roomId, {
       next: querySnapshot => {
         setTimer(querySnapshot.data().timer);
       },
@@ -148,7 +142,7 @@ function InsideRoom(props) {
 
   function startTimerNow() {
     FirestoreService.startTimer(Date.now(), roomId, userId, user);
-    // intervalTimer;
+    // setTimer(Date.now());
   }
 
   function convertToOptions(array) {
@@ -364,17 +358,34 @@ function InsideRoom(props) {
     );
   });
 
+  const timerLength = 60 * 1000; // ms
+  const timeDelayFromTimerStartedToStartTimeRecieved =
+    (Date.now() - timer.startTime) / 100; // ms
+  const timeRemaining =
+    timerLength - timeDelayFromTimerStartedToStartTimeRecieved;
+  console.log("------------------");
+  console.log("timer.startTime: ", timer.startTime);
+  // console.log("date.now(): ", Date.now());
+  // console.log("Date.now() - timer.startTime: ", Date.now() - timer.startTime);
+  console.log("Date.now(): ", Date.now());
+  console.log(
+    "timeDelayFromTimerStartedToStartTimeRecieved: ",
+    timeDelayFromTimerStartedToStartTimeRecieved
+  );
+  console.log("timerLength: ", timerLength);
+  console.log("timeRemaining: ", timeRemaining);
+  console.log("------------------");
+
   return (
     <>
       <LoungeImageTop source={room4} />
       <Confetti width={width} height={height} recycle={false} />
       <SpanH2>👋 Welcome {user} 😌</SpanH2>
       <Intro>
-        You're jumping into a call with some other people. It's probably to meet
-        some of your universal human needs, and some of theirs too! Getting
-        clear on these needs and connecting with authenticity can help you get
-        the most out of your meeting, so you both walk away feeling nourished
-        and clear
+        You're jumping into a call with some other people. Getting clear on your
+        and their needs and connecting authentically can help you get the most
+        out of your meeting, so you all walk away feeling clear and maybe even
+        nourished.
       </Intro>
       <Intro>
         This is a quick way to <strong>connect with authenticity</strong> and{" "}
@@ -422,8 +433,22 @@ function InsideRoom(props) {
       </h3>
       <button onClick={startTimerNow}>Start my 1min checkin</button>
       <button disabled>Peter checkin</button>
-      <p>{JSON.stringify(dayjs() - dayjs(timer.timestamp))}</p>
-      <p>{JSON.stringify(timer)}</p>
+      <div>
+        {timeDelayFromTimerStartedToStartTimeRecieved ? (
+          <>
+            <p>{timeRemaining}</p>
+            <Timer initialTime={timeRemaining} direction="backward">
+              {() => (
+                <>
+                  {timer.userName} is checking in for
+                  <Timer.Seconds />
+                  more seconds
+                </>
+              )}
+            </Timer>
+          </>
+        ) : null}
+      </div>
       {othersCheckInsElements}
       <h3>
         <em>
