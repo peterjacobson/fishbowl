@@ -70,7 +70,6 @@ export default [
   "sponteneity",
   "stability",
   "support",
-  "support others",
   "to back myself",
   "to be heard",
   "to create",
@@ -82,6 +81,5 @@ export default [
   "understanding",
   "vitality",
   "warmth",
-  "wellbeing of others",
   "win:win"
 ];
