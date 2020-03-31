@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 
 export default function EasyTimer(props) {
-  const [now, setNow] = useState(Date.now());
+  const [timeRemaining, setTimeRemaining] = useState(Date.now());
+  const timerLength = 60 * 1000; // ms
 
   function ticker() {
+    // const timeRemaining =
+    //   timerLength - timeDelayFromTimerStartedToStartTimeRecieved;
     return setInterval(() => {
-      setNow(Date.now());
+      const timeDelayFromTimerStartedToStartTimeRecieved =
+        Date.now() - props.timer.startTime; // ms
+      const timeRemaining =
+        timerLength - timeDelayFromTimerStartedToStartTimeRecieved;
+      setTimeRemaining(timeRemaining);
     }, 1000);
   }
 
@@ -15,13 +22,6 @@ export default function EasyTimer(props) {
       clearInterval(activeTicker);
     };
   }, [props.timer]);
-
-  const timerLength = 60 * 1000; // ms
-  const timeDelayFromTimerStartedToStartTimeRecieved =
-    (Date.now() - props.timer.startTime) / 100; // ms
-  // const timeRemaining =
-  //   timerLength - timeDelayFromTimerStartedToStartTimeRecieved;
-  const timeRemaining = now - props.timer.startTime;
 
   return (
     <>
