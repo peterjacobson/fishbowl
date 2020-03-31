@@ -3,12 +3,14 @@ import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import Select from "react-select";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import needs from "../data/needs";
-import greenFeelings from "../data/greenFeelings";
-import peachFeelings from "../data/peachFeelings";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import styled from "styled-components";
+import { Line } from "rc-progress";
+import dayjs from "dayjs";
+import needs from "../data/needs";
+import greenFeelings from "../data/greenFeelings";
+import peachFeelings from "../data/peachFeelings";
 import room4 from "../img/room4.jpg";
 import clarePeter from "../img/clarepete.jpg";
 
@@ -107,6 +109,7 @@ function InsideRoom(props) {
   const { width, height } = useWindowSize();
   const [linkCopied, setLinkCopied] = useState(false);
   const [timer, setTimer] = useState([]);
+  const [now, setNow] = useState();
 
   function onCreateListClick(e) {
     e.preventDefault();
@@ -124,6 +127,16 @@ function InsideRoom(props) {
   }, [roomId, setRoomUsers]);
 
   useEffect(() => {
+    const unsubscribe = FirestoreService.streamRoomUsers(roomId, {
+      next: querySnapshot => {
+        setTimer(querySnapshot.data().timer);
+      },
+      error: () => setError("grocery-list-item-get-fail")
+    });
+    return unsubscribe;
+  }, [roomId, setTimer]);
+
+  useEffect(() => {
     const unsubscribe = FirestoreService.streamRoomCheckIns(roomId, {
       next: querySnapshot => {
         setCheckIns(querySnapshot.docs.map(docSnapshot => docSnapshot.data()));
@@ -135,6 +148,7 @@ function InsideRoom(props) {
 
   function startTimerNow() {
     FirestoreService.startTimer(Date.now(), roomId, userId, user);
+    // intervalTimer;
   }
 
   function convertToOptions(array) {
@@ -355,7 +369,13 @@ function InsideRoom(props) {
       <LoungeImageTop source={room4} />
       <Confetti width={width} height={height} recycle={false} />
       <SpanH2>👋 Welcome {user} 😌</SpanH2>
-      <Intro>You're jumping into a call with some other people - Why?</Intro>
+      <Intro>
+        You're jumping into a call with some other people. It's probably to meet
+        some of your universal human needs, and some of theirs too! Getting
+        clear on these needs and connecting with authenticity can help you get
+        the most out of your meeting, so you both walk away feeling nourished
+        and clear
+      </Intro>
       <Intro>
         This is a quick way to <strong>connect with authenticity</strong> and{" "}
         <strong>surface the highest priority needs</strong> in this call.
@@ -400,7 +420,10 @@ function InsideRoom(props) {
         when everyone else has chosen their check-in feelings and needs, take 1
         min for each person to speak to the words they chose
       </h3>
-      <button onClick={startTimerNow}>Start 1min timer</button>
+      <button onClick={startTimerNow}>Start my 1min checkin</button>
+      <button disabled>Peter checkin</button>
+      <p>{JSON.stringify(dayjs() - dayjs(timer.timestamp))}</p>
+      <p>{JSON.stringify(timer)}</p>
       {othersCheckInsElements}
       <h3>
         <em>
