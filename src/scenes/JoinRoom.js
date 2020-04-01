@@ -76,7 +76,7 @@ function JoinRoom(props) {
     <Background>
       <div className="join-container">
         <h1>
-          😌 You're invited
+          You're invited
           <br />
           to a heartwork
           <br />

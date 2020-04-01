@@ -362,7 +362,7 @@ function InsideRoom(props) {
     <>
       <LoungeImageTop source={room4} />
       <Confetti width={width} height={height} recycle={false} />
-      <SpanH2>👋 Welcome {user} 😌</SpanH2>
+      <SpanH2>👋 Welcome {user}</SpanH2>
       <Intro>
         You're jumping into a call with some other people. Getting clear on your
         and their needs and connecting authentically can help you get the most
