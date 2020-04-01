@@ -101,6 +101,8 @@ const ClarePeterPhoto = styled.img`
 `;
 
 function InsideRoom(props) {
+  const timerLength = 30;
+  const checkinQuestions = ["green", "peach", "need", "need", "need"];
   const { users, roomId, user, onCloseroom, userId } = props;
   const [roomUsers, setRoomUsers] = useState([]);
   const [checkIn, setCheckIn] = useState({});
