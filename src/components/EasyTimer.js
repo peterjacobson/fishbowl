@@ -23,16 +23,5 @@ export default function EasyTimer(props) {
     };
   }, [props.timer]);
 
-  return (
-    <>
-      Hi
-      <div>
-        <p>{props.timer.startTime}</p>
-        <p>
-          {props.timer.userName} is checking in for {timeRemaining / 1000} more
-          seconds
-        </p>
-      </div>
-    </>
-  );
+  return Math.round(timeRemaining / 1000);
 }
