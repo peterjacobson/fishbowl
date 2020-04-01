@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 export default function EasyTimer(props) {
-  const [timeRemaining, setTimeRemaining] = useState(Date.now());
+  const [timeRemaining, setTimeRemaining] = useState(undefined);
   const timerLength = 60 * 1000; // ms
 
   function ticker() {
@@ -23,5 +23,9 @@ export default function EasyTimer(props) {
     };
   }, [props.timer]);
 
-  return Math.round(timeRemaining / 1000);
+  return timeRemaining == undefined
+    ? null
+    : timeRemaining > 0
+    ? Math.round(timeRemaining / 1000)
+    : 0;
 }
