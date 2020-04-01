@@ -6,7 +6,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import styled from "styled-components";
-import { Line } from "rc-progress";
 import Timer from "react-compound-timer";
 import EasyTimer from "../components/EasyTimer";
 import needs from "../data/needs";
@@ -364,7 +363,6 @@ function InsideRoom(props) {
       <LoungeImageTop source={room4} />
       <Confetti width={width} height={height} recycle={false} />
       <SpanH2>👋 Welcome {user} 😌</SpanH2>
-      <EasyTimer timer={timer} />
       <Intro>
         You're jumping into a call with some other people. Getting clear on your
         and their needs and connecting authentically can help you get the most
@@ -412,12 +410,10 @@ function InsideRoom(props) {
         <em>
           <strong>Step #3</strong>
         </em>{" "}
-        when everyone else has chosen their check-in feelings and needs, take 1
-        min for each person to speak to the words they chose
+        Each person check-in - you have a little time to speak to the words you
+        chose. Everyone else shut up and listen 😉
       </h3>
-      <button onClick={startTimerNow}>Start my 1min checkin</button>
-      <button disabled>Peter checkin</button>
-
+      <EasyTimer timer={timer} startTimerNow={startTimerNow} />
       {othersCheckInsElements}
       <h3>
         <em>
