@@ -20,6 +20,37 @@ export const authenticateAnonymously = () => {
   return firebase.auth().signInAnonymously();
 };
 
+// FIRESTORE DATA
+const roomDB = {
+  created: 2197091370932,
+  createdBy: "userId",
+  users: [
+    {
+      name: "Peter",
+      userId: "ojsdoi8u3840423"
+    }
+  ],
+  timer: {
+    name: "Peter",
+    userId: "ojsdoi8u3840423",
+    startTime: 12984093289058
+  },
+  config: {
+    timerLength: 60, //s
+    checkInFormat: ["green", "peach", "need", "need", "need"]
+  }
+};
+
+const checkInDB = {
+  userId: "0992308432",
+  userName: "Peter",
+  checkIn: [
+    { type: "need", word: "belonging" },
+    { type: "peach", word: "angry" },
+    { type: "green", word: "grateful" }
+  ]
+};
+
 export const createroom = (userName, userId) => {
   return db.collection("rooms").add({
     created: firebase.firestore.FieldValue.serverTimestamp(),

@@ -102,6 +102,7 @@ const ClarePeterPhoto = styled.img`
 
 function InsideRoom(props) {
   const timerLength = 30;
+  const defaultTimer = { startTime: 10000 };
   const checkinQuestions = ["green", "peach", "need", "need", "need"];
   const { users, roomId, user, onCloseroom, userId } = props;
   const [roomUsers, setRoomUsers] = useState([]);
@@ -110,7 +111,7 @@ function InsideRoom(props) {
   const [error, setError] = useState();
   const { width, height } = useWindowSize();
   const [linkCopied, setLinkCopied] = useState(false);
-  const [timer, setTimer] = useState({});
+  const [timer, setTimer] = useState(defaultTimer);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
@@ -125,7 +126,7 @@ function InsideRoom(props) {
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
       next: querySnapshot => {
-        setTimer(querySnapshot.data().timer);
+        setTimer(querySnapshot.data().timer || defaultTimer);
       },
       error: () => setError("grocery-list-item-get-fail")
     });

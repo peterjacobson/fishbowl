@@ -3,7 +3,7 @@ import { Line } from "rc-progress";
 
 export default function EasyTimer(props) {
   const [timeRemaining, setTimeRemaining] = useState(undefined);
-  const timerLength = 30 * 1000; // ms
+  const timerLength = 60 * 1000; // ms
 
   function ticker() {
     // const timeRemaining =
@@ -14,7 +14,7 @@ export default function EasyTimer(props) {
       const timeRemaining =
         timerLength - timeDelayFromTimerStartedToStartTimeRecieved;
       setTimeRemaining(timeRemaining);
-    }, 100);
+    }, 1000);
   }
 
   useEffect(() => {
@@ -26,11 +26,12 @@ export default function EasyTimer(props) {
 
   return timeRemaining == undefined ? null : timeRemaining > 0 ? (
     <>
-      <Line
+      {/* <Line
         percent={(1 - timeRemaining / timerLength) * 100}
         strokeColor={["#88C072", "#85D262", "#FE8C6A"]}
         trailColor={["#eef"]}
-      />
+      /> */}
+
       <p>{`${props.timer.userName} is checking in for another ${Math.round(
         timeRemaining / 1000
       )} seconds`}</p>

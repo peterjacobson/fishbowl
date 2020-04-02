@@ -38,7 +38,10 @@ function CreateList(props) {
   const { onCreate, userId } = props;
 
   const [error, setError] = useState();
-  const [meetingConfig, setMeetingConfig] = useState();
+  const [roomConfig, setRoomConfig] = useState({
+    timerLength: 60, //s
+    checkInFormat: ["green", "peach", "need", "need", "need"]
+  });
 
   function createroom(e) {
     e.preventDefault();
