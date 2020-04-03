@@ -108,7 +108,7 @@ function InsideRoom(props) {
   const [roomUsers, setRoomUsers] = useState([]);
   const [roomConfig, setRoomConfig] = useState(null);
   const [checkIn, setCheckIn] = useState({});
-  const [myCheckIn, setMyCheckIn] = useState(null);
+  const [myCheckIn, setMyCheckIn] = useState(new Array(10).fill(""));
   const [checkIns, setCheckIns] = useState([]);
   const [error, setError] = useState();
   const { width, height } = useWindowSize();
@@ -122,7 +122,7 @@ function InsideRoom(props) {
         setTimer(querySnapshot.data().timer || defaultTimer);
         setRoomConfig(querySnapshot.data().config);
         setMyCheckIn(
-          new Array(querySnapshot.data().config.checkinFormat.length)
+          new Array(querySnapshot.data().config.checkinFormat.length).fill("")
         );
       },
       error: () => setError("grocery-list-item-get-fail")
@@ -162,9 +162,16 @@ function InsideRoom(props) {
   }
 
   function updateMyCheckIn(option, action, checkinIndex) {
+    console.log("option: ", option);
+    console.log("checkinIndex: ", checkinIndex);
+    console.log("myCheckIn: ", myCheckIn);
     const myNextCheckin = myCheckIn.map((checkin, index) => {
+      console.log("checkin: ", checkin);
+      console.log("index: ", index);
+
       return index === checkinIndex ? option.value : checkin;
     });
+    console.log("myNextCheckin: ", myNextCheckin);
     setMyCheckIn(myNextCheckin);
     // const updatedField = { [action.name]: option.value };
     FirestoreService.updateCheckIn(myNextCheckin, roomId, userId);
@@ -331,10 +338,18 @@ function InsideRoom(props) {
     ? roomConfig.checkinFormat.map((select, index) => {
         const tilt = Math.random() - 0.5;
         const shunt = (Math.random() - 0.5) * 2;
-
+        console.log("myCheckIn[index]: ", myCheckIn[index]);
+        console.log(
+          "convertToOptions(selectSetup[select].options): ",
+          convertToOptions(selectSetup[select].options)
+        );
+        const currentValue =
+          myCheckIn[index] === ""
+            ? undefined
+            : { value: myCheckIn[index], label: myCheckIn[index] };
         return (
           <Select
-            // value={select.value}
+            value={currentValue}
             inputProps={{ readOnly: true }}
             name={selectSetup[select].name}
             placeholder={selectSetup[select].placeholder}

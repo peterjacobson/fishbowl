@@ -105,6 +105,10 @@ export const addUserToroom = (userName, roomId, userId) => {
 };
 
 export const updateCheckIn = (checkIn, roomId, userId) => {
+  const checkInDbEntry = {
+    userId: userId,
+    checkInWords: checkIn
+  };
   db.collection("rooms")
     .doc(roomId)
     .collection("checkIns")
@@ -119,17 +123,14 @@ export const updateCheckIn = (checkIn, roomId, userId) => {
           .collection("rooms")
           .doc(roomId)
           .collection("checkIns")
-          .add({
-            userId: userId,
-            ...checkIn
-          });
+          .add(checkInDbEntry);
       } else {
         return db
           .collection("rooms")
           .doc(roomId)
           .collection("checkIns")
           .doc(matchingCheckIn.id)
-          .update(checkIn);
+          .update(checkInDbEntry);
       }
     });
 };

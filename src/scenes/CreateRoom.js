@@ -271,7 +271,7 @@ function CreateList(props) {
                     setCheckinQuestionSet(checkinQuestionsetOptions[index])
                   }
                 />
-                <label for="{checkin.label}">{checkin.label}</label>
+                <label htmlFor="{checkin.label}">{checkin.label}</label>
                 <br />
               </>
             );
