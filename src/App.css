@@ -69,3 +69,32 @@ button {
   margin-right: 5px;
   margin-bottom: 5px;
 }
+
+.aws-btn {
+  --slider-height-percentage: 100%;
+  --slider-transition-duration: 700ms;
+  --organic-arrow-thickness: 6px;
+  --organic-arrow-border-radius: 25px;
+  --organic-arrow-height: 40px;
+  --control-button-width: 10%;
+  --control-button-height: 25%;
+  --control-button-background: transparent;
+  --control-bullet-color: #2d5182;
+  --control-bullet-active-color: #26456f;
+  --loader-bar-color: #851515;
+  --loader-bar-height: 6px;
+}
+
+.organic-arrow {
+  color: #ff0da5;
+}
+
+.awssld {
+  --organic-arrow-color: #d62346 !important;
+  --content-background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.awssld__controls button {
+  background: none !important;
+  box-shadow: none !important;
+}

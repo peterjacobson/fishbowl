@@ -3,6 +3,8 @@ import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import styled from "styled-components";
 import Select from "react-select";
+import AwesomeSlider from "react-awesome-slider";
+import "react-awesome-slider/dist/styles.css";
 
 import room4 from "../img/room4.jpg";
 
@@ -36,7 +38,7 @@ const InputName = styled.input`
 
 function CreateList(props) {
   const { onCreate, userId } = props;
-
+  const [sliderScreen, setSliderScreen] = useState(0);
   const [error, setError] = useState();
   const [roomConfig, setRoomConfig] = useState({
     timerLength: 60, //s
@@ -119,23 +121,32 @@ function CreateList(props) {
     "Small group unblocking check-in"
   ];
 
+  const awesomeSliderConfig = {
+    // fillParent: true,
+    infinite: false,
+    organicArrows: true,
+    bullets: true
+  };
+
   return (
     <Background>
-      <h1>
-        Open a new
-        <br />
-        Heartwork
-        <br />
-        check-in room
-      </h1>
-      <form name="createListForm">
-        <InputName
-          autoFocus={true}
-          type="text"
-          name="userName"
-          placeholder="My name is..."
-        />
-        {/* <Select
+      <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}>
+        <Background>
+          <h1>
+            Open a new
+            <br />
+            Heartwork
+            <br />
+            check-in room
+          </h1>
+          <form name="createListForm">
+            <InputName
+              autoFocus={true}
+              type="text"
+              name="userName"
+              placeholder="My name is..."
+            />
+            {/* <Select
           inputProps={{ readOnly: true }}
           name="meetingConfig"
           placeholder="Pick the meeting check-in you'd love!"
@@ -151,9 +162,15 @@ function CreateList(props) {
             }
           })}
         /> */}
-        <ErrorMessage errorCode={error}></ErrorMessage>
-        <button onClick={createroom}>Go</button>
-      </form>
+            <ErrorMessage errorCode={error}></ErrorMessage>
+            <button onClick={() => setSliderScreen(0)}>Start</button>
+            {/* <button onClick={createroom}>Go</button> */}
+          </form>
+        </Background>
+        <h2>Config</h2>
+        <div>sdkljsdf</div>
+        <div>sdkljsdf</div>
+      </AwesomeSlider>
     </Background>
   );
 }
