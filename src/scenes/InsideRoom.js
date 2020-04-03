@@ -162,18 +162,10 @@ function InsideRoom(props) {
   }
 
   function updateMyCheckIn(option, action, checkinIndex) {
-    console.log("option: ", option);
-    console.log("checkinIndex: ", checkinIndex);
-    console.log("myCheckIn: ", myCheckIn);
     const myNextCheckin = myCheckIn.map((checkin, index) => {
-      console.log("checkin: ", checkin);
-      console.log("index: ", index);
-
       return index === checkinIndex ? option.value : checkin;
     });
-    console.log("myNextCheckin: ", myNextCheckin);
     setMyCheckIn(myNextCheckin);
-    // const updatedField = { [action.name]: option.value };
     FirestoreService.updateCheckIn(myNextCheckin, roomId, userId);
   }
 
@@ -338,11 +330,6 @@ function InsideRoom(props) {
     ? roomConfig.checkinFormat.map((select, index) => {
         const tilt = Math.random() - 0.5;
         const shunt = (Math.random() - 0.5) * 2;
-        console.log("myCheckIn[index]: ", myCheckIn[index]);
-        console.log(
-          "convertToOptions(selectSetup[select].options): ",
-          convertToOptions(selectSetup[select].options)
-        );
         const currentValue =
           myCheckIn[index] === ""
             ? undefined
