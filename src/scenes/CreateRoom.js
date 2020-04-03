@@ -5,6 +5,9 @@ import styled from "styled-components";
 import Select from "react-select";
 import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
+import ReactSlider from "react-slider";
+import moment from "moment";
+import momentDurationFormatSetup from "moment-duration-format";
 
 import room4 from "../img/room4.jpg";
 
@@ -36,10 +39,68 @@ const InputName = styled.input`
   background: none;
 `;
 
+const RoomConfig = styled.input`
+  width: 440px;
+`;
+
+const StyledSlider = styled(ReactSlider)`
+  width: 100%;
+  height: 30px;
+`;
+
+const ZoomTimeStyledSlider = styled(StyledSlider)`
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+`;
+
+const StyledThumb = styled.div`
+  height: 30px;
+  line-height: 30px;
+  width: 30px;
+  text-align: center;
+  background-color: #000;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 15px;
+  cursor: grab;
+`;
+
+const StyledTimerThumb = styled(StyledThumb)`
+  width: 60px;
+`;
+
+const RightSpan = styled.span`
+  float: right;
+`;
+
+const Thumb = (props, state) => (
+  <StyledThumb {...props}>{state.valueNow}</StyledThumb>
+);
+const TimerThumb = (props, state) => (
+  <StyledTimerThumb {...props}>
+    {state.valueNow < 60
+      ? `00:${state.valueNow}`
+      : moment.duration(state.valueNow, "seconds").format("mm:ss")}
+  </StyledTimerThumb>
+);
+
+const StyledTrack = styled.div`
+  top: 0;
+  bottom: 0;
+  background: ${props => (props.index === 1 ? "#ddd" : "pink")};
+  border-radius: 999px;
+`;
+
+const Track = (props, state) => <StyledTrack {...props} index={state.index} />;
+
 function CreateList(props) {
   const { onCreate, userId } = props;
   const [sliderScreen, setSliderScreen] = useState(0);
   const [error, setError] = useState();
+  const [peopleInRoom, setPeopleInRoom] = useState(4);
+  const [checkinTime, setCheckinTime] = useState(60);
+  const [zoomConfidence, setZoomConfidence] = useState(5);
   const [roomConfig, setRoomConfig] = useState({
     timerLength: 60, //s
     checkInFormat: ["green", "peach", "need", "need", "need"]
@@ -146,22 +207,6 @@ function CreateList(props) {
               name="userName"
               placeholder="My name is..."
             />
-            {/* <Select
-          inputProps={{ readOnly: true }}
-          name="meetingConfig"
-          placeholder="Pick the meeting check-in you'd love!"
-          options={convertToOptions(meetingConfigOptions)}
-          // onChange={updateMyCheckIn}
-          styles={customStyles(colors.need, 100)}
-          theme={theme => ({
-            ...theme,
-            colors: {
-              ...theme.colors,
-              primary25: "rgba(0, 0, 0, 0.4)",
-              primary: "rgba(0, 0, 0, 0.8)"
-            }
-          })}
-        /> */}
             <ErrorMessage errorCode={error}></ErrorMessage>
             <button
               onClick={e => {
@@ -173,20 +218,73 @@ function CreateList(props) {
             </button>
           </form>
         </>
-        <>
+        <RoomConfig>
           <h1>Room Setup</h1>
+          <span>Expected people in room: {peopleInRoom}</span>
+
+          <StyledSlider
+            min={2}
+            max={50}
+            renderTrack={Track}
+            renderThumb={Thumb}
+            value={peopleInRoom}
+            onChange={setPeopleInRoom}
+          />
+          <br />
+          <span>
+            Check-in time per person:{" "}
+            {checkinTime < 60
+              ? `00:${checkinTime}`
+              : moment.duration(checkinTime, "seconds").format("mm:ss")}
+          </span>
+
+          <StyledSlider
+            min={30}
+            max={300}
+            renderTrack={Track}
+            renderThumb={TimerThumb}
+            value={checkinTime}
+            onChange={setCheckinTime}
+          />
+          <br />
+          <span>Tech savvyness: {zoomConfidence}/10</span>
+
+          <ZoomTimeStyledSlider
+            min={0}
+            max={10}
+            renderTrack={Track}
+            renderThumb={Thumb}
+            value={zoomConfidence}
+            onChange={setZoomConfidence}
+          />
+          <span>They've never seen a computer</span>
+          <RightSpan>They're already setup</RightSpan>
+          <br />
+          <br />
+          <ErrorMessage errorCode={error}></ErrorMessage>
+          <h2>
+            Estimated Checkin Time:{" "}
+            {moment
+              .duration(
+                checkinTime * peopleInRoom * (1 + (10 - zoomConfidence) / 20),
+                "seconds"
+              )
+              .format("mm:ss")}
+            {/* 10 - 1   0 - 1.5 */}
+          </h2>
           <button onClick={createroom}>Open Room</button>
           <div>
-            <button
+            <a
               onClick={e => {
                 e.preventDefault();
                 setSliderScreen(0);
               }}
+              href="#"
             >
               Back
-            </button>
+            </a>
           </div>
-        </>
+        </RoomConfig>
       </AwesomeSlider>
     </Background>
   );
