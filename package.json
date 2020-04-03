@@ -11,6 +11,7 @@
     "lodash.get": "^4.4.2",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
+    "pure-react-carousel": "^1.27.0",
     "rc-progress": "^2.5.2",
     "rc-slider": "^9.2.4",
     "rc-tooltip": "^4.0.3",

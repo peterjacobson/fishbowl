@@ -14,6 +14,14 @@ import greenFeelings from "../data/greenFeelings";
 import peachFeelings from "../data/peachFeelings";
 import room4 from "../img/room4.jpg";
 import clarePeter from "../img/clarepete.jpg";
+import {
+  CarouselProvider,
+  Slider,
+  Slide,
+  ButtonBack,
+  ButtonNext
+} from "pure-react-carousel";
+import "pure-react-carousel/dist/react-carousel.es.css";
 
 const colors = {
   peach: ["#E88FA2", "#EB9B81"],
@@ -87,6 +95,13 @@ const CheckInItemRow = styled.div`
   /* display: flex; */
   /* flex-direction: row; */
   width: 100%;
+`;
+
+const StyledBackButton = styled(ButtonBack)`
+  background: none;
+  color: black;
+  text-decoration: underline;
+  box-shadow: none;
 `;
 
 const CheckInItem = styled.div`
@@ -418,29 +433,8 @@ function InsideRoom(props) {
         <br />
         <br />
         <br />
-        {nextSlideIndex ? (
-          <button
-            onClick={e => {
-              e.preventDefault();
-              setSliderScreen(nextSlideIndex);
-            }}
-          >
-            {nextText}
-          </button>
-        ) : null}
-        {lastSlideIndex ? (
-          <div>
-            <a
-              onClick={e => {
-                e.preventDefault();
-                setSliderScreen(lastSlideIndex);
-              }}
-              href="#"
-            >
-              Back
-            </a>
-          </div>
-        ) : null}
+        <StyledBackButton>Back</StyledBackButton>
+        <ButtonNext>{nextText}</ButtonNext>
       </>
     );
   }
@@ -448,109 +442,123 @@ function InsideRoom(props) {
   return (
     <Background>
       <Confetti width={width} height={height} recycle={false} />
-      <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}>
-        <Screen>
-          <h1>👋 Welcome {user}</h1>
-          <Intro>You're jumping into a call with some other people.</Intro>
-          <Intro>
-            Getting clear on your and their needs and connecting authentically
-            can help you get the most out of your meeting, so you all walk away
-            feeling clear and maybe even nourished.
-          </Intro>
-          <Intro>
-            This is a quick way to <strong>connect with authenticity</strong>{" "}
-            and <strong>surface the highest priority needs</strong> in this
-            call.
-          </Intro>
-          <Intro>{otherUserNameList}</Intro>
-          <Intro>
-            All feelings are precious - all sensations people experience point
-            to beautiful universal human needs, met or unmet.
-          </Intro>
-          {navButtons(1, "Got it", null)}
-        </Screen>
-        <Screen>
-          <h1>Step 1: get everyone in the room</h1>
-          <p>So far, we've got {otherUserNameList} in this room</p>
-          <Intro>
-            Maybe you can help by sending folk the invite link below{" "}
-          </Intro>
-          <CopyToClipboardSpan
-            text={`${window.location.origin}/?listId=${roomId}`}
-            onCopy={() => setLinkCopied(true)}
-          >
-            <LittleButton>Copy link to this room</LittleButton>
-          </CopyToClipboardSpan>
-          <span>{linkCopied ? "Link Copied 🙌" : null}</span>
-          {navButtons(
-            2,
-            "Ok, that's taken care of\nOur wonderful meeting host is taking care of it",
-            0
-          )}
-        </Screen>
-        <Screen>
-          <h1>Step 2: Pick my check-in</h1>
-          <Intro>Choose my check-in feelings and universal human needs</Intro>
-          <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p>
-          <form name="myCheckIn">{selectElements}</form>
-          {othersCheckInsElements}
-          {navButtons(3, "Done", 1)}
-          {/* <ErrorMessage errorCode={error}></ErrorMessage> */}
-        </Screen>
-        <Screen>
-          <h1>Step 3: Check-in together</h1>
-          <Intro>
-            Each person check-in - you have a little time to speak to the words
-            you chose. Everyone else shut up and listen 😉
-          </Intro>
-          <EasyTimer timer={timer} startTimerNow={startTimerNow} />
-          {othersCheckInsElements}
-          {navButtons(4, "We've all checked-in", 2)}
-        </Screen>
-        <Screen>
-          <h1>Step 4: During the meeting</h1>
-          <CheckInItemRow>{allCheckinNeedsElements}</CheckInItemRow>
-          {navButtons(5, "We finished our meeting!", 3)}
-        </Screen>
-        <Screen>
-          <a href="/" target="_blank">
-            <LittleButton>
-              create a new private Heartwork check-in room
-            </LittleButton>
-          </a>
-          <br />
-          <br />
-          <ClarePeterPhoto src={clarePeter} />
-          <Intro>
-            We're Clare and Peter. We made this in to support people around the
-            world to meet their needs for social connection during COVID. We
-            live in Te Whanganui-a-Tara (Wellington), Aotearoa (New Zealand).
-            We're committed to helping people #chooselove and creating the more
-            beautiful world our hearts know is possible.
-          </Intro>
-          <a
-            href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=j-7gFqjxXqJ7BmTm9Yt2L2sI1Kb1p_mtD_enWqAV"
-            target="_blank"
-          >
-            <LittleButton>support us with a weekly coffee - $4.50</LittleButton>
-          </a>
-          <a
-            href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=AqsVsyGxX5pj_eiztgD9mKwRRwlTNg-o0mrSM4a3"
-            target="_blank"
-          >
-            <LittleButton>
-              support us with a weekly beer at your local - $11
-            </LittleButton>
-          </a>
-          <a
-            href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=Y65SCIbzcDHc-yVcClx9zcdvwESJc-kP6EjZuhKm"
-            target="_blank"
-          >
-            <LittleButton>support us a weekly pizza - $23</LittleButton>
-          </a>
-          {navButtons(null, null, 4)}
-        </Screen>
-      </AwesomeSlider>
+      <CarouselProvider
+        totalSlides={6}
+        naturalSlideWidth={10000}
+        naturalSlideHeight={10000}
+      >
+        <Slider>
+          {/* <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}> */}
+          <Slide>
+            <h1>👋 Welcome {user}</h1>
+            <Intro>You're jumping into a call with some other people.</Intro>
+            <Intro>
+              Getting clear on your and their needs and connecting authentically
+              can help you get the most out of your meeting, so you all walk
+              away feeling clear and maybe even nourished.
+            </Intro>
+            <Intro>
+              This is a quick way to <strong>connect with authenticity</strong>{" "}
+              and <strong>surface the highest priority needs</strong> in this
+              call.
+            </Intro>
+            <Intro>{otherUserNameList}</Intro>
+            <Intro>
+              All feelings are precious - all sensations people experience point
+              to beautiful universal human needs, met or unmet.
+            </Intro>
+            <br />
+            <br />
+            <br />
+            <br />
+            <ButtonNext>Got it</ButtonNext>
+            {/* {navButtons(1, "Got it", null)} */}
+          </Slide>
+          <Slide>
+            <h1>Step 1: get everyone in the room</h1>
+            <p>So far, we've got {otherUserNameList} in this room</p>
+            <Intro>
+              Maybe you can help by sending folk the invite link below{" "}
+            </Intro>
+            <CopyToClipboardSpan
+              text={`${window.location.origin}/?listId=${roomId}`}
+              onCopy={() => setLinkCopied(true)}
+            >
+              <LittleButton>Copy link to this room</LittleButton>
+            </CopyToClipboardSpan>
+            <span>{linkCopied ? "Link Copied 🙌" : null}</span>
+            {navButtons(
+              2,
+              "Ok, that's taken care of\nOur wonderful meeting host is taking care of it",
+              0
+            )}
+          </Slide>
+          <Slide>
+            <h1>Step 2: Pick my check-in</h1>
+            <Intro>Choose my check-in feelings and universal human needs</Intro>
+            <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p>
+            <form name="myCheckIn">{selectElements}</form>
+            {othersCheckInsElements}
+            {navButtons(3, "Done", 1)}
+            {/* <ErrorMessage errorCode={error}></ErrorMessage> */}
+          </Slide>
+          <Slide>
+            <h1>Step 3: Check-in together</h1>
+            <Intro>
+              Each person check-in - you have a little time to speak to the
+              words you chose. Everyone else shut up and listen 😉
+            </Intro>
+            <EasyTimer timer={timer} startTimerNow={startTimerNow} />
+            {othersCheckInsElements}
+            {navButtons(4, "We've all checked-in", 2)}
+          </Slide>
+          <Slide>
+            <h1>Step 4: During the meeting</h1>
+            <CheckInItemRow>{allCheckinNeedsElements}</CheckInItemRow>
+            {navButtons(5, "We finished our meeting!", 3)}
+          </Slide>
+          <Slide>
+            <a href="/" target="_blank">
+              <LittleButton>
+                create a new private Heartwork check-in room
+              </LittleButton>
+            </a>
+            <br />
+            <br />
+            <ClarePeterPhoto src={clarePeter} />
+            <Intro>
+              We're Clare and Peter. We made this in to support people around
+              the world to meet their needs for social connection during COVID.
+              We live in Te Whanganui-a-Tara (Wellington), Aotearoa (New
+              Zealand). We're committed to helping people #chooselove and
+              creating the more beautiful world our hearts know is possible.
+            </Intro>
+            <a
+              href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=j-7gFqjxXqJ7BmTm9Yt2L2sI1Kb1p_mtD_enWqAV"
+              target="_blank"
+            >
+              <LittleButton>
+                support us with a weekly coffee - $4.50
+              </LittleButton>
+            </a>
+            <a
+              href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=AqsVsyGxX5pj_eiztgD9mKwRRwlTNg-o0mrSM4a3"
+              target="_blank"
+            >
+              <LittleButton>
+                support us with a weekly beer at your local - $11
+              </LittleButton>
+            </a>
+            <a
+              href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=Y65SCIbzcDHc-yVcClx9zcdvwESJc-kP6EjZuhKm"
+              target="_blank"
+            >
+              <LittleButton>support us a weekly pizza - $23</LittleButton>
+            </a>
+            <StyledBackButton>Back</StyledBackButton>
+          </Slide>
+        </Slider>
+      </CarouselProvider>
     </Background>
   );
 }
