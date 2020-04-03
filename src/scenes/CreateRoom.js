@@ -58,7 +58,7 @@ const ZoomTimeStyledSlider = styled(StyledSlider)`
 const StyledThumb = styled.div`
   height: 30px;
   line-height: 30px;
-  width: 30px;
+  width: 100px;
   text-align: center;
   background-color: #000;
   color: #fff;
@@ -68,7 +68,10 @@ const StyledThumb = styled.div`
 `;
 
 const StyledTimerThumb = styled(StyledThumb)`
-  width: 60px;
+  width: 140px;
+`;
+const StyledSavvyThumb = styled(StyledThumb)`
+  width: 170px;
 `;
 
 const RightSpan = styled.span`
@@ -76,13 +79,16 @@ const RightSpan = styled.span`
 `;
 
 const Thumb = (props, state) => (
-  <StyledThumb {...props}>{state.valueNow}</StyledThumb>
+  <StyledThumb {...props}>{state.valueNow} people</StyledThumb>
+);
+const SavvyThumb = (props, state) => (
+  <StyledSavvyThumb {...props}>{state.valueNow}/10 tech savvy</StyledSavvyThumb>
 );
 const TimerThumb = (props, state) => (
   <StyledTimerThumb {...props}>
     {state.valueNow < 60
-      ? `00:${state.valueNow}`
-      : moment.duration(state.valueNow, "seconds").format("mm:ss")}
+      ? `00:${state.valueNow}s pp`
+      : moment.duration(state.valueNow, "seconds").format("m:ss") + " mins pp"}
   </StyledTimerThumb>
 );
 
@@ -126,10 +132,6 @@ function CreateList(props) {
   const [checkinQuestionSet, setCheckinQuestionSet] = useState(
     checkinQuestionsetOptions[0]
   );
-  const [roomConfig, setRoomConfig] = useState({
-    timerLength: 60, //s
-    checkInFormat: ["green", "peach", "need", "need", "need"]
-  });
 
   function createroom(e) {
     e.preventDefault();
@@ -245,7 +247,7 @@ function CreateList(props) {
         </>
         <RoomConfig>
           <h1>Room Setup</h1>
-          <h2>Type of checkin</h2>
+          <h2>Type of check-in</h2>
           {checkinQuestionsetOptions.map((checkin, index) => {
             return (
               <>
@@ -254,6 +256,7 @@ function CreateList(props) {
                   id="{checkin.label}"
                   name="roomSetup"
                   value="index"
+                  checked={index === 0}
                   onClick={() =>
                     setCheckinQuestionSet(checkinQuestionsetOptions[index])
                   }
@@ -263,8 +266,8 @@ function CreateList(props) {
               </>
             );
           })}
-          <h2>Checkin timing</h2>
-          <span>Expected people in room: {peopleInRoom}</span>
+          <h2>Check-in timing</h2>
+          <span>Expected people in room</span>
 
           <StyledSlider
             min={2}
@@ -293,11 +296,11 @@ function CreateList(props) {
           <br />
           <span>Tech savvyness: {zoomConfidence}/10</span>
 
-          <ZoomTimeStyledSlider
+          <StyledSlider
             min={0}
             max={10}
             renderTrack={Track}
-            renderThumb={Thumb}
+            renderThumb={SavvyThumb}
             value={zoomConfidence}
             onChange={setZoomConfidence}
           />
