@@ -106,21 +106,40 @@ const checkinQuestionsetOptions = [
     label: "family / smaller team",
     checkInGuide:
       "Green & Peach feelings I've felt in last 24hrs + three needs I'd love to meet in this call:",
-    checkinFormat: ["green", "peach", "need", "need", "need"],
+    checkinFormat: [
+      { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
+      { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
+      { type: "need", prompt: "1st need I'd love to meet in this meeting " },
+      { type: "need", prompt: "2nd need I'd love to meet in this meeting " },
+      { type: "need", prompt: "3rd need I'd love to meet in this meeting " }
+    ],
     minTimePerPerson: 120
   },
   {
     label: "close friends",
     checkInGuide:
       "Green & Peach feelings in last 24hrs + five needs that feel alive for me at the moment",
-    checkinFormat: ["green", "peach", "need", "need", "need", "need", "need"],
+    checkinFormat: [
+      { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
+      { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
+      { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
+      { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
+      { type: "need", prompt: "1st need I'm yearning to meet right now" },
+      { type: "need", prompt: "2nd need I'm yearning to meet right now" },
+      { type: "need", prompt: "3rd need I'm yearning to meet right now" },
+      { type: "need", prompt: "4th need I'm yearning to meet right now" }
+    ],
     minTimePerPerson: 240
   },
   {
     label: "quick meeting checkin",
     checkInGuide:
       "A feeling I've felt in the last 24hrs + two needs I'd love to meet in this meeting",
-    checkinFormat: ["green", "need", "need"],
+    checkinFormat: [
+      { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
+      { type: "need", prompt: "1st need I'd love to meet in this meeting " },
+      { type: "need", prompt: "2nd need I'd love to meet in this meeting " }
+    ],
     minTimePerPerson: 30
   }
 ];
@@ -218,6 +237,7 @@ function CreateList(props) {
   ];
 
   const awesomeSliderConfig = {
+    name: "createRoom",
     fillParent: true,
     infinite: false,
     organicArrows: false,

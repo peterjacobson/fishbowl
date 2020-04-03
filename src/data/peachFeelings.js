@@ -1,4 +1,5 @@
 export default [
+  "-",
   "agitated, turbulent",
   "angry",
   "anxious",

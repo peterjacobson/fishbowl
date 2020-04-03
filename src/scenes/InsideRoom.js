@@ -6,7 +6,8 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import styled from "styled-components";
-import Timer from "react-compound-timer";
+import AwesomeSlider from "react-awesome-slider";
+import "react-awesome-slider/dist/styles.css";
 import EasyTimer from "../components/EasyTimer";
 import needs from "../data/needs";
 import greenFeelings from "../data/greenFeelings";
@@ -20,11 +21,36 @@ const colors = {
   need: ["#2A3076", "#1792C8"]
 };
 
+const Background = styled.div`
+  height: calc(100vh - 38px);
+  background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.3)
+    ),
+    url(${room4});
+  background-size: cover;
+  padding-top: 20px;
+  padding-left: 30px;
+`;
+
 const LoungeImage = styled.div`
   width: 100%;
   height: 100px;
   background: url(${room4});
   background-size: cover;
+`;
+
+const Test = styled.div`
+  width: 100%;
+  height: 100vh;
+`;
+
+const Screen = styled.div`
+  padding-left: 20px;
+  padding-right: 20px;
 `;
 
 const LoungeImageTop = styled(LoungeImage)`
@@ -114,6 +140,7 @@ function InsideRoom(props) {
   const { width, height } = useWindowSize();
   const [linkCopied, setLinkCopied] = useState(false);
   const [timer, setTimer] = useState(defaultTimer);
+  const [sliderScreen, setSliderScreen] = useState(0);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
@@ -252,7 +279,7 @@ function InsideRoom(props) {
         ...base,
         // transform: `rotate(${tilt}deg)`,
         // marginLeft: shunt,
-        marginBottom: -4,
+        // marginBottom: -4,
         fontSize: "1.3em",
         maxWidth: 440,
         zIndex: z
@@ -303,7 +330,7 @@ function InsideRoom(props) {
     green: {
       name: "greenFeeling",
       // value: checkIn.greenFeeling,
-      placeholder: "[last 24hrs] A feeling I had",
+      placeholder: "...",
       options: greenFeelings,
       colors: colors.green,
       z: 100
@@ -311,15 +338,15 @@ function InsideRoom(props) {
     peach: {
       name: "peachFeeling",
       // value: checkIn.peachFeeling,
-      placeholder: "[last 24hrs] A feeling I had",
+      placeholder: "...",
       options: peachFeelings,
       colors: colors.peach,
       z: 99
     },
     need: {
-      name: "need1",
+      name: "need",
       // value: checkIn.need1,
-      placeholder: "[this meeting] A need I'd love to meet",
+      placeholder: "...",
       options: needs,
       colors: colors.need,
       z: 98
@@ -335,140 +362,194 @@ function InsideRoom(props) {
             ? undefined
             : { value: myCheckIn[index], label: myCheckIn[index] };
         return (
-          <Select
-            value={currentValue}
-            inputProps={{ readOnly: true }}
-            name={selectSetup[select].name}
-            placeholder={selectSetup[select].placeholder}
-            options={convertToOptions(selectSetup[select].options)}
-            // maxMenuHeight={9000}
-            onChange={(option, action) =>
-              updateMyCheckIn(option, action, index)
-            }
-            styles={
-              checkIn.greenFeeling === ""
-                ? null
-                : customStyles(
-                    selectSetup[select].colors,
-                    tilt,
-                    shunt,
-                    100 - index
-                  )
-            }
-            theme={theme => ({
-              ...theme,
-              colors: {
-                ...theme.colors,
-                primary25: "rgba(0, 0, 0, 0.4)",
-                primary: "rgba(0, 0, 0, 0.8)"
+          <>
+            <h2>{select.prompt}</h2>
+            <Select
+              value={currentValue}
+              inputProps={{ readOnly: true }}
+              name={selectSetup[select.type].name}
+              placeholder={selectSetup[select.type].placeholder}
+              options={convertToOptions(selectSetup[select.type].options)}
+              // maxMenuHeight={9000}
+              onChange={(option, action) =>
+                updateMyCheckIn(option, action, index)
               }
-            })}
-          />
+              styles={
+                checkIn.greenFeeling === ""
+                  ? null
+                  : customStyles(
+                      selectSetup[select.type].colors,
+                      tilt,
+                      shunt,
+                      100 - index
+                    )
+              }
+              theme={theme => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  primary25: "rgba(0, 0, 0, 0.4)",
+                  primary: "rgba(0, 0, 0, 0.8)"
+                }
+              })}
+            />
+          </>
         );
       })
     : "loading";
 
+  const awesomeSliderConfig = {
+    name: "insideRoom",
+    fillParent: true,
+    infinite: false,
+    organicArrows: false,
+    bullets: false,
+    mobileTouch: true
+  };
+
+  function navButtons(nextSlideIndex, nextText, lastSlideIndex) {
+    return (
+      <>
+        <br />
+        <br />
+        <br />
+        <br />
+        {nextSlideIndex ? (
+          <button
+            onClick={e => {
+              e.preventDefault();
+              setSliderScreen(nextSlideIndex);
+            }}
+          >
+            {nextText}
+          </button>
+        ) : null}
+        {lastSlideIndex ? (
+          <div>
+            <a
+              onClick={e => {
+                e.preventDefault();
+                setSliderScreen(lastSlideIndex);
+              }}
+              href="#"
+            >
+              Back
+            </a>
+          </div>
+        ) : null}
+      </>
+    );
+  }
+
   return (
-    <>
-      <LoungeImageTop source={room4} />
+    <Background>
       <Confetti width={width} height={height} recycle={false} />
-      <SpanH2>👋 Welcome {user}</SpanH2>
-      <Intro>
-        You're jumping into a call with some other people. Getting clear on your
-        and their needs and connecting authentically can help you get the most
-        out of your meeting, so you all walk away feeling clear and maybe even
-        nourished.
-      </Intro>
-      <Intro>
-        This is a quick way to <strong>connect with authenticity</strong> and{" "}
-        <strong>surface the highest priority needs</strong> in this call.
-      </Intro>
-      <Intro>{otherUserNameList}</Intro>
-      <Intro>
-        All feelings are precious - all sensations people experience point to
-        beautiful universal human needs, met or unmet.
-      </Intro>
-      <LoungeImageCenter />
-      <h3>
-        <em>
-          <strong>Step #1</strong>
-        </em>{" "}
-        Get everyone in the room! You can invite people by pasting the link to
-        this room into your zoom chat, email, slack, whatsapp or whatever:{" "}
-      </h3>
-      <CopyToClipboardSpan
-        text={`${window.location.origin}/?listId=${roomId}`}
-        onCopy={() => setLinkCopied(true)}
-      >
-        <LittleButton>Copy link to this room</LittleButton>
-      </CopyToClipboardSpan>
-      <span>{linkCopied ? "Link Copied 🙌" : null}</span>
-      <h3>
-        <em>
-          <strong>Step #2</strong>
-        </em>{" "}
-        choose my check-in feelings and universal human needs
-      </h3>
-      <h2>My check-in</h2>
-      <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p>
-      <form name="myCheckIn">{selectElements}</form>
-      <ErrorMessage errorCode={error}></ErrorMessage>
-      <h3>
-        <em>
-          <strong>Step #3</strong>
-        </em>{" "}
-        Each person check-in - you have a little time to speak to the words you
-        chose. Everyone else shut up and listen 😉
-      </h3>
-      <EasyTimer timer={timer} startTimerNow={startTimerNow} />
-      {othersCheckInsElements}
-      <h3>
-        <em>
-          <strong>Step #4</strong>
-        </em>{" "}
-        Check at the end of the meeting if you met these checkin needs. How
-        might you meet more needs together?
-      </h3>
-      <CheckInItemRow>{allCheckinNeedsElements}</CheckInItemRow>
-      <br />
-      <LoungeImageBottom />
-      <br />
-      <a href="/" target="_blank">
-        <LittleButton>
-          create a new private Heartwork check-in room
-        </LittleButton>
-      </a>
-      <ClarePeterPhoto src={clarePeter} />
-      <Intro>
-        We're Clare and Peter. We made this in to support people around the
-        world to meet their needs for social connection during COVID. We live in
-        Te Whanganui-a-Tara (Wellington), Aotearoa (New Zealand). We're
-        committed to helping people #chooselove and creating the more beautiful
-        world our hearts know is possible.
-      </Intro>
-      <a
-        href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=j-7gFqjxXqJ7BmTm9Yt2L2sI1Kb1p_mtD_enWqAV"
-        target="_blank"
-      >
-        <LittleButton>support us with a weekly coffee - $4.50</LittleButton>
-      </a>
-      <a
-        href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=AqsVsyGxX5pj_eiztgD9mKwRRwlTNg-o0mrSM4a3"
-        target="_blank"
-      >
-        <LittleButton>
-          support us with a weekly beer at your local - $11
-        </LittleButton>
-      </a>
-      <a
-        href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=Y65SCIbzcDHc-yVcClx9zcdvwESJc-kP6EjZuhKm"
-        target="_blank"
-      >
-        <LittleButton>support us a weekly pizza - $23</LittleButton>
-      </a>
-      {/* <button onClick={() => console.log(roomUsers)}>users</button>
-      <button onClick={() => console.log(checkIns)}>checkIns</button> */}
-    </>
+      <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}>
+        <Screen>
+          <h1>👋 Welcome {user}</h1>
+          <Intro>You're jumping into a call with some other people.</Intro>
+          <Intro>
+            Getting clear on your and their needs and connecting authentically
+            can help you get the most out of your meeting, so you all walk away
+            feeling clear and maybe even nourished.
+          </Intro>
+          <Intro>
+            This is a quick way to <strong>connect with authenticity</strong>{" "}
+            and <strong>surface the highest priority needs</strong> in this
+            call.
+          </Intro>
+          <Intro>{otherUserNameList}</Intro>
+          <Intro>
+            All feelings are precious - all sensations people experience point
+            to beautiful universal human needs, met or unmet.
+          </Intro>
+          {navButtons(1, "Got it", null)}
+        </Screen>
+        <>
+          <Screen>
+            <h1>Step 1: get everyone in the room</h1>
+            <p>So far, we've got {otherUserNameList} in this room</p>
+            <Intro>
+              Maybe you can help by sending folk the invite link below{" "}
+            </Intro>
+            <CopyToClipboardSpan
+              text={`${window.location.origin}/?listId=${roomId}`}
+              onCopy={() => setLinkCopied(true)}
+            >
+              <LittleButton>Copy link to this room</LittleButton>
+            </CopyToClipboardSpan>
+            <span>{linkCopied ? "Link Copied 🙌" : null}</span>
+            {navButtons(
+              2,
+              "Ok, that's taken care of\nOur wonderful meeting host is taking care of it",
+              0
+            )}
+          </Screen>
+        </>
+        <Screen>
+          <h1>Step 2: Pick my check-in</h1>
+          <Intro>Choose my check-in feelings and universal human needs</Intro>
+          <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p>
+          <form name="myCheckIn">{selectElements}</form>
+          {othersCheckInsElements}
+          {navButtons(3, "Done", 1)}
+          {/* <ErrorMessage errorCode={error}></ErrorMessage> */}
+        </Screen>
+        <Screen>
+          <h1>Step 3: Check-in together</h1>
+          <Intro>
+            Each person check-in - you have a little time to speak to the words
+            you chose. Everyone else shut up and listen 😉
+          </Intro>
+          <EasyTimer timer={timer} startTimerNow={startTimerNow} />
+          {othersCheckInsElements}
+          {navButtons(4, "We've all checked-in", 2)}
+        </Screen>
+        <Screen>
+          <h1>Step 4: During the meeting</h1>
+          <CheckInItemRow>{allCheckinNeedsElements}</CheckInItemRow>
+          {navButtons(5, "We finished our meeting!", 3)}
+        </Screen>
+        <Screen>
+          <a href="/" target="_blank">
+            <LittleButton>
+              create a new private Heartwork check-in room
+            </LittleButton>
+          </a>
+          <br />
+          <br />
+          <ClarePeterPhoto src={clarePeter} />
+          <Intro>
+            We're Clare and Peter. We made this in to support people around the
+            world to meet their needs for social connection during COVID. We
+            live in Te Whanganui-a-Tara (Wellington), Aotearoa (New Zealand).
+            We're committed to helping people #chooselove and creating the more
+            beautiful world our hearts know is possible.
+          </Intro>
+          <a
+            href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=j-7gFqjxXqJ7BmTm9Yt2L2sI1Kb1p_mtD_enWqAV"
+            target="_blank"
+          >
+            <LittleButton>support us with a weekly coffee - $4.50</LittleButton>
+          </a>
+          <a
+            href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=AqsVsyGxX5pj_eiztgD9mKwRRwlTNg-o0mrSM4a3"
+            target="_blank"
+          >
+            <LittleButton>
+              support us with a weekly beer at your local - $11
+            </LittleButton>
+          </a>
+          <a
+            href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=Y65SCIbzcDHc-yVcClx9zcdvwESJc-kP6EjZuhKm"
+            target="_blank"
+          >
+            <LittleButton>support us a weekly pizza - $23</LittleButton>
+          </a>
+          {navButtons(null, null, 4)}
+        </Screen>
+      </AwesomeSlider>
+    </Background>
   );
 }
 

@@ -101,4 +101,13 @@ button {
 
 .awssld__content {
   align-items: flex-start !important;
+  /* height */
+}
+
+.awssld__box {
+  height: 0;
+}
+
+.awssld__container {
+  height: 100vh !important;
 }
