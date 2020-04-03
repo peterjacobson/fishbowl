@@ -106,7 +106,9 @@ function InsideRoom(props) {
   const checkinQuestions = ["green", "peach", "need", "need", "need"];
   const { users, roomId, user, onCloseroom, userId } = props;
   const [roomUsers, setRoomUsers] = useState([]);
+  const [roomConfig, setRoomConfig] = useState(null);
   const [checkIn, setCheckIn] = useState({});
+  const [myCheckIn, setMyCheckIn] = useState(null);
   const [checkIns, setCheckIns] = useState([]);
   const [error, setError] = useState();
   const { width, height } = useWindowSize();
@@ -117,21 +119,26 @@ function InsideRoom(props) {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
       next: querySnapshot => {
         setRoomUsers(querySnapshot.data().users);
-      },
-      error: () => setError("grocery-list-item-get-fail")
-    });
-    return unsubscribe;
-  }, [roomId, setRoomUsers]);
-
-  useEffect(() => {
-    const unsubscribe = FirestoreService.streamRoom(roomId, {
-      next: querySnapshot => {
         setTimer(querySnapshot.data().timer || defaultTimer);
+        setRoomConfig(querySnapshot.data().config);
+        setMyCheckIn(
+          new Array(querySnapshot.data().config.checkinFormat.length)
+        );
       },
       error: () => setError("grocery-list-item-get-fail")
     });
     return unsubscribe;
-  }, [roomId, setTimer]);
+  }, [roomId, setRoomUsers, setRoomConfig, setTimer, setMyCheckIn]);
+
+  // useEffect(() => {
+  //   const unsubscribe = FirestoreService.streamRoom(roomId, {
+  //     next: querySnapshot => {
+  //       setTimer(querySnapshot.data().timer || defaultTimer);
+  //     },
+  //     error: () => setError("grocery-list-item-get-fail")
+  //   });
+  //   return unsubscribe;
+  // }, [roomId, setTimer]);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoomCheckIns(roomId, {
@@ -154,9 +161,13 @@ function InsideRoom(props) {
     });
   }
 
-  function updateMyCheckIn(option, action) {
-    const updatedField = { [action.name]: option.value };
-    FirestoreService.updateCheckIn(updatedField, roomId, userId);
+  function updateMyCheckIn(option, action, checkinIndex) {
+    const myNextCheckin = myCheckIn.map((checkin, index) => {
+      return index === checkinIndex ? option.value : checkin;
+    });
+    setMyCheckIn(myNextCheckin);
+    // const updatedField = { [action.name]: option.value };
+    FirestoreService.updateCheckIn(myNextCheckin, roomId, userId);
   }
 
   const othersCheckIns = roomUsers
@@ -289,8 +300,8 @@ function InsideRoom(props) {
     };
   }
 
-  const selectSetup = [
-    {
+  const selectSetup = {
+    green: {
       name: "greenFeeling",
       // value: checkIn.greenFeeling,
       placeholder: "[last 24hrs] A feeling I had",
@@ -298,7 +309,7 @@ function InsideRoom(props) {
       colors: colors.green,
       z: 100
     },
-    {
+    peach: {
       name: "peachFeeling",
       // value: checkIn.peachFeeling,
       placeholder: "[last 24hrs] A feeling I had",
@@ -306,60 +317,54 @@ function InsideRoom(props) {
       colors: colors.peach,
       z: 99
     },
-    {
+    need: {
       name: "need1",
       // value: checkIn.need1,
       placeholder: "[this meeting] A need I'd love to meet",
       options: needs,
       colors: colors.need,
       z: 98
-    },
-    {
-      name: "need2",
-      // value: checkIn.need2,
-      placeholder: "[this meeting] A need I'd love to meet",
-      options: needs,
-      colors: colors.need,
-      z: 97
-    },
-    {
-      name: "need3",
-      // value: checkIn.greenFeeling,
-      placeholder: "[this meeting] A need I'd love to meet",
-      options: needs,
-      colors: colors.need
     }
-  ];
+  };
 
-  const selectElements = selectSetup.map(select => {
-    const tilt = Math.random() - 0.5;
-    const shunt = (Math.random() - 0.5) * 2;
+  const selectElements = roomConfig
+    ? roomConfig.checkinFormat.map((select, index) => {
+        const tilt = Math.random() - 0.5;
+        const shunt = (Math.random() - 0.5) * 2;
 
-    return (
-      <Select
-        // value={select.value}
-        inputProps={{ readOnly: true }}
-        name={select.name}
-        placeholder={select.placeholder}
-        options={convertToOptions(select.options)}
-        // maxMenuHeight={9000}
-        onChange={updateMyCheckIn}
-        styles={
-          checkIn.greenFeeling === ""
-            ? null
-            : customStyles(select.colors, tilt, shunt, select.z)
-        }
-        theme={theme => ({
-          ...theme,
-          colors: {
-            ...theme.colors,
-            primary25: "rgba(0, 0, 0, 0.4)",
-            primary: "rgba(0, 0, 0, 0.8)"
-          }
-        })}
-      />
-    );
-  });
+        return (
+          <Select
+            // value={select.value}
+            inputProps={{ readOnly: true }}
+            name={selectSetup[select].name}
+            placeholder={selectSetup[select].placeholder}
+            options={convertToOptions(selectSetup[select].options)}
+            // maxMenuHeight={9000}
+            onChange={(option, action) =>
+              updateMyCheckIn(option, action, index)
+            }
+            styles={
+              checkIn.greenFeeling === ""
+                ? null
+                : customStyles(
+                    selectSetup[select].colors,
+                    tilt,
+                    shunt,
+                    100 - index
+                  )
+            }
+            theme={theme => ({
+              ...theme,
+              colors: {
+                ...theme.colors,
+                primary25: "rgba(0, 0, 0, 0.4)",
+                primary: "rgba(0, 0, 0, 0.8)"
+              }
+            })}
+          />
+        );
+      })
+    : "loading";
 
   return (
     <>
@@ -403,10 +408,7 @@ function InsideRoom(props) {
         choose my check-in feelings and universal human needs
       </h3>
       <h2>My check-in</h2>
-      <p>
-        Green & Peach feelings in last 24hrs + three needs I'd love to meet in
-        this call:
-      </p>
+      <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p>
       <form name="myCheckIn">{selectElements}</form>
       <ErrorMessage errorCode={error}></ErrorMessage>
       <h3>

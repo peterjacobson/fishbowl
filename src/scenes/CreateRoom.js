@@ -104,26 +104,30 @@ const Track = (props, state) => <StyledTrack {...props} index={state.index} />;
 const checkinQuestionsetOptions = [
   {
     label: "family / smaller team",
-    checkInGuide: "jkljslkjsfds",
+    checkInGuide:
+      "Green & Peach feelings I've felt in last 24hrs + three needs I'd love to meet in this call:",
     checkinFormat: ["green", "peach", "need", "need", "need"],
     minTimePerPerson: 120
   },
   {
     label: "close friends",
-    checkInGuide: "jkljslkjsfds",
+    checkInGuide:
+      "Green & Peach feelings in last 24hrs + five needs that feel alive for me at the moment",
     checkinFormat: ["green", "peach", "need", "need", "need", "need", "need"],
     minTimePerPerson: 240
   },
   {
     label: "quick meeting checkin",
-    checkInGuide: "jkljslkjsfds",
-    checkinFormat: ["green", "need"],
+    checkInGuide:
+      "A feeling I've felt in the last 24hrs + two needs I'd love to meet in this meeting",
+    checkinFormat: ["green", "need", "need"],
     minTimePerPerson: 30
   }
 ];
 
 function CreateList(props) {
   const { onCreate, userId } = props;
+  const [userName, setUserName] = useState("");
   const [sliderScreen, setSliderScreen] = useState(0);
   const [error, setError] = useState();
   const [peopleInRoom, setPeopleInRoom] = useState(4);
@@ -137,12 +141,16 @@ function CreateList(props) {
     e.preventDefault();
     setError(null);
 
-    const userName = document.createListForm.userName.value;
     if (!userName) {
       setError("user-name-required");
       return;
     }
-    FirestoreService.createroom(userName, userId)
+    FirestoreService.createroom(
+      userName,
+      userId,
+      checkinTime,
+      checkinQuestionSet
+    )
       .then(docRef => {
         onCreate(docRef.id, userName);
       })
@@ -233,6 +241,8 @@ function CreateList(props) {
               type="text"
               name="userName"
               placeholder="My name is..."
+              value={userName}
+              onChange={e => setUserName(e.target.value)}
             />
             <ErrorMessage errorCode={error}></ErrorMessage>
             <button
@@ -256,7 +266,7 @@ function CreateList(props) {
                   id="{checkin.label}"
                   name="roomSetup"
                   value="index"
-                  checked={index === 0}
+                  defaultChecked={index === 0}
                   onClick={() =>
                     setCheckinQuestionSet(checkinQuestionsetOptions[index])
                   }
@@ -294,7 +304,7 @@ function CreateList(props) {
             onChange={setCheckinTime}
           />
           <br />
-          <span>Tech savvyness: {zoomConfidence}/10</span>
+          <span>Group tech savvyness: {zoomConfidence}/10</span>
 
           <StyledSlider
             min={0}
@@ -304,8 +314,8 @@ function CreateList(props) {
             value={zoomConfidence}
             onChange={setZoomConfidence}
           />
-          <span>They've never seen a computer</span>
-          <RightSpan>They're already setup</RightSpan>
+          <span>What's zoom?</span>
+          <RightSpan>we're waiting on you</RightSpan>
           <br />
           <br />
           <ErrorMessage errorCode={error}></ErrorMessage>
@@ -321,7 +331,8 @@ function CreateList(props) {
             Estimated Checkin Duration:{" "}
             {moment
               .duration(
-                checkinTime * peopleInRoom * (1 + (10 - zoomConfidence) / 20),
+                120 +
+                  checkinTime * peopleInRoom * (1 + (10 - zoomConfidence) / 20),
                 "seconds"
               )
               .format("mm:ss")}

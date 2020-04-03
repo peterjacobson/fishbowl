@@ -51,7 +51,12 @@ const checkInDB = {
   ]
 };
 
-export const createroom = (userName, userId) => {
+export const createroom = (
+  userName,
+  userId,
+  checkinTime,
+  checkinQuestionSet
+) => {
   return db.collection("rooms").add({
     created: firebase.firestore.FieldValue.serverTimestamp(),
     createdBy: userId,
@@ -60,7 +65,8 @@ export const createroom = (userName, userId) => {
         userId: userId,
         name: userName
       }
-    ]
+    ],
+    config: { ...checkinQuestionSet, timerLength: checkinTime }
   });
 };
 
