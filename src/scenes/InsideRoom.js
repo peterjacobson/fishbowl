@@ -73,6 +73,8 @@ const LoungeImageBottom = styled(LoungeImage)`
   height: 300px;
 `;
 
+const StyledSlide = styled(Slide)``;
+
 const LittleButton = styled.button`
   font-size: 1em;
   display: inline-block;
@@ -449,7 +451,7 @@ function InsideRoom(props) {
       >
         <Slider>
           {/* <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}> */}
-          <Slide>
+          <StyledSlide index={0}>
             <h1>👋 Welcome {user}</h1>
             <Intro>You're jumping into a call with some other people.</Intro>
             <Intro>
@@ -473,8 +475,8 @@ function InsideRoom(props) {
             <br />
             <ButtonNext>Got it</ButtonNext>
             {/* {navButtons(1, "Got it", null)} */}
-          </Slide>
-          <Slide>
+          </StyledSlide>
+          <StyledSlide index={1}>
             <h1>Step 1: get everyone in the room</h1>
             <p>So far, we've got {otherUserNameList} in this room</p>
             <Intro>
@@ -487,13 +489,9 @@ function InsideRoom(props) {
               <LittleButton>Copy link to this room</LittleButton>
             </CopyToClipboardSpan>
             <span>{linkCopied ? "Link Copied 🙌" : null}</span>
-            {navButtons(
-              2,
-              "Ok, that's taken care of\nOur wonderful meeting host is taking care of it",
-              0
-            )}
-          </Slide>
-          <Slide>
+            {navButtons(2, "Next", 0)}
+          </StyledSlide>
+          <StyledSlide index={2}>
             <h1>Step 2: Pick my check-in</h1>
             <Intro>Choose my check-in feelings and universal human needs</Intro>
             <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p>
@@ -501,8 +499,8 @@ function InsideRoom(props) {
             {othersCheckInsElements}
             {navButtons(3, "Done", 1)}
             {/* <ErrorMessage errorCode={error}></ErrorMessage> */}
-          </Slide>
-          <Slide>
+          </StyledSlide>
+          <StyledSlide index={3}>
             <h1>Step 3: Check-in together</h1>
             <Intro>
               Each person check-in - you have a little time to speak to the
@@ -511,13 +509,13 @@ function InsideRoom(props) {
             <EasyTimer timer={timer} startTimerNow={startTimerNow} />
             {othersCheckInsElements}
             {navButtons(4, "We've all checked-in", 2)}
-          </Slide>
-          <Slide>
+          </StyledSlide>
+          <StyledSlide index={4}>
             <h1>Step 4: During the meeting</h1>
             <CheckInItemRow>{allCheckinNeedsElements}</CheckInItemRow>
             {navButtons(5, "We finished our meeting!", 3)}
-          </Slide>
-          <Slide>
+          </StyledSlide>
+          <StyledSlide index={5}>
             <a href="/" target="_blank">
               <LittleButton>
                 create a new private Heartwork check-in room
@@ -556,7 +554,7 @@ function InsideRoom(props) {
               <LittleButton>support us a weekly pizza - $23</LittleButton>
             </a>
             <StyledBackButton>Back</StyledBackButton>
-          </Slide>
+          </StyledSlide>
         </Slider>
       </CarouselProvider>
     </Background>
