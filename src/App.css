@@ -98,3 +98,7 @@ button {
   background: none !important;
   box-shadow: none !important;
 }
+
+.awssld__content {
+  align-items: flex-start !important;
+}

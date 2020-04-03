@@ -41,6 +41,7 @@ const InputName = styled.input`
 
 const RoomConfig = styled.input`
   width: 440px;
+  height: 100vh;
 `;
 
 const StyledSlider = styled(ReactSlider)`
@@ -94,6 +95,27 @@ const StyledTrack = styled.div`
 
 const Track = (props, state) => <StyledTrack {...props} index={state.index} />;
 
+const checkinQuestionsetOptions = [
+  {
+    label: "family / smaller team",
+    checkInGuide: "jkljslkjsfds",
+    checkinFormat: ["green", "peach", "need", "need", "need"],
+    minTimePerPerson: 120
+  },
+  {
+    label: "close friends",
+    checkInGuide: "jkljslkjsfds",
+    checkinFormat: ["green", "peach", "need", "need", "need", "need", "need"],
+    minTimePerPerson: 240
+  },
+  {
+    label: "quick meeting checkin",
+    checkInGuide: "jkljslkjsfds",
+    checkinFormat: ["green", "need"],
+    minTimePerPerson: 30
+  }
+];
+
 function CreateList(props) {
   const { onCreate, userId } = props;
   const [sliderScreen, setSliderScreen] = useState(0);
@@ -101,6 +123,9 @@ function CreateList(props) {
   const [peopleInRoom, setPeopleInRoom] = useState(4);
   const [checkinTime, setCheckinTime] = useState(60);
   const [zoomConfidence, setZoomConfidence] = useState(5);
+  const [checkinQuestionSet, setCheckinQuestionSet] = useState(
+    checkinQuestionsetOptions[0]
+  );
   const [roomConfig, setRoomConfig] = useState({
     timerLength: 60, //s
     checkInFormat: ["green", "peach", "need", "need", "need"]
@@ -183,7 +208,7 @@ function CreateList(props) {
   ];
 
   const awesomeSliderConfig = {
-    // fillParent: true,
+    fillParent: true,
     infinite: false,
     organicArrows: false,
     bullets: false
@@ -220,6 +245,25 @@ function CreateList(props) {
         </>
         <RoomConfig>
           <h1>Room Setup</h1>
+          <h2>Type of checkin</h2>
+          {checkinQuestionsetOptions.map((checkin, index) => {
+            return (
+              <>
+                <input
+                  type="radio"
+                  id="{checkin.label}"
+                  name="roomSetup"
+                  value="index"
+                  onClick={() =>
+                    setCheckinQuestionSet(checkinQuestionsetOptions[index])
+                  }
+                />
+                <label for="{checkin.label}">{checkin.label}</label>
+                <br />
+              </>
+            );
+          })}
+          <h2>Checkin timing</h2>
           <span>Expected people in room: {peopleInRoom}</span>
 
           <StyledSlider
@@ -239,7 +283,7 @@ function CreateList(props) {
           </span>
 
           <StyledSlider
-            min={30}
+            min={checkinQuestionSet.minTimePerPerson}
             max={300}
             renderTrack={Track}
             renderThumb={TimerThumb}
@@ -262,8 +306,16 @@ function CreateList(props) {
           <br />
           <br />
           <ErrorMessage errorCode={error}></ErrorMessage>
+          {/* <input
+            type="checkbox"
+            id="vehicle1"
+            name="vehicle1"
+            value="Bike"
+          ></input> */}
+          <br />
+
           <h2>
-            Estimated Checkin Time:{" "}
+            Estimated Checkin Duration:{" "}
             {moment
               .duration(
                 checkinTime * peopleInRoom * (1 + (10 - zoomConfidence) / 20),
