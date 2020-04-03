@@ -124,14 +124,14 @@ function CreateList(props) {
   const awesomeSliderConfig = {
     // fillParent: true,
     infinite: false,
-    organicArrows: true,
-    bullets: true
+    organicArrows: false,
+    bullets: false
   };
 
   return (
     <Background>
       <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}>
-        <Background>
+        <>
           <h1>
             Open a new
             <br />
@@ -163,13 +163,30 @@ function CreateList(props) {
           })}
         /> */}
             <ErrorMessage errorCode={error}></ErrorMessage>
-            <button onClick={() => setSliderScreen(0)}>Start</button>
-            {/* <button onClick={createroom}>Go</button> */}
+            <button
+              onClick={e => {
+                e.preventDefault();
+                setSliderScreen(1);
+              }}
+            >
+              Start
+            </button>
           </form>
-        </Background>
-        <h2>Config</h2>
-        <div>sdkljsdf</div>
-        <div>sdkljsdf</div>
+        </>
+        <>
+          <h1>Room Setup</h1>
+          <button onClick={createroom}>Open Room</button>
+          <div>
+            <button
+              onClick={e => {
+                e.preventDefault();
+                setSliderScreen(0);
+              }}
+            >
+              Back
+            </button>
+          </div>
+        </>
       </AwesomeSlider>
     </Background>
   );
