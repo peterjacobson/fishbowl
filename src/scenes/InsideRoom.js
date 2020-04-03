@@ -51,6 +51,7 @@ const Test = styled.div`
 const Screen = styled.div`
   padding-left: 20px;
   padding-right: 20px;
+  z-index: 10;
 `;
 
 const LoungeImageTop = styled(LoungeImage)`
@@ -141,6 +142,7 @@ function InsideRoom(props) {
   const [linkCopied, setLinkCopied] = useState(false);
   const [timer, setTimer] = useState(defaultTimer);
   const [sliderScreen, setSliderScreen] = useState(0);
+  console.log("sliderScreen: ", sliderScreen);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
@@ -400,7 +402,7 @@ function InsideRoom(props) {
 
   const awesomeSliderConfig = {
     name: "insideRoom",
-    fillParent: true,
+    // fillParent: true,
     infinite: false,
     organicArrows: false,
     bullets: false,
@@ -408,6 +410,8 @@ function InsideRoom(props) {
   };
 
   function navButtons(nextSlideIndex, nextText, lastSlideIndex) {
+    console.log("nextSlideIndex: ", nextSlideIndex);
+    console.log("lastSlideIndex: ", lastSlideIndex);
     return (
       <>
         <br />
@@ -465,27 +469,25 @@ function InsideRoom(props) {
           </Intro>
           {navButtons(1, "Got it", null)}
         </Screen>
-        <>
-          <Screen>
-            <h1>Step 1: get everyone in the room</h1>
-            <p>So far, we've got {otherUserNameList} in this room</p>
-            <Intro>
-              Maybe you can help by sending folk the invite link below{" "}
-            </Intro>
-            <CopyToClipboardSpan
-              text={`${window.location.origin}/?listId=${roomId}`}
-              onCopy={() => setLinkCopied(true)}
-            >
-              <LittleButton>Copy link to this room</LittleButton>
-            </CopyToClipboardSpan>
-            <span>{linkCopied ? "Link Copied 🙌" : null}</span>
-            {navButtons(
-              2,
-              "Ok, that's taken care of\nOur wonderful meeting host is taking care of it",
-              0
-            )}
-          </Screen>
-        </>
+        <Screen>
+          <h1>Step 1: get everyone in the room</h1>
+          <p>So far, we've got {otherUserNameList} in this room</p>
+          <Intro>
+            Maybe you can help by sending folk the invite link below{" "}
+          </Intro>
+          <CopyToClipboardSpan
+            text={`${window.location.origin}/?listId=${roomId}`}
+            onCopy={() => setLinkCopied(true)}
+          >
+            <LittleButton>Copy link to this room</LittleButton>
+          </CopyToClipboardSpan>
+          <span>{linkCopied ? "Link Copied 🙌" : null}</span>
+          {navButtons(
+            2,
+            "Ok, that's taken care of\nOur wonderful meeting host is taking care of it",
+            0
+          )}
+        </Screen>
         <Screen>
           <h1>Step 2: Pick my check-in</h1>
           <Intro>Choose my check-in feelings and universal human needs</Intro>
