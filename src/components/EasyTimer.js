@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "rc-progress";
+import moment from "moment";
 
 export default function EasyTimer(props) {
   const [timeRemaining, setTimeRemaining] = useState(undefined);
-  const timerLength = 60 * 1000; // ms
+  const timerLength = props.timerLength * 1000; // ms
+  const timerLengthHR =
+    props.timerLength < 60
+      ? `00:${props.timerLength}s pp`
+      : moment.duration(props.timerLength, "seconds").format("m:ss") +
+        " mins pp";
+  const timeRemainingS = Math.round(timeRemaining / 1000);
+  const timeRemainingHR =
+    timeRemainingS < 60
+      ? `00:${timeRemainingS}s`
+      : moment.duration(timeRemainingS, "seconds").format("m:ss");
 
   function ticker() {
     // const timeRemaining =
@@ -32,9 +43,7 @@ export default function EasyTimer(props) {
         trailColor={["#eef"]}
       /> */}
 
-      <p>{`${props.timer.userName} is checking in for another ${Math.round(
-        timeRemaining / 1000
-      )} seconds`}</p>
+      <p>{`${props.timer.userName} is checking in for another ${timeRemainingHR}`}</p>
     </>
   ) : (
     <button onClick={props.startTimerNow}>

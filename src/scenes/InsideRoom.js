@@ -166,6 +166,10 @@ function InsideRoom(props) {
   const [timer, setTimer] = useState(defaultTimer);
   const [sliderScreen, setSliderScreen] = useState(0);
 
+  // Two cases:
+  // user not yet checked in
+  // user checked in already
+
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
       next: querySnapshot => {
@@ -215,6 +219,7 @@ function InsideRoom(props) {
   }
 
   function updateMyCheckIn(option, action, checkinIndex) {
+    console.log("roomUsers: ", roomUsers);
     const myNextCheckin = myCheckIn.map((checkin, index) => {
       return index === checkinIndex
         ? { ...checkin, word: option.value }
@@ -225,7 +230,7 @@ function InsideRoom(props) {
   }
 
   const othersCheckIns = roomUsers
-    .filter(user => user.userId !== userId)
+    // .filter(user => user.userId !== userId)
     .map(user => {
       return {
         ...user,
@@ -256,7 +261,6 @@ function InsideRoom(props) {
         {userCheckin.userId === userId ? "My" : `${userCheckin.name}'s`}{" "}
         check-in:
       </h2>
-      <p>{JSON.stringify(userCheckin)}</p>
       {userCheckin.checkInWords ? (
         <CheckInItemRow>
           {userCheckin.checkInWords
@@ -285,29 +289,8 @@ function InsideRoom(props) {
                   break;
               }
             })}
-          {/* {userCheckin.greenFeeling ? (
-            <GreenFeeling style={rotateStyle()}>
-              {userCheckin.greenFeeling}
-            </GreenFeeling>
-          ) : null}
-          {userCheckin.peachFeeling ? (
-            <PeachFeeling style={rotateStyle()}>
-              {userCheckin.peachFeeling}
-            </PeachFeeling>
-          ) : null} */}
         </CheckInItemRow>
       ) : null}
-      {/* <CheckInItemRow>
-        {userCheckin.need1 ? (
-          <Need style={rotateStyle()}>{userCheckin.need1}</Need>
-        ) : null}
-        {userCheckin.need2 ? (
-          <Need style={rotateStyle()}>{userCheckin.need2}</Need>
-        ) : null}
-        {userCheckin.need3 ? (
-          <Need style={rotateStyle()}>{userCheckin.need3}</Need>
-        ) : null}
-      </CheckInItemRow> */}
     </>
   ));
 
@@ -483,6 +466,9 @@ function InsideRoom(props) {
   };
 
   function navButtons(nextSlideIndex, nextText, lastSlideIndex) {
+    function scrollToTop() {
+      window.scrollTo();
+    }
     return (
       <>
         <br />
@@ -519,23 +505,13 @@ function InsideRoom(props) {
               and <strong>surface the highest priority needs</strong> in this
               call.
             </Intro>
-            <Intro>{otherUserNameList}</Intro>
             <Intro>
               All feelings are precious - all sensations people experience point
               to beautiful universal human needs, met or unmet.
             </Intro>
-            <br />
-            <br />
-            <br />
-            <br />
-            <ButtonNext>Got it</ButtonNext>
-            {/* {navButtons(1, "Got it", null)} */}
-          </StyledSlide>
-          <StyledSlide index={1}>
-            <h1>Step 1: get everyone in the room</h1>
-            <p>So far, we've got {otherUserNameList} in this room</p>
+            <Intro>{otherUserNameList}</Intro>
             <Intro>
-              Maybe you can help by sending folk the invite link below{" "}
+              Get everyone in this room by sending folk the invite link below{" "}
             </Intro>
             <CopyToClipboardSpan
               text={`${window.location.origin}/?listId=${roomId}`}
@@ -547,35 +523,44 @@ function InsideRoom(props) {
             {navButtons(2, "Next", 0)}
           </StyledSlide>
           <StyledSlide index={2}>
-            <h1>Step 2: Pick my check-in</h1>
+            <h1>Step 1: Pick my check-in</h1>
             <Intro>Choose my check-in feelings and universal human needs</Intro>
             {/* <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p> */}
             <form name="myCheckIn">{selectElements}</form>
             {othersCheckInsElements}
             {navButtons(3, "Done", 1)}
+            <br />
+            <br />
+            <br />
             {/* <ErrorMessage errorCode={error}></ErrorMessage> */}
           </StyledSlide>
           <StyledSlide index={3}>
-            <h1>Step 3: Check-in together</h1>
+            <h1>Step 2: Check-in together</h1>
             <Intro>
               Each person check-in - you have a little time to speak to the
               words you chose. Everyone else shut up and listen 😉
             </Intro>
-            <EasyTimer timer={timer} startTimerNow={startTimerNow} />
+            <EasyTimer
+              timer={timer}
+              startTimerNow={startTimerNow}
+              timerLength={roomConfig ? roomConfig.timerLength : 60}
+            />
             {othersCheckInsElements}
             {navButtons(4, "We've all checked-in", 2)}
           </StyledSlide>
           <StyledSlide index={4}>
-            <h1>Step 4: During the meeting</h1>
+            <h1>During the meeting</h1>
             <CheckInItemRow>{allCheckinNeedsElements}</CheckInItemRow>
             {navButtons(5, "We finished our meeting!", 3)}
           </StyledSlide>
           <StyledSlide index={5}>
+            <br />
             <a href="/" target="_blank">
               <LittleButton>
                 create a new private Heartwork check-in room
               </LittleButton>
             </a>
+            <br />
             <br />
             <br />
             <ClarePeterPhoto src={clarePeter} />
@@ -608,7 +593,9 @@ function InsideRoom(props) {
             >
               <LittleButton>support us a weekly pizza - $23</LittleButton>
             </a>
-            <StyledBackButton>Back</StyledBackButton>
+            <div>
+              <StyledBackButton>Back</StyledBackButton>
+            </div>
           </StyledSlide>
         </Slider>
       </CarouselProvider>
