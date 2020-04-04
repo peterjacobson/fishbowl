@@ -114,6 +114,12 @@ const CheckInItem = styled.div`
   font-size: 1.3em;
   color: white;
   display: inline-block;
+  /* background: linear-gradient(
+    to bottom right,
+    ${props => colors[props.type][0]},
+    ${props => colors[props.type][1]}
+  ); */
+  
 `;
 
 const PeachFeeling = styled(CheckInItem)`
@@ -152,14 +158,15 @@ function InsideRoom(props) {
   const [roomUsers, setRoomUsers] = useState([]);
   const [roomConfig, setRoomConfig] = useState(null);
   const [checkIn, setCheckIn] = useState({});
-  const [myCheckIn, setMyCheckIn] = useState(new Array(10).fill(""));
+  const [myCheckIn, setMyCheckIn] = useState(
+    new Array(10).fill({ type: "", word: "" })
+  );
   const [checkIns, setCheckIns] = useState([]);
   const [error, setError] = useState();
   const { width, height } = useWindowSize();
   const [linkCopied, setLinkCopied] = useState(false);
   const [timer, setTimer] = useState(defaultTimer);
   const [sliderScreen, setSliderScreen] = useState(0);
-  console.log("sliderScreen: ", sliderScreen);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
@@ -168,7 +175,9 @@ function InsideRoom(props) {
         setTimer(querySnapshot.data().timer || defaultTimer);
         setRoomConfig(querySnapshot.data().config);
         setMyCheckIn(
-          new Array(querySnapshot.data().config.checkinFormat.length).fill("")
+          querySnapshot.data().config.checkinFormat.map(checkinItem => {
+            return { type: checkinItem.type, word: "" };
+          })
         );
       },
       error: () => setError("grocery-list-item-get-fail")
@@ -216,7 +225,7 @@ function InsideRoom(props) {
   }
 
   const othersCheckIns = roomUsers
-    // .filter(user => user.userId !== userId)
+    .filter(user => user.userId !== userId)
     .map(user => {
       return {
         ...user,
@@ -241,37 +250,54 @@ function InsideRoom(props) {
     <Need style={rotateStyle()}>{need}</Need>
   ));
 
-  const othersCheckInsElements = othersCheckIns.map(anotherUser => (
+  const othersCheckInsElements = othersCheckIns.map(userCheckin => (
     <>
-      <h2>
-        {anotherUser.userId === userId ? "My" : `${anotherUser.name}'s`}{" "}
+      {/* <h2>
+        {userCheckin.userId === userId ? "My" : `${userCheckin.name}'s`}{" "}
         check-in:
       </h2>
       <CheckInItemRow>
-        {anotherUser.greenFeeling ? (
+        {userCheckin.greenFeeling ? (
           <GreenFeeling style={rotateStyle()}>
-            {anotherUser.greenFeeling}
+            {userCheckin.greenFeeling}
           </GreenFeeling>
         ) : null}
-        {anotherUser.peachFeeling ? (
+        {userCheckin.peachFeeling ? (
           <PeachFeeling style={rotateStyle()}>
-            {anotherUser.peachFeeling}
+            {userCheckin.peachFeeling}
           </PeachFeeling>
         ) : null}
       </CheckInItemRow>
       <CheckInItemRow>
-        {anotherUser.need1 ? (
-          <Need style={rotateStyle()}>{anotherUser.need1}</Need>
+        {userCheckin.need1 ? (
+          <Need style={rotateStyle()}>{userCheckin.need1}</Need>
         ) : null}
-        {anotherUser.need2 ? (
-          <Need style={rotateStyle()}>{anotherUser.need2}</Need>
+        {userCheckin.need2 ? (
+          <Need style={rotateStyle()}>{userCheckin.need2}</Need>
         ) : null}
-        {anotherUser.need3 ? (
-          <Need style={rotateStyle()}>{anotherUser.need3}</Need>
+        {userCheckin.need3 ? (
+          <Need style={rotateStyle()}>{userCheckin.need3}</Need>
         ) : null}
-      </CheckInItemRow>
+      </CheckInItemRow> */}
     </>
   ));
+
+  function generateCheckinElements(title, checkin) {
+    return (
+      <>
+        <h2>{title}</h2>
+        <CheckInItemRow>
+          {checkin.map(item => {
+            return item.word === "" ? null : (
+              <CheckInItem type={item.type} style={rotateStyle()}>
+                item.word
+              </CheckInItem>
+            );
+          })}
+        </CheckInItemRow>
+      </>
+    );
+  }
 
   const otherUsers = users
     .filter(user => user.userId !== userId)
@@ -427,8 +453,6 @@ function InsideRoom(props) {
   };
 
   function navButtons(nextSlideIndex, nextText, lastSlideIndex) {
-    console.log("nextSlideIndex: ", nextSlideIndex);
-    console.log("lastSlideIndex: ", lastSlideIndex);
     return (
       <>
         <br />
