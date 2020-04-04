@@ -105,7 +105,7 @@ const checkinQuestionsetOptions = [
   {
     label: "family / smaller team",
     checkInGuide:
-      "Green & Peach feelings I've felt in last 24hrs + three needs I'd love to meet in this call:",
+      "een & Peach feelings I've felt in last 24hrs + three needs I'd love to meet in this call:",
     checkinFormat: [
       { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
       { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },

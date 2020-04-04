@@ -56,6 +56,10 @@ const Test = styled.div`
   height: 100vh;
 `;
 
+const Prompt = styled.h2`
+  margin-bottom: 2px;
+`;
+
 const Screen = styled.div`
   padding-left: 20px;
   padding-right: 20px;
@@ -114,12 +118,6 @@ const CheckInItem = styled.div`
   font-size: 1.3em;
   color: white;
   display: inline-block;
-  /* background: linear-gradient(
-    to bottom right,
-    ${props => colors[props.type][0]},
-    ${props => colors[props.type][1]}
-  ); */
-  
 `;
 
 const PeachFeeling = styled(CheckInItem)`
@@ -254,23 +252,52 @@ function InsideRoom(props) {
 
   const othersCheckInsElements = othersCheckIns.map(userCheckin => (
     <>
-      {/* <h2>
+      <h2>
         {userCheckin.userId === userId ? "My" : `${userCheckin.name}'s`}{" "}
         check-in:
       </h2>
-      <CheckInItemRow>
-        {userCheckin.greenFeeling ? (
-          <GreenFeeling style={rotateStyle()}>
-            {userCheckin.greenFeeling}
-          </GreenFeeling>
-        ) : null}
-        {userCheckin.peachFeeling ? (
-          <PeachFeeling style={rotateStyle()}>
-            {userCheckin.peachFeeling}
-          </PeachFeeling>
-        ) : null}
-      </CheckInItemRow>
-      <CheckInItemRow>
+      <p>{JSON.stringify(userCheckin)}</p>
+      {userCheckin.checkInWords ? (
+        <CheckInItemRow>
+          {userCheckin.checkInWords
+            .filter(word => word.word !== "")
+            .map(word => {
+              switch (word.type) {
+                case "green":
+                  return (
+                    <GreenFeeling style={rotateStyle()}>
+                      {word.word}
+                    </GreenFeeling>
+                  );
+                  break;
+                case "peach":
+                  return (
+                    <PeachFeeling style={rotateStyle()}>
+                      {word.word}
+                    </PeachFeeling>
+                  );
+                  break;
+                case "need":
+                  return <Need style={rotateStyle()}>{word.word}</Need>;
+                  break;
+
+                default:
+                  break;
+              }
+            })}
+          {/* {userCheckin.greenFeeling ? (
+            <GreenFeeling style={rotateStyle()}>
+              {userCheckin.greenFeeling}
+            </GreenFeeling>
+          ) : null}
+          {userCheckin.peachFeeling ? (
+            <PeachFeeling style={rotateStyle()}>
+              {userCheckin.peachFeeling}
+            </PeachFeeling>
+          ) : null} */}
+        </CheckInItemRow>
+      ) : null}
+      {/* <CheckInItemRow>
         {userCheckin.need1 ? (
           <Need style={rotateStyle()}>{userCheckin.need1}</Need>
         ) : null}
@@ -411,7 +438,7 @@ function InsideRoom(props) {
             : { value: myCheckIn[index].word, label: myCheckIn[index].word };
         return (
           <>
-            <h2>{select.prompt}</h2>
+            <Prompt>{select.prompt}</Prompt>
             <Select
               value={currentValue}
               inputProps={{ readOnly: true }}
@@ -475,6 +502,7 @@ function InsideRoom(props) {
         totalSlides={6}
         naturalSlideWidth={10000}
         naturalSlideHeight={10000}
+        isIntrinsicHeight={true}
       >
         <Slider>
           {/* <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}> */}
@@ -521,7 +549,7 @@ function InsideRoom(props) {
           <StyledSlide index={2}>
             <h1>Step 2: Pick my check-in</h1>
             <Intro>Choose my check-in feelings and universal human needs</Intro>
-            <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p>
+            {/* <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p> */}
             <form name="myCheckIn">{selectElements}</form>
             {othersCheckInsElements}
             {navButtons(3, "Done", 1)}
