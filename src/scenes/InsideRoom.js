@@ -485,7 +485,7 @@ function InsideRoom(props) {
     <Background>
       <Confetti width={width} height={height} recycle={false} />
       <CarouselProvider
-        totalSlides={6}
+        totalSlides={4}
         naturalSlideWidth={10000}
         naturalSlideHeight={10000}
         isIntrinsicHeight={true}
@@ -522,7 +522,7 @@ function InsideRoom(props) {
             <span>{linkCopied ? "Link Copied 🙌" : null}</span>
             {navButtons(2, "Next", 0)}
           </StyledSlide>
-          <StyledSlide index={2}>
+          <StyledSlide index={1}>
             <h1>Step 1: Pick my check-in</h1>
             <Intro>Choose my check-in feelings and universal human needs</Intro>
             {/* <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p> */}
@@ -534,7 +534,7 @@ function InsideRoom(props) {
             <br />
             {/* <ErrorMessage errorCode={error}></ErrorMessage> */}
           </StyledSlide>
-          <StyledSlide index={3}>
+          <StyledSlide index={2}>
             <h1>Step 2: Check-in together</h1>
             <Intro>
               Each person check-in - you have a little time to speak to the
@@ -548,12 +548,12 @@ function InsideRoom(props) {
             {othersCheckInsElements}
             {navButtons(4, "We've all checked-in", 2)}
           </StyledSlide>
-          <StyledSlide index={4}>
+          {/* <StyledSlide index={4}>
             <h1>During the meeting</h1>
             <CheckInItemRow>{allCheckinNeedsElements}</CheckInItemRow>
             {navButtons(5, "We finished our meeting!", 3)}
-          </StyledSlide>
-          <StyledSlide index={5}>
+          </StyledSlide> */}
+          <StyledSlide index={3}>
             <br />
             <a href="/" target="_blank">
               <LittleButton>
