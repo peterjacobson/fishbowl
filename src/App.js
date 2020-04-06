@@ -19,6 +19,7 @@ const HeartworkLink = styled.a`
   height: 60px;
   margin-top: -26px;
   margin-left: -29px;
+  z-index: 200;
 `;
 
 const AppWrapper = styled.div`
@@ -41,11 +42,11 @@ function App() {
   // Use an effect to authenticate and load the grocery list from the database
   useEffect(() => {
     FirestoreService.authenticateAnonymously()
-      .then(userCredential => {
+      .then((userCredential) => {
         setUserId(userCredential.user.uid);
         if (roomId) {
           FirestoreService.getroom(roomId)
-            .then(room => {
+            .then((room) => {
               if (room.exists) {
                 setError(null);
                 setroom(room.data());
@@ -74,7 +75,7 @@ function App() {
   function onSelectUser(userName) {
     setUser(userName);
     FirestoreService.getroom(roomId)
-      .then(updatedroom => setroom(updatedroom.data()))
+      .then((updatedroom) => setroom(updatedroom.data()))
       .catch(() => setError("grocery-list-get-fail"));
   }
 
