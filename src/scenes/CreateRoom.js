@@ -78,6 +78,19 @@ const RightSpan = styled.span`
   float: right;
 `;
 
+const Question = styled.p`
+  margin-top: 0;
+  margin-bottom: 2px;
+  padding: 5px 20px;
+  color: white;
+  border-radius: 5px;
+`;
+
+const CheckinQuestions = styled.div`
+  margin-left: 20px;
+  padding: 10px;
+`;
+
 const Thumb = (props, state) => (
   <StyledThumb {...props}>{state.valueNow} people</StyledThumb>
 );
@@ -96,7 +109,18 @@ const Track = (props, state) => <StyledTrack {...props} index={state.index} />;
 
 const checkinQuestionsetOptions = [
   {
-    label: "family / smaller team",
+    label: "quick meeting checkin",
+    checkInGuide:
+      "A feeling I've felt in the last 24hrs + two needs I'd love to meet in this meeting",
+    checkinFormat: [
+      { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
+      { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
+      { type: "need", prompt: "A need I'd love to meet" },
+    ],
+    minTimePerPerson: 30,
+  },
+  {
+    label: "family / smaller team, meeting 40mins +",
     checkInGuide:
       "een & Peach feelings I've felt in last 24hrs + three needs I'd love to meet in this call:",
     checkinFormat: [
@@ -124,18 +148,17 @@ const checkinQuestionsetOptions = [
     ],
     minTimePerPerson: 240,
   },
-  {
-    label: "quick meeting checkin",
-    checkInGuide:
-      "A feeling I've felt in the last 24hrs + two needs I'd love to meet in this meeting",
-    checkinFormat: [
-      { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "need", prompt: "A need I'd love to meet" },
-    ],
-    minTimePerPerson: 30,
-  },
 ];
+
+function backgroundColor(type) {
+  return {
+    background: `linear-gradient(
+      to bottom right,
+      ${colors[type][0]},
+      ${colors[type][1]}
+    )`,
+  };
+}
 
 function CreateList(props) {
   const initialConfig = checkinQuestionsetOptions[0];
@@ -302,6 +325,14 @@ function CreateList(props) {
               </>
             );
           })}
+          <CheckinQuestions>
+            Question set
+            {checkinQuestionSet.checkinFormat.map((format) => (
+              <Question style={backgroundColor(format.type)}>
+                {format.prompt}
+              </Question>
+            ))}
+          </CheckinQuestions>
           <h2>Check-in timing</h2>
           <span>Expected people in room</span>
 
@@ -314,12 +345,7 @@ function CreateList(props) {
             onChange={setPeopleInRoom}
           />
           <br />
-          <span>
-            Check-in time per person:{" "}
-            {checkinTime < 60
-              ? `00:${checkinTime}`
-              : moment.duration(checkinTime, "seconds").format("mm:ss")}
-          </span>
+          <span>Check-in time per person</span>
 
           <StyledSlider
             min={checkinQuestionSet.minTimePerPerson}
@@ -330,7 +356,7 @@ function CreateList(props) {
             onChange={setCheckinTime}
           />
           <br />
-          <span>Group tech savvyness: {zoomConfidence}/10</span>
+          <span>Group tech savvyness</span>
 
           <StyledSlider
             min={0}
@@ -340,8 +366,6 @@ function CreateList(props) {
             value={zoomConfidence}
             onChange={setZoomConfidence}
           />
-          <span>What's zoom?</span>
-          <RightSpan>we're waiting on you</RightSpan>
           <br />
           <br />
           <ErrorMessage errorCode={error}></ErrorMessage>
