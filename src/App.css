@@ -103,7 +103,7 @@ button {
 }
 
 .awssld__box {
-  height: 0;
+  /* height: 0; */
 }
 
 .awssld__container {
@@ -114,4 +114,8 @@ button {
 .carousel__slider--horizontal {
   height: 100% !important;
   overflow: scroll !important;
+}
+
+html {
+  scroll-behavior: smooth;
 }

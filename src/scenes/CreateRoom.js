@@ -14,7 +14,7 @@ import room4 from "../img/room4.jpg";
 const colors = {
   peach: ["#E88FA2", "#EB9B81"],
   green: ["#1696A0", "#88C072"],
-  need: ["#2A3076", "#1792C8"]
+  need: ["#2A3076", "#1792C8"],
 };
 
 const Background = styled.div`
@@ -95,7 +95,7 @@ const TimerThumb = (props, state) => (
 const StyledTrack = styled.div`
   top: 0;
   bottom: 0;
-  background: ${props => (props.index === 1 ? "#ddd" : "pink")};
+  background: ${(props) => (props.index === 1 ? "#ddd" : "pink")};
   border-radius: 999px;
 `;
 
@@ -109,11 +109,11 @@ const checkinQuestionsetOptions = [
     checkinFormat: [
       { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
       { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "need", prompt: "1st need I'd love to meet in this meeting " },
-      { type: "need", prompt: "2nd need I'd love to meet in this meeting " },
-      { type: "need", prompt: "3rd need I'd love to meet in this meeting " }
+      { type: "need", prompt: "1st need I'd love to meet in this gathering" },
+      { type: "need", prompt: "2nd need I'd love to meet in this gathering" },
+      { type: "need", prompt: "3rd need I'd love to meet in this gathering" },
     ],
-    minTimePerPerson: 120
+    minTimePerPerson: 120,
   },
   {
     label: "close friends",
@@ -127,9 +127,9 @@ const checkinQuestionsetOptions = [
       { type: "need", prompt: "1st need I'm yearning to meet right now" },
       { type: "need", prompt: "2nd need I'm yearning to meet right now" },
       { type: "need", prompt: "3rd need I'm yearning to meet right now" },
-      { type: "need", prompt: "4th need I'm yearning to meet right now" }
+      { type: "need", prompt: "4th need I'm yearning to meet right now" },
     ],
-    minTimePerPerson: 240
+    minTimePerPerson: 240,
   },
   {
     label: "quick meeting checkin",
@@ -137,11 +137,11 @@ const checkinQuestionsetOptions = [
       "A feeling I've felt in the last 24hrs + two needs I'd love to meet in this meeting",
     checkinFormat: [
       { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "need", prompt: "1st need I'd love to meet in this meeting " },
-      { type: "need", prompt: "2nd need I'd love to meet in this meeting " }
+      { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
+      { type: "need", prompt: "A need I'd love to meet" },
     ],
-    minTimePerPerson: 30
-  }
+    minTimePerPerson: 30,
+  },
 ];
 
 function CreateList(props) {
@@ -170,10 +170,10 @@ function CreateList(props) {
       checkinTime,
       checkinQuestionSet
     )
-      .then(docRef => {
+      .then((docRef) => {
         onCreate(docRef.id, userName);
       })
-      .catch(reason => {
+      .catch((reason) => {
         setError("create-list-error");
       });
   }
@@ -185,39 +185,39 @@ function CreateList(props) {
         marginBottom: -4,
         fontSize: "1.3em",
         maxWidth: 440,
-        zIndex: z
+        zIndex: z,
       }),
       control: (base, state) => ({
         ...base,
         height: 70,
         backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]}) !important`,
         border: "none",
-        boxShadow: state.isFocused ? null : null
+        boxShadow: state.isFocused ? null : null,
       }),
-      singleValue: base => ({
+      singleValue: (base) => ({
         paddingLeft: 60,
-        color: "white"
+        color: "white",
       }),
-      menu: base => ({
+      menu: (base) => ({
         ...base,
         marginTop: 0,
         paddingLeft: 60,
         color: "white",
-        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]})`
+        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]})`,
       }),
-      menuList: base => ({
+      menuList: (base) => ({
         ...base,
-        padding: 0
+        padding: 0,
       }),
-      placeholder: base => ({
+      placeholder: (base) => ({
         ...base,
-        color: "#eee"
-      })
+        color: "#eee",
+      }),
     };
   }
 
   function convertToOptions(array) {
-    return array.map(item => {
+    return array.map((item) => {
       return { label: item[0], value: item[1] };
     });
   }
@@ -233,7 +233,7 @@ function CreateList(props) {
     "Energising quick work check-in",
     "Tension at work check-in",
     "Lover Check-in",
-    "Small group unblocking check-in"
+    "Small group unblocking check-in",
   ];
 
   const awesomeSliderConfig = {
@@ -241,7 +241,7 @@ function CreateList(props) {
     fillParent: true,
     infinite: false,
     organicArrows: false,
-    bullets: false
+    bullets: false,
   };
 
   return (
@@ -262,11 +262,11 @@ function CreateList(props) {
               name="userName"
               placeholder="My name is..."
               value={userName}
-              onChange={e => setUserName(e.target.value)}
+              onChange={(e) => setUserName(e.target.value)}
             />
             <ErrorMessage errorCode={error}></ErrorMessage>
             <button
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 setSliderScreen(1);
               }}
@@ -361,7 +361,7 @@ function CreateList(props) {
           <button onClick={createroom}>Open Room</button>
           <div>
             <a
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 setSliderScreen(0);
               }}

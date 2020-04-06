@@ -19,14 +19,14 @@ import {
   Slider,
   Slide,
   ButtonBack,
-  ButtonNext
+  ButtonNext,
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 
 const colors = {
   peach: ["#E88FA2", "#EB9B81"],
   green: ["#1696A0", "#88C072"],
-  need: ["#2A3076", "#1792C8"]
+  need: ["#2A3076", "#1792C8"],
 };
 
 const Background = styled.div`
@@ -172,17 +172,17 @@ function InsideRoom(props) {
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
-      next: querySnapshot => {
+      next: (querySnapshot) => {
         setRoomUsers(querySnapshot.data().users);
         setTimer(querySnapshot.data().timer || defaultTimer);
         setRoomConfig(querySnapshot.data().config);
         setMyCheckIn(
-          querySnapshot.data().config.checkinFormat.map(checkinItem => {
+          querySnapshot.data().config.checkinFormat.map((checkinItem) => {
             return { type: checkinItem.type, word: "" };
           })
         );
       },
-      error: () => setError("grocery-list-item-get-fail")
+      error: () => setError("grocery-list-item-get-fail"),
     });
     return unsubscribe;
   }, [roomId, setRoomUsers, setRoomConfig, setTimer, setMyCheckIn]);
@@ -199,10 +199,12 @@ function InsideRoom(props) {
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoomCheckIns(roomId, {
-      next: querySnapshot => {
-        setCheckIns(querySnapshot.docs.map(docSnapshot => docSnapshot.data()));
+      next: (querySnapshot) => {
+        setCheckIns(
+          querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+        );
       },
-      error: () => setError("grocery-list-item-get-fail")
+      error: () => setError("grocery-list-item-get-fail"),
     });
     return unsubscribe;
   }, [roomId, setCheckIns]);
@@ -213,7 +215,7 @@ function InsideRoom(props) {
   }
 
   function convertToOptions(array) {
-    return array.map(item => {
+    return array.map((item) => {
       return { value: item, label: item };
     });
   }
@@ -231,12 +233,12 @@ function InsideRoom(props) {
 
   const othersCheckIns = roomUsers
     // .filter(user => user.userId !== userId)
-    .map(user => {
+    .map((user) => {
       return {
         ...user,
-        ...checkIns.find(checkIn => {
+        ...checkIns.find((checkIn) => {
           return checkIn.userId === user.userId;
-        })
+        }),
       };
     });
 
@@ -246,16 +248,16 @@ function InsideRoom(props) {
   }
 
   const allCheckinNeeds = checkIns
-    .map(checkin => [checkin.need1, checkin.need2, checkin.need3])
+    .map((checkin) => [checkin.need1, checkin.need2, checkin.need3])
     .flat()
-    .filter(el => el !== undefined)
+    .filter((el) => el !== undefined)
     .sort();
 
-  const allCheckinNeedsElements = allCheckinNeeds.map(need => (
+  const allCheckinNeedsElements = allCheckinNeeds.map((need) => (
     <Need style={rotateStyle()}>{need}</Need>
   ));
 
-  const othersCheckInsElements = othersCheckIns.map(userCheckin => (
+  const othersCheckInsElements = othersCheckIns.map((userCheckin) => (
     <>
       <h2>
         {userCheckin.userId === userId ? "My" : `${userCheckin.name}'s`}{" "}
@@ -264,8 +266,8 @@ function InsideRoom(props) {
       {userCheckin.checkInWords ? (
         <CheckInItemRow>
           {userCheckin.checkInWords
-            .filter(word => word.word !== "")
-            .map(word => {
+            .filter((word) => word.word !== "")
+            .map((word) => {
               switch (word.type) {
                 case "green":
                   return (
@@ -299,7 +301,7 @@ function InsideRoom(props) {
       <>
         <h2>{title}</h2>
         <CheckInItemRow>
-          {checkin.map(item => {
+          {checkin.map((item) => {
             return item.word === "" ? null : (
               <CheckInItem type={item.type} style={rotateStyle()}>
                 item.word
@@ -312,8 +314,8 @@ function InsideRoom(props) {
   }
 
   const otherUsers = users
-    .filter(user => user.userId !== userId)
-    .map(user => user.name);
+    .filter((user) => user.userId !== userId)
+    .map((user) => user.name);
 
   const otherUserNameList =
     otherUsers.length === 0
@@ -339,7 +341,7 @@ function InsideRoom(props) {
         // marginBottom: -4,
         fontSize: "1.3em",
         maxWidth: 440,
-        zIndex: z
+        zIndex: z,
       }),
       control: (base, state) => ({
         ...base,
@@ -355,13 +357,13 @@ function InsideRoom(props) {
         "&:hover": {
           // Overwrittes the different states of border
           // borderColor: state.isFocused ? "red" : "blue"
-        }
+        },
       }),
-      singleValue: base => ({
+      singleValue: (base) => ({
         paddingLeft: 60,
-        color: "white"
+        color: "white",
       }),
-      menu: base => ({
+      menu: (base) => ({
         ...base,
         // override border radius to match the box
         // borderRadius: 0,
@@ -369,17 +371,17 @@ function InsideRoom(props) {
         marginTop: 0,
         paddingLeft: 60,
         color: "white",
-        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]})`
+        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]})`,
       }),
-      menuList: base => ({
+      menuList: (base) => ({
         ...base,
         // kill the white space on first and last option
-        padding: 0
+        padding: 0,
       }),
-      placeholder: base => ({
+      placeholder: (base) => ({
         ...base,
-        color: "#eee"
-      })
+        color: "#eee",
+      }),
     };
   }
 
@@ -390,7 +392,7 @@ function InsideRoom(props) {
       placeholder: "...",
       options: greenFeelings,
       colors: colors.green,
-      z: 100
+      z: 100,
     },
     peach: {
       name: "peachFeeling",
@@ -398,7 +400,7 @@ function InsideRoom(props) {
       placeholder: "...",
       options: peachFeelings,
       colors: colors.peach,
-      z: 99
+      z: 99,
     },
     need: {
       name: "need",
@@ -406,8 +408,8 @@ function InsideRoom(props) {
       placeholder: "...",
       options: needs,
       colors: colors.need,
-      z: 98
-    }
+      z: 98,
+    },
   };
 
   const selectElements = roomConfig
@@ -442,13 +444,13 @@ function InsideRoom(props) {
                       100 - index
                     )
               }
-              theme={theme => ({
+              theme={(theme) => ({
                 ...theme,
                 colors: {
                   ...theme.colors,
                   primary25: "rgba(0, 0, 0, 0.4)",
-                  primary: "rgba(0, 0, 0, 0.8)"
-                }
+                  primary: "rgba(0, 0, 0, 0.8)",
+                },
               })}
             />
           </>
@@ -462,21 +464,24 @@ function InsideRoom(props) {
     infinite: false,
     organicArrows: false,
     bullets: false,
-    mobileTouch: true
+    mobileTouch: true,
   };
 
+  function scrollToTop() {
+    document
+      .getElementsByClassName("carousel__slider")[0]
+      .scrollTo({ top: 0, left: 0, behaviour: "smooth" });
+  }
+
   function navButtons(nextSlideIndex, nextText, lastSlideIndex) {
-    function scrollToTop() {
-      window.scrollTo();
-    }
     return (
       <>
         <br />
         <br />
         <br />
         <br />
-        <StyledBackButton>Back</StyledBackButton>
-        <ButtonNext>{nextText}</ButtonNext>
+        <StyledBackButton onClick={scrollToTop}>Back</StyledBackButton>
+        <ButtonNext onClick={scrollToTop}>{nextText}</ButtonNext>
       </>
     );
   }
