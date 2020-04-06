@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "dayjs": "^1.8.23",
     "firebase": "^7.9.1",
+    "lodash.chunk": "^4.2.0",
     "lodash.get": "^4.4.2",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",

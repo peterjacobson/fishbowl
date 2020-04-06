@@ -7,6 +7,7 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import styled from "styled-components";
 import { scrollTo } from "scroll-js";
+import chunk from "lodash.chunk";
 import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
 import EasyTimer from "../components/EasyTimer";
@@ -43,6 +44,54 @@ const Background = styled.div`
   background-size: cover;
   /* padding-top: 20px;
   padding-left: 30px; */
+`;
+
+const VocabContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+`;
+
+const AllNeedsContainer = styled(VocabContainer)`
+  background: linear-gradient(
+    to bottom right,
+    ${colors.need[0]},
+    ${colors.need[1]}
+  );
+`;
+const AllGreenContainer = styled(VocabContainer)`
+  background: linear-gradient(
+    to bottom right,
+    ${colors.green[0]},
+    ${colors.green[1]}
+  );
+`;
+const AllPeachContainer = styled(VocabContainer)`
+  background: linear-gradient(
+    to bottom right,
+    ${colors.peach[0]},
+    ${colors.peach[1]}
+  );
+`;
+
+const VocabColumn = styled.div`
+  width: 100%;
+  max-width: 200px;
+  margin: 0;
+  padding: 0;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const VocabWord = styled.p`
+  color: white;
+  margin: 0px;
+  margin-bottom: 3px;
+  font-size: 1.2em;
+  display: inline-block;
 `;
 
 const WidthWrapper = styled.div`
@@ -303,6 +352,62 @@ function InsideRoom(props) {
     </>
   ));
 
+  function allNeeds() {
+    const columns = 2;
+    const columnLength = Math.ceil(needs.length / columns);
+    return (
+      <AllNeedsContainer>
+        {chunk(needs, columnLength).map((column) => (
+          <VocabColumn>
+            {column.map((need) => (
+              <VocabWord style={rotateStyle()}>{need}</VocabWord>
+            ))}
+          </VocabColumn>
+        ))}
+      </AllNeedsContainer>
+    );
+  }
+  function allPeach() {
+    const columns = 2;
+    const columnLength = Math.ceil(
+      peachFeelings.slice(1, peachFeelings.length + 1).length / columns
+    );
+    return (
+      <AllPeachContainer>
+        {chunk(
+          peachFeelings.slice(1, peachFeelings.length + 1),
+          columnLength
+        ).map((column) => (
+          <VocabColumn>
+            {column.map((peach) => (
+              <VocabWord style={rotateStyle()}>{peach}</VocabWord>
+            ))}
+          </VocabColumn>
+        ))}
+      </AllPeachContainer>
+    );
+  }
+  function allGreen() {
+    const columns = 2;
+    const columnLength = Math.ceil(
+      greenFeelings.slice(1, greenFeelings.length + 1).length / columns
+    );
+    return (
+      <AllGreenContainer>
+        {chunk(
+          greenFeelings.slice(1, greenFeelings.length + 1),
+          columnLength
+        ).map((column) => (
+          <VocabColumn>
+            {column.map((green) => (
+              <VocabWord style={rotateStyle()}>{green}</VocabWord>
+            ))}
+          </VocabColumn>
+        ))}
+      </AllGreenContainer>
+    );
+  }
+
   function generateCheckinElements(title, checkin) {
     return (
       <>
@@ -500,7 +605,7 @@ function InsideRoom(props) {
     <Background>
       <Confetti width={width} height={height} recycle={false} />
       <CarouselProvider
-        totalSlides={4}
+        totalSlides={5}
         naturalSlideWidth={10000}
         naturalSlideHeight={10000}
         isIntrinsicHeight={true}
@@ -631,12 +736,37 @@ function InsideRoom(props) {
             {othersCheckInsElements}
             {navButtons(4, "We've all checked-in", 2)}
           </StyledSlide>
-          {/* <StyledSlide index={4}>
-            <h1>During the meeting</h1>
-            <CheckInItemRow>{allCheckinNeedsElements}</CheckInItemRow>
-            {navButtons(5, "We finished our meeting!", 3)}
-          </StyledSlide> */}
           <StyledSlide index={3}>
+            <h1>Keep deeply listening to each other</h1>
+            <p>
+              A powerful form of empathy is listening for a persons feelings and
+              universal human needs.
+            </p>
+            <p>
+              Every action word spoken is strategy to meet a beautiful need.
+              Sometimes these strategies can be tragic - they may seem violent
+              or defensive. But there is always a beautiful need underneath.
+            </p>
+            <h2>Some Universal Human Needs</h2>
+            {allNeeds()}
+            <p>
+              Name it to tame it - naming feelings is a proven way to help
+              someone come back to their senses from a freeze/fight/flight
+              response.
+            </p>
+            {allPeach()}
+            <p>
+              How would you love the others to feel? How would you love to feel?
+            </p>
+            {allGreen()}
+            {navButtons(5, "We finished our meeting", 3)}
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+          </StyledSlide>
+          <StyledSlide index={4}>
             <br />
             <a href="/" target="_blank">
               <LittleButton>
