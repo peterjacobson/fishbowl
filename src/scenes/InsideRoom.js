@@ -45,6 +45,10 @@ const Background = styled.div`
   padding-left: 30px;
 `;
 
+const WidthWrapper = styled.div`
+  max-width: 440px;
+`;
+
 const LoungeImage = styled.div`
   width: 100%;
   height: 100px;
@@ -503,25 +507,25 @@ function InsideRoom(props) {
           {/* <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}> */}
           <StyledSlide index={0}>
             <h1>👋 Welcome {user}</h1>
-            <Intro>You're jumping into a call with some other people.</Intro>
-            <Intro>
+            <p>You're jumping into a call with some other people.</p>
+            <p>
               Getting clear on your and their needs and connecting authentically
               can help you get the most out of your meeting, so you all walk
               away feeling clear and maybe even nourished.
-            </Intro>
-            <Intro>
+            </p>
+            <p>
               This is a quick way to <strong>connect with authenticity</strong>{" "}
               and <strong>surface the highest priority needs</strong> in this
               call.
-            </Intro>
-            <Intro>
+            </p>
+            <p>
               All feelings are precious - all sensations people experience point
               to beautiful universal human needs, met or unmet.
-            </Intro>
-            <Intro>{otherUserNameList}</Intro>
-            <Intro>
+            </p>
+            <p>{otherUserNameList}</p>
+            <p>
               Get everyone in this room by sending folk the invite link below{" "}
-            </Intro>
+            </p>
             <CopyToClipboardSpan
               text={`${window.location.origin}/?listId=${roomId}`}
               onCopy={() => setLinkCopied(true)}
@@ -530,6 +534,66 @@ function InsideRoom(props) {
             </CopyToClipboardSpan>
             <span>{linkCopied ? "Link Copied 🙌" : null}</span>
             {navButtons(2, "Next", 0)}
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <WidthWrapper>
+              <h2>
+                What if someone needs more care/support than I can or know how
+                to provide?
+              </h2>
+              <p>
+                If someone is in deeper distress than you feel you have the
+                resources to navigate togther, they can get professional help...
+              </p>
+              <h2>...in Aotearoa New Zealand</h2>
+              <p>by calling National helplines</p>
+              <p>
+                Need to talk? Free call or text
+                <a href="https://1737.org.nz/">
+                  &nbsp;<strong>1737</strong>
+                </a>
+                &nbsp;any time for support from a trained counsellor&nbsp;
+              </p>
+              <p>
+                <a href="https://www.lifeline.org.nz/" target="_blank">
+                  <strong>Lifeline</strong>
+                </a>
+                &ndash; 0800 543 354 (0800 LIFELINE) or free text 4357 (HELP)
+              </p>
+              <p>
+                <a href="https://www.lifeline.org.nz/suicide-crisis-helpline">
+                  <strong>Suicide Crisis Helpline</strong>
+                </a>
+                &nbsp;&ndash; 0508 828 865 (0508 TAUTOKO)
+              </p>
+              <p>
+                <a
+                  href="http://www.health.govt.nz/your-health/services-and-support/health-care-services/healthline"
+                  target="_blank"
+                >
+                  <strong>Healthline</strong>
+                </a>
+                &nbsp;&ndash; 0800 611 116
+              </p>
+              <p>
+                <a href="http://samaritans.org.nz/" target="_blank">
+                  <strong>Samaritans</strong>
+                </a>
+                &nbsp;&ndash; 0800 726 666&nbsp;
+              </p>
+              <p>
+                More here:{" "}
+                <a
+                  href="https://www.mentalhealth.org.nz/get-help/in-crisis/helplines/"
+                  target="_blank"
+                >
+                  <strong>MentalHealth.org.nz helplines</strong>
+                </a>
+              </p>
+            </WidthWrapper>
           </StyledSlide>
           <StyledSlide index={1}>
             <h1>Step 1: Pick my check-in</h1>
@@ -547,7 +611,15 @@ function InsideRoom(props) {
             <h1>Step 2: Check-in together</h1>
             <Intro>
               Each person check-in - you have a little time to speak to the
-              words you chose. Everyone else shut up and listen 😉
+              words you chose. Everyone else shut up and listen with curiosity,
+              trust, attention and aroha 😉
+            </Intro>
+            <Intro>
+              Once one person has finished their check-in there is no need for
+              immediate response - the next person just starts their check-in.{" "}
+              <br />
+              Trust that any responses can wait until everyone has checked in
+              (you can just do another round if it's feeling called for)
             </Intro>
             <EasyTimer
               timer={timer}
