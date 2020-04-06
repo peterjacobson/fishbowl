@@ -6,6 +6,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import styled from "styled-components";
+import { scrollTo } from "scroll-js";
 import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
 import EasyTimer from "../components/EasyTimer";
@@ -468,9 +469,12 @@ function InsideRoom(props) {
   };
 
   function scrollToTop() {
-    document
-      .getElementsByClassName("carousel__slider")[0]
-      .scrollTo({ top: 0, left: 0, behaviour: "smooth" });
+    scrollTo(document.getElementsByClassName("carousel__slider")[0], {
+      top: 0,
+      left: 0,
+      easing: "ease-in-out",
+      duration: 500,
+    });
   }
 
   function navButtons(nextSlideIndex, nextText, lastSlideIndex) {

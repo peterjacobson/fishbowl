@@ -25,6 +25,7 @@
     "react-select": "^3.1.0",
     "react-slider": "^1.0.3",
     "react-use": "^13.27.1",
+    "scroll-js": "^3.2.0",
     "styled-components": "^5.0.1"
   },
   "scripts": {
