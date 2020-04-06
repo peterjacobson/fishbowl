@@ -41,8 +41,8 @@ const Background = styled.div`
     ),
     url(${room4});
   background-size: cover;
-  padding-top: 20px;
-  padding-left: 30px;
+  /* padding-top: 20px;
+  padding-left: 30px; */
 `;
 
 const WidthWrapper = styled.div`
@@ -82,7 +82,9 @@ const LoungeImageBottom = styled(LoungeImage)`
   height: 300px;
 `;
 
-const StyledSlide = styled(Slide)``;
+const StyledSlide = styled(Slide)`
+  padding: 25px;
+`;
 
 const LittleButton = styled.button`
   font-size: 1em;
