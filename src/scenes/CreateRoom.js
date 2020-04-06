@@ -84,13 +84,6 @@ const Thumb = (props, state) => (
 const SavvyThumb = (props, state) => (
   <StyledSavvyThumb {...props}>{state.valueNow}/10 tech savvy</StyledSavvyThumb>
 );
-const TimerThumb = (props, state) => (
-  <StyledTimerThumb {...props}>
-    {state.valueNow < 60
-      ? `00:${state.valueNow}s pp`
-      : moment.duration(state.valueNow, "seconds").format("m:ss") + " mins pp"}
-  </StyledTimerThumb>
-);
 
 const StyledTrack = styled.div`
   top: 0;
@@ -145,15 +138,28 @@ const checkinQuestionsetOptions = [
 ];
 
 function CreateList(props) {
+  const initialConfig = checkinQuestionsetOptions[0];
   const { onCreate, userId } = props;
   const [userName, setUserName] = useState("");
   const [sliderScreen, setSliderScreen] = useState(0);
   const [error, setError] = useState();
   const [peopleInRoom, setPeopleInRoom] = useState(4);
-  const [checkinTime, setCheckinTime] = useState(60);
+  const [checkinTime, setCheckinTime] = useState(
+    initialConfig.minTimePerPerson
+  );
   const [zoomConfidence, setZoomConfidence] = useState(5);
   const [checkinQuestionSet, setCheckinQuestionSet] = useState(
     checkinQuestionsetOptions[0]
+  );
+
+  const TimerThumb = (props, state) => (
+    <StyledTimerThumb {...props}>
+      {setCheckinTime(state.valueNow)}
+      {state.valueNow < 60
+        ? `00:${state.valueNow}s pp`
+        : moment.duration(state.valueNow, "seconds").format("m:ss") +
+          " mins pp"}
+    </StyledTimerThumb>
   );
 
   function createroom(e) {
