@@ -119,3 +119,7 @@ button {
 html {
   scroll-behavior: smooth;
 }
+
+.carousel__slider-tray-wrap--horizontal {
+  overflow-x: hidden;
+}

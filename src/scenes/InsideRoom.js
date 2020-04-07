@@ -609,6 +609,8 @@ function InsideRoom(props) {
         naturalSlideWidth={10000}
         naturalSlideHeight={10000}
         isIntrinsicHeight={true}
+        touchEnabled={false}
+        dragEnabled={false}
       >
         <Slider>
           {/* <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}> */}

@@ -119,6 +119,7 @@ const checkinQuestionsetOptions = [
     ],
     minTimePerPerson: 30,
   },
+
   {
     label: "family / smaller team, meeting 40mins +",
     checkInGuide:
@@ -145,6 +146,17 @@ const checkinQuestionsetOptions = [
       { type: "need", prompt: "2nd need I'm yearning to meet right now" },
       { type: "need", prompt: "3rd need I'm yearning to meet right now" },
       { type: "need", prompt: "4th need I'm yearning to meet right now" },
+    ],
+    minTimePerPerson: 240,
+  },
+  {
+    label: "what do people in our organisation need? (1hr-1wk)",
+    checkInGuide:
+      "Green & Peach feelings in last 24hrs + five needs that feel alive for me at the moment",
+    checkinFormat: [
+      { type: "need", prompt: "1st need I'd love to meet here" },
+      { type: "need", prompt: "2nd need I'd love to meet here" },
+      { type: "need", prompt: "3rd need I'd love to meet here" },
     ],
     minTimePerPerson: 240,
   },
