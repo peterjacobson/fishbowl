@@ -3,8 +3,16 @@ import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import styled from "styled-components";
 import Select from "react-select";
-import AwesomeSlider from "react-awesome-slider";
-import "react-awesome-slider/dist/styles.css";
+import {
+  CarouselProvider,
+  Slider,
+  Slide,
+  ButtonBack,
+  ButtonNext,
+} from "pure-react-carousel";
+import "pure-react-carousel/dist/react-carousel.es.css";
+// import AwesomeSlider from "react-awesome-slider";
+// import "react-awesome-slider/dist/styles.css";
 import ReactSlider from "react-slider";
 import moment from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
@@ -39,7 +47,7 @@ const InputName = styled.input`
   background: none;
 `;
 
-const RoomConfig = styled.input`
+const RoomConfig = styled.div`
   width: 440px;
   height: 100vh;
 `;
@@ -269,151 +277,146 @@ function CreateList(props) {
   // sharing per person
   // extra time to dive deeper
 
-  const meetingConfigOptions = [
-    "Family Check-in",
-    "Energising quick work check-in",
-    "Tension at work check-in",
-    "Lover Check-in",
-    "Small group unblocking check-in",
-  ];
+  const StyledSlide = styled(Slide)`
+    padding: 25px;
+  `;
 
-  const awesomeSliderConfig = {
-    name: "createRoom",
-    fillParent: true,
-    infinite: false,
-    organicArrows: false,
-    bullets: false,
-  };
+  const StyledBackButton = styled(ButtonBack)`
+    background: none;
+    color: black;
+    text-decoration: underline;
+    box-shadow: none;
+  `;
 
   return (
     <Background>
-      <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}>
-        <>
-          <h1>
-            Open a new
-            <br />
-            Heartwork
-            <br />
-            check-in room
-          </h1>
-          <form name="createListForm">
-            <InputName
-              autoFocus={true}
-              type="text"
-              name="userName"
-              placeholder="My name is..."
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-            />
-            <ErrorMessage errorCode={error}></ErrorMessage>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setSliderScreen(1);
-              }}
-            >
-              Start
-            </button>
-          </form>
-        </>
-        <RoomConfig>
-          <h1>Room Setup</h1>
-          <h2>Type of check-in</h2>
-          {checkinQuestionsetOptions.map((checkin, index) => {
-            return (
-              <>
-                <input
-                  type="radio"
-                  id="{checkin.label}"
-                  name="roomSetup"
-                  value="index"
-                  defaultChecked={index === 0}
-                  onClick={() =>
-                    setCheckinQuestionSet(checkinQuestionsetOptions[index])
-                  }
-                />
-                <label htmlFor="{checkin.label}">{checkin.label}</label>
-                <br />
-              </>
-            );
-          })}
-          <CheckinQuestions>
-            Question set
-            {checkinQuestionSet.checkinFormat.map((format) => (
-              <Question style={backgroundColor(format.type)}>
-                {format.prompt}
-              </Question>
-            ))}
-          </CheckinQuestions>
-          <h2>Check-in timing</h2>
-          <span>Expected people in room</span>
+      <CarouselProvider
+        totalSlides={2}
+        naturalSlideWidth={10000}
+        naturalSlideHeight={10000}
+        isIntrinsicHeight={true}
+        touchEnabled={false}
+        dragEnabled={false}
+      >
+        <Slider>
+          <StyledSlide index={0}>
+            <h1>
+              Open a new
+              <br />
+              Heartwork
+              <br />
+              check-in room
+            </h1>
+            <form name="createListForm">
+              <InputName
+                autoFocus={true}
+                type="text"
+                name="userName"
+                placeholder="My name is..."
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+              <ErrorMessage errorCode={error}></ErrorMessage>
+              <ButtonNext>Start</ButtonNext>
+              {/* <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSliderScreen(1);
+                }}
+              >
+                Start
+              </button> */}
+            </form>
+          </StyledSlide>
+          <StyledSlide index={1}>
+            <RoomConfig>
+              <h1>Room Setup</h1>
+              <h2>Type of check-in</h2>
+              {checkinQuestionsetOptions.map((checkin, index) => {
+                return (
+                  <>
+                    <input
+                      type="radio"
+                      id="{checkin.label}"
+                      name="roomSetup"
+                      value="index"
+                      defaultChecked={index === 0}
+                      onClick={() =>
+                        setCheckinQuestionSet(checkinQuestionsetOptions[index])
+                      }
+                    />
+                    <label htmlFor="{checkin.label}">{checkin.label}</label>
+                    <br />
+                  </>
+                );
+              })}
+              <CheckinQuestions>
+                Question set
+                {checkinQuestionSet.checkinFormat.map((format) => (
+                  <Question style={backgroundColor(format.type)}>
+                    {format.prompt}
+                  </Question>
+                ))}
+              </CheckinQuestions>
+              <h2>Check-in timing</h2>
+              <span>Expected people in room</span>
 
-          <StyledSlider
-            min={2}
-            max={50}
-            renderTrack={Track}
-            renderThumb={Thumb}
-            value={peopleInRoom}
-            onChange={setPeopleInRoom}
-          />
-          <br />
-          <span>Check-in time per person</span>
+              <StyledSlider
+                min={2}
+                max={50}
+                renderTrack={Track}
+                renderThumb={Thumb}
+                value={peopleInRoom}
+                onChange={setPeopleInRoom}
+              />
+              <br />
+              <span>Check-in time per person</span>
 
-          <StyledSlider
-            min={checkinQuestionSet.minTimePerPerson}
-            max={300}
-            renderTrack={Track}
-            renderThumb={TimerThumb}
-            value={checkinTime}
-            onChange={setCheckinTime}
-          />
-          <br />
-          <span>Group tech savvyness</span>
+              <StyledSlider
+                min={checkinQuestionSet.minTimePerPerson}
+                max={300}
+                renderTrack={Track}
+                renderThumb={TimerThumb}
+                value={checkinTime}
+                onChange={setCheckinTime}
+              />
+              <br />
+              <span>Group tech savvyness</span>
 
-          <StyledSlider
-            min={0}
-            max={10}
-            renderTrack={Track}
-            renderThumb={SavvyThumb}
-            value={zoomConfidence}
-            onChange={setZoomConfidence}
-          />
-          <br />
-          <br />
-          <ErrorMessage errorCode={error}></ErrorMessage>
-          {/* <input
-            type="checkbox"
-            id="vehicle1"
-            name="vehicle1"
-            value="Bike"
-          ></input> */}
-          <br />
+              <StyledSlider
+                min={0}
+                max={10}
+                renderTrack={Track}
+                renderThumb={SavvyThumb}
+                value={zoomConfidence}
+                onChange={setZoomConfidence}
+              />
+              <br />
+              <br />
+              <ErrorMessage errorCode={error}></ErrorMessage>
+              <br />
 
-          <h2>
-            Estimated Checkin Duration:{" "}
-            {moment
-              .duration(
-                120 +
-                  checkinTime * peopleInRoom * (1 + (10 - zoomConfidence) / 20),
-                "seconds"
-              )
-              .format("mm:ss")}
-            {/* 10 - 1   0 - 1.5 */}
-          </h2>
-          <button onClick={createroom}>Open Room</button>
-          <div>
-            <a
-              onClick={(e) => {
-                e.preventDefault();
-                setSliderScreen(0);
-              }}
-              href="#"
-            >
-              Back
-            </a>
-          </div>
-        </RoomConfig>
-      </AwesomeSlider>
+              <h2>
+                Estimated Checkin Duration:{" "}
+                {moment
+                  .duration(
+                    120 +
+                      checkinTime *
+                        peopleInRoom *
+                        (1 + (10 - zoomConfidence) / 20),
+                    "seconds"
+                  )
+                  .format("mm:ss")}
+                {/* 10 - 1   0 - 1.5 */}
+              </h2>
+              <button onClick={createroom}>Open Room</button>
+              <div>
+                <StyledBackButton>Back</StyledBackButton>
+              </div>
+            </RoomConfig>
+          </StyledSlide>
+        </Slider>
+      </CarouselProvider>
     </Background>
   );
 }

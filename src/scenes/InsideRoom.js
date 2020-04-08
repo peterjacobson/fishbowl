@@ -98,37 +98,8 @@ const WidthWrapper = styled.div`
   max-width: 440px;
 `;
 
-const LoungeImage = styled.div`
-  width: 100%;
-  height: 100px;
-  background: url(${room4});
-  background-size: cover;
-`;
-
-const Test = styled.div`
-  width: 100%;
-  height: 100vh;
-`;
-
 const Prompt = styled.h2`
   margin-bottom: 2px;
-`;
-
-const Screen = styled.div`
-  padding-left: 20px;
-  padding-right: 20px;
-  z-index: 10;
-`;
-
-const LoungeImageTop = styled(LoungeImage)`
-  background-position: top;
-`;
-const LoungeImageCenter = styled(LoungeImage)`
-  background-position: center;
-`;
-const LoungeImageBottom = styled(LoungeImage)`
-  background-position: bottom;
-  height: 300px;
 `;
 
 const StyledSlide = styled(Slide)`
@@ -138,11 +109,6 @@ const StyledSlide = styled(Slide)`
 const LittleButton = styled.button`
   font-size: 1em;
   display: inline-block;
-`;
-
-const SpanH2 = styled.h2`
-  display: inline-block;
-  margin-bottom: 4px;
 `;
 
 const CopyToClipboardSpan = styled(CopyToClipboard)`
@@ -613,7 +579,6 @@ function InsideRoom(props) {
         dragEnabled={false}
       >
         <Slider>
-          {/* <AwesomeSlider selected={sliderScreen} {...awesomeSliderConfig}> */}
           <StyledSlide index={0}>
             <h1>👋 Welcome {user}</h1>
             <p>You're jumping into a call with some other people.</p>
