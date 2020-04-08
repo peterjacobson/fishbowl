@@ -54,12 +54,6 @@ const StyledSlider = styled(ReactSlider)`
   height: 30px;
 `;
 
-const ZoomTimeStyledSlider = styled(StyledSlider)`
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-`;
-
 const StyledThumb = styled.div`
   height: 30px;
   line-height: 30px;
@@ -77,10 +71,6 @@ const StyledTimerThumb = styled(StyledThumb)`
 `;
 const StyledSavvyThumb = styled(StyledThumb)`
   width: 170px;
-`;
-
-const RightSpan = styled.span`
-  float: right;
 `;
 
 const Question = styled.p`
@@ -107,6 +97,10 @@ const StyledBackButton = styled(ButtonBack)`
   box-shadow: none;
 `;
 
+const StyledCheckbox = styled.input`
+  margin-left: 0px;
+`;
+
 const Thumb = (props, state) => (
   <StyledThumb {...props}>{state.valueNow} people</StyledThumb>
 );
@@ -123,6 +117,10 @@ const StyledTrack = styled.div`
 
 const InlineH1 = styled.h1`
   display: inline-block;
+`;
+
+const SpokenCheckin = styled.div`
+  margin-bottom: 5px;
 `;
 
 const Track = (props, state) => <StyledTrack {...props} index={state.index} />;
@@ -201,6 +199,7 @@ function CreateList(props) {
   const [checkinTime, setCheckinTime] = useState(
     initialConfig.minTimePerPerson
   );
+  const [hasSpokenCheckin, setHasSpokenCheckin] = useState(true);
   const [zoomConfidence, setZoomConfidence] = useState(5);
   const [checkinQuestionSet, setCheckinQuestionSet] = useState(
     checkinQuestionsetOptions[0]
@@ -247,11 +246,16 @@ function CreateList(props) {
     const timeGettingIntoRoom = 120 * techProblemsFactor; //s
     const timeSelectingCheckins = 60;
     const timeBetweenSpokenCheckiners = 5; //s
-    const spokenCheckinTime =
-      (checkinTime + timeBetweenSpokenCheckiners) * peopleInRoom;
+    const spokenCheckinTime = hasSpokenCheckin
+      ? (checkinTime + timeBetweenSpokenCheckiners) * peopleInRoom
+      : 0;
     return Math.ceil(
       (timeGettingIntoRoom + timeSelectingCheckins + spokenCheckinTime) / 60
     );
+  }
+
+  function toggleHasSpokenCheckin() {
+    setHasSpokenCheckin(hasSpokenCheckin ? false : true);
   }
 
   return (
@@ -309,17 +313,28 @@ function CreateList(props) {
                 onChange={setPeopleInRoom}
               />
               <br />
-              <span>Check-in time per person</span>
-
-              <StyledSlider
-                min={checkinQuestionSet.minTimePerPerson}
-                step={10}
-                max={300}
-                renderTrack={Track}
-                renderThumb={TimerThumb}
-                value={checkinTime}
-                onChange={setCheckinTime}
-              />
+              <SpokenCheckin>
+                <StyledCheckbox
+                  type="checkbox"
+                  onClick={toggleHasSpokenCheckin}
+                  checked={hasSpokenCheckin}
+                />
+                <span>Spoken check-in?</span>
+              </SpokenCheckin>
+              {hasSpokenCheckin ? (
+                <>
+                  <span>Speaking time per person</span>
+                  <StyledSlider
+                    min={checkinQuestionSet.minTimePerPerson}
+                    step={10}
+                    max={300}
+                    renderTrack={Track}
+                    renderThumb={TimerThumb}
+                    value={checkinTime}
+                    onChange={setCheckinTime}
+                  />
+                </>
+              ) : null}
               <br />
               <span>Group tech savvyness</span>
 
