@@ -22,6 +22,7 @@ const colors = {
   peach: ["#E88FA2", "#EB9B81"],
   green: ["#1696A0", "#88C072"],
   need: ["#2A3076", "#1792C8"],
+  strategy: ["#d62346", "#f0aa71"],
 };
 
 const Background = styled.div`
@@ -337,7 +338,11 @@ function CreateList(props) {
       userName,
       userId,
       checkinTime,
-      checkinQuestionSet,
+      {
+        numGreenFeelings: numGreenFeelings,
+        numPeachFeelings: numPeachFeelings,
+        numNeeds: numNeeds,
+      },
       hasSpokenCheckin
     )
       .then((docRef) => {
@@ -352,10 +357,13 @@ function CreateList(props) {
     if (userName) setError(null);
   }
 
+  const numQuestions = numNeeds + numPeachFeelings + numGreenFeelings + 1; //1 strategy question
+
   function EstCheckinDuration() {
     const techProblemsFactor = 1 + (10 - zoomConfidence) / 20;
     const timeGettingIntoRoom = 120 * techProblemsFactor; //s
-    const timeSelectingCheckins = 60;
+    const avgTimeToSelectQuestion = 20; //s
+    const timeSelectingCheckins = numQuestions * avgTimeToSelectQuestion;
     const timeBetweenSpokenCheckiners = 5; //s
     const spokenCheckinTime = hasSpokenCheckin
       ? (checkinTime + timeBetweenSpokenCheckiners) * peopleInRoom
@@ -557,12 +565,41 @@ function CreateList(props) {
               })} */}
                 <CheckinQuestions>
                   Question set
-                  {checkinQuestionSet.checkinFormat.map((format) => (
-                    <Question style={backgroundColor(format.type)}>
-                      {format.prompt}
+                  {new Array(numGreenFeelings).fill("woo").map(() => (
+                    <Question style={backgroundColor("green")}>
+                      Something I've felt in the last 24hrs
                     </Question>
                   ))}
+                  {new Array(numPeachFeelings).fill("woo").map(() => (
+                    <Question style={backgroundColor("peach")}>
+                      Something I've felt in the last 24hrs
+                    </Question>
+                  ))}
+                  {new Array(numNeeds).fill("woo").map(() => (
+                    <Question style={backgroundColor("need")}>
+                      A need that's alive in me
+                    </Question>
+                  ))}
+                  <Question style={backgroundColor("strategy")}>
+                    A strategy to meet a need of mine
+                  </Question>
                 </CheckinQuestions>
+                {hasSpokenCheckin
+                  ? numQuestions > 4 && checkinTime < 40
+                    ? "You may want to add more speaking time per person"
+                    : numQuestions > 7 && checkinTime < 120
+                    ? "You may want to add more speaking time per person"
+                    : numQuestions > 10 && checkinTime < 240
+                    ? "You may want to add more speaking time per person"
+                    : null
+                  : null}
+                <ConfigH2>
+                  <InlineH1>
+                    ~{EstCheckinDuration()}
+                    mins
+                  </InlineH1>{" "}
+                  total check-in time
+                </ConfigH2>
               </ConfigContainer>
               <br />
               <br />
