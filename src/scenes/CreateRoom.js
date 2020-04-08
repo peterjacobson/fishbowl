@@ -85,8 +85,8 @@ const Question = styled.p`
 `;
 
 const CheckinQuestions = styled.div`
-  margin-left: 20px;
-  padding: 10px;
+  /* margin-left: 20px; */
+  /* padding: 10px; */
 `;
 
 const StyledSlide = styled(Slide)`
@@ -102,6 +102,11 @@ const StyledBackButton = styled(ButtonBack)`
 
 const StyledCheckbox = styled.input`
   margin-left: 0px;
+  cursor: pointer;
+`;
+
+const StyledLabel = styled.label`
+  cursor: pointer;
 `;
 
 const Thumb = (props, state) => (
@@ -301,6 +306,7 @@ function CreateList(props) {
   const [numGreenFeelings, setNumGreenFeelings] = useState(1);
   const [numPeachFeelings, setNumPeachFeelings] = useState(1);
   const [numNeeds, setNumNeeds] = useState(1);
+  const [showConfig, setShowConfig] = useState(false);
 
   const TimerThumb = (props, state) => (
     <StyledTimerThumb {...props}>
@@ -379,6 +385,16 @@ function CreateList(props) {
   function toggleCheckInHelp() {
     setShowingSpokenCheckinHelp(showingSpokenCheckinHelp ? false : true);
   }
+  function toggleShowCustomise() {
+    if (showConfig) {
+      setNumGreenFeelings(1);
+      setNumPeachFeelings(1);
+      setNumNeeds(1);
+      setShowConfig(false);
+    } else {
+      setShowConfig(true);
+    }
+  }
 
   return (
     <Background>
@@ -423,8 +439,8 @@ function CreateList(props) {
                 need quicker, so you can spend more time doing what matters.
               </p>
 
-              <ConfigH2>Check-in timing</ConfigH2>
               <ConfigContainer>
+                <ConfigH2>Check-in timing</ConfigH2>
                 <span>Expected people in room</span>
 
                 <StyledSlider
@@ -439,10 +455,16 @@ function CreateList(props) {
                 <SpokenCheckin>
                   <StyledCheckbox
                     type="checkbox"
+                    name="hasSpokenCheckin"
                     onClick={toggleHasSpokenCheckin}
                     checked={hasSpokenCheckin}
                   />
-                  <span>Spoken check-in? </span>
+                  <StyledLabel
+                    onClick={toggleHasSpokenCheckin}
+                    for="hasSpokenCheckin"
+                  >
+                    Spoken check-in?
+                  </StyledLabel>
                   <FaQuestionCircle
                     color={colors.green[1]}
                     style={{ cursor: "pointer" }}
@@ -501,51 +523,89 @@ function CreateList(props) {
                   onChange={setZoomConfidence}
                   s
                 />
-                <ConfigH2>
-                  <InlineH1>
-                    ~{EstCheckinDuration()}
-                    mins
-                  </InlineH1>{" "}
-                  total check-in time
-                </ConfigH2>
+                {showConfig ? null : (
+                  <ConfigH2>
+                    <InlineH1>
+                      ~{EstCheckinDuration()}
+                      mins
+                    </InlineH1>{" "}
+                    total check-in time
+                  </ConfigH2>
+                )}
               </ConfigContainer>
-              <br />
-              <button onClick={createroom}>Open Room</button>
-              <br />
-              <ConfigH2>Customise check-in configuration</ConfigH2>
-              <ConfigContainer>
-                <ConfigH3>Feelings</ConfigH3>
-                <span>Number of green feelings to select (comfortable)</span>
+              {/* <ConfigH2>Customise check-in configuration</ConfigH2> */}
+              {showConfig ? (
+                <ConfigContainer>
+                  <ConfigH2>Customise check-in question set</ConfigH2>
+                  <ConfigH3>Feelings</ConfigH3>
+                  <span>Number of green feelings to select (comfortable)</span>
 
-                <StyledSlider
-                  min={0}
-                  max={4}
-                  renderTrack={GreenTrack}
-                  renderThumb={GreenThumb}
-                  value={numGreenFeelings}
-                  onChange={setNumGreenFeelings}
-                />
-                <br />
-                <span>Number of peach feelings to select (uncomfortable)</span>
-                <StyledSlider
-                  min={0}
-                  max={4}
-                  renderTrack={PeachTrack}
-                  renderThumb={PeachThumb}
-                  value={numPeachFeelings}
-                  onChange={setNumPeachFeelings}
-                />
-                <ConfigH3>Needs</ConfigH3>
-                <span>Number of needs to select</span>
-                <StyledSlider
-                  min={1}
-                  max={10}
-                  renderTrack={NeedTrack}
-                  renderThumb={NeedThumb}
-                  value={numNeeds}
-                  onChange={setNumNeeds}
-                />
-                {/* {checkinQuestionsetOptions.map((checkin, index) => {
+                  <StyledSlider
+                    min={0}
+                    max={4}
+                    renderTrack={GreenTrack}
+                    renderThumb={GreenThumb}
+                    value={numGreenFeelings}
+                    onChange={setNumGreenFeelings}
+                  />
+                  <br />
+                  <span>
+                    Number of peach feelings to select (uncomfortable)
+                  </span>
+                  <StyledSlider
+                    min={0}
+                    max={4}
+                    renderTrack={PeachTrack}
+                    renderThumb={PeachThumb}
+                    value={numPeachFeelings}
+                    onChange={setNumPeachFeelings}
+                  />
+                  <ConfigH3>Needs</ConfigH3>
+                  <span>Number of needs to select</span>
+                  <StyledSlider
+                    min={1}
+                    max={10}
+                    renderTrack={NeedTrack}
+                    renderThumb={NeedThumb}
+                    value={numNeeds}
+                    onChange={setNumNeeds}
+                  />
+                  <br />
+                  <br />
+                  <CheckinQuestions>
+                    Question set{" "}
+                    <a href="#" onClick={toggleShowCustomise}>
+                      <b>{showConfig ? "Reset to Default" : "Customise"}</b>
+                    </a>
+                    {new Array(numGreenFeelings).fill("woo").map(() => (
+                      <Question style={backgroundColor("green")}>
+                        Something I've felt in the last 24hrs
+                      </Question>
+                    ))}
+                    {new Array(numPeachFeelings).fill("woo").map(() => (
+                      <Question style={backgroundColor("peach")}>
+                        Something I've felt in the last 24hrs
+                      </Question>
+                    ))}
+                    {new Array(numNeeds).fill("woo").map(() => (
+                      <Question style={backgroundColor("need")}>
+                        A need that's alive in me
+                      </Question>
+                    ))}
+                    <Question style={backgroundColor("strategy")}>
+                      A strategy to meet a need of mine
+                    </Question>
+                  </CheckinQuestions>
+                  {hasSpokenCheckin
+                    ? numQuestions > 4 && checkinTime < 40
+                      ? "You may want to add more speaking time per person"
+                      : numQuestions > 7 && checkinTime < 120
+                      ? "You may want to add more speaking time per person"
+                      : numQuestions > 10 && checkinTime < 240
+                      ? "You may want to add more speaking time per person"
+                      : null
+                    : null}
+                  {/* {checkinQuestionsetOptions.map((checkin, index) => {
                 return (
                   <>
                     <input
@@ -563,44 +623,52 @@ function CreateList(props) {
                   </>
                 );
               })} */}
-                <CheckinQuestions>
-                  Question set
-                  {new Array(numGreenFeelings).fill("woo").map(() => (
-                    <Question style={backgroundColor("green")}>
-                      Something I've felt in the last 24hrs
+                  <ConfigH2>
+                    <InlineH1>
+                      ~{EstCheckinDuration()}
+                      mins
+                    </InlineH1>{" "}
+                    total check-in time
+                  </ConfigH2>
+                </ConfigContainer>
+              ) : (
+                <>
+                  <br />
+                  <CheckinQuestions>
+                    Question set{" "}
+                    <a href="#" onClick={toggleShowCustomise}>
+                      <b>{showConfig ? "Reset to Default" : "Customise"}</b>
+                    </a>
+                    {new Array(numGreenFeelings).fill("woo").map(() => (
+                      <Question style={backgroundColor("green")}>
+                        Something I've felt in the last 24hrs
+                      </Question>
+                    ))}
+                    {new Array(numPeachFeelings).fill("woo").map(() => (
+                      <Question style={backgroundColor("peach")}>
+                        Something I've felt in the last 24hrs
+                      </Question>
+                    ))}
+                    {new Array(numNeeds).fill("woo").map(() => (
+                      <Question style={backgroundColor("need")}>
+                        A need that's alive in me
+                      </Question>
+                    ))}
+                    <Question style={backgroundColor("strategy")}>
+                      A strategy to meet a need of mine
                     </Question>
-                  ))}
-                  {new Array(numPeachFeelings).fill("woo").map(() => (
-                    <Question style={backgroundColor("peach")}>
-                      Something I've felt in the last 24hrs
-                    </Question>
-                  ))}
-                  {new Array(numNeeds).fill("woo").map(() => (
-                    <Question style={backgroundColor("need")}>
-                      A need that's alive in me
-                    </Question>
-                  ))}
-                  <Question style={backgroundColor("strategy")}>
-                    A strategy to meet a need of mine
-                  </Question>
-                </CheckinQuestions>
-                {hasSpokenCheckin
-                  ? numQuestions > 4 && checkinTime < 40
-                    ? "You may want to add more speaking time per person"
-                    : numQuestions > 7 && checkinTime < 120
-                    ? "You may want to add more speaking time per person"
-                    : numQuestions > 10 && checkinTime < 240
-                    ? "You may want to add more speaking time per person"
-                    : null
-                  : null}
-                <ConfigH2>
-                  <InlineH1>
-                    ~{EstCheckinDuration()}
-                    mins
-                  </InlineH1>{" "}
-                  total check-in time
-                </ConfigH2>
-              </ConfigContainer>
+                  </CheckinQuestions>
+                  {hasSpokenCheckin
+                    ? numQuestions > 4 && checkinTime < 40
+                      ? "You may want to add more speaking time per person"
+                      : numQuestions > 7 && checkinTime < 120
+                      ? "You may want to add more speaking time per person"
+                      : numQuestions > 10 && checkinTime < 240
+                      ? "You may want to add more speaking time per person"
+                      : null
+                    : null}
+                </>
+              )}
               <br />
               <br />
               <ErrorMessage errorCode={error}>
