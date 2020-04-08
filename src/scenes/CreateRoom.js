@@ -96,6 +96,17 @@ const CheckinQuestions = styled.div`
   padding: 10px;
 `;
 
+const StyledSlide = styled(Slide)`
+  padding: 25px;
+`;
+
+const StyledBackButton = styled(ButtonBack)`
+  background: none;
+  color: black;
+  text-decoration: underline;
+  box-shadow: none;
+`;
+
 const Thumb = (props, state) => (
   <StyledThumb {...props}>{state.valueNow} people</StyledThumb>
 );
@@ -108,6 +119,10 @@ const StyledTrack = styled.div`
   bottom: 0;
   background: ${(props) => (props.index === 1 ? "#ddd" : "pink")};
   border-radius: 999px;
+`;
+
+const InlineH1 = styled.h1`
+  display: inline-block;
 `;
 
 const Track = (props, state) => <StyledTrack {...props} index={state.index} />;
@@ -224,23 +239,20 @@ function CreateList(props) {
   }
 
   function checkName(e) {
-    setError(null);
-    if (!userName) {
-      setError("user-name-required");
-      throw "";
-    }
+    if (userName) setError(null);
   }
 
-  const StyledSlide = styled(Slide)`
-    padding: 25px;
-  `;
-
-  const StyledBackButton = styled(ButtonBack)`
-    background: none;
-    color: black;
-    text-decoration: underline;
-    box-shadow: none;
-  `;
+  function EstCheckinDuration() {
+    const techProblemsFactor = 1 + (10 - zoomConfidence) / 20;
+    const timeGettingIntoRoom = 120 * techProblemsFactor; //s
+    const timeSelectingCheckins = 60;
+    const timeBetweenSpokenCheckiners = 5; //s
+    const spokenCheckinTime =
+      (checkinTime + timeBetweenSpokenCheckiners) * peopleInRoom;
+    return Math.ceil(
+      (timeGettingIntoRoom + timeSelectingCheckins + spokenCheckinTime) / 60
+    );
+  }
 
   return (
     <Background>
@@ -270,16 +282,7 @@ function CreateList(props) {
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
-              <ErrorMessage errorCode={error}></ErrorMessage>
               <ButtonNext onClick={checkName}>Start</ButtonNext>
-              {/* <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setSliderScreen(1);
-                }}
-              >
-                Start
-              </button> */}
             </form>
           </StyledSlide>
           <StyledSlide index={1}>
@@ -293,6 +296,45 @@ function CreateList(props) {
                 the people you’re meeting with will find ways to get what you
                 need quicker, so you can spend more time doing what matters.
               </p>
+
+              <h2>Check-in timing</h2>
+              <span>Expected people in room</span>
+
+              <StyledSlider
+                min={2}
+                max={50}
+                renderTrack={Track}
+                renderThumb={Thumb}
+                value={peopleInRoom}
+                onChange={setPeopleInRoom}
+              />
+              <br />
+              <span>Check-in time per person</span>
+
+              <StyledSlider
+                min={checkinQuestionSet.minTimePerPerson}
+                step={10}
+                max={300}
+                renderTrack={Track}
+                renderThumb={TimerThumb}
+                value={checkinTime}
+                onChange={setCheckinTime}
+              />
+              <br />
+              <span>Group tech savvyness</span>
+
+              <StyledSlider
+                min={0}
+                max={10}
+                renderTrack={Track}
+                renderThumb={SavvyThumb}
+                value={zoomConfidence}
+                onChange={setZoomConfidence}
+              />
+              <h2>
+                Total check-in time:{" "}
+                <InlineH1>~{EstCheckinDuration()} mins</InlineH1>
+              </h2>
               <h2>Type of check-in</h2>
               {checkinQuestionsetOptions.map((checkin, index) => {
                 return (
@@ -320,57 +362,17 @@ function CreateList(props) {
                   </Question>
                 ))}
               </CheckinQuestions>
-              <h2>Check-in timing</h2>
-              <span>Expected people in room</span>
+              <ErrorMessage errorCode={error}>
+                <InputName
+                  autoFocus={true}
+                  type="text"
+                  name="userName"
+                  placeholder="My name is..."
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              </ErrorMessage>
 
-              <StyledSlider
-                min={2}
-                max={50}
-                renderTrack={Track}
-                renderThumb={Thumb}
-                value={peopleInRoom}
-                onChange={setPeopleInRoom}
-              />
-              <br />
-              <span>Check-in time per person</span>
-
-              <StyledSlider
-                min={checkinQuestionSet.minTimePerPerson}
-                max={300}
-                renderTrack={Track}
-                renderThumb={TimerThumb}
-                value={checkinTime}
-                onChange={setCheckinTime}
-              />
-              <br />
-              <span>Group tech savvyness</span>
-
-              <StyledSlider
-                min={0}
-                max={10}
-                renderTrack={Track}
-                renderThumb={SavvyThumb}
-                value={zoomConfidence}
-                onChange={setZoomConfidence}
-              />
-              <br />
-              <br />
-              <ErrorMessage errorCode={error}></ErrorMessage>
-              <br />
-
-              <h2>
-                Estimated Checkin Duration:{" "}
-                {moment
-                  .duration(
-                    120 +
-                      checkinTime *
-                        peopleInRoom *
-                        (1 + (10 - zoomConfidence) / 20),
-                    "seconds"
-                  )
-                  .format("mm:ss")}
-                {/* 10 - 1   0 - 1.5 */}
-              </h2>
               <button onClick={createroom}>Open Room</button>
               <div>
                 <StyledBackButton>Back</StyledBackButton>
