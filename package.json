@@ -17,17 +17,22 @@
     "rc-slider": "^9.2.4",
     "rc-tooltip": "^4.0.3",
     "react": "^16.12.0",
+    "react-animated-number": "^0.4.4",
     "react-awesome-slider": "^4.1.0",
     "react-compound-timer": "^1.2.0",
     "react-confetti": "^5.0.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.12.0",
+    "react-flip-numbers": "^3.0.5",
+    "react-fontawesome": "^1.7.1",
+    "react-icons": "^3.9.0",
     "react-scripts": "3.3.1",
     "react-select": "^3.1.0",
     "react-slider": "^1.0.3",
     "react-use": "^13.27.1",
     "scroll-js": "^3.2.0",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "styled-react-modal": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

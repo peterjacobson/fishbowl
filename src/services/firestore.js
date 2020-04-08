@@ -104,7 +104,6 @@ export const addUserToroom = (userName, roomId, userId) => {
 };
 
 export const updateCheckIn = (checkIn, roomId, userId) => {
-  console.log("checkIn: ", checkIn);
   const checkInDbEntry = {
     userId: userId,
     checkInWords: checkIn,

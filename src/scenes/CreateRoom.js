@@ -9,8 +9,10 @@ import {
   ButtonBack,
   ButtonNext,
 } from "pure-react-carousel";
+import { FaQuestionCircle } from "react-icons/fa";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import ReactSlider from "react-slider";
+import Modal from "styled-react-modal";
 import moment from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
 
@@ -115,15 +117,103 @@ const StyledTrack = styled.div`
   border-radius: 999px;
 `;
 
-const InlineH1 = styled.h1`
-  display: inline-block;
+const StyledGreenTrack = styled.div`
+  top: 0;
+  bottom: 0;
+  background: ${(props) =>
+    props.index === 1
+      ? "#ddd"
+      : `linear-gradient(
+      to bottom right,
+      ${colors.green[0]},
+      ${colors.green[1]}
+    )`};
+  border-radius: 999px;
+`;
+const StyledPeachTrack = styled.div`
+  top: 0;
+  bottom: 0;
+  background: ${(props) =>
+    props.index === 1
+      ? "#ddd"
+      : `linear-gradient(
+      to bottom right,
+      ${colors.peach[0]},
+      ${colors.peach[1]}
+    )`};
+  border-radius: 999px;
+`;
+const StyledNeedTrack = styled.div`
+  top: 0;
+  bottom: 0;
+  background: ${(props) =>
+    props.index === 1
+      ? "#ddd"
+      : `linear-gradient(
+      to bottom right,
+      ${colors.need[0]},
+      ${colors.need[1]}
+    )`};
+  border-radius: 999px;
 `;
 
 const SpokenCheckin = styled.div`
   margin-bottom: 5px;
 `;
 
+const HelpText = styled.p`
+  margin-left: 10px;
+  color: #333;
+`;
+
+const ConfigContainer = styled.div`
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+`;
+
+const ConfigH2 = styled.h3`
+  margin-top: 10px;
+  margin-bottom: 5px;
+`;
+const ConfigH3 = styled.h3`
+  margin-top: 10px;
+  margin-bottom: 5px;
+`;
+
+const InlineH1 = styled.h1`
+  margin-top: 10px;
+  margin-bottom: 5px;
+  display: inline-block;
+`;
+
+const StyledModal = Modal.styled`
+  max-width: 660px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const ModalInner = styled.div`
+  padding: 20px 30px;
+  background-color: white;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 const Track = (props, state) => <StyledTrack {...props} index={state.index} />;
+const GreenTrack = (props, state) => (
+  <StyledGreenTrack {...props} index={state.index} />
+);
+const PeachTrack = (props, state) => (
+  <StyledPeachTrack {...props} index={state.index} />
+);
+const NeedTrack = (props, state) => (
+  <StyledNeedTrack {...props} index={state.index} />
+);
 
 const checkinQuestionsetOptions = [
   {
@@ -200,10 +290,16 @@ function CreateList(props) {
     initialConfig.minTimePerPerson
   );
   const [hasSpokenCheckin, setHasSpokenCheckin] = useState(true);
+  const [showingSpokenCheckinHelp, setShowingSpokenCheckinHelp] = useState(
+    false
+  );
   const [zoomConfidence, setZoomConfidence] = useState(5);
   const [checkinQuestionSet, setCheckinQuestionSet] = useState(
     checkinQuestionsetOptions[0]
   );
+  const [numGreenFeelings, setNumGreenFeelings] = useState(1);
+  const [numPeachFeelings, setNumPeachFeelings] = useState(1);
+  const [numNeeds, setNumNeeds] = useState(1);
 
   const TimerThumb = (props, state) => (
     <StyledTimerThumb {...props}>
@@ -212,6 +308,20 @@ function CreateList(props) {
         ? `00:${state.valueNow}s pp`
         : moment.duration(state.valueNow, "seconds").format("m:ss") +
           " mins pp"}
+    </StyledTimerThumb>
+  );
+
+  const GreenThumb = (props, state) => (
+    <StyledTimerThumb {...props}>{state.valueNow} green</StyledTimerThumb>
+  );
+  const PeachThumb = (props, state) => (
+    <StyledTimerThumb {...props}>{state.valueNow} peach</StyledTimerThumb>
+  );
+  const NeedThumb = (props, state) => (
+    <StyledTimerThumb {...props}>
+      {state.valueNow === 1
+        ? `${state.valueNow} need`
+        : `${state.valueNow} needs`}
     </StyledTimerThumb>
   );
 
@@ -258,6 +368,9 @@ function CreateList(props) {
   function toggleHasSpokenCheckin() {
     setHasSpokenCheckin(hasSpokenCheckin ? false : true);
   }
+  function toggleCheckInHelp() {
+    setShowingSpokenCheckinHelp(showingSpokenCheckinHelp ? false : true);
+  }
 
   return (
     <Background>
@@ -302,57 +415,129 @@ function CreateList(props) {
                 need quicker, so you can spend more time doing what matters.
               </p>
 
-              <h2>Check-in timing</h2>
-              <span>Expected people in room</span>
+              <ConfigH2>Check-in timing</ConfigH2>
+              <ConfigContainer>
+                <span>Expected people in room</span>
 
-              <StyledSlider
-                min={2}
-                max={50}
-                renderTrack={Track}
-                renderThumb={Thumb}
-                value={peopleInRoom}
-                onChange={setPeopleInRoom}
-              />
-              <br />
-              <SpokenCheckin>
-                <StyledCheckbox
-                  type="checkbox"
-                  onClick={toggleHasSpokenCheckin}
-                  checked={hasSpokenCheckin}
+                <StyledSlider
+                  min={2}
+                  max={50}
+                  renderTrack={Track}
+                  renderThumb={Thumb}
+                  value={peopleInRoom}
+                  onChange={setPeopleInRoom}
                 />
-                <span>Spoken check-in?</span>
-              </SpokenCheckin>
-              {hasSpokenCheckin ? (
-                <>
-                  <span>Speaking time per person</span>
-                  <StyledSlider
-                    min={checkinQuestionSet.minTimePerPerson}
-                    step={10}
-                    max={300}
-                    renderTrack={Track}
-                    renderThumb={TimerThumb}
-                    value={checkinTime}
-                    onChange={setCheckinTime}
+                <br />
+                <SpokenCheckin>
+                  <StyledCheckbox
+                    type="checkbox"
+                    onClick={toggleHasSpokenCheckin}
+                    checked={hasSpokenCheckin}
                   />
-                </>
-              ) : null}
-              <br />
-              <span>Group tech savvyness</span>
+                  <span>Spoken check-in? </span>
+                  <FaQuestionCircle
+                    color={colors.green[1]}
+                    style={{ cursor: "pointer" }}
+                    onClick={toggleCheckInHelp}
+                  />
+                  <StyledModal
+                    isOpen={showingSpokenCheckinHelp}
+                    onBackgroundClick={toggleCheckInHelp}
+                    onEscapeKeydown={toggleCheckInHelp}
+                  >
+                    <ModalInner>
+                      <HelpText>
+                        You can set up your check-in room with or without the
+                        spoken step.
+                      </HelpText>
+                      <HelpText>
+                        <b>Without spoken step:</b> If you choose without the
+                        spoken step, everyone will have the opportunity to input
+                        their check-in and it will show up on the shared screen,
+                        but people won’t go around speaking their check-in to
+                        the group. This is useful if you have less time, and
+                        still want to give people an opportunity to connect with
+                        themselves.{" "}
+                      </HelpText>
+                      <HelpText>
+                        <b>With spoken step:</b> If you choose to include the
+                        spoken step, each person will have the amount of time
+                        you choose to speak to what they’ve inputted”
+                      </HelpText>
+                    </ModalInner>
+                  </StyledModal>
+                </SpokenCheckin>
+                {hasSpokenCheckin ? (
+                  <>
+                    <span>Speaking time per person</span>
+                    <StyledSlider
+                      min={checkinQuestionSet.minTimePerPerson}
+                      step={10}
+                      max={300}
+                      renderTrack={Track}
+                      renderThumb={TimerThumb}
+                      value={checkinTime}
+                      onChange={setCheckinTime}
+                    />
+                  </>
+                ) : null}
+                <br />
+                <span>Group tech savvyness</span>
 
-              <StyledSlider
-                min={0}
-                max={10}
-                renderTrack={Track}
-                renderThumb={SavvyThumb}
-                value={zoomConfidence}
-                onChange={setZoomConfidence}
-              />
-              <h2>
-                Total check-in time:{" "}
-                <InlineH1>~{EstCheckinDuration()} mins</InlineH1>
-              </h2>
-              <h2>Type of check-in</h2>
-              {checkinQuestionsetOptions.map((checkin, index) => {
+                <StyledSlider
+                  min={0}
+                  max={10}
+                  renderTrack={Track}
+                  renderThumb={SavvyThumb}
+                  value={zoomConfidence}
+                  onChange={setZoomConfidence}
+                  s
+                />
+                <ConfigH2>
+                  <InlineH1>
+                    ~{EstCheckinDuration()}
+                    mins
+                  </InlineH1>{" "}
+                  total check-in time
+                </ConfigH2>
+              </ConfigContainer>
+              <br />
+              <button onClick={createroom}>Open Room</button>
+              <br />
+              <ConfigH2>Customise check-in configuration</ConfigH2>
+              <ConfigContainer>
+                <ConfigH3>Feelings</ConfigH3>
+                <span>Number of green feelings to select (comfortable)</span>
+
+                <StyledSlider
+                  min={0}
+                  max={4}
+                  renderTrack={GreenTrack}
+                  renderThumb={GreenThumb}
+                  value={numGreenFeelings}
+                  onChange={setNumGreenFeelings}
+                />
+                <br />
+                <span>Number of peach feelings to select (uncomfortable)</span>
+                <StyledSlider
+                  min={0}
+                  max={4}
+                  renderTrack={PeachTrack}
+                  renderThumb={PeachThumb}
+                  value={numPeachFeelings}
+                  onChange={setNumPeachFeelings}
+                />
+                <ConfigH3>Needs</ConfigH3>
+                <span>Number of needs to select</span>
+                <StyledSlider
+                  min={1}
+                  max={10}
+                  renderTrack={NeedTrack}
+                  renderThumb={NeedThumb}
+                  value={numNeeds}
+                  onChange={setNumNeeds}
+                />
+                {/* {checkinQuestionsetOptions.map((checkin, index) => {
                 return (
                   <>
                     <input
@@ -369,15 +554,18 @@ function CreateList(props) {
                     <br />
                   </>
                 );
-              })}
-              <CheckinQuestions>
-                Question set
-                {checkinQuestionSet.checkinFormat.map((format) => (
-                  <Question style={backgroundColor(format.type)}>
-                    {format.prompt}
-                  </Question>
-                ))}
-              </CheckinQuestions>
+              })} */}
+                <CheckinQuestions>
+                  Question set
+                  {checkinQuestionSet.checkinFormat.map((format) => (
+                    <Question style={backgroundColor(format.type)}>
+                      {format.prompt}
+                    </Question>
+                  ))}
+                </CheckinQuestions>
+              </ConfigContainer>
+              <br />
+              <br />
               <ErrorMessage errorCode={error}>
                 <InputName
                   autoFocus={true}
@@ -393,6 +581,10 @@ function CreateList(props) {
               <div>
                 <StyledBackButton>Back</StyledBackButton>
               </div>
+              <br />
+              <br />
+              <br />
+              <br />
             </RoomConfig>
           </StyledSlide>
         </Slider>

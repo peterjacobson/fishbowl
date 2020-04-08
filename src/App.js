@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { ModalProvider } from "styled-react-modal";
 
 import * as FirestoreService from "./services/firestore";
 import "./App.css";
@@ -109,11 +110,13 @@ function App() {
 
   return (
     <AppWrapper>
-      <HeartworkLink
-        href="http://heartwork.co.nz/"
-        target="_blank"
-      ></HeartworkLink>
-      {renderScene()}
+      <ModalProvider>
+        <HeartworkLink
+          href="http://heartwork.co.nz/"
+          target="_blank"
+        ></HeartworkLink>
+        {renderScene()}
+      </ModalProvider>
     </AppWrapper>
   );
 }
