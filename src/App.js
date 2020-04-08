@@ -34,7 +34,6 @@ function App() {
   const [userId, setUserId] = useState();
   const [room, setroom] = useState();
   const [error, setError] = useState();
-  const [roomSetup, setRoomSetup] = useState(false);
 
   // Use a custom hook to subscribe to the grocery list ID provided as a URL query parameter
   const [roomId, setroomId] = useQueryString("listId");
