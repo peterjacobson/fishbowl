@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import styled from "styled-components";
-import Select from "react-select";
 import {
   CarouselProvider,
   Slider,
@@ -11,8 +10,6 @@ import {
   ButtonNext,
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
-// import AwesomeSlider from "react-awesome-slider";
-// import "react-awesome-slider/dist/styles.css";
 import ReactSlider from "react-slider";
 import moment from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
@@ -184,7 +181,6 @@ function CreateList(props) {
   const initialConfig = checkinQuestionsetOptions[0];
   const { onCreate, userId } = props;
   const [userName, setUserName] = useState("");
-  const [sliderScreen, setSliderScreen] = useState(0);
   const [error, setError] = useState();
   const [peopleInRoom, setPeopleInRoom] = useState(4);
   const [checkinTime, setCheckinTime] = useState(
@@ -234,56 +230,6 @@ function CreateList(props) {
       throw "";
     }
   }
-
-  function customStyles(colors, z) {
-    return {
-      container: (base, state) => ({
-        ...base,
-        marginBottom: -4,
-        fontSize: "1.3em",
-        maxWidth: 440,
-        zIndex: z,
-      }),
-      control: (base, state) => ({
-        ...base,
-        height: 70,
-        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]}) !important`,
-        border: "none",
-        boxShadow: state.isFocused ? null : null,
-      }),
-      singleValue: (base) => ({
-        paddingLeft: 60,
-        color: "white",
-      }),
-      menu: (base) => ({
-        ...base,
-        marginTop: 0,
-        paddingLeft: 60,
-        color: "white",
-        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]})`,
-      }),
-      menuList: (base) => ({
-        ...base,
-        padding: 0,
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#eee",
-      }),
-    };
-  }
-
-  function convertToOptions(array) {
-    return array.map((item) => {
-      return { label: item[0], value: item[1] };
-    });
-  }
-
-  // get approx number of people in meeting
-  // everybody get into zoom + check-in rooms
-  // everybody does self reflection
-  // sharing per person
-  // extra time to dive deeper
 
   const StyledSlide = styled(Slide)`
     padding: 25px;
