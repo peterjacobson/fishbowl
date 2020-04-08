@@ -6,7 +6,7 @@ const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  databaseURL: "https://zoom-heartwork-guide.firebaseio.com"
+  databaseURL: "https://zoom-heartwork-guide.firebaseio.com",
   // storageBucket: "zoom-heartwork-guide.appspot.com",
   // messagingSenderId: "611561058284",
   // appId: "1:611561058284:web:01509a7f1136d4faf65ac9",
@@ -27,18 +27,18 @@ const roomDB = {
   users: [
     {
       name: "Peter",
-      userId: "ojsdoi8u3840423"
-    }
+      userId: "ojsdoi8u3840423",
+    },
   ],
   timer: {
     name: "Peter",
     userId: "ojsdoi8u3840423",
-    startTime: 12984093289058
+    startTime: 12984093289058,
   },
   config: {
     timerLength: 60, //s
-    checkInFormat: ["green", "peach", "need", "need", "need"]
-  }
+    checkInFormat: ["green", "peach", "need", "need", "need"],
+  },
 };
 
 const checkInDB = {
@@ -47,15 +47,16 @@ const checkInDB = {
   checkIn: [
     { type: "need", word: "belonging" },
     { type: "peach", word: "angry" },
-    { type: "green", word: "grateful" }
-  ]
+    { type: "green", word: "grateful" },
+  ],
 };
 
 export const createroom = (
   userName,
   userId,
   checkinTime,
-  checkinQuestionSet
+  checkinQuestionSet,
+  hasSpokenCheckin
 ) => {
   return db.collection("rooms").add({
     created: firebase.firestore.FieldValue.serverTimestamp(),
@@ -63,25 +64,23 @@ export const createroom = (
     users: [
       {
         userId: userId,
-        name: userName
-      }
+        name: userName,
+      },
     ],
-    config: { ...checkinQuestionSet, timerLength: checkinTime }
+    config: {
+      ...checkinQuestionSet,
+      timerLength: checkinTime,
+      hasSpokenCheckin: hasSpokenCheckin,
+    },
   });
 };
 
-export const getroom = roomId => {
-  return db
-    .collection("rooms")
-    .doc(roomId)
-    .get();
+export const getroom = (roomId) => {
+  return db.collection("rooms").doc(roomId).get();
 };
 
 export const streamRoom = (roomId, observer) => {
-  return db
-    .collection("rooms")
-    .doc(roomId)
-    .onSnapshot(observer);
+  return db.collection("rooms").doc(roomId).onSnapshot(observer);
 };
 
 export const streamRoomCheckIns = (roomId, observer) => {
@@ -99,8 +98,8 @@ export const addUserToroom = (userName, roomId, userId) => {
     .update({
       users: firebase.firestore.FieldValue.arrayUnion({
         userId: userId,
-        name: userName
-      })
+        name: userName,
+      }),
     });
 };
 
@@ -108,17 +107,17 @@ export const updateCheckIn = (checkIn, roomId, userId) => {
   console.log("checkIn: ", checkIn);
   const checkInDbEntry = {
     userId: userId,
-    checkInWords: checkIn
+    checkInWords: checkIn,
   };
   db.collection("rooms")
     .doc(roomId)
     .collection("checkIns")
     .get()
-    .then(querySnapshot => querySnapshot.docs)
-    .then(checkIns =>
-      checkIns.find(checkIn => checkIn.data().userId === userId)
+    .then((querySnapshot) => querySnapshot.docs)
+    .then((checkIns) =>
+      checkIns.find((checkIn) => checkIn.data().userId === userId)
     )
-    .then(matchingCheckIn => {
+    .then((matchingCheckIn) => {
       if (!matchingCheckIn) {
         return db
           .collection("rooms")
@@ -143,8 +142,8 @@ export const startTimer = (timeStamp, roomId, userId, userName) => {
       timer: {
         startTime: timeStamp,
         userId: userId,
-        userName: userName
-      }
+        userName: userName,
+      },
     });
 };
 // export const startTimer = (timeStamp, roomId, userId) => {

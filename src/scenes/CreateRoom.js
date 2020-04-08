@@ -227,7 +227,8 @@ function CreateList(props) {
       userName,
       userId,
       checkinTime,
-      checkinQuestionSet
+      checkinQuestionSet,
+      hasSpokenCheckin
     )
       .then((docRef) => {
         onCreate(docRef.id, userName);
