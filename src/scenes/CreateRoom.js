@@ -227,6 +227,14 @@ function CreateList(props) {
       });
   }
 
+  function checkName(e) {
+    setError(null);
+    if (!userName) {
+      setError("user-name-required");
+      throw "";
+    }
+  }
+
   function customStyles(colors, z) {
     return {
       container: (base, state) => ({
@@ -317,7 +325,7 @@ function CreateList(props) {
                 onChange={(e) => setUserName(e.target.value)}
               />
               <ErrorMessage errorCode={error}></ErrorMessage>
-              <ButtonNext>Start</ButtonNext>
+              <ButtonNext onClick={checkName}>Start</ButtonNext>
               {/* <button
                 onClick={(e) => {
                   e.preventDefault();
