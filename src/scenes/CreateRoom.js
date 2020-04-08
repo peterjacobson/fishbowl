@@ -285,6 +285,14 @@ function CreateList(props) {
           <StyledSlide index={1}>
             <RoomConfig>
               <h1>Room Setup</h1>
+              <h2>Welcome {userName}🙌</h2>
+              <p>You’re jumping into a call with some other people.</p>
+              <p>
+                This is a quick way to surface what is most alive for people
+                right now and what you all need. In doing so, we hope you and
+                the people you’re meeting with will find ways to get what you
+                need quicker, so you can spend more time doing what matters.
+              </p>
               <h2>Type of check-in</h2>
               {checkinQuestionsetOptions.map((checkin, index) => {
                 return (
