@@ -46,6 +46,15 @@ const Background = styled.div`
   padding-left: 30px; */
 `;
 
+const ConfigContainer = styled.div`
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+`;
+
 const VocabContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -198,11 +207,11 @@ function InsideRoom(props) {
         setRoomUsers(querySnapshot.data().users);
         setTimer(querySnapshot.data().timer || defaultTimer);
         setRoomConfig(querySnapshot.data().config);
-        setMyCheckIn(
-          querySnapshot.data().config.checkinFormat.map((checkinItem) => {
-            return { type: checkinItem.type, word: "" };
-          })
-        );
+        // setMyCheckIn(
+        //   querySnapshot.data().config.checkinFormat.map((checkinItem) => {
+        //     return { type: checkinItem.type, word: "" };
+        //   })
+        // );
       },
       error: () => setError("grocery-list-item-get-fail"),
     });
@@ -490,8 +499,27 @@ function InsideRoom(props) {
     },
   };
 
+  console.log("roomConfig: ", roomConfig);
+
+  const questionSet = roomConfig
+    ? [
+        ...new Array(roomConfig.numGreenFeelings).fill({
+          type: "green",
+          prompt: "Something I've felt in the last 24hrs",
+        }),
+        ...new Array(roomConfig.numPeachFeelings).fill({
+          type: "peach",
+          prompt: "Something I've felt in the last 24hrs",
+        }),
+        ...new Array(roomConfig.numNeeds).fill({
+          type: "need",
+          prompt: "A need that's alive in me now",
+        }),
+      ]
+    : [];
+
   const selectElements = roomConfig
-    ? roomConfig.checkinFormat.map((select, index) => {
+    ? questionSet.map((select, index) => {
         console.log("select: ", select);
         const tilt = Math.random() - 0.5;
         const shunt = (Math.random() - 0.5) * 2;
@@ -559,8 +587,6 @@ function InsideRoom(props) {
       <>
         <br />
         <br />
-        <br />
-        <br />
         <StyledBackButton onClick={scrollToTop}>Back</StyledBackButton>
         <ButtonNext onClick={scrollToTop}>{nextText}</ButtonNext>
       </>
@@ -581,48 +607,42 @@ function InsideRoom(props) {
         <Slider>
           <StyledSlide index={0}>
             <h1>👋 Welcome {user}</h1>
+            <br />
             <p>You're jumping into a call with some other people.</p>
             <p>
-              Getting clear on your and their needs and connecting authentically
-              can help you get the most out of your meeting, so you all walk
-              away feeling clear and maybe even nourished.
+              This is a quick way to surface what is most alive for people right
+              now and what you all need. In doing so, we hope you and the people
+              you’re meeting with will find ways to get what you need quicker,
+              so you can spend more time doing what matters.
             </p>
-            <p>
-              This is a quick way to <strong>connect with authenticity</strong>{" "}
-              and <strong>surface the highest priority needs</strong> in this
-              call.
-            </p>
-            <p>
-              All feelings are precious - all sensations people experience point
-              to beautiful universal human needs, met or unmet.
-            </p>
-            <p>{otherUserNameList}</p>
-            <p>
-              Get everyone in this room by sending folk the invite link below{" "}
-            </p>
-            <CopyToClipboardSpan
-              text={`${window.location.origin}/?listId=${roomId}`}
-              onCopy={() => setLinkCopied(true)}
-            >
-              <LittleButton>Copy link to this room</LittleButton>
-            </CopyToClipboardSpan>
-            <span>{linkCopied ? "Link Copied 🙌" : null}</span>
+            <ConfigContainer>
+              <p>{otherUserNameList}</p>
+              <CopyToClipboardSpan
+                text={`${window.location.origin}/?listId=${roomId}`}
+                onCopy={() => setLinkCopied(true)}
+              >
+                <LittleButton>Copy invite link to this room</LittleButton>
+              </CopyToClipboardSpan>
+              <p>{linkCopied ? "Link Copied 🙌" : null}</p>
+            </ConfigContainer>
             {navButtons(2, "Next", 0)}
             <br />
             <br />
             <br />
             <br />
             <br />
+            <br />
+            <br />
             <WidthWrapper>
-              <h2>
+              <h3>
                 What if someone needs more care/support than I can or know how
                 to provide?
-              </h2>
+              </h3>
               <p>
                 If someone is in deeper distress than you feel you have the
                 resources to navigate togther, they can get professional help...
               </p>
-              <h2>...in Aotearoa New Zealand</h2>
+              <h3>...in Aotearoa New Zealand</h3>
               <p>by calling National helplines</p>
               <p>
                 Need to talk? Free call or text
