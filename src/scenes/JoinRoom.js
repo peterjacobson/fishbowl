@@ -39,7 +39,7 @@ function JoinRoom(props) {
   }
 
   function getUserButtonList() {
-    const buttonList = users.map(user => (
+    const buttonList = users.map((user) => (
       <button key={user.name} onClick={addExistingUser}>
         {user.name}
       </button>
@@ -57,7 +57,7 @@ function JoinRoom(props) {
       return;
     }
 
-    if (users.find(user => user.name === userName)) {
+    if (users.find((user) => user.name === userName)) {
       onSelectUser(userName);
     } else {
       FirestoreService.addUserToroom(userName, roomId, userId)
@@ -81,9 +81,9 @@ function JoinRoom(props) {
           <br />
           check-in 👌
         </h1>
+        <p>Select your name if you're returning...</p>
+        {getUserButtonList()}
         <form name="addUserToListForm">
-          <p>Select your name if you're returning...</p>
-          {getUserButtonList()}
           <p>...or enter your name to enter the check-in room...</p>
           <InputName
             type="text"
@@ -91,15 +91,20 @@ function JoinRoom(props) {
             autoFocus={true}
             placeholder="My name is..."
           />
-          <button onClick={addNewUser}>Join</button>
+          <input
+            className="button"
+            type="submit"
+            value="Join"
+            onClick={addNewUser}
+          />
           <ErrorMessage errorCode={error}></ErrorMessage>
-          <p>
-            ...or{" "}
-            <a href="/" onClick={onCreateListClick}>
-              create a new check-in room
-            </a>
-          </p>
         </form>
+        <p>
+          ...or{" "}
+          <a href="/" onClick={onCreateListClick}>
+            create a new check-in room
+          </a>
+        </p>
       </div>
     </Background>
   );

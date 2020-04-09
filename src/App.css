@@ -60,7 +60,8 @@ input:focus {
   outline: none;
 }
 
-button {
+button,
+.button {
   border: none;
   padding: 10px;
   color: white;
