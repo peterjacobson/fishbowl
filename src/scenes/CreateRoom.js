@@ -190,10 +190,11 @@ const ConfigH3 = styled.h3`
   margin-bottom: 5px;
 `;
 
-const InlineH1 = styled.h1`
+const InlineH1 = styled.p`
   margin-top: 10px;
   margin-bottom: 5px;
   display: inline-block;
+  font-size: 2em;
 `;
 
 const StyledModal = Modal.styled`
@@ -456,12 +457,12 @@ function CreateList(props) {
                   <StyledCheckbox
                     type="checkbox"
                     name="hasSpokenCheckin"
-                    onClick={toggleHasSpokenCheckin}
+                    onChange={toggleHasSpokenCheckin}
                     checked={hasSpokenCheckin}
                   />
                   <StyledLabel
                     onClick={toggleHasSpokenCheckin}
-                    for="hasSpokenCheckin"
+                    htmlFor="hasSpokenCheckin"
                   >
                     Spoken check-in?
                   </StyledLabel>
@@ -639,18 +640,22 @@ function CreateList(props) {
                     <a href="#" onClick={toggleShowCustomise}>
                       <b>{showConfig ? "Reset to Default" : "Customise"}</b>
                     </a>
-                    {new Array(numGreenFeelings).fill("woo").map(() => (
-                      <Question style={backgroundColor("green")}>
-                        Something I've felt in the last 24hrs
-                      </Question>
-                    ))}
-                    {new Array(numPeachFeelings).fill("woo").map(() => (
-                      <Question style={backgroundColor("peach")}>
-                        Something I've felt in the last 24hrs
-                      </Question>
-                    ))}
-                    {new Array(numNeeds).fill("woo").map(() => (
-                      <Question style={backgroundColor("need")}>
+                    {new Array(numGreenFeelings)
+                      .fill("woo")
+                      .map((item, index) => (
+                        <Question key={index} style={backgroundColor("green")}>
+                          Something I've felt in the last 24hrs
+                        </Question>
+                      ))}
+                    {new Array(numPeachFeelings)
+                      .fill("woo")
+                      .map((item, index) => (
+                        <Question key={index} style={backgroundColor("peach")}>
+                          Something I've felt in the last 24hrs
+                        </Question>
+                      ))}
+                    {new Array(numNeeds).fill("woo").map((item, index) => (
+                      <Question key={index} style={backgroundColor("need")}>
                         A need that's alive in me
                       </Question>
                     ))}

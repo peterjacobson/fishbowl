@@ -9,6 +9,8 @@ import styled from "styled-components";
 import { scrollTo } from "scroll-js";
 import chunk from "lodash.chunk";
 import AwesomeSlider from "react-awesome-slider";
+import MultiSelect from "@khanacademy/react-multi-select";
+import Collapse, { Panel } from "rc-collapse";
 import "react-awesome-slider/dist/styles.css";
 import EasyTimer from "../components/EasyTimer";
 import needs from "../data/needs";
@@ -16,6 +18,13 @@ import greenFeelings from "../data/greenFeelings";
 import peachFeelings from "../data/peachFeelings";
 import room4 from "../img/room4.jpg";
 import clarePeter from "../img/clarepete.jpg";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from "react-accessible-accordion";
 import {
   CarouselProvider,
   Slider,
@@ -179,8 +188,36 @@ const ClarePeterPhoto = styled.img`
   display: block;
 `;
 
+const FocusBackground = styled.div`
+  display: absolute;
+  height: 100vh;
+  max-width: 660px;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const StyledCard = styled.div``;
+
+const RightSpan = styled.div`
+  float: right;
+`;
+
+function Card(props) {
+  console.log("props: ", props);
+  return (
+    <StyledCard
+      style={{
+        backgroundColor: `linear-gradient(to bottom right, ${
+          colors[props.type][0]
+        }, ${colors[props.type][1]}) !important`,
+      }}
+    >
+      {props.word}
+      <RightSpan>+</RightSpan>
+    </StyledCard>
+  );
+}
+
 function InsideRoom(props) {
-  const timerLength = 30;
   const defaultTimer = { startTime: 10000 };
   const checkinQuestions = ["green", "peach", "need", "need", "need"];
   const { users, roomId, user, onCloseroom, userId } = props;
@@ -196,6 +233,9 @@ function InsideRoom(props) {
   const [linkCopied, setLinkCopied] = useState(false);
   const [timer, setTimer] = useState(defaultTimer);
   const [sliderScreen, setSliderScreen] = useState(0);
+  const [myGreenFeels, setMyGreenFeels] = useState([]);
+  // const [accordianOpen, setAccordianOpen] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState(null);
 
   // Two cases:
   // user not yet checked in
@@ -518,24 +558,38 @@ function InsideRoom(props) {
       ]
     : [];
 
-  const selectElements = roomConfig
-    ? questionSet.map((select, index) => {
-        console.log("select: ", select);
-        const tilt = Math.random() - 0.5;
-        const shunt = (Math.random() - 0.5) * 2;
-        const currentValue =
-          myCheckIn[index].word === ""
-            ? undefined
-            : { value: myCheckIn[index].word, label: myCheckIn[index].word };
-        return (
-          <>
-            <Prompt>{select.prompt}</Prompt>
-            <Select
+  const selects = ["green", "peach", "need", "strategy"];
+
+  const selectElements = ( //roomConfig
+    // ? selects.map((select, index) => {
+    //     console.log("select: ", select);
+    //     return (
+    <>
+      <Collapse
+        accordion={true}
+        onChange={setOpenAccordion}
+        activeKey={openAccordion}
+      >
+        <Panel header="Something I've felt in the last 24hrs" key="1">
+          {needs.map((need) => (
+            <Card type={"need"} word={need} />
+          ))}
+        </Panel>
+        <Panel header="Something I've felt in the last 24hrs" key="2">
+          hih hihi h
+        </Panel>
+      </Collapse>
+      {/* <MultiSelect
+              options={convertToOptions(greenFeelings)}
+              selected={myGreenFeels}
+              onSelectedChanged={setMyGreenFeels}
+            /> */}
+      {/* <Prompt>{select.prompt}</Prompt> */}
+      {/* <Select
               value={currentValue}
               inputProps={{ readOnly: true }}
               name={selectSetup[select.type].name}
               placeholder={selectSetup[select.type].placeholder}
-              options={convertToOptions(selectSetup[select.type].options)}
               // maxMenuHeight={9000}
               onChange={(option, action) =>
                 updateMyCheckIn(option, action, index)
@@ -558,11 +612,11 @@ function InsideRoom(props) {
                   primary: "rgba(0, 0, 0, 0.8)",
                 },
               })}
-            />
-          </>
-        );
-      })
-    : "loading";
+            /> */}
+    </>
+  );
+  //   })
+  // : "loading";
 
   const awesomeSliderConfig = {
     name: "insideRoom",
@@ -595,6 +649,9 @@ function InsideRoom(props) {
 
   return (
     <Background>
+      {/* <FocusBackground
+        style={{ display: o ? "absolute" : "none" }}
+      /> */}
       <Confetti width={width} height={height} recycle={false} />
       <CarouselProvider
         totalSlides={5}
@@ -607,6 +664,7 @@ function InsideRoom(props) {
         <Slider>
           <StyledSlide index={0}>
             <h1>👋 Welcome {user}</h1>
+            {selectElements}
             <br />
             <p>You're jumping into a call with some other people.</p>
             <p>
@@ -625,7 +683,9 @@ function InsideRoom(props) {
               </CopyToClipboardSpan>
               <p>{linkCopied ? "Link Copied 🙌" : null}</p>
             </ConfigContainer>
-            {navButtons(2, "Next", 0)}
+            <br />
+            <br />
+            <ButtonNext>Next</ButtonNext>
             <br />
             <br />
             <br />
