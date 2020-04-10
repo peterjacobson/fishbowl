@@ -11,6 +11,7 @@ import chunk from "lodash.chunk";
 import AwesomeSlider from "react-awesome-slider";
 import MultiSelect from "@khanacademy/react-multi-select";
 import Collapse, { Panel } from "rc-collapse";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import "react-awesome-slider/dist/styles.css";
 import EasyTimer from "../components/EasyTimer";
 import needs from "../data/needs";
@@ -18,13 +19,15 @@ import greenFeelings from "../data/greenFeelings";
 import peachFeelings from "../data/peachFeelings";
 import room4 from "../img/room4.jpg";
 import clarePeter from "../img/clarepete.jpg";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from "react-accessible-accordion";
+import converter from "number-to-words";
+import { Accordion, AccordionItem } from "react-sanfona";
+// import {
+//   Accordion,
+//   AccordionItem,
+//   AccordionItemHeading,
+//   AccordionItemButton,
+//   AccordionItemPanel,
+// } from "react-accessible-accordion";
 import {
   CarouselProvider,
   Slider,
@@ -195,24 +198,36 @@ const FocusBackground = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const StyledCard = styled.div``;
+const AddIcon = styled(IoIosAddCircleOutline)`
+  font-size: 1.3em;
+`;
+
+const StyledCard = styled.div`
+  padding: 4px 20px;
+  background: linear-gradient(
+    130deg,
+    ${(props) => colors[props.type][0]},
+    ${(props) => colors[props.type][1]}
+  ) !important;
+  color: white;
+  font-size: 1.2em;
+  -webkit-box-shadow: -1px -2px 5px -2px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: -1px -2px 5px -2px rgba(0, 0, 0, 0.25);
+  box-shadow: -1px -2px 5px -2px rgba(0, 0, 0, 0.25);
+`;
 
 const RightSpan = styled.div`
   float: right;
 `;
 
 function Card(props) {
-  console.log("props: ", props);
+  function addCard(type, word) {}
   return (
-    <StyledCard
-      style={{
-        backgroundColor: `linear-gradient(to bottom right, ${
-          colors[props.type][0]
-        }, ${colors[props.type][1]}) !important`,
-      }}
-    >
+    <StyledCard type={props.type}>
       {props.word}
-      <RightSpan>+</RightSpan>
+      <RightSpan>
+        <AddIcon onClick={() => addCard(props.type, props.word)} />
+      </RightSpan>
     </StyledCard>
   );
 }
@@ -372,10 +387,12 @@ function InsideRoom(props) {
     const columnLength = Math.ceil(needs.length / columns);
     return (
       <AllNeedsContainer>
-        {chunk(needs, columnLength).map((column) => (
-          <VocabColumn>
-            {column.map((need) => (
-              <VocabWord style={rotateStyle()}>{need}</VocabWord>
+        {chunk(needs, columnLength).map((column, index) => (
+          <VocabColumn key={index}>
+            {column.map((need, index) => (
+              <VocabWord style={rotateStyle()} key={index}>
+                {need}
+              </VocabWord>
             ))}
           </VocabColumn>
         ))}
@@ -560,63 +577,80 @@ function InsideRoom(props) {
 
   const selects = ["green", "peach", "need", "strategy"];
 
-  const selectElements = ( //roomConfig
-    // ? selects.map((select, index) => {
-    //     console.log("select: ", select);
-    //     return (
-    <>
-      <Collapse
-        accordion={true}
-        onChange={setOpenAccordion}
-        activeKey={openAccordion}
-      >
-        <Panel header="Something I've felt in the last 24hrs" key="1">
-          {needs.map((need) => (
-            <Card type={"need"} word={need} />
-          ))}
-        </Panel>
-        <Panel header="Something I've felt in the last 24hrs" key="2">
-          hih hihi h
-        </Panel>
-      </Collapse>
-      {/* <MultiSelect
-              options={convertToOptions(greenFeelings)}
-              selected={myGreenFeels}
-              onSelectedChanged={setMyGreenFeels}
-            /> */}
-      {/* <Prompt>{select.prompt}</Prompt> */}
-      {/* <Select
-              value={currentValue}
-              inputProps={{ readOnly: true }}
-              name={selectSetup[select.type].name}
-              placeholder={selectSetup[select.type].placeholder}
-              // maxMenuHeight={9000}
-              onChange={(option, action) =>
-                updateMyCheckIn(option, action, index)
+  function toggleAccordianOpen(id) {
+    setOpenAccordion(openAccordion === id ? null : id);
+  }
+
+  const accordionAnimation = {
+    duration: 700,
+    easing: "cubic-bezier(0.420, 0.000, 0.580, 1.000)",
+  };
+
+  const selectElements = (
+    <Accordion allowMultiple={false}>
+      {roomConfig ? (
+        <>
+          {roomConfig.numGreenFeelings > 0 ? (
+            <AccordionItem
+              title={
+                roomConfig.numGreenFeelings === 1
+                  ? "Something I've felt in the last 24hrs"
+                  : `${converter.toWords(
+                      roomConfig.numGreenFeelings
+                    )} things I've felt in the last 24hrs`
               }
-              styles={
-                checkIn.greenFeeling === ""
-                  ? null
-                  : customStyles(
-                      selectSetup[select.type].colors,
-                      tilt,
-                      shunt,
-                      100 - index
-                    )
+              key="1"
+              {...accordionAnimation}
+              onClick={() => toggleAccordianOpen(0)}
+              expanded={openAccordion === 0}
+            >
+              {greenFeelings.map((word, index) => (
+                <Card type={"green"} word={word} key={index} />
+              ))}
+            </AccordionItem>
+          ) : null}
+          {roomConfig.numPeachFeelings > 0 ? (
+            <AccordionItem
+              title={
+                roomConfig.numPeachFeelings === 1
+                  ? "Something I've felt in the last 24hrs"
+                  : `${converter.toWords(
+                      roomConfig.numPeachFeelings
+                    )} things I've felt in the last 24hrs`
               }
-              theme={(theme) => ({
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  primary25: "rgba(0, 0, 0, 0.4)",
-                  primary: "rgba(0, 0, 0, 0.8)",
-                },
-              })}
-            /> */}
-    </>
+              key="2"
+              {...accordionAnimation}
+              onClick={() => toggleAccordianOpen(1)}
+              expanded={openAccordion === 1}
+            >
+              {peachFeelings.map((word, index) => (
+                <Card type={"peach"} word={word} key={index} />
+              ))}
+            </AccordionItem>
+          ) : null}
+          {roomConfig.numNeeds > 0 ? (
+            <AccordionItem
+              title={
+                roomConfig.numNeeds === 1
+                  ? "A need that's alive in me"
+                  : `${converter.toWords(
+                      roomConfig.numNeeds
+                    )} needs that are alive in me`
+              }
+              key="3"
+              {...accordionAnimation}
+              onClick={() => toggleAccordianOpen(2)}
+              expanded={openAccordion === 2}
+            >
+              {needs.map((word, index) => (
+                <Card type={"need"} word={word} key={index} />
+              ))}
+            </AccordionItem>
+          ) : null}
+        </>
+      ) : null}
+    </Accordion>
   );
-  //   })
-  // : "loading";
 
   const awesomeSliderConfig = {
     name: "insideRoom",
