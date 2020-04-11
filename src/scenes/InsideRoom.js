@@ -15,6 +15,7 @@ import {
   IoIosAddCircleOutline,
   IoIosArrowDropdown,
   IoIosArrowDropup,
+  IoIosRemoveCircleOutline,
 } from "react-icons/io";
 
 import { FiCheckCircle, FiCircle } from "react-icons/fi";
@@ -215,6 +216,10 @@ const AddIcon = styled(IoIosAddCircleOutline)`
   font-size: 1.25em;
   cursor: pointer;
 `;
+const RemoveIcon = styled(IoIosRemoveCircleOutline)`
+  font-size: 1.25em;
+  cursor: pointer;
+`;
 
 const DropdownIcon = styled(IoIosArrowDropdown)`
   font-size: 1.25em;
@@ -265,18 +270,6 @@ const RightSpan = styled.div`
   float: right;
 `;
 
-function Card(props) {
-  function addCard(type, word) {}
-  return (
-    <StyledCard type={props.type}>
-      {props.word}
-      <RightSpan>
-        <AddIcon onClick={() => addCard(props.type, props.word)} />
-      </RightSpan>
-    </StyledCard>
-  );
-}
-
 function InsideRoom(props) {
   const defaultTimer = { startTime: 10000 };
   const checkinQuestions = ["green", "peach", "need", "need", "need"];
@@ -284,9 +277,7 @@ function InsideRoom(props) {
   const [roomUsers, setRoomUsers] = useState([]);
   const [roomConfig, setRoomConfig] = useState(null);
   const [checkIn, setCheckIn] = useState({});
-  const [myCheckIn, setMyCheckIn] = useState(
-    new Array(10).fill({ type: "", word: "" })
-  );
+  const [myCheckIn, setMyCheckIn] = useState([]);
   const [checkIns, setCheckIns] = useState([]);
   const [error, setError] = useState();
   const { width, height } = useWindowSize();
@@ -300,6 +291,24 @@ function InsideRoom(props) {
   // Two cases:
   // user not yet checked in
   // user checked in already
+
+  function Card(props) {
+    // function addCard(type, word) {}
+    return (
+      <StyledCard type={props.type}>
+        {props.word}
+        <RightSpan>
+          {myCheckIn.find((item) => item.word === props.word) ? (
+            <RemoveIcon
+              onClick={() => removeCheckinWord(props.type, props.word)}
+            />
+          ) : (
+            <AddIcon onClick={() => addCheckinWord(props.type, props.word)} />
+          )}
+        </RightSpan>
+      </StyledCard>
+    );
+  }
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
@@ -641,11 +650,23 @@ function InsideRoom(props) {
                 title={
                   <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
                     <Completion>
-                      {new Array(roomConfig.numGreenFeelings)
+                      {new Array(
+                        myCheckIn.filter((item) => item.type === "green").length
+                      )
                         .fill("")
                         .map(() => (
-                          <UncheckedIcon />
+                          <CheckedIcon />
                         ))}
+                      {myCheckIn.filter((item) => item.type === "green")
+                        .length > roomConfig.numGreenFeelings
+                        ? null
+                        : new Array(
+                            roomConfig.numGreenFeelings -
+                              myCheckIn.filter((item) => item.type === "green")
+                                .length
+                          )
+                            .fill("")
+                            .map(() => <UncheckedIcon />)}
                     </Completion>
                     {roomConfig.numGreenFeelings === 1
                       ? "Something I've felt in the last 24hrs"
@@ -760,7 +781,66 @@ function InsideRoom(props) {
       </>
     );
   }
-  // conso;
+
+  function addCheckinWord(type, word) {
+    const nextCheckin = [...myCheckIn, { type: type, word: word }];
+    setMyCheckIn(nextCheckin);
+    FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
+  }
+  function removeCheckinWord(type, word) {
+    const nextCheckin = myCheckIn.filter((item) => item.word !== word);
+    setMyCheckIn(nextCheckin);
+    FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
+  }
+
+  console.log("myCheckIn: ", myCheckIn);
+
+  const myCheckinSmall = (
+    <>
+      <h2>My check-in:</h2>
+      {printCheckinItemsSmall(myCheckIn)}
+    </>
+  );
+
+  function printCheckinItemsSmall(items) {
+    return items.map((item) => {
+      switch (item.type) {
+        case "green":
+          return (
+            <GreenFeeling style={rotateStyle()}>
+              {item.word}{" "}
+              <RemoveIcon
+                onClick={() => removeCheckinWord(item.type, item.word)}
+              />
+            </GreenFeeling>
+          );
+          break;
+        case "peach":
+          return (
+            <PeachFeeling style={rotateStyle()}>
+              {item.word}{" "}
+              <RemoveIcon
+                onClick={() => removeCheckinWord(item.type, item.word)}
+              />
+            </PeachFeeling>
+          );
+          break;
+        case "need":
+          return (
+            <Need style={rotateStyle()}>
+              {item.word}{" "}
+              <RemoveIcon
+                onClick={() => removeCheckinWord(item.type, item.word)}
+              />
+            </Need>
+          );
+          break;
+
+        default:
+          break;
+      }
+    });
+  }
 
   return (
     <Background>
@@ -776,6 +856,7 @@ function InsideRoom(props) {
         <Slider>
           <StyledSlide index={0}>
             <h1>👋 Welcome {user}</h1>
+            {myCheckinSmall}
             {selectElements}
             <br />
             <p>You're jumping into a call with some other people.</p>
