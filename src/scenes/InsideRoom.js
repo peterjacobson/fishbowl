@@ -240,6 +240,7 @@ const StyledCard = styled.div`
   -webkit-box-shadow: -1px -2px 5px -2px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: -1px -2px 5px -2px rgba(0, 0, 0, 0.25);
   box-shadow: -1px -2px 5px -2px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 `;
 
 const AccordionHeader = styled.div`
@@ -276,17 +277,17 @@ function InsideRoom(props) {
   function Card(props) {
     const isSelected = myCheckIn.find((item) => item.word === props.word);
     return (
-      <StyledCard type={props.type} on={isSelected}>
+      <StyledCard
+        type={props.type}
+        on={isSelected}
+        onClick={() =>
+          isSelected
+            ? removeCheckinWord(props.type, props.word)
+            : addCheckinWord(props.type, props.word)
+        }
+      >
         {props.word}
-        <RightSpan>
-          {isSelected ? (
-            <RemoveIcon
-              onClick={() => removeCheckinWord(props.type, props.word)}
-            />
-          ) : (
-            <AddIcon onClick={() => addCheckinWord(props.type, props.word)} />
-          )}
-        </RightSpan>
+        <RightSpan>{isSelected ? <RemoveIcon /> : <AddIcon />}</RightSpan>
       </StyledCard>
     );
   }
