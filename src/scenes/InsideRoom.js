@@ -640,6 +640,29 @@ function InsideRoom(props) {
     easing: "cubic-bezier(0.420, 0.000, 0.580, 1.000)",
   };
 
+  function CompletionChecks(props) {
+    const selectedOfType = myCheckIn.filter((item) => item.type === props.type);
+    console.log("props.numRequired: ", props.numRequired);
+    if (props.numRequired) {
+      return (
+        <Completion>
+          {selectedOfType.length > 0
+            ? new Array(selectedOfType.length)
+                .fill("")
+                .map(() => <CheckedIcon />)
+            : null}
+          {selectedOfType.length > props.numRequired
+            ? null
+            : new Array(props.numRequired - selectedOfType.length)
+                .fill("")
+                .map(() => <UncheckedIcon />)}
+        </Completion>
+      );
+    } else {
+      return null;
+    }
+  }
+
   const selectElements = (
     <Accordion allowMultiple={false}>
       {roomConfig ? (
@@ -649,25 +672,10 @@ function InsideRoom(props) {
               <Panel
                 title={
                   <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
-                    <Completion>
-                      {new Array(
-                        myCheckIn.filter((item) => item.type === "green").length
-                      )
-                        .fill("")
-                        .map(() => (
-                          <CheckedIcon />
-                        ))}
-                      {myCheckIn.filter((item) => item.type === "green")
-                        .length > roomConfig.numGreenFeelings
-                        ? null
-                        : new Array(
-                            roomConfig.numGreenFeelings -
-                              myCheckIn.filter((item) => item.type === "green")
-                                .length
-                          )
-                            .fill("")
-                            .map(() => <UncheckedIcon />)}
-                    </Completion>
+                    <CompletionChecks
+                      type="green"
+                      numRequired={roomConfig.numGreenFeelings}
+                    />
                     {roomConfig.numGreenFeelings === 1
                       ? "Something I've felt in the last 24hrs"
                       : `${converter.toWords(
@@ -696,6 +704,10 @@ function InsideRoom(props) {
               <AccordionItem
                 title={
                   <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
+                    <CompletionChecks
+                      type="peach"
+                      numRequired={roomConfig.numPeachFeelings}
+                    />
                     {roomConfig.numPeachFeelings === 1
                       ? "Something I've felt in the last 24hrs"
                       : `${converter.toWords(
@@ -724,6 +736,10 @@ function InsideRoom(props) {
               <AccordionItem
                 title={
                   <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
+                    <CompletionChecks
+                      type="need"
+                      numRequired={roomConfig.numNeeds}
+                    />
                     {roomConfig.numNeeds === 1
                       ? "A need that's alive in me"
                       : `${converter.toWords(
@@ -803,43 +819,47 @@ function InsideRoom(props) {
   );
 
   function printCheckinItemsSmall(items) {
-    return items.map((item) => {
-      switch (item.type) {
-        case "green":
-          return (
-            <GreenFeeling style={rotateStyle()}>
-              {item.word}{" "}
-              <RemoveIcon
-                onClick={() => removeCheckinWord(item.type, item.word)}
-              />
-            </GreenFeeling>
-          );
-          break;
-        case "peach":
-          return (
-            <PeachFeeling style={rotateStyle()}>
-              {item.word}{" "}
-              <RemoveIcon
-                onClick={() => removeCheckinWord(item.type, item.word)}
-              />
-            </PeachFeeling>
-          );
-          break;
-        case "need":
-          return (
-            <Need style={rotateStyle()}>
-              {item.word}{" "}
-              <RemoveIcon
-                onClick={() => removeCheckinWord(item.type, item.word)}
-              />
-            </Need>
-          );
-          break;
+    const sortOrder = ["green", "peach", "need"];
+    return items
+      .slice()
+      .sort((a, b) => sortOrder.indexOf(a.type) - sortOrder.indexOf(b.type))
+      .map((item) => {
+        switch (item.type) {
+          case "green":
+            return (
+              <GreenFeeling style={rotateStyle()}>
+                {item.word}{" "}
+                <RemoveIcon
+                  onClick={() => removeCheckinWord(item.type, item.word)}
+                />
+              </GreenFeeling>
+            );
+            break;
+          case "peach":
+            return (
+              <PeachFeeling style={rotateStyle()}>
+                {item.word}{" "}
+                <RemoveIcon
+                  onClick={() => removeCheckinWord(item.type, item.word)}
+                />
+              </PeachFeeling>
+            );
+            break;
+          case "need":
+            return (
+              <Need style={rotateStyle()}>
+                {item.word}{" "}
+                <RemoveIcon
+                  onClick={() => removeCheckinWord(item.type, item.word)}
+                />
+              </Need>
+            );
+            break;
 
-        default:
-          break;
-      }
-    });
+          default:
+            break;
+        }
+      });
   }
 
   return (
