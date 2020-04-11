@@ -10,8 +10,14 @@ import { scrollTo } from "scroll-js";
 import chunk from "lodash.chunk";
 import AwesomeSlider from "react-awesome-slider";
 import MultiSelect from "@khanacademy/react-multi-select";
-import Collapse, { Panel } from "rc-collapse";
-import { IoIosAddCircleOutline } from "react-icons/io";
+// import Collapse, { Panel } from "rc-collapse";
+import {
+  IoIosAddCircleOutline,
+  IoIosArrowDropdown,
+  IoIosArrowDropup,
+} from "react-icons/io";
+
+import { FiCheckCircle, FiCircle } from "react-icons/fi";
 import "react-awesome-slider/dist/styles.css";
 import EasyTimer from "../components/EasyTimer";
 import needs from "../data/needs";
@@ -192,17 +198,50 @@ const ClarePeterPhoto = styled.img`
 `;
 
 const FocusBackground = styled.div`
-  display: absolute;
-  height: 100vh;
+  position: absolute;
+  height: 100%;
   max-width: 660px;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 30;
+`;
+
+const Panel = styled(AccordionItem)``;
+
+const CollapseWrapper = styled.div`
+  margin-top: 10px;
 `;
 
 const AddIcon = styled(IoIosAddCircleOutline)`
-  font-size: 1.3em;
+  font-size: 1.25em;
+  cursor: pointer;
+`;
+
+const DropdownIcon = styled(IoIosArrowDropdown)`
+  font-size: 1.25em;
+`;
+const DropupIcon = styled(IoIosArrowDropup)`
+  font-size: 1.25em;
+`;
+
+const UncheckedIcon = styled(FiCircle)``;
+
+const CheckedIcon = styled(FiCheckCircle)``;
+
+const Completion = styled.span`
+  margin-right: 10px;
+`;
+
+const DropdownWrap = styled(ConfigContainer)`
+  color: white;
+  background: linear-gradient(
+    130deg,
+    ${(props) => colors[props.type][0]},
+    ${(props) => colors[props.type][1]}
+  ) !important;
 `;
 
 const StyledCard = styled.div`
+  border-radius: 20px;
   padding: 4px 20px;
   background: linear-gradient(
     130deg,
@@ -210,10 +249,16 @@ const StyledCard = styled.div`
     ${(props) => colors[props.type][1]}
   ) !important;
   color: white;
-  font-size: 1.2em;
+  font-size: 1.4em;
   -webkit-box-shadow: -1px -2px 5px -2px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: -1px -2px 5px -2px rgba(0, 0, 0, 0.25);
   box-shadow: -1px -2px 5px -2px rgba(0, 0, 0, 0.25);
+`;
+
+const AccordionHeader = styled.div`
+  vertical-align: middle;
+  font-size: 1.4em;
+  cursor: pointer;
 `;
 
 const RightSpan = styled.div`
@@ -582,7 +627,7 @@ function InsideRoom(props) {
   }
 
   const accordionAnimation = {
-    duration: 700,
+    duration: 300,
     easing: "cubic-bezier(0.420, 0.000, 0.580, 1.000)",
   };
 
@@ -591,61 +636,96 @@ function InsideRoom(props) {
       {roomConfig ? (
         <>
           {roomConfig.numGreenFeelings > 0 ? (
-            <AccordionItem
-              title={
-                roomConfig.numGreenFeelings === 1
-                  ? "Something I've felt in the last 24hrs"
-                  : `${converter.toWords(
-                      roomConfig.numGreenFeelings
-                    )} things I've felt in the last 24hrs`
-              }
-              key="1"
-              {...accordionAnimation}
-              onClick={() => toggleAccordianOpen(0)}
-              expanded={openAccordion === 0}
-            >
-              {greenFeelings.map((word, index) => (
-                <Card type={"green"} word={word} key={index} />
-              ))}
-            </AccordionItem>
+            <DropdownWrap type="green">
+              <Panel
+                title={
+                  <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
+                    <Completion>
+                      {new Array(roomConfig.numGreenFeelings)
+                        .fill("")
+                        .map(() => (
+                          <UncheckedIcon />
+                        ))}
+                    </Completion>
+                    {roomConfig.numGreenFeelings === 1
+                      ? "Something I've felt in the last 24hrs"
+                      : `${converter.toWords(
+                          roomConfig.numGreenFeelings
+                        )} things I've felt in the last 24hrs`}
+                    <RightSpan>
+                      {openAccordion === 0 ? <DropupIcon /> : <DropdownIcon />}
+                    </RightSpan>
+                  </AccordionHeader>
+                }
+                key="1"
+                {...accordionAnimation}
+                onClick={() => toggleAccordianOpen(0)}
+                expanded={openAccordion === 0}
+              >
+                <CollapseWrapper>
+                  {greenFeelings.map((word, index) => (
+                    <Card type={"green"} word={word} key={index} />
+                  ))}
+                </CollapseWrapper>
+              </Panel>
+            </DropdownWrap>
           ) : null}
           {roomConfig.numPeachFeelings > 0 ? (
-            <AccordionItem
-              title={
-                roomConfig.numPeachFeelings === 1
-                  ? "Something I've felt in the last 24hrs"
-                  : `${converter.toWords(
-                      roomConfig.numPeachFeelings
-                    )} things I've felt in the last 24hrs`
-              }
-              key="2"
-              {...accordionAnimation}
-              onClick={() => toggleAccordianOpen(1)}
-              expanded={openAccordion === 1}
-            >
-              {peachFeelings.map((word, index) => (
-                <Card type={"peach"} word={word} key={index} />
-              ))}
-            </AccordionItem>
+            <DropdownWrap type="peach">
+              <AccordionItem
+                title={
+                  <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
+                    {roomConfig.numPeachFeelings === 1
+                      ? "Something I've felt in the last 24hrs"
+                      : `${converter.toWords(
+                          roomConfig.numPeachFeelings
+                        )} things I've felt in the last 24hrs`}
+                    <RightSpan>
+                      {openAccordion === 1 ? <DropupIcon /> : <DropdownIcon />}
+                    </RightSpan>
+                  </AccordionHeader>
+                }
+                key="2"
+                {...accordionAnimation}
+                onClick={() => toggleAccordianOpen(1)}
+                expanded={openAccordion === 1}
+              >
+                <CollapseWrapper>
+                  {peachFeelings.map((word, index) => (
+                    <Card type={"peach"} word={word} key={index} />
+                  ))}
+                </CollapseWrapper>
+              </AccordionItem>
+            </DropdownWrap>
           ) : null}
           {roomConfig.numNeeds > 0 ? (
-            <AccordionItem
-              title={
-                roomConfig.numNeeds === 1
-                  ? "A need that's alive in me"
-                  : `${converter.toWords(
-                      roomConfig.numNeeds
-                    )} needs that are alive in me`
-              }
-              key="3"
-              {...accordionAnimation}
-              onClick={() => toggleAccordianOpen(2)}
-              expanded={openAccordion === 2}
-            >
-              {needs.map((word, index) => (
-                <Card type={"need"} word={word} key={index} />
-              ))}
-            </AccordionItem>
+            <DropdownWrap type="need">
+              <AccordionItem
+                title={
+                  <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
+                    {roomConfig.numNeeds === 1
+                      ? "A need that's alive in me"
+                      : `${converter.toWords(
+                          roomConfig.numNeeds
+                        )} needs that are
+                    alive in me`}
+                    <RightSpan>
+                      {openAccordion === 2 ? <DropupIcon /> : <DropdownIcon />}
+                    </RightSpan>
+                  </AccordionHeader>
+                }
+                key="3"
+                {...accordionAnimation}
+                onClick={() => toggleAccordianOpen(2)}
+                expanded={openAccordion === 2}
+              >
+                <CollapseWrapper>
+                  {needs.map((word, index) => (
+                    <Card type={"need"} word={word} key={index} />
+                  ))}
+                </CollapseWrapper>
+              </AccordionItem>
+            </DropdownWrap>
           ) : null}
         </>
       ) : null}
@@ -680,12 +760,10 @@ function InsideRoom(props) {
       </>
     );
   }
+  // conso;
 
   return (
     <Background>
-      {/* <FocusBackground
-        style={{ display: o ? "absolute" : "none" }}
-      /> */}
       <Confetti width={width} height={height} recycle={false} />
       <CarouselProvider
         totalSlides={5}
@@ -893,6 +971,9 @@ function InsideRoom(props) {
           </StyledSlide>
         </Slider>
       </CarouselProvider>
+      <FocusBackground
+        style={{ display: openAccordion === null ? "none" : "inherit" }}
+      />
     </Background>
   );
 }
