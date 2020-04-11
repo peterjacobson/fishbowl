@@ -287,6 +287,12 @@ function backgroundColor(type) {
   };
 }
 
+const ButtonHidden = styled.input`
+  height: 0px;
+  width: 0px;
+  /* display: none; */
+`;
+
 function CreateList(props) {
   const initialConfig = checkinQuestionsetOptions[0];
   const { onCreate, userId } = props;
@@ -397,6 +403,11 @@ function CreateList(props) {
     }
   }
 
+  function handleNameSubmitPage1(e) {
+    e.preventDefault();
+    checkName();
+  }
+
   return (
     <Background>
       <CarouselProvider
@@ -416,7 +427,7 @@ function CreateList(props) {
               <br />
               check-in room
             </h1>
-            <form name="createListForm">
+            <form name="createListForm" onSubmit={handleNameSubmitPage1}>
               <InputName
                 autoFocus={true}
                 type="text"
@@ -426,6 +437,11 @@ function CreateList(props) {
                 onChange={(e) => setUserName(e.target.value)}
               />
               <ButtonNext onClick={checkName}>Start</ButtonNext>
+              {/* <ButtonHidden
+                type="submit"
+                className="button"
+                onSubmit={checkName}
+              /> */}
             </form>
           </StyledSlide>
           <StyledSlide index={1}>

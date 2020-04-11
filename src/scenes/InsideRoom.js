@@ -267,6 +267,10 @@ const RightSpan = styled.div`
   float: right;
 `;
 
+const CheckinName = styled.h3`
+  margin-bottom: 4px;
+`;
+
 function InsideRoom(props) {
   const defaultTimer = { startTime: 10000 };
   const checkinQuestions = ["green", "peach", "need", "need", "need"];
@@ -336,11 +340,10 @@ function InsideRoom(props) {
           docSnapshot.data()
         );
         setCheckIns(nextCheckins);
-        setMyCheckIn(
-          nextCheckins.find((checkin) => {
-            return checkin.userId === userId;
-          }).checkInWords
-        );
+        const myNextCheckIn = nextCheckins.find((checkin) => {
+          return checkin.userId === userId;
+        });
+        if (myNextCheckIn) setMyCheckIn(myNextCheckIn.checkInWords);
         // setMyCheckIn(
         //   querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
         // );
@@ -372,7 +375,7 @@ function InsideRoom(props) {
   }
 
   const othersCheckIns = roomUsers
-    // .filter(user => user.userId !== userId)
+    .filter((user) => user.userId !== userId)
     .map((user) => {
       return {
         ...user,
@@ -399,10 +402,7 @@ function InsideRoom(props) {
 
   const othersCheckInsElements = othersCheckIns.map((userCheckin) => (
     <>
-      <h2>
-        {userCheckin.userId === userId ? "My" : `${userCheckin.name}'s`}{" "}
-        check-in:
-      </h2>
+      <CheckinName>{`${userCheckin.name}'s check-in:`}</CheckinName>
       {userCheckin.checkInWords ? (
         <CheckInItemRow>
           {userCheckin.checkInWords
@@ -808,7 +808,7 @@ function InsideRoom(props) {
 
   const myCheckinSmall = (
     <>
-      <h2>My check-in:</h2>
+      <CheckinName>My check-in:</CheckinName>
       {printCheckinItemsSmall(myCheckIn)}
     </>
   );
@@ -871,8 +871,7 @@ function InsideRoom(props) {
         <Slider>
           <StyledSlide index={0}>
             <h1>👋 Welcome {user}</h1>
-            {myCheckinSmall}
-            {selectElements}
+
             <br />
             <p>You're jumping into a call with some other people.</p>
             <p>
@@ -959,9 +958,8 @@ function InsideRoom(props) {
           </StyledSlide>
           <StyledSlide index={1}>
             <h1>Step 1: Pick my check-in</h1>
-            <Intro>Choose my check-in feelings and universal human needs</Intro>
-            {/* <p>{roomConfig ? roomConfig.checkInGuide : "loading"}</p> */}
-            <form name="myCheckIn">{selectElements}</form>
+            {myCheckinSmall}
+            {selectElements}
             {othersCheckInsElements}
             {navButtons(3, "Done", 1)}
             <br />
