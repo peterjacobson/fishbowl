@@ -248,11 +248,8 @@ const DropdownWrap = styled(ConfigContainer)`
 const StyledCard = styled.div`
   border-radius: 20px;
   padding: 4px 20px;
-  background: linear-gradient(
-    130deg,
-    ${(props) => colors[props.type][0]},
-    ${(props) => colors[props.type][1]}
-  ) !important;
+  background-color: ${(props) =>
+    props.on ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0)"};
   color: white;
   font-size: 1.4em;
   -webkit-box-shadow: -1px -2px 5px -2px rgba(0, 0, 0, 0.25);
@@ -270,18 +267,6 @@ const RightSpan = styled.div`
   float: right;
 `;
 
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  background-color: ${(props) =>
-    props.on ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0)"};
-`;
-
 function InsideRoom(props) {
   const defaultTimer = { startTime: 10000 };
   const checkinQuestions = ["green", "peach", "need", "need", "need"];
@@ -297,19 +282,12 @@ function InsideRoom(props) {
   const [timer, setTimer] = useState(defaultTimer);
   const [sliderScreen, setSliderScreen] = useState(0);
   const [myGreenFeels, setMyGreenFeels] = useState([]);
-  // const [accordianOpen, setAccordianOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState(null);
 
-  // Two cases:
-  // user not yet checked in
-  // user checked in already
-
   function Card(props) {
-    // function addCard(type, word) {}
     const isSelected = myCheckIn.find((item) => item.word === props.word);
     return (
-      <StyledCard type={props.type}>
-        {/* <Overlay on={isSelected} /> */}
+      <StyledCard type={props.type} on={isSelected}>
         {props.word}
         <RightSpan>
           {isSelected ? (
