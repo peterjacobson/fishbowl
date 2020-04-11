@@ -259,7 +259,7 @@ const StyledCard = styled.div`
 
 const AccordionHeader = styled.div`
   vertical-align: middle;
-  font-size: 1.4em;
+  font-size: 1.2em;
   cursor: pointer;
 `;
 
@@ -332,14 +332,23 @@ function InsideRoom(props) {
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoomCheckIns(roomId, {
       next: (querySnapshot) => {
-        setCheckIns(
-          querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+        const nextCheckins = querySnapshot.docs.map((docSnapshot) =>
+          docSnapshot.data()
         );
+        setCheckIns(nextCheckins);
+        setMyCheckIn(
+          nextCheckins.find((checkin) => {
+            return checkin.userId === userId;
+          }).checkInWords
+        );
+        // setMyCheckIn(
+        //   querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+        // );
       },
       error: () => setError("grocery-list-item-get-fail"),
     });
     return unsubscribe;
-  }, [roomId, setCheckIns]);
+  }, [roomId, setCheckIns, setMyCheckIn, userId]);
 
   function startTimerNow() {
     FirestoreService.startTimer(Date.now(), roomId, userId, user);
