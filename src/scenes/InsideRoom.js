@@ -270,6 +270,18 @@ const RightSpan = styled.div`
   float: right;
 `;
 
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background-color: ${(props) =>
+    props.on ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0)"};
+`;
+
 function InsideRoom(props) {
   const defaultTimer = { startTime: 10000 };
   const checkinQuestions = ["green", "peach", "need", "need", "need"];
@@ -294,11 +306,13 @@ function InsideRoom(props) {
 
   function Card(props) {
     // function addCard(type, word) {}
+    const isSelected = myCheckIn.find((item) => item.word === props.word);
     return (
       <StyledCard type={props.type}>
+        {/* <Overlay on={isSelected} /> */}
         {props.word}
         <RightSpan>
-          {myCheckIn.find((item) => item.word === props.word) ? (
+          {isSelected ? (
             <RemoveIcon
               onClick={() => removeCheckinWord(props.type, props.word)}
             />
@@ -361,7 +375,6 @@ function InsideRoom(props) {
   }
 
   function updateMyCheckIn(option, action, checkinIndex) {
-    console.log("roomUsers: ", roomUsers);
     const myNextCheckin = myCheckIn.map((checkin, index) => {
       return index === checkinIndex
         ? { ...checkin, word: option.value }
@@ -610,8 +623,6 @@ function InsideRoom(props) {
     },
   };
 
-  console.log("roomConfig: ", roomConfig);
-
   const questionSet = roomConfig
     ? [
         ...new Array(roomConfig.numGreenFeelings).fill({
@@ -642,7 +653,6 @@ function InsideRoom(props) {
 
   function CompletionChecks(props) {
     const selectedOfType = myCheckIn.filter((item) => item.type === props.type);
-    console.log("props.numRequired: ", props.numRequired);
     if (props.numRequired) {
       return (
         <Completion>
@@ -808,8 +818,6 @@ function InsideRoom(props) {
     setMyCheckIn(nextCheckin);
     FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
   }
-
-  console.log("myCheckIn: ", myCheckIn);
 
   const myCheckinSmall = (
     <>
