@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import * as FirestoreService from "../services/firestore";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
-import Select from "react-select";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import styled from "styled-components";
 import { scrollTo } from "scroll-js";
 import chunk from "lodash.chunk";
-import AwesomeSlider from "react-awesome-slider";
-import MultiSelect from "@khanacademy/react-multi-select";
-// import Collapse, { Panel } from "rc-collapse";
 import {
   IoIosAddCircleOutline,
   IoIosArrowDropdown,
@@ -28,13 +24,6 @@ import room4 from "../img/room4.jpg";
 import clarePeter from "../img/clarepete.jpg";
 import converter from "number-to-words";
 import { Accordion, AccordionItem } from "react-sanfona";
-// import {
-//   Accordion,
-//   AccordionItem,
-//   AccordionItemHeading,
-//   AccordionItemButton,
-//   AccordionItemPanel,
-// } from "react-accessible-accordion";
 import {
   CarouselProvider,
   Slider,
@@ -61,8 +50,6 @@ const Background = styled.div`
     ),
     url(${room4});
   background-size: cover;
-  /* padding-top: 20px;
-  padding-left: 30px; */
 `;
 
 const ConfigContainer = styled.div`
@@ -148,8 +135,6 @@ const Intro = styled.p`
 `;
 
 const CheckInItemRow = styled.div`
-  /* display: flex; */
-  /* flex-direction: row; */
   width: 100%;
 `;
 
@@ -312,26 +297,11 @@ function InsideRoom(props) {
         setRoomUsers(querySnapshot.data().users);
         setTimer(querySnapshot.data().timer || defaultTimer);
         setRoomConfig(querySnapshot.data().config);
-        // setMyCheckIn(
-        //   querySnapshot.data().config.checkinFormat.map((checkinItem) => {
-        //     return { type: checkinItem.type, word: "" };
-        //   })
-        // );
       },
       error: () => setError("grocery-list-item-get-fail"),
     });
     return unsubscribe;
   }, [roomId, setRoomUsers, setRoomConfig, setTimer, setMyCheckIn]);
-
-  // useEffect(() => {
-  //   const unsubscribe = FirestoreService.streamRoom(roomId, {
-  //     next: querySnapshot => {
-  //       setTimer(querySnapshot.data().timer || defaultTimer);
-  //     },
-  //     error: () => setError("grocery-list-item-get-fail")
-  //   });
-  //   return unsubscribe;
-  // }, [roomId, setTimer]);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoomCheckIns(roomId, {
@@ -344,9 +314,6 @@ function InsideRoom(props) {
           return checkin.userId === userId;
         });
         if (myNextCheckIn) setMyCheckIn(myNextCheckIn.checkInWords);
-        // setMyCheckIn(
-        //   querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
-        // );
       },
       error: () => setError("grocery-list-item-get-fail"),
     });
@@ -355,7 +322,6 @@ function InsideRoom(props) {
 
   function startTimerNow() {
     FirestoreService.startTimer(Date.now(), roomId, userId, user);
-    // setTimer(Date.now());
   }
 
   function convertToOptions(array) {
@@ -530,86 +496,6 @@ function InsideRoom(props) {
         " and " +
         otherUsers.slice(-1);
 
-  function customStyles(colors, tilt, shunt, z) {
-    return {
-      container: (base, state) => ({
-        ...base,
-        // transform: `rotate(${tilt}deg)`,
-        // marginLeft: shunt,
-        // marginBottom: -4,
-        fontSize: "1.3em",
-        maxWidth: 440,
-        zIndex: z,
-      }),
-      control: (base, state) => ({
-        ...base,
-        height: 70,
-        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]}) !important`,
-        // // match with the menu
-        // borderRadius: state.isFocused ? "3px 3px 0 0" : 3,
-        // // Overwrittes the different states of border
-        // borderColor: state.isFocused ? "yellow" : "green",
-        // Removes weird border around container
-        border: "none",
-        boxShadow: state.isFocused ? null : null,
-        "&:hover": {
-          // Overwrittes the different states of border
-          // borderColor: state.isFocused ? "red" : "blue"
-        },
-      }),
-      singleValue: (base) => ({
-        paddingLeft: 60,
-        color: "white",
-      }),
-      menu: (base) => ({
-        ...base,
-        // override border radius to match the box
-        // borderRadius: 0,
-        // kill the gap
-        marginTop: 0,
-        paddingLeft: 60,
-        color: "white",
-        backgroundImage: `linear-gradient(to bottom right, ${colors[0]}, ${colors[1]})`,
-      }),
-      menuList: (base) => ({
-        ...base,
-        // kill the white space on first and last option
-        padding: 0,
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#eee",
-      }),
-    };
-  }
-
-  const selectSetup = {
-    green: {
-      name: "greenFeeling",
-      // value: checkIn.greenFeeling,
-      placeholder: "...",
-      options: greenFeelings,
-      colors: colors.green,
-      z: 100,
-    },
-    peach: {
-      name: "peachFeeling",
-      // value: checkIn.peachFeeling,
-      placeholder: "...",
-      options: peachFeelings,
-      colors: colors.peach,
-      z: 99,
-    },
-    need: {
-      name: "need",
-      // value: checkIn.need1,
-      placeholder: "...",
-      options: needs,
-      colors: colors.need,
-      z: 98,
-    },
-  };
-
   const questionSet = roomConfig
     ? [
         ...new Array(roomConfig.numGreenFeelings).fill({
@@ -626,8 +512,6 @@ function InsideRoom(props) {
         }),
       ]
     : [];
-
-  const selects = ["green", "peach", "need", "strategy"];
 
   function toggleAccordianOpen(id) {
     setOpenAccordion(openAccordion === id ? null : id);
@@ -765,15 +649,6 @@ function InsideRoom(props) {
       ) : null}
     </Accordion>
   );
-
-  const awesomeSliderConfig = {
-    name: "insideRoom",
-    // fillParent: true,
-    infinite: false,
-    organicArrows: false,
-    bullets: false,
-    mobileTouch: true,
-  };
 
   function scrollToTop() {
     scrollTo(document.getElementsByClassName("carousel__slider")[0], {

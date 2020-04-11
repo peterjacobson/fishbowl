@@ -406,6 +406,7 @@ function CreateList(props) {
   function handleNameSubmitPage1(e) {
     e.preventDefault();
     checkName();
+    // move to room config slide
   }
 
   return (
@@ -437,11 +438,6 @@ function CreateList(props) {
                 onChange={(e) => setUserName(e.target.value)}
               />
               <ButtonNext onClick={checkName}>Start</ButtonNext>
-              {/* <ButtonHidden
-                type="submit"
-                className="button"
-                onSubmit={checkName}
-              /> */}
             </form>
           </StyledSlide>
           <StyledSlide index={1}>
