@@ -291,12 +291,6 @@ function backgroundColor(type) {
   };
 }
 
-const ButtonHidden = styled.input`
-  height: 0px;
-  width: 0px;
-  /* display: none; */
-`;
-
 function CreateList(props) {
   const initialConfig = checkinQuestionsetOptions[0];
   const { onCreate, userId } = props;
