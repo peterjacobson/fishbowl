@@ -416,36 +416,9 @@ function InsideRoom(props) {
   const othersCheckInsElements = othersCheckIns.map((userCheckin) => (
     <>
       <CheckinName>{`${userCheckin.name}'s check-in:`}</CheckinName>
-      {userCheckin.checkInWords ? (
-        <CheckInItemRow>
-          {userCheckin.checkInWords
-            .filter((word) => word.word !== "")
-            .map((word) => {
-              switch (word.type) {
-                case "green":
-                  return (
-                    <GreenFeeling style={rotateStyle()}>
-                      {word.word}
-                    </GreenFeeling>
-                  );
-                  break;
-                case "peach":
-                  return (
-                    <PeachFeeling style={rotateStyle()}>
-                      {word.word}
-                    </PeachFeeling>
-                  );
-                  break;
-                case "need":
-                  return <Need style={rotateStyle()}>{word.word}</Need>;
-                  break;
-
-                default:
-                  break;
-              }
-            })}
-        </CheckInItemRow>
-      ) : null}
+      {userCheckin.checkInWords
+        ? printCheckinItemsSmall(userCheckin.checkInWords)
+        : null}
     </>
   ));
 
@@ -942,17 +915,24 @@ function InsideRoom(props) {
           <StyledSlide index={1}>
             <h1>Select my check-in</h1>
             {myCheckinSmall}
-            <br />
+            {/* <br />
             <br />
             <br />
             <ButtonNext onClick={scrollToTop}>
               I've selected my check-in
             </ButtonNext>
             <br />
+            <br /> */}
             <br />
-            <br />
+            <h3>Select my check-in</h3>
             {selectElements}
+            <br />
+            <br />
+            <br />
             {othersCheckInsElements}
+            <br />
+            <br />
+            <br />
             {navButtons(3, "I've selected my check-in", 1)}
             <br />
             <br />
@@ -983,15 +963,12 @@ function InsideRoom(props) {
                 <h1>Reflect on everyone's check-ins</h1>
               </>
             )}
-            {navButtons(
-              4,
-              roomConfig.hasSpokenCheckin
-                ? "Everyone who wants to has checked-in"
-                : "Next step",
-              2
-            )}
+
             {myCheckinSmall}
             {othersCheckInsElements}
+            <br />
+            <br />
+            <br />
             {navButtons(
               4,
               roomConfig.hasSpokenCheckin
@@ -1040,10 +1017,10 @@ function InsideRoom(props) {
             <a href="https://www.heartwork.co.nz" target="_blank">
               <LittleButton>Learn more</LittleButton>
             </a>
+            <br id="donate" />
             <br />
             <br />
-            <br />
-            <h2 id="donate">Living in the gift economy</h2>
+            <h2>Living in the gift economy</h2>
             <a
               href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=j-7gFqjxXqJ7BmTm9Yt2L2sI1Kb1p_mtD_enWqAV"
               target="_blank"
