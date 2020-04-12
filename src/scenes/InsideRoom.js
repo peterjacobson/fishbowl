@@ -17,9 +17,10 @@ import {
 import { FiCheckCircle, FiCircle } from "react-icons/fi";
 import "react-awesome-slider/dist/styles.css";
 import EasyTimer from "../components/EasyTimer";
-import needs from "../data/needs";
 import greenFeelings from "../data/greenFeelings";
 import peachFeelings from "../data/peachFeelings";
+import needs from "../data/needs";
+import strategies from "../data/strategies";
 import room4 from "../img/room4.jpg";
 import clarePeter from "../img/clarepete.jpg";
 import converter from "number-to-words";
@@ -37,7 +38,6 @@ const colors = {
   peach: ["#E88FA2", "#EB9B81"],
   green: ["#1696A0", "#88C072"],
   need: ["#2A3076", "#1792C8"],
-
   strategy: ["#d62346", "#f0aa71"],
 };
 
@@ -176,6 +176,13 @@ const Need = styled(CheckInItem)`
     to bottom right,
     ${colors.need[0]},
     ${colors.need[1]}
+  );
+`;
+const Strategy = styled(CheckInItem)`
+  background: linear-gradient(
+    to bottom right,
+    ${colors.strategy[0]},
+    ${colors.strategy[1]}
   );
 `;
 
@@ -653,6 +660,29 @@ function InsideRoom(props) {
               </AccordionItem>
             </DropdownWrap>
           ) : null}
+          <DropdownWrap type="strategy">
+            <AccordionItem
+              title={
+                <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
+                  <CompletionChecks type="strategy" numRequired={1} />
+                  One or more strategies to meet my needs
+                  <RightSpan>
+                    {openAccordion === 3 ? <DropupIcon /> : <DropdownIcon />}
+                  </RightSpan>
+                </AccordionHeader>
+              }
+              key="4"
+              {...accordionAnimation}
+              onClick={() => toggleAccordianOpen(3)}
+              expanded={openAccordion === 3}
+            >
+              <CollapseWrapper>
+                {strategies.map((word, index) => (
+                  <Card type={"strategy"} word={word} key={index} />
+                ))}
+              </CollapseWrapper>
+            </AccordionItem>
+          </DropdownWrap>
         </>
       ) : null}
     </Accordion>
@@ -697,7 +727,7 @@ function InsideRoom(props) {
   );
 
   function printCheckinItemsSmall(items) {
-    const sortOrder = ["green", "peach", "need"];
+    const sortOrder = ["green", "peach", "need", "strategy"];
     return items
       .slice()
       .sort((a, b) => sortOrder.indexOf(a.type) - sortOrder.indexOf(b.type))
@@ -712,7 +742,6 @@ function InsideRoom(props) {
                 />
               </GreenFeeling>
             );
-            break;
           case "peach":
             return (
               <PeachFeeling style={rotateStyle()}>
@@ -722,7 +751,6 @@ function InsideRoom(props) {
                 />
               </PeachFeeling>
             );
-            break;
           case "need":
             return (
               <Need style={rotateStyle()}>
@@ -732,7 +760,15 @@ function InsideRoom(props) {
                 />
               </Need>
             );
-            break;
+          case "strategy":
+            return (
+              <Strategy style={rotateStyle()}>
+                {item.word}{" "}
+                <RemoveIcon
+                  onClick={() => removeCheckinWord(item.type, item.word)}
+                />
+              </Strategy>
+            );
 
           default:
             break;
