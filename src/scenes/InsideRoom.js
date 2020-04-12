@@ -43,7 +43,7 @@ const colors = {
 };
 
 const Background = styled.div`
-  height: calc(100vh - 38px);
+  height: 100vh;
   background: linear-gradient(
       135deg,
       rgba(255, 255, 255, 1),
@@ -759,11 +759,11 @@ function InsideRoom(props) {
   const myCheckinSmall = (
     <>
       <CheckinName>My check-in:</CheckinName>
-      {printCheckinItemsSmall(myCheckIn)}
+      {printCheckinItemsSmall(myCheckIn, true)}
     </>
   );
 
-  function printCheckinItemsSmall(items) {
+  function printCheckinItemsSmall(items, showRemoveIcon) {
     const sortOrder = ["green", "peach", "need", "strategy"];
     return items
       .slice()
@@ -774,36 +774,44 @@ function InsideRoom(props) {
             return (
               <GreenFeeling style={rotateStyle()}>
                 {item.word}{" "}
-                <RemoveIcon
-                  onClick={() => removeCheckinWord(item.type, item.word)}
-                />
+                {showRemoveIcon ? (
+                  <RemoveIcon
+                    onClick={() => removeCheckinWord(item.type, item.word)}
+                  />
+                ) : null}
               </GreenFeeling>
             );
           case "peach":
             return (
               <PeachFeeling style={rotateStyle()}>
                 {item.word}{" "}
-                <RemoveIcon
-                  onClick={() => removeCheckinWord(item.type, item.word)}
-                />
+                {showRemoveIcon ? (
+                  <RemoveIcon
+                    onClick={() => removeCheckinWord(item.type, item.word)}
+                  />
+                ) : null}
               </PeachFeeling>
             );
           case "need":
             return (
               <Need style={rotateStyle()}>
                 {item.word}{" "}
-                <RemoveIcon
-                  onClick={() => removeCheckinWord(item.type, item.word)}
-                />
+                {showRemoveIcon ? (
+                  <RemoveIcon
+                    onClick={() => removeCheckinWord(item.type, item.word)}
+                  />
+                ) : null}
               </Need>
             );
           case "strategy":
             return (
               <Strategy style={rotateStyle()}>
                 {item.word}{" "}
-                <RemoveIcon
-                  onClick={() => removeCheckinWord(item.type, item.word)}
-                />
+                {showRemoveIcon ? (
+                  <RemoveIcon
+                    onClick={() => removeCheckinWord(item.type, item.word)}
+                  />
+                ) : null}
               </Strategy>
             );
 
@@ -964,7 +972,8 @@ function InsideRoom(props) {
               </>
             )}
 
-            {myCheckinSmall}
+            <CheckinName>My check-in:</CheckinName>
+            {printCheckinItemsSmall(myCheckIn, false)}
             {othersCheckInsElements}
             <br />
             <br />

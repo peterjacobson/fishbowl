@@ -55,6 +55,10 @@ input {
   font-size: 2em;
 }
 
+html {
+  height: 100%;
+}
+
 textarea:focus,
 input:focus {
   outline: none;

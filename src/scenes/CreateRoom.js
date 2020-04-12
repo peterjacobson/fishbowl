@@ -9,6 +9,7 @@ import {
   ButtonBack,
   ButtonNext,
 } from "pure-react-carousel";
+import { scrollTo } from "scroll-js";
 import { FaQuestionCircle } from "react-icons/fa";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import ReactSlider from "react-slider";
@@ -26,7 +27,7 @@ const colors = {
 };
 
 const Background = styled.div`
-  height: calc(100vh - 38px);
+  height: 100vh;
   background: linear-gradient(
       135deg,
       rgba(255, 255, 255, 1),
@@ -48,7 +49,7 @@ const InputName = styled.input`
 `;
 
 const RoomConfig = styled.div`
-  width: 440px;
+  max-width: 440px;
   height: 100vh;
 `;
 
@@ -429,6 +430,15 @@ function CreateList(props) {
     e.preventDefault();
     checkName();
     // move to room config slide
+  }
+
+  function scrollToTop() {
+    scrollTo(document.getElementsByClassName("carousel__slider")[0], {
+      top: 0,
+      left: 0,
+      easing: "ease-in-out",
+      duration: 500,
+    });
   }
 
   return (
@@ -836,7 +846,7 @@ function CreateList(props) {
 
               <button onClick={createroom}>Open Room</button>
               <div>
-                <StyledBackButton>Back</StyledBackButton>
+                <StyledBackButton onClick={scrollToTop}>Back</StyledBackButton>
               </div>
               <br />
               <br />
