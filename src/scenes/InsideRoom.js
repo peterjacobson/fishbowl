@@ -37,6 +37,8 @@ const colors = {
   peach: ["#E88FA2", "#EB9B81"],
   green: ["#1696A0", "#88C072"],
   need: ["#2A3076", "#1792C8"],
+
+  strategy: ["#d62346", "#f0aa71"],
 };
 
 const Background = styled.div`
@@ -528,11 +530,16 @@ function InsideRoom(props) {
     if (props.numRequired) {
       return (
         <Completion>
-          {selectedOfType.length > 0
+          {selectedOfType.length > 0 &&
+          selectedOfType.length < props.numRequired
             ? new Array(selectedOfType.length)
                 .fill("")
                 .map(() => <CheckedIcon />)
             : null}
+          {selectedOfType.length >= props.numRequired
+            ? new Array(props.numRequired).fill("").map(() => <CheckedIcon />)
+            : null}
+
           {selectedOfType.length > props.numRequired
             ? null
             : new Array(props.numRequired - selectedOfType.length)

@@ -1,4 +1,5 @@
 export default [
+  "(I choose to pass)",
   "agency",
   "appreciation",
   "attention",
@@ -81,5 +82,6 @@ export default [
   "understanding",
   "vitality",
   "warmth",
-  "win:win"
+  "win:win",
+  "(something else)",
 ];

@@ -1,5 +1,5 @@
 export default [
-  "-",
+  "(I choose to pass)",
   "calm",
   "centered",
   "cheeky",
@@ -18,6 +18,7 @@ export default [
   "fulfilled",
   "grateful",
   "happy",
+  "hopeful",
   "in flow",
   "inspired",
   "moved",
@@ -31,5 +32,5 @@ export default [
   "secure",
   "supported",
   "trusting",
-  "hopeful"
+  "(something else)",
 ];

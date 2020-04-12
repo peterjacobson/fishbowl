@@ -1,5 +1,5 @@
 export default [
-  "-",
+  "(I choose to pass)",
   "agitated, turbulent",
   "angry",
   "anxious",
@@ -32,5 +32,6 @@ export default [
   "wary",
   "wired",
   "worried, uneasy",
-  "yearning"
+  "yearning",
+  "(something else)",
 ];
