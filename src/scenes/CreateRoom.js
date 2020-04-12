@@ -37,8 +37,6 @@ const Background = styled.div`
     ),
     url(${room4});
   background-size: cover;
-  padding-top: 20px;
-  padding-left: 30px;
 `;
 
 const InputName = styled.input`
