@@ -378,7 +378,7 @@ function CreateList(props) {
   function EstCheckinDuration() {
     const techProblemsFactor = 1 + (10 - zoomConfidence) / 20;
     const timeGettingIntoRoom = 120 * techProblemsFactor; //s
-    const avgTimeToSelectQuestion = 20; //s
+    const avgTimeToSelectQuestion = 10; //s
     const timeSelectingCheckins = numQuestions * avgTimeToSelectQuestion;
     const timeBetweenSpokenCheckiners = 5; //s
     const spokenCheckinTime = hasSpokenCheckin

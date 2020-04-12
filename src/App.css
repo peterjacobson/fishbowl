@@ -59,6 +59,10 @@ html {
   height: 100%;
 }
 
+*:focus {
+  outline: none !important;
+}
+
 textarea:focus,
 input:focus {
   outline: none;
@@ -125,10 +129,15 @@ button,
   overflow: scroll !important;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 .carousel__slider-tray-wrap--horizontal {
   overflow-x: hidden;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+html {
+  -ms-overflow-style: none;
 }
