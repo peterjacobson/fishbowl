@@ -925,9 +925,9 @@ function InsideRoom(props) {
             {/* <ErrorMessage errorCode={error}></ErrorMessage> */}
           </StyledSlide>
 
-          {roomConfig ? (
-            roomConfig.hasSpokenCheckin ? (
-              <StyledSlide index={2}>
+          <StyledSlide index={2}>
+            {roomConfig.hasSpokenCheckin ? (
+              <>
                 <h1>Spoken check-in</h1>
                 <CheckinName>Step one</CheckinName>
                 <Intro>
@@ -942,16 +942,24 @@ function InsideRoom(props) {
                   startTimerNow={startTimerNow}
                   timerLength={roomConfig ? roomConfig.timerLength : 60}
                 />
-                {myCheckinSmall}
-                {othersCheckInsElements}
-                {navButtons(4, "Everyone who wants to has checked-in", 2)}
-              </StyledSlide>
-            ) : null
-          ) : null}
+              </>
+            ) : (
+              <>
+                <h1>Reflect on everyone's check-ins</h1>
+              </>
+            )}
+            {myCheckinSmall}
+            {othersCheckInsElements}
+            {navButtons(
+              4,
+              roomConfig.hasSpokenCheckin
+                ? "Everyone who wants to has checked-in"
+                : "Next step",
+              2
+            )}
+          </StyledSlide>
 
-          <StyledSlide
-            index={roomConfig ? (roomConfig.hasSpokenCheckin ? 3 : 2) : 3}
-          >
+          <StyledSlide index={3}>
             <h1>Next step</h1>
             <br />
             <Intro>
@@ -994,9 +1002,7 @@ function InsideRoom(props) {
               <StyledBackButton>Back</StyledBackButton>
             </div>
           </StyledSlide>
-          <StyledSlide
-            index={roomConfig ? (roomConfig.hasSpokenCheckin ? 4 : 3) : 4}
-          >
+          <StyledSlide index={4}>
             <h1>Keep deeply listening to each other</h1>
             <p>
               A powerful form of empathy is listening for a persons feelings and
