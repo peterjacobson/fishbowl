@@ -14,7 +14,7 @@ import {
   IoIosArrowDropup,
   IoIosRemoveCircleOutline,
 } from "react-icons/io";
-import { FaQuestionCircle } from "react-icons/fa";
+import { FaQuestionCircle, FaLinkedin, FaFacebook } from "react-icons/fa";
 import { FiCheckCircle, FiCircle } from "react-icons/fi";
 import "react-awesome-slider/dist/styles.css";
 import EasyTimer from "../components/EasyTimer";
@@ -115,6 +115,13 @@ const AllPeachContainer = styled(VocabContainer)`
     to bottom right,
     ${colors.peach[0]},
     ${colors.peach[1]}
+  );
+`;
+const AllStrategyContainer = styled(VocabContainer)`
+  background: linear-gradient(
+    to bottom right,
+    ${colors.strategy[0]},
+    ${colors.strategy[1]}
   );
 `;
 
@@ -497,6 +504,25 @@ function InsideRoom(props) {
           </VocabColumn>
         ))}
       </AllGreenContainer>
+    );
+  }
+  function allStrategies() {
+    const columns = 2;
+    const columnLength = Math.ceil(
+      strategies.slice(1, strategies.length + 1).length / columns
+    );
+    return (
+      <AllStrategyContainer>
+        {chunk(strategies.slice(1, strategies.length + 1), columnLength).map(
+          (column) => (
+            <VocabColumn>
+              {column.map((strategy) => (
+                <VocabWord style={rotateStyle()}>{strategy}</VocabWord>
+              ))}
+            </VocabColumn>
+          )
+        )}
+      </AllStrategyContainer>
     );
   }
 
@@ -916,6 +942,15 @@ function InsideRoom(props) {
           <StyledSlide index={1}>
             <h1>Select my check-in</h1>
             {myCheckinSmall}
+            <br />
+            <br />
+            <br />
+            <ButtonNext onClick={scrollToTop}>
+              I've selected my check-in
+            </ButtonNext>
+            <br />
+            <br />
+            <br />
             {selectElements}
             {othersCheckInsElements}
             {navButtons(3, "I've selected my check-in", 1)}
@@ -948,6 +983,13 @@ function InsideRoom(props) {
                 <h1>Reflect on everyone's check-ins</h1>
               </>
             )}
+            {navButtons(
+              4,
+              roomConfig.hasSpokenCheckin
+                ? "Everyone who wants to has checked-in"
+                : "Next step",
+              2
+            )}
             {myCheckinSmall}
             {othersCheckInsElements}
             {navButtons(
@@ -967,21 +1009,47 @@ function InsideRoom(props) {
               room.
             </Intro>
             <ClarePeterPhoto src={clarePeter} />
+            <h2>What next?</h2>
+            <br />
+            <StyledBackButton>Back</StyledBackButton>
+            <br />
             <a href="/" target="_blank">
               <LittleButton>
-                create a new private Heartwork check-in room
+                Create a new private Heartwork check-in room
               </LittleButton>
+            </a>
+            <br />
+            <a href="#donate">
+              <LittleButton>
+                Support Clare and Peter at Heartwork to keep making and
+                improving these tools
+              </LittleButton>
+            </a>
+            <br />
+            <ButtonNext onClick={scrollToTop}>
+              Reflect on feelings, needs and strategies
+            </ButtonNext>
+            <br />
+            <a
+              href="https://www.heartwork.co.nz/shop-1/5gvwaf9e4s8gt6xagauhbvx6mfsi7d"
+              target="_blank"
+            >
+              <LittleButton>Get your own Heartwork decks</LittleButton>
+            </a>
+            <br />
+            <a href="https://www.heartwork.co.nz" target="_blank">
+              <LittleButton>Learn more</LittleButton>
             </a>
             <br />
             <br />
             <br />
-
+            <h2 id="donate">Living in the gift economy</h2>
             <a
               href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=j-7gFqjxXqJ7BmTm9Yt2L2sI1Kb1p_mtD_enWqAV"
               target="_blank"
             >
               <LittleButton>
-                support us with a weekly coffee - $4.50
+                Support us for the price of a weekly coffee - $4.50
               </LittleButton>
             </a>
             <a
@@ -989,21 +1057,75 @@ function InsideRoom(props) {
               target="_blank"
             >
               <LittleButton>
-                support us with a weekly beer at your local - $11
+                Support us for the price of a weekly drink at your local - $11
               </LittleButton>
             </a>
             <a
               href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=Y65SCIbzcDHc-yVcClx9zcdvwESJc-kP6EjZuhKm"
               target="_blank"
             >
-              <LittleButton>support us a weekly pizza - $23</LittleButton>
+              <LittleButton>
+                Support us for the price of a weekly pizza out - $23
+              </LittleButton>
             </a>
+            <Intro>
+              We’re Clare and Peter. We live and breathe this work. We made this
+              to help you and other people to get clear on what you need so you
+              can spend more time doing what matters to you!
+            </Intro>
+            <Intro>
+              We’d love for all of our work to be as accessible as possible for
+              people all around the world so we offer as much as possible to you
+              at no cost.
+            </Intro>
+            <Intro>
+              If you value this work and you’d like to contribute, you can
+              become a Heartwork subscriber now!
+            </Intro>
+            <h3>Connect with us</h3>
+            <Intro>
+              We'd love to connect with you. Connect here:
+              <br />
+              <a
+                href="https://www.linkedin.com/company/heartworkcollective"
+                target="_blank"
+              >
+                <FaLinkedin />
+                Heartwork
+              </a>{" "}
+              {"   "}
+              <a
+                href="https://www.facebook.com/heartworkcommunity"
+                target="_blank"
+              >
+                <FaFacebook />
+                Heartwork
+              </a>
+              <br />
+              <br />
+              <a
+                href="https://www.linkedin.com/in/clare-rousseau-co-initiator-heartwork-82b01832/"
+                target="_blank"
+              >
+                <FaLinkedin />
+                Clare
+              </a>
+              {"   "}
+              <a
+                href="https://www.linkedin.com/in/peterrhysjacobson/"
+                target="_blank"
+              >
+                <FaLinkedin />
+                Peter
+              </a>
+            </Intro>
+
             <div>
               <StyledBackButton>Back</StyledBackButton>
             </div>
           </StyledSlide>
           <StyledSlide index={4}>
-            <h1>Keep deeply listening to each other</h1>
+            <h1>Reflect on feelings, needs and strategies</h1>
             <p>
               A powerful form of empathy is listening for a persons feelings and
               universal human needs.
@@ -1025,7 +1147,12 @@ function InsideRoom(props) {
               How would you love the others to feel? How would you love to feel?
             </p>
             {allGreen()}
-            {navButtons(5, "We finished our meeting", 3)}
+            <p>
+              What strategies could you lead to meet your needs and contribute
+              to others meeting their needs?
+            </p>
+            {allStrategies()}
+            <StyledBackButton>Back</StyledBackButton>
             <br />
             <br />
             <br />
