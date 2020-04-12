@@ -23,7 +23,7 @@ import peachFeelings from "../data/peachFeelings";
 import needs from "../data/needs";
 import strategies from "../data/strategies";
 import room4 from "../img/room4.jpg";
-import clarePeter from "../img/clarepete.jpg";
+import clarePeter from "../img/clarepeter1.jpg";
 import converter from "number-to-words";
 import { Accordion, AccordionItem } from "react-sanfona";
 import {
@@ -293,10 +293,9 @@ const CheckinName = styled.h3`
 
 function InsideRoom(props) {
   const defaultTimer = { startTime: 10000 };
-  const checkinQuestions = ["green", "peach", "need", "need", "need"];
   const { users, roomId, user, onCloseroom, userId } = props;
   const [roomUsers, setRoomUsers] = useState([]);
-  const [roomConfig, setRoomConfig] = useState(null);
+  const [roomConfig, setRoomConfig] = useState({});
   const [checkIn, setCheckIn] = useState({});
   const [myCheckIn, setMyCheckIn] = useState([]);
   const [checkIns, setCheckIns] = useState([]);
@@ -915,39 +914,89 @@ function InsideRoom(props) {
             </WidthWrapper>
           </StyledSlide>
           <StyledSlide index={1}>
-            <h1>Step 1: Pick my check-in</h1>
+            <h1>Select my check-in</h1>
             {myCheckinSmall}
             {selectElements}
             {othersCheckInsElements}
-            {navButtons(3, "Done", 1)}
+            {navButtons(3, "I've selected my check-in", 1)}
             <br />
             <br />
             <br />
             {/* <ErrorMessage errorCode={error}></ErrorMessage> */}
           </StyledSlide>
-          <StyledSlide index={2}>
-            <h1>Step 2: Check-in together</h1>
+
+          {roomConfig ? (
+            roomConfig.hasSpokenCheckin ? (
+              <StyledSlide index={2}>
+                <h1>Spoken check-in</h1>
+                <CheckinName>Step one</CheckinName>
+                <Intro>
+                  Any person click “start my check-in” and share whatever you
+                  want about the words you’ve chosen.
+                </Intro>
+                <Intro>Everyone else shut up and listen 😉</Intro>
+                <CheckinName>Step two</CheckinName>
+                <Intro>Repeat, until everyone who wants to has spoken.</Intro>
+                <EasyTimer
+                  timer={timer}
+                  startTimerNow={startTimerNow}
+                  timerLength={roomConfig ? roomConfig.timerLength : 60}
+                />
+                {myCheckinSmall}
+                {othersCheckInsElements}
+                {navButtons(4, "Everyone who wants to has checked-in", 2)}
+              </StyledSlide>
+            ) : null
+          ) : null}
+
+          <StyledSlide
+            index={roomConfig ? (roomConfig.hasSpokenCheckin ? 3 : 2) : 3}
+          >
+            <h1>Next step</h1>
+            <br />
             <Intro>
-              Each person check-in - you have a little time to speak to the
-              words you chose. Everyone else shut up and listen with curiosity,
-              trust, attention and aroha 😉
+              👋 Hi, we’re Clare & Peter. We hope you’ve got some value from our
+              room.
             </Intro>
-            <Intro>
-              Once one person has finished their check-in there is no need for
-              immediate response - the next person just starts their check-in.{" "}
-              <br />
-              Trust that any responses can wait until everyone has checked in
-              (you can just do another round if it's feeling called for)
-            </Intro>
-            <EasyTimer
-              timer={timer}
-              startTimerNow={startTimerNow}
-              timerLength={roomConfig ? roomConfig.timerLength : 60}
-            />
-            {othersCheckInsElements}
-            {navButtons(4, "We've all checked-in", 2)}
+            <ClarePeterPhoto src={clarePeter} />
+            <a href="/" target="_blank">
+              <LittleButton>
+                create a new private Heartwork check-in room
+              </LittleButton>
+            </a>
+            <br />
+            <br />
+            <br />
+
+            <a
+              href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=j-7gFqjxXqJ7BmTm9Yt2L2sI1Kb1p_mtD_enWqAV"
+              target="_blank"
+            >
+              <LittleButton>
+                support us with a weekly coffee - $4.50
+              </LittleButton>
+            </a>
+            <a
+              href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=AqsVsyGxX5pj_eiztgD9mKwRRwlTNg-o0mrSM4a3"
+              target="_blank"
+            >
+              <LittleButton>
+                support us with a weekly beer at your local - $11
+              </LittleButton>
+            </a>
+            <a
+              href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=Y65SCIbzcDHc-yVcClx9zcdvwESJc-kP6EjZuhKm"
+              target="_blank"
+            >
+              <LittleButton>support us a weekly pizza - $23</LittleButton>
+            </a>
+            <div>
+              <StyledBackButton>Back</StyledBackButton>
+            </div>
           </StyledSlide>
-          <StyledSlide index={3}>
+          <StyledSlide
+            index={roomConfig ? (roomConfig.hasSpokenCheckin ? 4 : 3) : 4}
+          >
             <h1>Keep deeply listening to each other</h1>
             <p>
               A powerful form of empathy is listening for a persons feelings and
@@ -976,50 +1025,6 @@ function InsideRoom(props) {
             <br />
             <br />
             <br />
-          </StyledSlide>
-          <StyledSlide index={4}>
-            <br />
-            <a href="/" target="_blank">
-              <LittleButton>
-                create a new private Heartwork check-in room
-              </LittleButton>
-            </a>
-            <br />
-            <br />
-            <br />
-            <ClarePeterPhoto src={clarePeter} />
-            <Intro>
-              We're Clare and Peter. We made this in to support people around
-              the world to meet their needs for social connection during COVID.
-              We live in Te Whanganui-a-Tara (Wellington), Aotearoa (New
-              Zealand). We're committed to helping people #chooselove and
-              creating the more beautiful world our hearts know is possible.
-            </Intro>
-            <a
-              href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=j-7gFqjxXqJ7BmTm9Yt2L2sI1Kb1p_mtD_enWqAV"
-              target="_blank"
-            >
-              <LittleButton>
-                support us with a weekly coffee - $4.50
-              </LittleButton>
-            </a>
-            <a
-              href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=AqsVsyGxX5pj_eiztgD9mKwRRwlTNg-o0mrSM4a3"
-              target="_blank"
-            >
-              <LittleButton>
-                support us with a weekly beer at your local - $11
-              </LittleButton>
-            </a>
-            <a
-              href="https://www.heartwork.co.nz/checkout/subscribe?cartToken=Y65SCIbzcDHc-yVcClx9zcdvwESJc-kP6EjZuhKm"
-              target="_blank"
-            >
-              <LittleButton>support us a weekly pizza - $23</LittleButton>
-            </a>
-            <div>
-              <StyledBackButton>Back</StyledBackButton>
-            </div>
           </StyledSlide>
         </Slider>
       </CarouselProvider>
