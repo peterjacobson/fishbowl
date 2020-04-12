@@ -7,13 +7,14 @@ import Confetti from "react-confetti";
 import styled from "styled-components";
 import { scrollTo } from "scroll-js";
 import chunk from "lodash.chunk";
+import Modal from "styled-react-modal";
 import {
   IoIosAddCircleOutline,
   IoIosArrowDropdown,
   IoIosArrowDropup,
   IoIosRemoveCircleOutline,
 } from "react-icons/io";
-
+import { FaQuestionCircle } from "react-icons/fa";
 import { FiCheckCircle, FiCircle } from "react-icons/fi";
 import "react-awesome-slider/dist/styles.css";
 import EasyTimer from "../components/EasyTimer";
@@ -52,6 +53,30 @@ const Background = styled.div`
     ),
     url(${room4});
   background-size: cover;
+`;
+
+const HelpButton = styled(FaQuestionCircle)`
+  color: ${colors.green[1]};
+  cursor: pointer;
+`;
+
+const StyledModal = Modal.styled`
+  max-width: 660px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const ModalInner = styled.div`
+  padding: 20px 30px;
+  background-color: white;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const HelpText = styled.p`
+  margin-left: 10px;
+  color: #333;
 `;
 
 const ConfigContainer = styled.div`
@@ -282,6 +307,12 @@ function InsideRoom(props) {
   const [sliderScreen, setSliderScreen] = useState(0);
   const [myGreenFeels, setMyGreenFeels] = useState([]);
   const [openAccordion, setOpenAccordion] = useState(null);
+  const [showingNeedsHelp, setShowingNeedsHelp] = useState(false);
+
+  function toggleNeedsHelp(e) {
+    e.stopPropagation();
+    setShowingNeedsHelp(showingNeedsHelp ? false : true);
+  }
 
   function Card(props) {
     const isSelected = myCheckIn.find((item) => item.word === props.word);
@@ -636,12 +667,20 @@ function InsideRoom(props) {
                       type="need"
                       numRequired={roomConfig.numNeeds}
                     />
-                    {roomConfig.numNeeds === 1
-                      ? "A need that's alive in me"
-                      : `${converter.toWords(
-                          roomConfig.numNeeds
-                        )} needs that are
-                    alive in me`}
+                    {roomConfig.numNeeds === 1 ? (
+                      <>
+                        A need
+                        <HelpButton onClick={toggleNeedsHelp} /> that's alive in
+                        me
+                      </>
+                    ) : (
+                      <>
+                        {converter.toWords(roomConfig.numNeeds)} needs
+                        <HelpButton onClick={toggleNeedsHelp} /> that are alive
+                        in me
+                      </>
+                    )}
+
                     <RightSpan>
                       {openAccordion === 2 ? <DropupIcon /> : <DropdownIcon />}
                     </RightSpan>
@@ -987,6 +1026,50 @@ function InsideRoom(props) {
       <FocusBackground
         style={{ display: openAccordion === null ? "none" : "inherit" }}
       />
+      <StyledModal
+        isOpen={showingNeedsHelp}
+        onBackgroundClick={toggleNeedsHelp}
+        onEscapeKeydown={toggleNeedsHelp}
+      >
+        <ModalInner>
+          <HelpText>
+            <b>
+              All human behaviour can be viewed as attempts to meet universal
+              human needs.
+            </b>
+          </HelpText>
+          <HelpText>
+            <b>A universal human need is</b> distinct from a "strategy" to meet
+            a need. Needs are not attached to any one time, place or person. For
+            something to be a "need" there must be many different possible
+            strategies to meet it.
+          </HelpText>
+          <HelpText>
+            <b>The most important thing</b> is for each person to know what
+            their needs are. Often clarity on a need is enough for a person to
+            meet that need themselves.
+          </HelpText>
+          <HelpText>
+            <b>Knowing other people’s needs helps us</b> best create with them.
+            If I know you’re yearning for agency, I’ll approach you differently
+            than if I know you’re yearning for collaboration.
+          </HelpText>
+          <HelpText>
+            It’s hard to know what someone else’s needs are at any given moment
+            so it can be valuable to let each person reflect and speak for
+            themselves.
+          </HelpText>
+          <HelpText>
+            <i>
+              I might be silent in a meeting as a strategy to meet any number of
+              different needs: perhaps I have a need for peace, perhaps I want
+              to contribute as a leader and be effective and so I want to give
+              others space to speak, perhaps I’m exhausted and have a need for
+              rest, or something else entirely.
+            </i>
+          </HelpText>
+        </ModalInner>
+      </StyledModal>
     </Background>
   );
 }
