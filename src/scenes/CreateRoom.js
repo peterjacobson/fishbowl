@@ -211,6 +211,11 @@ const ModalInner = styled.div`
   margin-right: auto;
 `;
 
+const HelpButton = styled(FaQuestionCircle)`
+  color: ${colors.green[1]};
+  cursor: pointer;
+`;
+
 const Track = (props, state) => <StyledTrack {...props} index={state.index} />;
 const GreenTrack = (props, state) => (
   <StyledGreenTrack {...props} index={state.index} />
@@ -306,6 +311,11 @@ function CreateList(props) {
   const [showingSpokenCheckinHelp, setShowingSpokenCheckinHelp] = useState(
     false
   );
+  const [showingFeelingHelp, setShowingFeelingHelp] = useState(false);
+  const [showingGreenHelp, setShowingGreenHelp] = useState(false);
+  const [showingPeachHelp, setShowingPeachHelp] = useState(false);
+  const [showingNeedsHelp, setShowingNeedsHelp] = useState(false);
+
   const [zoomConfidence, setZoomConfidence] = useState(5);
   const [checkinQuestionSet, setCheckinQuestionSet] = useState(
     checkinQuestionsetOptions[0]
@@ -391,6 +401,18 @@ function CreateList(props) {
   }
   function toggleCheckInHelp() {
     setShowingSpokenCheckinHelp(showingSpokenCheckinHelp ? false : true);
+  }
+  function toggleFeelingHelp() {
+    setShowingFeelingHelp(showingFeelingHelp ? false : true);
+  }
+  function toggleGreenHelp() {
+    setShowingGreenHelp(showingGreenHelp ? false : true);
+  }
+  function togglePeachHelp() {
+    setShowingPeachHelp(showingPeachHelp ? false : true);
+  }
+  function toggleNeedsHelp() {
+    setShowingNeedsHelp(showingNeedsHelp ? false : true);
   }
   function toggleShowCustomise() {
     if (showConfig) {
@@ -478,11 +500,7 @@ function CreateList(props) {
                   >
                     Spoken check-in?
                   </StyledLabel>
-                  <FaQuestionCircle
-                    color={colors.green[1]}
-                    style={{ cursor: "pointer" }}
-                    onClick={toggleCheckInHelp}
-                  />
+                  <HelpButton onClick={toggleCheckInHelp} />
                   <StyledModal
                     isOpen={showingSpokenCheckinHelp}
                     onBackgroundClick={toggleCheckInHelp}
@@ -550,8 +568,54 @@ function CreateList(props) {
               {showConfig ? (
                 <ConfigContainer>
                   <ConfigH2>Customise check-in question set</ConfigH2>
-                  <ConfigH3>Feelings</ConfigH3>
+                  <ConfigH3>
+                    Feelings
+                    <HelpButton onClick={toggleFeelingHelp} />
+                  </ConfigH3>
+                  <StyledModal
+                    isOpen={showingFeelingHelp}
+                    onBackgroundClick={toggleFeelingHelp}
+                    onEscapeKeydown={toggleFeelingHelp}
+                  >
+                    <ModalInner>
+                      <HelpText>
+                        Sometimes “feelings” can be a turn off. So you can
+                        choose to setup this check-in with or without feelings.
+                      </HelpText>
+                      <HelpText>
+                        <b>The value of including feelings</b> is that our
+                        feelings are a useful gauge for our underlying human
+                        needs. Knowing where people are really at can also help
+                        a group make better decisions about how and where to
+                        spend their energy.
+                      </HelpText>
+                      <HelpText>
+                        So it’s up to you whether you include them - just
+                        remember that if you do, some people may not want to
+                        share or speak to what’s real for them, and that’s okay
+                        too.
+                      </HelpText>
+                    </ModalInner>
+                  </StyledModal>
                   <span>Number of green feelings to select (comfortable)</span>
+                  <HelpButton onClick={toggleGreenHelp} />
+                  <StyledModal
+                    isOpen={showingGreenHelp}
+                    onBackgroundClick={toggleGreenHelp}
+                    onEscapeKeydown={toggleGreenHelp}
+                  >
+                    <ModalInner>
+                      <HelpText>
+                        Sometimes we can be focussed on what’s not working - so
+                        much so we can miss the delight and forget what is
+                        working really well.{" "}
+                        <b>
+                          We find naming green feelings can be energising and an
+                          opportunity for celebration.
+                        </b>
+                      </HelpText>
+                    </ModalInner>
+                  </StyledModal>
 
                   <StyledSlider
                     min={0}
@@ -565,6 +629,34 @@ function CreateList(props) {
                   <span>
                     Number of peach feelings to select (uncomfortable)
                   </span>
+                  <HelpButton onClick={togglePeachHelp} />
+                  <StyledModal
+                    isOpen={showingPeachHelp}
+                    onBackgroundClick={togglePeachHelp}
+                    onEscapeKeydown={togglePeachHelp}
+                  >
+                    <ModalInner>
+                      <HelpText>
+                        Sometimes it can be hard for people to talk about and
+                        name uncomfortable feelings, which is totally
+                        understandable given the world many of us were raised
+                        in.
+                      </HelpText>
+                      <HelpText>
+                        <b>The value in including uncomfortable feelings</b> in
+                        a check-in, is it can help people to get really clear on
+                        what they need and take action, which may or may not
+                        include asking the group for support of some kind.
+                      </HelpText>
+                      <HelpText>
+                        Also, there’s an expression that goes “name it to tame
+                        it”. In other words, sometimes just naming feelings is
+                        all we need to dissolve them. Like acknowledging “I felt
+                        angry” and then realising you’re need was just to
+                        acknowledge it.
+                      </HelpText>
+                    </ModalInner>
+                  </StyledModal>
                   <StyledSlider
                     min={0}
                     max={4}
@@ -573,7 +665,50 @@ function CreateList(props) {
                     value={numPeachFeelings}
                     onChange={setNumPeachFeelings}
                   />
-                  <ConfigH3>Needs</ConfigH3>
+                  <ConfigH3>
+                    Needs
+                    <HelpButton onClick={toggleNeedsHelp} />
+                  </ConfigH3>
+                  <StyledModal
+                    isOpen={showingNeedsHelp}
+                    onBackgroundClick={toggleNeedsHelp}
+                    onEscapeKeydown={toggleNeedsHelp}
+                  >
+                    <ModalInner>
+                      <HelpText>
+                        <b>
+                          All human behaviour can be viewed as attempts to meet
+                          universal human needs.
+                        </b>
+                      </HelpText>
+                      <HelpText>
+                        <b>The most important thing</b> is for each person to
+                        know what their needs are. Often clarity on a need is
+                        enough for a person to meet that need themselves.
+                      </HelpText>
+                      <HelpText>
+                        <b>Knowing other people’s needs helps us</b> best create
+                        with them. If I know you’re yearning for agency, I’ll
+                        approach you differently than if I know you’re yearning
+                        for collaboration.
+                      </HelpText>
+                      <HelpText>
+                        It’s hard to know what someone else’s needs are at any
+                        given moment so it can be valuable to let each person
+                        reflect and speak for themselves.
+                      </HelpText>
+                      <HelpText>
+                        <i>
+                          I might be silent in a meeting as a strategy to meet
+                          any number of different needs: perhaps I have a need
+                          for peace, perhaps I want to contribute as a leader
+                          and be effective and so I want to give others space to
+                          speak, perhaps I’m exhausted and have a need for rest,
+                          or something else entirely.
+                        </i>
+                      </HelpText>
+                    </ModalInner>
+                  </StyledModal>
                   <span>Number of needs to select</span>
                   <StyledSlider
                     min={1}
