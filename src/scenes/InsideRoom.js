@@ -35,6 +35,8 @@ import {
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 
+import Footer from "../components/Footer";
+
 const colors = {
   peach: ["#E88FA2", "#EB9B81"],
   green: ["#1696A0", "#88C072"],
@@ -938,6 +940,7 @@ function InsideRoom(props) {
                 </a>
               </p>
             </WidthWrapper>
+            <Footer />
           </StyledSlide>
           <StyledSlide index={1}>
             <h1>Select my check-in</h1>
@@ -965,6 +968,7 @@ function InsideRoom(props) {
             <br />
             <br />
             {/* <ErrorMessage errorCode={error}></ErrorMessage> */}
+            <Footer />
           </StyledSlide>
 
           <StyledSlide index={2}>
@@ -1005,6 +1009,7 @@ function InsideRoom(props) {
                 : "Next step",
               2
             )}
+            <Footer />
           </StyledSlide>
 
           <StyledSlide index={3}>
@@ -1129,6 +1134,7 @@ function InsideRoom(props) {
             <div>
               <StyledBackButton>Back</StyledBackButton>
             </div>
+            <Footer />
           </StyledSlide>
           <StyledSlide index={4}>
             <h1>Reflect on feelings, needs and strategies</h1>
@@ -1165,6 +1171,7 @@ function InsideRoom(props) {
             <br />
             <br />
             <br />
+            <Footer />
           </StyledSlide>
         </Slider>
       </CarouselProvider>

@@ -17,6 +17,7 @@ import Modal from "styled-react-modal";
 import moment from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
 
+import Footer from "../components/Footer";
 import room4 from "../img/room4.jpg";
 
 const colors = {
@@ -47,8 +48,8 @@ const InputName = styled.input`
 `;
 
 const RoomConfig = styled.div`
-  max-width: 440px;
-  height: 100vh;
+  /* max-width: 440px; */
+  /* height: 100vh; */
 `;
 
 const StyledSlider = styled(ReactSlider)`
@@ -463,6 +464,7 @@ function CreateList(props) {
               />
               <ButtonNext onClick={checkName}>Start</ButtonNext>
             </form>
+            <Footer />
           </StyledSlide>
           <StyledSlide index={1}>
             <RoomConfig>
@@ -845,6 +847,7 @@ function CreateList(props) {
               <br />
               <br />
             </RoomConfig>
+            <Footer />
           </StyledSlide>
         </Slider>
       </CarouselProvider>

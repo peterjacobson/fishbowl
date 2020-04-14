@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import * as FirestoreService from "../services/firestore";
 import styled from "styled-components";
+
+import Footer from "../components/Footer";
 import room4 from "../img/room4.jpg";
 
 const Background = styled.div`
@@ -106,6 +108,7 @@ function JoinRoom(props) {
           </a>
         </p>
       </div>
+      <Footer />
     </Background>
   );
 }
