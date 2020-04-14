@@ -56,8 +56,11 @@ const Background = styled.div`
 `;
 
 const HelpButton = styled(FaQuestionCircle)`
-  color: ${colors.green[1]};
+  color: white;
   cursor: pointer;
+  -webkit-text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+  -moz-text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
 `;
 
 const StyledModal = Modal.styled`
@@ -313,11 +316,22 @@ function InsideRoom(props) {
   const [sliderScreen, setSliderScreen] = useState(0);
   const [myGreenFeels, setMyGreenFeels] = useState([]);
   const [openAccordion, setOpenAccordion] = useState(null);
+  const [showingGreenHelp, setShowingGreenHelp] = useState(false);
+  const [showingPeachHelp, setShowingPeachHelp] = useState(false);
   const [showingNeedsHelp, setShowingNeedsHelp] = useState(false);
 
   function toggleNeedsHelp(e) {
     e.stopPropagation();
     setShowingNeedsHelp(showingNeedsHelp ? false : true);
+  }
+
+  function toggleGreenHelp(e) {
+    e.stopPropagation();
+    setShowingGreenHelp(showingGreenHelp ? false : true);
+  }
+  function togglePeachHelp(e) {
+    e.stopPropagation();
+    setShowingPeachHelp(showingPeachHelp ? false : true);
   }
 
   function Card(props) {
@@ -554,6 +568,7 @@ function InsideRoom(props) {
 
   function toggleAccordianOpen(id) {
     setOpenAccordion(openAccordion === id ? null : id);
+    scrollToTop();
   }
 
   const accordionAnimation = {
@@ -606,6 +621,7 @@ function InsideRoom(props) {
                       : `${converter.toWords(
                           roomConfig.numGreenFeelings
                         )} things I've felt in the last 24hrs`}
+                    <HelpButton onClick={toggleGreenHelp} />
                     <RightSpan>
                       {openAccordion === 0 ? <DropupIcon /> : <DropdownIcon />}
                     </RightSpan>
@@ -638,6 +654,7 @@ function InsideRoom(props) {
                       : `${converter.toWords(
                           roomConfig.numPeachFeelings
                         )} things I've felt in the last 24hrs`}
+                    <HelpButton onClick={togglePeachHelp} />
                     <RightSpan>
                       {openAccordion === 1 ? <DropupIcon /> : <DropdownIcon />}
                     </RightSpan>
@@ -837,7 +854,6 @@ function InsideRoom(props) {
             <h1>👋 Welcome {user}</h1>
 
             <br />
-            <p>You're jumping into a call with some other people.</p>
             <p>
               This is a quick way to surface what is most alive for people right
               now and what you all need. In doing so, we hope you and the people
@@ -1113,14 +1129,15 @@ function InsideRoom(props) {
           <StyledSlide index={4}>
             <h1>Reflect on feelings, needs and strategies</h1>
             <p>
-              A powerful form of empathy is listening for a persons feelings and
-              universal human needs.
+              One way of thinking about communication (including non-verbal) is
+              that it is all an attempt or a strategy to fulfil a universal
+              human need. Sometimes these actions, words and behaviours might
+              not be effective, they might even be defensive or violent. But if
+              we understand the concept of needs, we may be able to empathise
+              effectively with the person and find a way to work with them that
+              is win-win.
             </p>
-            <p>
-              Every action word spoken is strategy to meet a beautiful need.
-              Sometimes these strategies can be tragic - they may seem violent
-              or defensive. But there is always a beautiful need underneath.
-            </p>
+
             <h2>Some Universal Human Needs</h2>
             {allNeeds()}
             <p>
@@ -1150,6 +1167,90 @@ function InsideRoom(props) {
       <FocusBackground
         style={{ display: openAccordion === null ? "none" : "inherit" }}
       />
+      <StyledModal
+        isOpen={showingGreenHelp}
+        onBackgroundClick={toggleGreenHelp}
+        onEscapeKeydown={toggleGreenHelp}
+      >
+        <ModalInner>
+          <HelpText>
+            <h3>Feelings</h3>
+          </HelpText>
+          <HelpText>
+            Sometimes “feelings” can be a turn off. So you can choose to
+            check-in with or without feelings.
+          </HelpText>
+          <HelpText>
+            <b>The value of including feelings</b> is that our feelings are a
+            useful gauge for our underlying human needs. Knowing where people
+            are really at can also help a group make better decisions about how
+            and where to spend their energy.
+          </HelpText>
+          <HelpText>
+            So it’s up to you whether you include them - just remember that if
+            you do, some people may not want to share or speak to what’s real
+            for them, and that’s okay too.
+          </HelpText>
+          <HelpText>
+            <h3>Green (comfortable) feelings</h3>
+          </HelpText>
+          <HelpText>
+            Sometimes we can be focussed on what’s not working - so much so we
+            can miss the delight and forget what is working really well.{" "}
+            <b>
+              We find naming green feelings can be energising and an opportunity
+              for celebration.
+            </b>
+          </HelpText>
+        </ModalInner>
+      </StyledModal>
+
+      <StyledModal
+        isOpen={showingPeachHelp}
+        onBackgroundClick={togglePeachHelp}
+        onEscapeKeydown={togglePeachHelp}
+      >
+        <ModalInner>
+          <HelpText>
+            <h3>Feelings</h3>
+          </HelpText>
+          <HelpText>
+            Sometimes “feelings” can be a turn off. So you can choose to
+            check-in with or without feelings.
+          </HelpText>
+          <HelpText>
+            <b>The value of including feelings</b> is that our feelings are a
+            useful gauge for our underlying human needs. Knowing where people
+            are really at can also help a group make better decisions about how
+            and where to spend their energy.
+          </HelpText>
+          <HelpText>
+            So it’s up to you whether you include them - just remember that if
+            you do, some people may not want to share or speak to what’s real
+            for them, and that’s okay too.
+          </HelpText>
+          <HelpText>
+            <h3>Peach (uncomfortable) feelings</h3>
+          </HelpText>
+          <HelpText>
+            Sometimes it can be hard for people to talk about and name
+            uncomfortable feelings, which is totally understandable given the
+            world many of us were raised in.
+          </HelpText>
+          <HelpText>
+            <b>The value in including uncomfortable feelings</b> in a check-in,
+            is it can help people to get really clear on what they need and take
+            action, which may or may not include asking the group for support of
+            some kind.
+          </HelpText>
+          <HelpText>
+            Also, there’s an expression that goes “name it to tame it”. In other
+            words, sometimes just naming feelings is all we need to dissolve
+            them. Like acknowledging “I felt angry” and then realising you’re
+            need was just to acknowledge it.
+          </HelpText>
+        </ModalInner>
+      </StyledModal>
       <StyledModal
         isOpen={showingNeedsHelp}
         onBackgroundClick={toggleNeedsHelp}
