@@ -23,19 +23,27 @@ const YourLogo = styled(HeartworkLink)`
   height: 70px;
 `;
 
-const FooterContainer = styled.p`
+const FooterContainer = styled.div`
   margin-top: 100px;
 `;
 
 export default function Footer(props) {
   return (
     <FooterContainer>
-      Created by Heartwork
-      <HeartworkLink href="https://heartwork.co.nz/" target="_blank" />
-      <br />
-      with thanks to our awesome sponsors
-      <br />
-      <YourLogo />
+      <p>
+        Created by Heartwork
+        <HeartworkLink href="https://heartwork.co.nz/" target="_blank" />
+        <br />
+        with thanks to our awesome sponsors
+        <br />
+        <YourLogo />
+      </p>
+      <p>
+        Want to get involved? We welcome contributions from volunteers and
+        organizational sponsors - email{" "}
+        <a href="mailto:clare@heartworkhq.com">clare@heartworkhq.com</a> to
+        connect.
+      </p>
     </FooterContainer>
   );
 }
