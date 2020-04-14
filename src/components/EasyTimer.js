@@ -1,6 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "rc-progress";
 import moment from "moment";
+import styled from "styled-components";
+
+const ConfigContainer = styled.div`
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+`;
+
+const LinkClick = styled.span`
+  background: none;
+  color: black;
+  text-decoration: underline;
+  box-shadow: none;
+`;
 
 export default function EasyTimer(props) {
   const [timeRemaining, setTimeRemaining] = useState(undefined);
@@ -35,19 +52,22 @@ export default function EasyTimer(props) {
     };
   }, [props.timer]);
 
-  return timeRemaining == undefined ? null : timeRemaining > 0 ? (
-    <>
+  return timeRemaining == undefined ? null : timeRemaining > 0 &&
+    props.timer.userName ? (
+    <ConfigContainer>
       {/* <Line
         percent={(1 - timeRemaining / timerLength) * 100}
         strokeColor={["#88C072", "#85D262", "#FE8C6A"]}
         trailColor={["#eef"]}
       /> */}
-
-      <p>{`${props.timer.userName} is checking in for another ${timeRemainingHR}`}</p>
-    </>
+      <h1>{`${props.timer.userName} is checking in for another ${timeRemainingHR}`}</h1>
+      <LinkClick onClick={props.stopTimerNow}>end timer now</LinkClick>
+    </ConfigContainer>
   ) : (
-    <button onClick={props.startTimerNow}>
-      Start my {timerLength / 1000} second checkin
-    </button>
+    <ConfigContainer>
+      <button onClick={props.startTimerNow}>
+        Start my {timerLength / 1000} second checkin
+      </button>
+    </ConfigContainer>
   );
 }

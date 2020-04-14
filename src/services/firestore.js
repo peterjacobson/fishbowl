@@ -145,6 +145,11 @@ export const startTimer = (timeStamp, roomId, userId, userName) => {
       },
     });
 };
+export const stopTimer = (roomId) => {
+  db.collection("rooms").doc(roomId).update({
+    timer: {},
+  });
+};
 // export const startTimer = (timeStamp, roomId, userId) => {
 //   db.collection("rooms")
 //     .doc(roomId)

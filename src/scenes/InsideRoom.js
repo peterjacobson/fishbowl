@@ -384,6 +384,9 @@ function InsideRoom(props) {
   function startTimerNow() {
     FirestoreService.startTimer(Date.now(), roomId, userId, user);
   }
+  function stopTimerNow() {
+    FirestoreService.stopTimer(roomId);
+  }
 
   function convertToOptions(array) {
     return array.map((item) => {
@@ -979,6 +982,7 @@ function InsideRoom(props) {
                 <EasyTimer
                   timer={timer}
                   startTimerNow={startTimerNow}
+                  stopTimerNow={stopTimerNow}
                   timerLength={roomConfig ? roomConfig.timerLength : 60}
                 />
               </>
