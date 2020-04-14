@@ -539,11 +539,11 @@ function InsideRoom(props) {
     ? [
         ...new Array(roomConfig.numGreenFeelings).fill({
           type: "green",
-          prompt: "Something I've felt in the last 24hrs",
+          prompt: "Something (comfortable) I've felt in the last 24hrs",
         }),
         ...new Array(roomConfig.numPeachFeelings).fill({
           type: "peach",
-          prompt: "Something I've felt in the last 24hrs",
+          prompt: "Something (uncomfortable) I've felt in the last 24hrs",
         }),
         ...new Array(roomConfig.numNeeds).fill({
           type: "need",
@@ -602,7 +602,7 @@ function InsideRoom(props) {
                       numRequired={roomConfig.numGreenFeelings}
                     />
                     {roomConfig.numGreenFeelings === 1
-                      ? "Something I've felt in the last 24hrs"
+                      ? "Something (comfortable) I've felt in the last 24hrs"
                       : `${converter.toWords(
                           roomConfig.numGreenFeelings
                         )} things I've felt in the last 24hrs`}
@@ -634,7 +634,7 @@ function InsideRoom(props) {
                       numRequired={roomConfig.numPeachFeelings}
                     />
                     {roomConfig.numPeachFeelings === 1
-                      ? "Something I've felt in the last 24hrs"
+                      ? "Something (uncomfortable) I've felt in the last 24hrs"
                       : `${converter.toWords(
                           roomConfig.numPeachFeelings
                         )} things I've felt in the last 24hrs`}
