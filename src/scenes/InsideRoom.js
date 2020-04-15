@@ -170,7 +170,7 @@ const CopyToClipboardSpan = styled(CopyToClipboard)`
 `;
 
 const Intro = styled.p`
-  max-width: 440px;
+  max-width: 350px;
 `;
 
 const CheckInItemRow = styled.div`
@@ -859,22 +859,22 @@ function InsideRoom(props) {
             <h1>👋 Welcome {user}</h1>
 
             <br />
-            <p>
+            <Intro>
               This is a quick way to surface what is most alive for people right
               now and what you all need. In doing so, we hope you and the people
               you’re meeting with will find ways to get what you need quicker,
               so you can spend more time doing what matters.
-            </p>
-            <ConfigContainer>
-              <p>{otherUserNameList}</p>
-              <CopyToClipboardSpan
-                text={`${window.location.origin}/?listId=${roomId}`}
-                onCopy={() => setLinkCopied(true)}
-              >
-                <LittleButton>Copy invite link to this room</LittleButton>
-              </CopyToClipboardSpan>
-              <p>{linkCopied ? "Link Copied 🙌" : null}</p>
-            </ConfigContainer>
+              <ConfigContainer>
+                <p>{otherUserNameList}</p>
+                <CopyToClipboardSpan
+                  text={`${window.location.origin}/?listId=${roomId}`}
+                  onCopy={() => setLinkCopied(true)}
+                >
+                  <LittleButton>Copy invite link to this room</LittleButton>
+                </CopyToClipboardSpan>
+                <p>{linkCopied ? "Link Copied 🙌" : null}</p>
+              </ConfigContainer>
+            </Intro>
             <br />
             <br />
             <ButtonNext>Next</ButtonNext>
