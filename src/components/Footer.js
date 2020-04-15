@@ -1,16 +1,17 @@
 import React from "react";
 
 import styled from "styled-components";
-import heartworklogo from "../img/heartworklogo.png";
+import logotextb from "../img/logotextb.png";
 import yourlogo from "../img/yourlogo.png";
+import kadesign from "../img/kadesign.png";
 
 const HeartworkLink = styled.a`
   display: inline-block;
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border: none;
-  background: url(${heartworklogo});
+  background: url(${logotextb});
   background-size: cover;
   background-position: center;
 `;
@@ -22,27 +23,49 @@ const YourLogo = styled(HeartworkLink)`
   width: 70px;
   height: 70px;
 `;
+const KimLogo = styled(HeartworkLink)`
+  background: url(${kadesign});
+  background-size: cover;
+  background-position: center;
+  width: 120px;
+  height: 30px;
+`;
 
 const FooterContainer = styled.div`
+  text-align: center;
   margin-top: 100px;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export default function Footer(props) {
   return (
     <FooterContainer>
       <p>
-        Created by Heartwork
+        Created with love by
+        <br />
+        <br />
         <HeartworkLink href="https://heartwork.co.nz/" target="_blank" />
         <br />
-        with thanks to our awesome sponsors
+        <br />
+        supported by our sponsors
+        <br />
+        <br />
+        <KimLogo />
+        <br />
+        <br />
+        <YourLogo />
+        <br />
         <br />
         <YourLogo />
       </p>
       <p>
-        Want to get involved? We welcome contributions from volunteers and
-        organizational sponsors - email{" "}
-        <a href="mailto:clare@heartworkhq.com">clare@heartworkhq.com</a> to
-        connect.
+        We're looking for values aligned organisations and people to support
+        this work and create with us. If this is you, give Clare a call on{" "}
+        <a href="tel:+6421933143">+64 21933143</a> or an email at{" "}
+        <a href="mailto:clare@heartworkhq.com">clare@heartworkhq.com</a>, she'd
+        love to hear from you.
       </p>
     </FooterContainer>
   );
