@@ -92,26 +92,26 @@ export const teReoGreen = {
   excited: { ma: `hiamo`, story: `"to be thrilled, excited, exciting"` },
   fulfilled: {
     ma: `ngākau kī`,
-    story: `*ngākau: seat of affections*kī: to be full*ngā: to take breath, breathe`,
+    story: `ngākau: seat of affections\nkī: to be full\nngā: to take breath, breathe`,
   },
   grateful: { ma: `whakawhetai`, story: `" to give thanks, be grateful "` },
   happy: {
     ma: `harikoa`,
     story: `"be joyful, euphoric, pleased, glad, cheerful, merry, delighted, exuberant, elated, thrilled, ecstatic, jubilant."`,
   },
-  "in flow": { ma: `pūheke`, story: `*pū: to blow gently*heke: to descend` },
+  "in flow": { ma: `pūheke`, story: `pū: to blow gently\nheke: to descend` },
   inspired: {
     ma: `whakaohooho`,
-    story: `*whaka: to cause something to happen, to become*oho: to wake up, be awakened `,
+    story: `whaka: to cause something to happen, to become\noho: to wake up, be awakened `,
   },
   moved: { ma: `oho`, story: `"to be roused, awakened"` },
   "open hearted": {
     ma: `ngākau aroha`,
-    story: `*ngākau: heart*aroha: to love, be affectionate, caring`,
+    story: `ngākau: heart\naroha: to love, be affectionate, caring`,
   },
   optimistic: {
     ma: `ngākau rorotu`,
-    story: `*ngākau: seat of affections*rorotu: to be favourable*tū: to stand`,
+    story: `ngākau: seat of affections\nrorotu: to be favourable\ntū: to stand`,
   },
   "passionate, enlivened": {
     ma: `wana`,
@@ -119,15 +119,15 @@ export const teReoGreen = {
   },
   playful: {
     ma: `tākarokaro`,
-    story: `*tākaro: to play with*aro: to take heed, pay attention to, interest, focus`,
+    story: `tākaro: to play with\naro: to take heed, pay attention to, interest, focus`,
   },
   rejuvenated: {
     ma: `haumanu`,
-    story: `*hau: vital essence*mānu: to be floating`,
+    story: `hau: vital essence\nmānu: to be floating`,
   },
   resonance: {
     ma: `tōiri`,
-    story: `*tō: to tingle, vibrate*iri: to be suspended, to rest upo`,
+    story: `tō: to tingle, vibrate\niri: to be suspended, to rest upo`,
   },
   safe: {
     ma: `marutau`,
@@ -135,15 +135,15 @@ export const teReoGreen = {
   },
   secure: {
     ma: `whakahaumaru`,
-    story: `*whaka: to cause something to happen*hau: vital essence*mānu: to be floating`,
+    story: `whaka: to cause something to happen\nhau: vital essence\nmānu: to be floating`,
   },
   supported: {
     ma: `taupuhipuhi`,
-    story: `*tau: to rest, settle*puhipuhi: to bunch up`,
+    story: `tau: to rest, settle\npuhipuhi: to bunch up`,
   },
   trusting: {
     ma: `whakawhirinaki`,
-    story: `*whaka: to cause something to happen*whirinaki: to lean, depend on, rely on."to lean against something, trust in, depend on, rely on"`,
+    story: `whaka: to cause something to happen\nwhirinaki: to lean, depend on, rely on."to lean against something, trust in, depend on, rely on"`,
   },
   hopeful: { ma: ``, story: `` },
 };

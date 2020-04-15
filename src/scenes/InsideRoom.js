@@ -311,6 +311,10 @@ const CheckinName = styled.h3`
 
 const MāoriKupu = styled.span``;
 
+const MaStory = styled.span`
+  font-size: 0.8em;
+`;
+
 const LangButton = styled.div`
   position: absolute;
   bottom: 10px;
@@ -937,7 +941,7 @@ function InsideRoom(props) {
         <br />
         {ma[type][word].ma}
         <br />
-        {ma[type][word].story}
+        <MaStory>{ma[type][word].story}</MaStory>
       </>
     );
   }
