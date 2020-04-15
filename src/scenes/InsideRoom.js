@@ -930,6 +930,61 @@ function InsideRoom(props) {
       });
   }
 
+  function bigCardContent(word, type) {
+    return (
+      <>
+        {word}
+        <br />
+        {ma[type][word].ma}
+        <br />
+        {ma[type][word].story}
+      </>
+    );
+  }
+
+  function printCheckinItemsBig(items, showRemoveIcon) {
+    const sortOrder = ["green", "peach", "need", "strategy"];
+    return items
+      .slice()
+      .sort((a, b) => sortOrder.indexOf(a.type) - sortOrder.indexOf(b.type))
+      .map((item) => {
+        switch (item.type) {
+          case "green":
+            return (
+              <GreenFeeling style={rotateStyle()}>
+                {bigCardContent(item.word, item.type)}
+              </GreenFeeling>
+            );
+          case "peach":
+            return (
+              <PeachFeeling style={rotateStyle()}>
+                {bigCardContent(item.word, item.type)}
+              </PeachFeeling>
+            );
+          case "need":
+            return (
+              <Need style={rotateStyle()}>
+                {bigCardContent(item.word, item.type)}
+              </Need>
+            );
+          case "strategy":
+            return (
+              <Strategy style={rotateStyle()}>
+                {item.word}{" "}
+                {showRemoveIcon ? (
+                  <RemoveIcon
+                    onClick={() => removeCheckinWord(item.type, item.word)}
+                  />
+                ) : null}
+              </Strategy>
+            );
+
+          default:
+            break;
+        }
+      });
+  }
+
   return (
     <Background>
       <LangButton onClick={toggleLang}>
@@ -1087,7 +1142,7 @@ function InsideRoom(props) {
             )}
 
             <CheckinName>My check-in:</CheckinName>
-            {printCheckinItemsSmall(myCheckIn, false)}
+            {printCheckinItemsBig(myCheckIn, false)}
             {othersCheckInsElements}
             <br />
             <br />
