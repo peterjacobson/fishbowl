@@ -216,6 +216,10 @@ const HelpButton = styled(FaQuestionCircle)`
   cursor: pointer;
 `;
 
+const Text = styled.p`
+  max-width: 350px;
+`;
+
 const Track = (props, state) => <StyledTrack {...props} index={state.index} />;
 const GreenTrack = (props, state) => (
   <StyledGreenTrack {...props} index={state.index} />
@@ -470,13 +474,13 @@ function CreateList(props) {
             <RoomConfig>
               <h1>Room Setup</h1>
               <h2>Welcome {userName}🙌</h2>
-              <p>You’re jumping into a call with some other people.</p>
-              <p>
+              <Text>You’re jumping into a call with some other people.</Text>
+              <Text>
                 This is a quick way to surface what is most alive for people
                 right now and what you all need. In doing so, we hope you and
                 the people you’re meeting with will find ways to get what you
                 need quicker, so you can spend more time doing what matters.
-              </p>
+              </Text>
 
               <ConfigContainer>
                 <ConfigH2>Check-in timing</ConfigH2>
