@@ -309,14 +309,29 @@ const CheckinName = styled.h3`
   margin-bottom: 4px;
 `;
 
-const MāoriKupu = styled.span`
-  text-decoration: underline;
+const MāoriKupu = styled.span``;
+
+const LangButton = styled.div`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  /* width: 30px;
+  height: 30px; */
+  padding: 20px;
+  border-radius: 100%;
+  -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  background-color: white;
+  z-index: 300;
+  cursor: pointer;
 `;
 
 function Card(props) {
   const {
     type,
     word,
+    lang,
     index,
     myCheckIn,
     removeCheckinWord,
@@ -332,13 +347,13 @@ function Card(props) {
         isSelected ? removeCheckinWord(type, word) : addCheckinWord(type, word)
       }
     >
-      {word}
-      {type === "strategy" ? null : ma[type][word] ? (
-        <span>
-          {" ~ "}
-          <MāoriKupu>{ma[type][word].ma}</MāoriKupu>
-        </span>
-      ) : null}
+      {type === "strategy" ? (
+        word
+      ) : lang === "ma" && ma[type][word] ? (
+        <MāoriKupu>{ma[type][word].ma}</MāoriKupu>
+      ) : (
+        word
+      )}
       <RightSpan>{isSelected ? <RemoveIcon /> : <AddIcon />}</RightSpan>
     </StyledCard>
   );
@@ -362,6 +377,7 @@ function InsideRoom(props) {
   const [showingGreenHelp, setShowingGreenHelp] = useState(false);
   const [showingPeachHelp, setShowingPeachHelp] = useState(false);
   const [showingNeedsHelp, setShowingNeedsHelp] = useState(false);
+  const [lang, setLang] = useState("en");
 
   function toggleNeedsHelp(e) {
     e.stopPropagation();
@@ -375,6 +391,14 @@ function InsideRoom(props) {
   function togglePeachHelp(e) {
     e.stopPropagation();
     setShowingPeachHelp(showingPeachHelp ? false : true);
+  }
+  function toggleLang(e) {
+    e.stopPropagation();
+    if (lang === "en") {
+      setLang("ma");
+    } else {
+      setLang("en");
+    }
   }
 
   useEffect(() => {
@@ -665,6 +689,7 @@ function InsideRoom(props) {
                     <Card
                       type={"green"}
                       word={word}
+                      lang={lang}
                       removeCheckinWord={removeCheckinWord}
                       addCheckinWord={addCheckinWord}
                       key={index}
@@ -706,6 +731,7 @@ function InsideRoom(props) {
                     <Card
                       type={"peach"}
                       word={word}
+                      lang={lang}
                       removeCheckinWord={removeCheckinWord}
                       addCheckinWord={addCheckinWord}
                       key={index}
@@ -755,6 +781,7 @@ function InsideRoom(props) {
                     <Card
                       type={"need"}
                       word={word}
+                      lang={lang}
                       removeCheckinWord={removeCheckinWord}
                       addCheckinWord={addCheckinWord}
                       key={index}
@@ -787,6 +814,7 @@ function InsideRoom(props) {
                   <Card
                     type={"strategy"}
                     word={word}
+                    lang={lang}
                     removeCheckinWord={removeCheckinWord}
                     addCheckinWord={addCheckinWord}
                     key={index}
@@ -840,6 +868,10 @@ function InsideRoom(props) {
     </>
   );
 
+  function translate(word, type, lang) {
+    return lang === "ma" ? ma[type][word].ma : word;
+  }
+
   function printCheckinItemsSmall(items, showRemoveIcon) {
     const sortOrder = ["green", "peach", "need", "strategy"];
     return items
@@ -850,7 +882,7 @@ function InsideRoom(props) {
           case "green":
             return (
               <GreenFeeling style={rotateStyle()}>
-                {item.word}{" "}
+                {translate(item.word, item.type, lang)}{" "}
                 {showRemoveIcon ? (
                   <RemoveIcon
                     onClick={() => removeCheckinWord(item.type, item.word)}
@@ -861,7 +893,7 @@ function InsideRoom(props) {
           case "peach":
             return (
               <PeachFeeling style={rotateStyle()}>
-                {item.word}{" "}
+                {translate(item.word, item.type, lang)}{" "}
                 {showRemoveIcon ? (
                   <RemoveIcon
                     onClick={() => removeCheckinWord(item.type, item.word)}
@@ -872,7 +904,7 @@ function InsideRoom(props) {
           case "need":
             return (
               <Need style={rotateStyle()}>
-                {item.word}{" "}
+                {translate(item.word, item.type, lang)}{" "}
                 {showRemoveIcon ? (
                   <RemoveIcon
                     onClick={() => removeCheckinWord(item.type, item.word)}
@@ -900,6 +932,9 @@ function InsideRoom(props) {
 
   return (
     <Background>
+      <LangButton onClick={toggleLang}>
+        {lang === "ma" ? "En" : "Mā"}
+      </LangButton>
       <Confetti width={width} height={height} recycle={false} />
       <CarouselProvider
         totalSlides={5}
