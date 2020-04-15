@@ -35,3 +35,129 @@ export default [
   "yearning",
   "(something else)",
 ];
+
+export const teReoPeach = {
+  "agitated, turbulent": {
+    ma: `kakare`,
+    story: `kā: to be ablaze, burningkakā: to be red hot, inflamed`,
+  },
+  angry: { ma: `puku te rae`, story: `puku: to swellrae: forehead, temple` },
+  anxious: {
+    ma: `pawera`,
+    story: `pā: to be connected with, to blow as the windwera: to burn or be burnt down`,
+  },
+  "apprehensive, alarmed": {
+    ma: `mōrearea`,
+    story: `mō: for, about, concerningrea: spring up like a shoot`,
+  },
+  confused: {
+    ma: `kutekute`,
+    story: `kū: prefix used to intensifykūtē: to squeeze out`,
+  },
+  "constricted chest": {
+    ma: `poho nanati`,
+    story: `poho: chest, seat of affectionsnanati: constricting, tight`,
+  },
+  depressed: { ma: `pōke`, story: `pō: darkness, the setting of the sun` },
+  disappointed: {
+    ma: `matekiri`,
+    story: `mate: to be overcome, to be in want of, defeatedkiri: a persons self (figurative sense)`,
+  },
+  distracted: {
+    ma: `pororaru`,
+    story: `poro: to cut short, trim off, abbreviate, shortenraru: problem, trouble, conflict`,
+  },
+  embarrassed: {
+    ma: `whakamā`,
+    story: `whaka: to cause something to happen, to becomemā: to be faded, pale`,
+  },
+  exhausted: {
+    ma: `mīere`,
+    story: `mīere: to become powerless, be beaten, wasted, exhausted`,
+  },
+  frustrated: {
+    ma: `matekiri`,
+    story: `mate: to be overcome, to be in want of, defeatedkiri: a persons self (figurative sense)`,
+  },
+  grief: {
+    ma: `pūkatokato`,
+    story: `pū: to lie in a heap, root, foundation, origin, sourcekato: flow or currentkatokato: to break off`,
+  },
+  guarded: {
+    ma: `ohiti`,
+    story: `ohi: to growiti: small, unimportant, insignificant`,
+  },
+  heartbroken: {
+    ma: `pōuri`,
+    story: `pō: darkness, the setting of the sunuri: descendant"To be within a space that has descended from darkness or the absence of light"`,
+  },
+  insecure: {
+    ma: `pānekeneke`,
+    story: `pā: to be connected with, relate toneke: to move, shiftnekeneke: movementTo be within a space that is unsettled, unbalanced, constantly moving`,
+  },
+  lonely: { ma: `mokemoke`, story: `moke: to be solitary, unsociable` },
+  overwhelmed: {
+    ma: `tāmomi`,
+    story: `tā: to beat, thump, throw down, to be overcomemomi: to swallow up, siphon`,
+  },
+  pain: {
+    ma: `mamae`,
+    story: `mā: to be faded, palemae: to be withered with fear`,
+  },
+  "sad, disheartened": {
+    ma: `matapouri`,
+    story: `mata: face, surfacepō: darkness, the setting of the sunuri: descendant`,
+  },
+  "scared, fear": {
+    ma: `koera`,
+    story: `koera: to be afraid, frightened, fearful, scared.`,
+  },
+  shame: {
+    ma: `māteatea`,
+    story: `mā: to be faded, paletea: white, clear, transparentteatea: clearly seen`,
+  },
+  stressed: {
+    ma: `whakarikarika`,
+    story: `whaka: to cause something to happen, to becomerika: to be eager, impatientrikarika: to be restrained, stinted`,
+  },
+  surprised: {
+    ma: `whakaohorere`,
+    story: `whaka: to cause something to happenoho: to wake up, arise, awakerere: to fly, flee, leap`,
+  },
+  tense: {
+    ma: `kita`,
+    story: `ki: towards, intotā: to beat, thump, throw down, to be overcome`,
+  },
+  "torn, uncertain": {
+    ma: `ngākaurua`,
+    story: `ngākau: mindrua: two"To be of two minds"`,
+  },
+  unclear: {
+    ma: `hākirikiri`,
+    story: `hā: breath, essencekiri: person, self - figurative`,
+  },
+  uncomfortable: {
+    ma: `manawarau`,
+    story: `manawa: heart, seat of affectionswā: time, seasonrau: the blade of a weapon`,
+  },
+  vulnerable: {
+    ma: `whakaraerae`,
+    story: `whaka: to cause something to happen, to becomerae: forehead, temple`,
+  },
+  wary: {
+    ma: `tūpato`,
+    story: `tū: to stand, take placepā: to be connected with, relate topatō: to snap, emit a sharp sudden sound`,
+  },
+  wired: {
+    ma: `āmaimai`,
+    story: `amai: be giddy, dizzymai: directional, meaning towards the speaker"Used in time expressions, seemingly for emphasis`,
+  },
+  "worried, uneasy": {
+    ma: `āwangawanga`,
+    story: `awa: river, streamwā: time, seasonānga: driving force, driving away, to turn to`,
+  },
+  yearning: {
+    ma: `kaimomotu`,
+    story: `momotu: to sever, separate, snap, break, depart, disappear tokaimomotu: to yearn deeply, long for, crave`,
+  },
+};

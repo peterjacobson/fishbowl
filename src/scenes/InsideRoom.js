@@ -18,9 +18,9 @@ import { FaQuestionCircle, FaLinkedin, FaFacebook } from "react-icons/fa";
 import { FiCheckCircle, FiCircle } from "react-icons/fi";
 import "react-awesome-slider/dist/styles.css";
 import EasyTimer from "../components/EasyTimer";
-import greenFeelings from "../data/greenFeelings";
-import peachFeelings from "../data/peachFeelings";
-import needs from "../data/needs";
+import greenFeelings, { teReoGreen } from "../data/greenFeelings";
+import peachFeelings, { teReoPeach } from "../data/peachFeelings";
+import needs, { teReoNeeds } from "../data/needs";
 import strategies from "../data/strategies";
 import room4 from "../img/room4.jpg";
 import clarePeter from "../img/clarepeter1.jpg";
@@ -36,6 +36,12 @@ import {
 import "pure-react-carousel/dist/react-carousel.es.css";
 
 import Footer from "../components/Footer";
+
+const ma = {
+  green: teReoGreen,
+  peach: teReoPeach,
+  need: teReoNeeds,
+};
 
 const colors = {
   peach: ["#E88FA2", "#EB9B81"],
@@ -303,6 +309,41 @@ const CheckinName = styled.h3`
   margin-bottom: 4px;
 `;
 
+const MāoriKupu = styled.span`
+  text-decoration: underline;
+`;
+
+function Card(props) {
+  const {
+    type,
+    word,
+    index,
+    myCheckIn,
+    removeCheckinWord,
+    addCheckinWord,
+  } = props;
+  const isSelected = myCheckIn.find((item) => item.word === word);
+  return (
+    <StyledCard
+      key={index}
+      type={type}
+      on={isSelected}
+      onClick={() =>
+        isSelected ? removeCheckinWord(type, word) : addCheckinWord(type, word)
+      }
+    >
+      {word}
+      {type === "strategy" ? null : ma[type][word] ? (
+        <span>
+          {" ~ "}
+          <MāoriKupu>{ma[type][word].ma}</MāoriKupu>
+        </span>
+      ) : null}
+      <RightSpan>{isSelected ? <RemoveIcon /> : <AddIcon />}</RightSpan>
+    </StyledCard>
+  );
+}
+
 function InsideRoom(props) {
   const defaultTimer = { startTime: 10000 };
   const { users, roomId, user, onCloseroom, userId } = props;
@@ -334,24 +375,6 @@ function InsideRoom(props) {
   function togglePeachHelp(e) {
     e.stopPropagation();
     setShowingPeachHelp(showingPeachHelp ? false : true);
-  }
-
-  function Card(props) {
-    const isSelected = myCheckIn.find((item) => item.word === props.word);
-    return (
-      <StyledCard
-        type={props.type}
-        on={isSelected}
-        onClick={() =>
-          isSelected
-            ? removeCheckinWord(props.type, props.word)
-            : addCheckinWord(props.type, props.word)
-        }
-      >
-        {props.word}
-        <RightSpan>{isSelected ? <RemoveIcon /> : <AddIcon />}</RightSpan>
-      </StyledCard>
-    );
   }
 
   useEffect(() => {
@@ -639,7 +662,15 @@ function InsideRoom(props) {
               >
                 <CollapseWrapper>
                   {greenFeelings.map((word, index) => (
-                    <Card type={"green"} word={word} key={index} />
+                    <Card
+                      type={"green"}
+                      word={word}
+                      removeCheckinWord={removeCheckinWord}
+                      addCheckinWord={addCheckinWord}
+                      key={index}
+                      index={index}
+                      myCheckIn={myCheckIn}
+                    />
                   ))}
                 </CollapseWrapper>
               </Panel>
@@ -672,7 +703,15 @@ function InsideRoom(props) {
               >
                 <CollapseWrapper>
                   {peachFeelings.map((word, index) => (
-                    <Card type={"peach"} word={word} key={index} />
+                    <Card
+                      type={"peach"}
+                      word={word}
+                      removeCheckinWord={removeCheckinWord}
+                      addCheckinWord={addCheckinWord}
+                      key={index}
+                      index={index}
+                      myCheckIn={myCheckIn}
+                    />
                   ))}
                 </CollapseWrapper>
               </AccordionItem>
@@ -713,7 +752,15 @@ function InsideRoom(props) {
               >
                 <CollapseWrapper>
                   {needs.map((word, index) => (
-                    <Card type={"need"} word={word} key={index} />
+                    <Card
+                      type={"need"}
+                      word={word}
+                      removeCheckinWord={removeCheckinWord}
+                      addCheckinWord={addCheckinWord}
+                      key={index}
+                      index={index}
+                      myCheckIn={myCheckIn}
+                    />
                   ))}
                 </CollapseWrapper>
               </AccordionItem>
@@ -737,7 +784,15 @@ function InsideRoom(props) {
             >
               <CollapseWrapper>
                 {strategies.map((word, index) => (
-                  <Card type={"strategy"} word={word} key={index} />
+                  <Card
+                    type={"strategy"}
+                    word={word}
+                    removeCheckinWord={removeCheckinWord}
+                    addCheckinWord={addCheckinWord}
+                    key={index}
+                    index={index}
+                    myCheckIn={myCheckIn}
+                  />
                 ))}
               </CollapseWrapper>
             </AccordionItem>
