@@ -20,8 +20,8 @@ export const authenticateAnonymously = () => {
   return firebase.auth().signInAnonymously();
 };
 
-// FIRESTORE DATA
-const roomDB = {
+// FIRESTORE DATA EXAMPLE
+const roomObjectExampleInDB = {
   created: 2197091370932,
   createdBy: "userId",
   users: [
@@ -41,7 +41,7 @@ const roomDB = {
   },
 };
 
-const checkInDB = {
+const checkInOjectExampleinDB = {
   userId: "0992308432",
   userName: "Peter",
   checkIn: [
@@ -67,11 +67,11 @@ export const createroom = (
         name: userName,
       },
     ],
-    config: {
-      ...checkinQuestionSet,
-      timerLength: checkinTime,
-      hasSpokenCheckin: hasSpokenCheckin,
-    },
+    // config: {
+    //   ...checkinQuestionSet,
+    //   timerLength: checkinTime,
+    //   hasSpokenCheckin: hasSpokenCheckin,
+    // },
   });
 };
 

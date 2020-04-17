@@ -1,113 +1,44 @@
-import React, { useState } from "react";
-import * as FirestoreService from "../services/firestore";
-import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
-import styled from "styled-components";
-import {
-  CarouselProvider,
-  Slider,
-  Slide,
-  ButtonBack,
-  ButtonNext,
-} from "pure-react-carousel";
-import { scrollTo } from "scroll-js";
-import { FaQuestionCircle } from "react-icons/fa";
-import "pure-react-carousel/dist/react-carousel.es.css";
-import ReactSlider from "react-slider";
-import Modal from "styled-react-modal";
 import moment from "moment";
-import momentDurationFormatSetup from "moment-duration-format";
 
+import { ButtonNext, CarouselProvider, Slider } from "pure-react-carousel";
+import "pure-react-carousel/dist/react-carousel.es.css";
+import React, { useState, useEffect } from "react";
+import { scrollTo } from "scroll-js";
+import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import Footer from "../components/Footer";
-import room4 from "../img/room4.jpg";
+import {
+  Background,
+  CheckinQuestions,
+  HelpText,
+  InputName,
+  Question,
+  RoomConfig,
+  SpokenCheckin,
+  StyledBackButton,
+  StyledCheckbox,
+  StyledGreenTrack,
+  StyledLabel,
+  StyledNeedTrack,
+  StyledPeachTrack,
+  StyledSavvyThumb,
+  StyledSlide,
+  StyledSlider,
+  StyledThumb,
+  StyledTimerThumb,
+  StyledTrack,
+  ConfigContainer,
+  ConfigH2,
+  ConfigH3,
+  InlineH1,
+  StyledModal,
+  ModalInner,
+  HelpButton,
+  Text,
+} from "../components/styledComponents";
+import { anonAuthenticate } from "../services/effects";
+import * as FirestoreService from "../services/firestore";
 
-const colors = {
-  peach: ["#E88FA2", "#EB9B81"],
-  green: ["#1696A0", "#88C072"],
-  need: ["#2A3076", "#1792C8"],
-  strategy: ["#d62346", "#f0aa71"],
-};
-
-const Background = styled.div`
-  height: 100vh;
-  background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 1),
-      rgba(255, 255, 255, 1),
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.3)
-    ),
-    url(${room4});
-  background-size: cover;
-`;
-
-const InputName = styled.input`
-  border: none;
-  border-bottom: 3px solid #d62346;
-  font-size: 3em;
-  background: none;
-`;
-
-const RoomConfig = styled.div`
-  /* max-width: 440px; */
-  /* height: 100vh; */
-`;
-
-const StyledSlider = styled(ReactSlider)`
-  width: 100%;
-  height: 30px;
-`;
-
-const StyledThumb = styled.div`
-  height: 30px;
-  line-height: 30px;
-  width: 100px;
-  text-align: center;
-  background-color: #000;
-  color: #fff;
-  font-size: 20px;
-  border-radius: 15px;
-  cursor: grab;
-`;
-
-const StyledTimerThumb = styled(StyledThumb)`
-  width: 140px;
-`;
-const StyledSavvyThumb = styled(StyledThumb)`
-  width: 170px;
-`;
-
-const Question = styled.p`
-  margin-top: 0;
-  margin-bottom: 2px;
-  padding: 5px 20px;
-  color: white;
-  border-radius: 5px;
-`;
-
-const CheckinQuestions = styled.div`
-  /* margin-left: 20px; */
-  /* padding: 10px; */
-`;
-
-const StyledSlide = styled(Slide)`
-  padding: 25px;
-`;
-
-const StyledBackButton = styled(ButtonBack)`
-  background: none;
-  color: black;
-  text-decoration: underline;
-  box-shadow: none;
-`;
-
-const StyledCheckbox = styled.input`
-  margin-left: 0px;
-  cursor: pointer;
-`;
-
-const StyledLabel = styled.label`
-  cursor: pointer;
-`;
+import { colors } from "../colours";
 
 const Thumb = (props, state) => (
   <StyledThumb {...props}>{state.valueNow} people</StyledThumb>
@@ -115,110 +46,6 @@ const Thumb = (props, state) => (
 const SavvyThumb = (props, state) => (
   <StyledSavvyThumb {...props}>{state.valueNow}/10 tech savvy</StyledSavvyThumb>
 );
-
-const StyledTrack = styled.div`
-  top: 0;
-  bottom: 0;
-  background: ${(props) => (props.index === 1 ? "#ddd" : "pink")};
-  border-radius: 999px;
-`;
-
-const StyledGreenTrack = styled.div`
-  top: 0;
-  bottom: 0;
-  background: ${(props) =>
-    props.index === 1
-      ? "#ddd"
-      : `linear-gradient(
-      to bottom right,
-      ${colors.green[0]},
-      ${colors.green[1]}
-    )`};
-  border-radius: 999px;
-`;
-const StyledPeachTrack = styled.div`
-  top: 0;
-  bottom: 0;
-  background: ${(props) =>
-    props.index === 1
-      ? "#ddd"
-      : `linear-gradient(
-      to bottom right,
-      ${colors.peach[0]},
-      ${colors.peach[1]}
-    )`};
-  border-radius: 999px;
-`;
-const StyledNeedTrack = styled.div`
-  top: 0;
-  bottom: 0;
-  background: ${(props) =>
-    props.index === 1
-      ? "#ddd"
-      : `linear-gradient(
-      to bottom right,
-      ${colors.need[0]},
-      ${colors.need[1]}
-    )`};
-  border-radius: 999px;
-`;
-
-const SpokenCheckin = styled.div`
-  margin-bottom: 5px;
-`;
-
-const HelpText = styled.p`
-  margin-left: 10px;
-  color: #333;
-`;
-
-const ConfigContainer = styled.div`
-  background-color: white;
-  padding: 10px;
-  border-radius: 20px;
-  -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
-`;
-
-const ConfigH2 = styled.h3`
-  margin-top: 10px;
-  margin-bottom: 5px;
-`;
-const ConfigH3 = styled.h3`
-  margin-top: 10px;
-  margin-bottom: 5px;
-`;
-
-const InlineH1 = styled.p`
-  margin-top: 10px;
-  margin-bottom: 5px;
-  display: inline-block;
-  font-size: 2em;
-`;
-
-const StyledModal = Modal.styled`
-  max-width: 660px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const ModalInner = styled.div`
-  padding: 20px 30px;
-  background-color: white;
-  max-width: 440px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const HelpButton = styled(FaQuestionCircle)`
-  color: ${colors.green[1]};
-  cursor: pointer;
-`;
-
-const Text = styled.p`
-  max-width: 350px;
-`;
 
 const Track = (props, state) => <StyledTrack {...props} index={state.index} />;
 const GreenTrack = (props, state) => (
@@ -231,61 +58,6 @@ const NeedTrack = (props, state) => (
   <StyledNeedTrack {...props} index={state.index} />
 );
 
-const checkinQuestionsetOptions = [
-  {
-    label: "quick meeting checkin",
-    checkInGuide:
-      "A feeling I've felt in the last 24hrs + two needs I'd love to meet in this meeting",
-    checkinFormat: [
-      { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "need", prompt: "A need I'd love to meet" },
-    ],
-    minTimePerPerson: 30,
-  },
-
-  {
-    label: "family / smaller team, meeting 40mins +",
-    checkInGuide:
-      "een & Peach feelings I've felt in last 24hrs + three needs I'd love to meet in this call:",
-    checkinFormat: [
-      { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "need", prompt: "1st need I'd love to meet in this gathering" },
-      { type: "need", prompt: "2nd need I'd love to meet in this gathering" },
-      { type: "need", prompt: "3rd need I'd love to meet in this gathering" },
-    ],
-    minTimePerPerson: 120,
-  },
-  {
-    label: "close friends",
-    checkInGuide:
-      "Green & Peach feelings in last 24hrs + five needs that feel alive for me at the moment",
-    checkinFormat: [
-      { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "green", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "peach", prompt: "A feeling I've felt in the last 24hrs" },
-      { type: "need", prompt: "1st need I'm yearning to meet right now" },
-      { type: "need", prompt: "2nd need I'm yearning to meet right now" },
-      { type: "need", prompt: "3rd need I'm yearning to meet right now" },
-      { type: "need", prompt: "4th need I'm yearning to meet right now" },
-    ],
-    minTimePerPerson: 240,
-  },
-  {
-    label: "what do people in our organisation need? (1hr-1wk)",
-    checkInGuide:
-      "Green & Peach feelings in last 24hrs + five needs that feel alive for me at the moment",
-    checkinFormat: [
-      { type: "need", prompt: "1st need I'd love to meet here" },
-      { type: "need", prompt: "2nd need I'd love to meet here" },
-      { type: "need", prompt: "3rd need I'd love to meet here" },
-    ],
-    minTimePerPerson: 240,
-  },
-];
-
 function backgroundColor(type) {
   return {
     background: `linear-gradient(
@@ -296,15 +68,20 @@ function backgroundColor(type) {
   };
 }
 
-function CreateList(props) {
-  const initialConfig = checkinQuestionsetOptions[0];
-  const { onCreate, userId } = props;
+// Click GO at end of this form
+//    Create a room in firebase
+//    Add me as a user to that room
+//    Sets config of room
+//    Redirects me to that room
+
+function CreateList() {
+  // no longer from props
+  // const { onCreate, userId } = props;
+  const [checkinTime, setCheckinTime] = useState(30);
+
   const [userName, setUserName] = useState("");
   const [error, setError] = useState();
   const [peopleInRoom, setPeopleInRoom] = useState(4);
-  const [checkinTime, setCheckinTime] = useState(
-    initialConfig.minTimePerPerson
-  );
   const [hasSpokenCheckin, setHasSpokenCheckin] = useState(true);
   const [showingSpokenCheckinHelp, setShowingSpokenCheckinHelp] = useState(
     false
@@ -315,38 +92,16 @@ function CreateList(props) {
   const [showingNeedsHelp, setShowingNeedsHelp] = useState(false);
 
   const [zoomConfidence, setZoomConfidence] = useState(5);
-  const [checkinQuestionSet, setCheckinQuestionSet] = useState(
-    checkinQuestionsetOptions[0]
-  );
   const [numGreenFeelings, setNumGreenFeelings] = useState(1);
   const [numPeachFeelings, setNumPeachFeelings] = useState(1);
   const [numNeeds, setNumNeeds] = useState(1);
   const [showConfig, setShowConfig] = useState(false);
+  const [roomId, setRoomId] = useState(null);
+  const [room, setRoom] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState({});
 
-  const TimerThumb = (props, state) => (
-    <StyledTimerThumb {...props}>
-      {setCheckinTime(state.valueNow)}
-      {state.valueNow < 60
-        ? `00:${state.valueNow}s pp`
-        : moment.duration(state.valueNow, "seconds").format("m:ss") +
-          " mins pp"}
-    </StyledTimerThumb>
-  );
-
-  const GreenThumb = (props, state) => (
-    <StyledTimerThumb {...props}>{state.valueNow} green</StyledTimerThumb>
-  );
-  const PeachThumb = (props, state) => (
-    <StyledTimerThumb {...props}>{state.valueNow} peach</StyledTimerThumb>
-  );
-  const NeedThumb = (props, state) => (
-    <StyledTimerThumb {...props}>
-      {state.valueNow === 1
-        ? `${state.valueNow} need`
-        : `${state.valueNow} needs`}
-    </StyledTimerThumb>
-  );
-
+  // Create the room
   function createroom(e) {
     e.preventDefault();
     setError(null);
@@ -373,6 +128,57 @@ function CreateList(props) {
         setError("create-list-error");
       });
   }
+
+  // Authenticate
+  useEffect(() => {
+    FirestoreService.authenticateAnonymously()
+      .then((userCredential) => {
+        setUserId(userCredential.user.uid);
+        if (roomId) {
+          FirestoreService.getroom(roomId)
+            .then((room) => {
+              if (room.exists) {
+                setError(null);
+                setRoom(room.data());
+              } else {
+                setError("grocery-list-not-found");
+                setRoomId();
+              }
+            })
+            .catch(() => setError("grocery-list-get-fail"));
+        }
+      })
+      .catch(() => setError("anonymous-auth-failed"));
+  }, []);
+
+  function onCreate(roomId, userName) {
+    setRoomId(roomId);
+    setUser(userName);
+  }
+
+  const TimerThumb = (props, state) => (
+    <StyledTimerThumb {...props}>
+      {setCheckinTime(state.valueNow)}
+      {state.valueNow < 60
+        ? `00:${state.valueNow}s pp`
+        : moment.duration(state.valueNow, "seconds").format("m:ss") +
+          " mins pp"}
+    </StyledTimerThumb>
+  );
+
+  const GreenThumb = (props, state) => (
+    <StyledTimerThumb {...props}>{state.valueNow} green</StyledTimerThumb>
+  );
+  const PeachThumb = (props, state) => (
+    <StyledTimerThumb {...props}>{state.valueNow} peach</StyledTimerThumb>
+  );
+  const NeedThumb = (props, state) => (
+    <StyledTimerThumb {...props}>
+      {state.valueNow === 1
+        ? `${state.valueNow} need`
+        : `${state.valueNow} needs`}
+    </StyledTimerThumb>
+  );
 
   function checkName(e) {
     if (userName) setError(null);
@@ -540,7 +346,7 @@ function CreateList(props) {
                   <>
                     <span>Speaking time per person</span>
                     <StyledSlider
-                      min={checkinQuestionSet.minTimePerPerson}
+                      min={30}
                       step={10}
                       max={300}
                       renderTrack={Track}
