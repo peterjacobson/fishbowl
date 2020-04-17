@@ -1,12 +1,5 @@
-import React, { useState, useEffect } from "react";
-import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
+import React, { useState } from "react";
 import * as FirestoreService from "../services/firestore";
-
-// Click GO at end of this form
-//    Create a room in firebase
-//    Add me as a user to that room
-//    Sets config of room
-//    Redirects me to that room
 
 function CreateList() {
   const [userName, setUserName] = useState("");
@@ -22,7 +15,6 @@ function CreateList() {
       return;
     }
     setError(null);
-    console.log("e: ", e);
 
     FirestoreService.authenticateAnonymously()
       .then((userCredential) => {
@@ -32,6 +24,8 @@ function CreateList() {
           .then((docRef) => {
             setRoomId(docRef.id);
             console.log("docRef: ", docRef);
+            console.log("NAV TO ROOM", roomId, userId);
+            // navigate to roomConfig
           })
           .catch((reason) => {
             setError("create-list-error");
@@ -52,15 +46,18 @@ function CreateList() {
         <br />
         check-in room
       </h1>
-      <input
-        autoFocus={true}
-        type="text"
-        name="userName"
-        placeholder="My name is..."
-        value={userName}
-        onChange={(e) => setUserName(e.target.value)}
-      />
-      <input type="submit" value="Create room" className="button" />
+      <form name="create-room" onSubmit={createRoom}>
+        <input
+          autoFocus={true}
+          type="text"
+          name="userName"
+          placeholder="My name is..."
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <input type="submit" value="Create room" className="button" />
+        {error && <p>{error}</p>}
+      </form>
     </>
   );
 }
