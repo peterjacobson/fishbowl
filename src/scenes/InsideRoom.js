@@ -609,11 +609,11 @@ function InsideRoom(props) {
     ? [
         ...new Array(roomConfig.numGreenFeelings).fill({
           type: "green",
-          prompt: "Something (comfortable) I've felt in the last 24hrs",
+          prompt: "One (comfortable) thing I've felt in the last 24hrs",
         }),
         ...new Array(roomConfig.numPeachFeelings).fill({
           type: "peach",
-          prompt: "Something (uncomfortable) I've felt in the last 24hrs",
+          prompt: "One (uncomfortable) thing I've felt in the last 24hrs",
         }),
         ...new Array(roomConfig.numNeeds).fill({
           type: "need",
@@ -673,7 +673,7 @@ function InsideRoom(props) {
                       numRequired={roomConfig.numGreenFeelings}
                     />
                     {roomConfig.numGreenFeelings === 1
-                      ? "Something (comfortable) I've felt in the last 24hrs"
+                      ? "One (comfortable) thing I've felt in the last 24hrs"
                       : `${converter.toWords(
                           roomConfig.numGreenFeelings
                         )} things I've felt in the last 24hrs`}
@@ -715,7 +715,7 @@ function InsideRoom(props) {
                       numRequired={roomConfig.numPeachFeelings}
                     />
                     {roomConfig.numPeachFeelings === 1
-                      ? "Something (uncomfortable) I've felt in the last 24hrs"
+                      ? "One (uncomfortable) thing I've felt in the last 24hrs"
                       : `${converter.toWords(
                           roomConfig.numPeachFeelings
                         )} things I've felt in the last 24hrs`}
@@ -758,7 +758,7 @@ function InsideRoom(props) {
                     />
                     {roomConfig.numNeeds === 1 ? (
                       <>
-                        A need
+                        One need
                         <HelpButton onClick={toggleNeedsHelp} /> that's alive in
                         me
                       </>
@@ -939,9 +939,9 @@ function InsideRoom(props) {
       <>
         {word}
         <br />
-        {ma[type][word].ma}
+        {ma[type][word] ? ma[type][word].ma : null}
         <br />
-        <MaStory>{ma[type][word].story}</MaStory>
+        <MaStory>{ma[type][word] ? ma[type][word].story : null}</MaStory>
       </>
     );
   }
