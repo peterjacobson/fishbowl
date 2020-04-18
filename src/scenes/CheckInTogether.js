@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
 
 import * as FirestoreService from "../services/firestore";
-import CheckinSmall from "../components/CheckinSmall";
+import CheckInSmall from "../components/CheckInSmall";
 
 export default function CheckinTogether({ roomId }) {
   const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ export default function CheckinTogether({ roomId }) {
   });
 
   useEffect(() => {
-    FirestoreService.streamRoom(roomId, {
+    const unsubscribe = FirestoreService.streamRoom(roomId, {
       next: (querySnapshot) => {
         const queryData = querySnapshot.data();
         setRoomUsers(queryData.users);
@@ -29,23 +29,29 @@ export default function CheckinTogether({ roomId }) {
       },
       error: () => setError("grocery-list-item-get-fail"),
     });
-  }, [roomId]);
+
+    return unsubscribe;
+  }, [roomId, setRoomUsers]);
 
   useEffect(() => {
-    FirestoreService.streamRoomCheckIns(roomId, {
+    const unsubscribe = FirestoreService.streamRoomCheckIns(roomId, {
       next: (querySnapshot) => {
-        const nextCheckins = querySnapshot.docs.map((docSnapshot) =>
-          docSnapshot.data()
-        );
-        setCheckIns(nextCheckins);
-        const myNextCheckIn = nextCheckins.find((checkin) => {
-          return checkin.userId === userId;
+        const nextCheckIns = querySnapshot.docs.map((docSnapshot) => {
+          return docSnapshot.data();
         });
-        if (myNextCheckIn) setMyCheckIn(myNextCheckIn.checkInWords);
+        setCheckIns(nextCheckIns.filter((c) => c.userId !== userId));
+        const myNextCheckIn = nextCheckIns.find((checkIn) => {
+          return checkIn.userId === userId;
+        });
+        if (myNextCheckIn) {
+          setMyCheckIn(myNextCheckIn.checkInWords);
+        }
       },
       error: () => setError("grocery-list-item-get-fail"),
     });
-  }, [roomId, userId]);
+
+    return unsubscribe;
+  }, [roomId, setCheckIns, setError, setMyCheckIn, userId]);
 
   return (
     <>
@@ -65,11 +71,23 @@ export default function CheckinTogether({ roomId }) {
       <h3>My Check-in</h3>
 
       {myCheckIn && (
-        <CheckinSmall
+        <CheckInSmall
+          checkIn={myCheckIn}
+          roomId={roomId}
           showRemoveIcon={false}
-          {...{ myCheckIn, roomId, userId }}
+          userId={userId}
         />
       )}
+
+      <h3>Others' Check-ins</h3>
+      {checkIns.map((c) => (
+        <CheckInSmall
+          checkIn={c.checkInWords}
+          roomId={roomId}
+          showRemoveIcon={false}
+          userId={userId}
+        />
+      ))}
 
       <button>We've all checked in</button>
     </>

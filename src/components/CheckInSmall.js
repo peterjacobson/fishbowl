@@ -35,25 +35,24 @@ const typeSelector = (type) => {
   }
 };
 
-export default function CheckinSmall({
-  myCheckIn,
+export default function CheckInSmall({
+  checkIn,
   roomId,
-  setMyCheckIn,
+  setCheckIn,
   showRemoveIcon,
   userId,
 }) {
   const sortOrder = ["green", "peach", "need", "strategy"];
 
-  const removeCheckinWord = (type, word) => {
-    const nextCheckin = myCheckIn.filter((item) => item.word !== word);
-    setMyCheckIn(nextCheckin);
+  const removeCheckInWord = (word) => {
+    const nextCheckin = checkIn.filter((item) => item.word !== word);
+    setCheckIn(nextCheckin);
     FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
   };
 
   return (
     <div>
-      My checkin:
-      {myCheckIn
+      {checkIn
         .slice()
         .sort((a, b) => sortOrder.indexOf(a.type) - sortOrder.indexOf(b.type))
         .map((item) => {
@@ -62,9 +61,7 @@ export default function CheckinSmall({
             <C style={rotateStyle()}>
               {translate(item.word, item.type, lang)}{" "}
               {showRemoveIcon && (
-                <RemoveIcon
-                  onClick={() => removeCheckinWord(item.type, item.word)}
-                />
+                <RemoveIcon onClick={() => removeCheckInWord(item.word)} />
               )}
             </C>
           );
