@@ -67,6 +67,12 @@ export const createroom = (
         name: userName,
       },
     ],
+    config: {
+      // Defaults for now
+      numGreenFeelings: 1,
+      numPeachFeelings: 1,
+      numNeeds: 1,
+    },
     // config: {
     //   ...checkinQuestionSet,
     //   timerLength: checkinTime,
