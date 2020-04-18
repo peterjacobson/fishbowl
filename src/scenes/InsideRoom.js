@@ -35,8 +35,7 @@ import {
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 
-import "../Deck.css";
-import Deck from "../components/Deck";
+import Deck from "../components/Deck/Deck";
 
 import Footer from "../components/Footer";
 

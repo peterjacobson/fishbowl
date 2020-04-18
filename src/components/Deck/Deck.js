@@ -3,9 +3,9 @@ import { useSprings } from "react-spring/hooks";
 import { useGesture } from "react-with-gesture";
 
 import Card from "./Card";
-import data from "../cards.js";
+import data from "../../data/greenFeelingsCards.js";
 
-import "../Deck.css";
+import "./Deck.css";
 
 const to = i => ({
   x: 0,
