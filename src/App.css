@@ -1,6 +1,140 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
 body {
-  justify-content: center;
-  align-items: center;
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* --------------------------------------------------------- */
+html,
+body,
+#root,
+.full-height {
+  height: 100%;
+  margin: 0px !important;
 }
 
 h1,
@@ -12,8 +146,10 @@ input,
 form,
 button,
 p {
-  font-family: "Sen", sans-serif;
-  font-size: 1.3em;
+  font-family: "Rubik", sans-serif !important;
+  font-weight: 300;
+  /* font-family: "Sen", sans-serif; */
+  color: white !important;
 }
 
 div {
@@ -22,6 +158,7 @@ div {
 
 h1 {
   font-size: 2em;
+  font-weight: 300;
   margin-top: 0px;
   margin-bottom: 5px;
 }
@@ -51,24 +188,36 @@ form {
 }
 
 input {
+  font-size: 1.5em !important;
+}
+
+/* input {
   font-family: "Caveat", cursive;
   font-size: 2em;
+} */
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: white;
+  font-style: italic;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: white;
+  font-style: italic;
+}
+:-ms-input-placeholder {
+  /* IE 10+ */
+  color: white;
+  font-style: italic;
+}
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: white;
+  font-style: italic;
 }
 
-html {
-  height: 100%;
-}
-
-*:focus {
-  outline: none !important;
-}
-
-textarea:focus,
-input:focus {
-  outline: none;
-}
-
-button,
+/* button,
 .button {
   border: none;
   padding: 10px;
@@ -79,7 +228,7 @@ button,
   box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
   margin-right: 5px;
   margin-bottom: 5px;
-}
+} */
 
 .aws-btn {
   --slider-height-percentage: 100%;
@@ -133,11 +282,26 @@ button,
   overflow-x: hidden;
 }
 
-html::-webkit-scrollbar {
-  display: none;
+/* -----MAterial UI ------- */
+
+.MuiInputLabel-animated {
+  color: white !important;
+  font-family: "Rubik", sans-serif !important;
 }
 
-/* Hide scrollbar for IE and Edge */
-html {
-  -ms-overflow-style: none;
+.MuiInput-underline,
+.MuiInput-underline:before {
+  border-color: white !important;
+}
+
+.MuiInputBase-input,
+.MuiInput-input {
+  color: white !important;
+  font-family: "Rubik", sans-serif !important;
+  font-size: 1.5em;
+}
+
+.MuiFormControl-root {
+  margin-left: auto !important;
+  margin-right: auto !important;
 }

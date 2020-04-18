@@ -1,6 +1,19 @@
 import React, { useState } from "react";
 import * as FirestoreService from "../services/firestore";
 import { navigate } from "@reach/router";
+import {
+  BlueBackground,
+  MobileWidthWrapper,
+  SwatchHeading,
+  HeartworkLogoBig,
+  NameTextField,
+  Centerer,
+  CenterForm,
+  Button,
+  NavigationButtons,
+  NavigationText,
+  Error,
+} from "../components/styledComponents";
 
 function CreateList() {
   const [userName, setUserName] = useState("");
@@ -34,27 +47,29 @@ function CreateList() {
   }
 
   return (
-    <>
-      <h1>
-        Open a new
-        <br />
-        Heartwork
-        <br />
-        check-in room
-      </h1>
-      <form name="create-room" onSubmit={createRoom}>
-        <input
-          autoFocus={true}
-          type="text"
-          name="userName"
-          placeholder="My name is..."
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-        <input type="submit" value="Create room" className="button" />
-        {error && <p>{error}</p>}
-      </form>
-    </>
+    <BlueBackground>
+      <MobileWidthWrapper>
+        <HeartworkLogoBig />
+        <SwatchHeading>Create your heartwork check-in room</SwatchHeading>
+        <CenterForm name="create-room" onSubmit={createRoom}>
+          <NameTextField
+            autoFocus={true}
+            autoComplete="off"
+            label="Your name"
+            type="text"
+            name="userName"
+            placeholder="Your beautiful name"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+          {error && <Error>{error}</Error>}
+        </CenterForm>
+        <NavigationButtons>
+          <NavigationText>Next: Go to room</NavigationText>
+          <Button onClick={createRoom}>Next</Button>
+        </NavigationButtons>
+      </MobileWidthWrapper>
+    </BlueBackground>
   );
 }
 
