@@ -4,10 +4,12 @@ import { ModalProvider } from "styled-react-modal";
 
 import * as FirestoreService from "./services/firestore";
 import "./App.css";
+
 import CreateRoom from "./scenes/CreateRoom";
 import JoinRoom from "./scenes/JoinRoom";
 import InsideRoom from "./scenes/InsideRoom";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+
 import heartworklogo from "./img/heartworklogo.png";
 
 import useQueryString from "./hooks/useQueryString";

@@ -35,6 +35,9 @@ import {
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 
+import "../Deck.css";
+import Deck from "../components/Deck";
+
 import Footer from "../components/Footer";
 
 const ma = {
@@ -1024,6 +1027,8 @@ function InsideRoom(props) {
                 <p>{linkCopied ? "Link Copied 🙌" : null}</p>
               </ConfigContainer>
             </Intro>
+
+            <Deck />
             <br />
             <br />
             <ButtonNext>Next</ButtonNext>
