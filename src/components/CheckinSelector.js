@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import converter from "number-to-words";
 
-import { Accordion, AccordionHeader } from "react-sanfona";
+import { Accordion } from "react-sanfona";
+import CompletionChecks from "./CompletionChecks";
+import Card from "./Card";
+import greenFeelings from "../data/greenFeelings";
+import * as FirestoreService from "../services/firestore";
 
 import {
+  AccordionHeader,
   CollapseWrapper,
   DropdownWrap,
   DropdownIcon,
@@ -10,18 +16,54 @@ import {
   HelpButton,
   Panel,
   RightSpan,
-} from "../components/styledComponents";
+} from "./styledComponents";
 
-const toggleAccordianOpen = () => {};
+// TODO: placeholders
+const roomConfig = {
+  numGreenFeelings: 1,
+};
 const toggleGreenHelp = () => {};
+const removeCheckinWord = () => {};
 
-export default function CheckinSelector() {
+const accordionAnimation = {
+  duration: 300,
+  easing: "cubic-bezier(0.420, 0.000, 0.580, 1.000)",
+};
+
+export default function CheckinSelector({
+  myCheckIn,
+  roomId,
+  setMyCheckIn,
+  userId,
+}) {
+  const [openAccordion, setOpenAccordion] = useState(null);
+
+  const toggleAccordionOpen = (id) => {
+    setOpenAccordion(openAccordion === id ? null : id);
+  };
+
+  const addCheckinWord = (type, word) => {
+    const nextCheckin = [...myCheckIn, { type: type, word: word }];
+    setMyCheckIn(nextCheckin);
+    FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
+  };
+
   return (
     <Accordion allowMultiple={false}>
       <DropdownWrap type="green">
         <Panel
           title={
-            <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
+            <AccordionHeader onClick={() => toggleAccordionOpen(2)}>
+              <CompletionChecks
+                myCheckIn={myCheckIn}
+                numRequired={roomConfig.numGreenFeelings}
+                type="green"
+              />
+              {roomConfig.numGreenFeelings === 1
+                ? "Something (comfortable) I've felt in the last 24hrs"
+                : `${converter.toWords(
+                    roomConfig.numGreenFeelings
+                  )} things I've felt in the last 24hrs`}
               <HelpButton onClick={toggleGreenHelp} />
               <RightSpan>
                 {openAccordion === 0 ? <DropupIcon /> : <DropdownIcon />}
@@ -30,7 +72,7 @@ export default function CheckinSelector() {
           }
           key="1"
           {...accordionAnimation}
-          onClick={() => toggleAccordianOpen(0)}
+          onClick={() => toggleAccordionOpen(0)}
           expanded={openAccordion === 0}
         >
           <CollapseWrapper>
@@ -38,7 +80,7 @@ export default function CheckinSelector() {
               <Card
                 type={"green"}
                 word={word}
-                lang={lang}
+                lang="en"
                 removeCheckinWord={removeCheckinWord}
                 addCheckinWord={addCheckinWord}
                 key={index}
@@ -52,16 +94,6 @@ export default function CheckinSelector() {
     </Accordion>
   );
 }
-
-// <CompletionChecks
-//   type="green"
-//   numRequired={roomConfig.numGreenFeelings}
-// />
-// {roomConfig.numGreenFeelings === 1
-//   ? "Something (comfortable) I've felt in the last 24hrs"
-//   : `${converter.toWords(
-//       roomConfig.numGreenFeelings
-//     )} things I've felt in the last 24hrs`}
 
 //       {roomConfig ? (
 //         <>

@@ -290,7 +290,7 @@ export const CheckinName = styled.h3`
   margin-bottom: 4px;
 `;
 
-export const MāoriKupu = styled.span``;
+export const MaoriKupu = styled.span``;
 
 export const MaStory = styled.span`
   font-size: 0.8em;
