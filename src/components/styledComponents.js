@@ -8,7 +8,6 @@ import Modal from "styled-react-modal";
 import teReoGreen from "../data/greenFeelings";
 import teReoNeeds from "../data/needs";
 import teReoPeach from "../data/peachFeelings";
-import room4 from "../img/room4.jpg";
 
 import { FiCheckCircle, FiCircle } from "react-icons/fi";
 import {

@@ -20,10 +20,10 @@ function App() {
           {/* Share link to room */}
         </CreateRoom>
         <JoinRoom
-          path="/join/:roomId"
-          users={[]}
-          roomId={"ljdslkjfds"}
-          userId={"dsljkdsf"}
+          path="/join"
+          // users={[]}
+          // roomId={"ljdslkjfds"}
+          // userId={"dsljkdsf"}
           // {...{ roomId, onSelectUser, userId }}
         />
         {/* <MyCheckin path="/room/:roomId/user/:userId" /> */}
