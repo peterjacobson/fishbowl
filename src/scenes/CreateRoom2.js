@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import * as FirestoreService from "../services/firestore";
+import { navigate } from "@reach/router";
 
 function CreateList() {
   const [userName, setUserName] = useState("");
   const [error, setError] = useState();
-  const [roomId, setRoomId] = useState(null);
-  const [userId, setUserId] = useState(null);
 
   // Create the room
   function createRoom(e) {
@@ -18,14 +17,11 @@ function CreateList() {
 
     FirestoreService.authenticateAnonymously()
       .then((userCredential) => {
-        setUserId(userCredential.user.uid);
-        console.log("userCredential: ", userCredential);
+        const userId = userCredential.user.uid;
         FirestoreService.createroom(userName, userId)
           .then((docRef) => {
-            setRoomId(docRef.id);
-            console.log("docRef: ", docRef);
-            console.log("NAV TO ROOM", roomId, userId);
-            // navigate to roomConfig
+            const roomId = docRef.id;
+            navigate(`/room/${roomId}/user/${userId}`);
           })
           .catch((reason) => {
             setError("create-list-error");

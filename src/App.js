@@ -4,14 +4,17 @@ import styled from "styled-components";
 import { ModalProvider } from "styled-react-modal";
 import "./App.css";
 import CreateRoom from "./scenes/CreateRoom2";
-import InsideRoom from "./scenes/InsideRoom";
 import JoinRoom from "./scenes/JoinRoom";
+import MyCheckin from "./scenes/MyCheckin";
 
 const AppWrapper = styled.div`
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 `;
+
+// checkin from this morning: roomId: LqGk5TJYtASTCSwhv0T4, userID: WFUsJEWKdIVdHRHr41LbjBjmPfh2
+//
 
 function App() {
   return (
@@ -30,17 +33,10 @@ function App() {
             userId={"dsljkdsf"}
             // {...{ roomId, onSelectUser, userId }}
           />
-          <InsideRoom
-            path="/room/:roomId/user/:userId"
-            users={[]}
-            roomId={"ljdslkjfds"}
-            userId={"dsljkdsf"}
-          >
-            <p>INSIDE</p>
-            {/* Select Checkin */}
-            {/* ? Spoken Checkin  */}
-            {/* Next steps */}
-          </InsideRoom>
+          <MyCheckin path="/room/:roomId/user/:userId" />
+          {/* Select Checkin */}
+          {/* ? Spoken Checkin  */}
+          {/* Next steps */}
         </Router>
       </ModalProvider>
     </AppWrapper>
