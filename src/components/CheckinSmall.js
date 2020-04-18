@@ -21,12 +21,25 @@ function translate(word, type, lang) {
 
 // TODO: hardcoded
 const lang = "en";
-const showRemoveIcon = true;
+
+const typeSelector = (type) => {
+  switch (type) {
+    case "green":
+      return GreenFeeling;
+    case "peach":
+      return PeachFeeling;
+    case "need":
+      return Need;
+    case "strategy":
+      return Strategy;
+  }
+};
 
 export default function CheckinSmall({
   myCheckIn,
   roomId,
   setMyCheckIn,
+  showRemoveIcon,
   userId,
 }) {
   const sortOrder = ["green", "peach", "need", "strategy"];
@@ -44,56 +57,19 @@ export default function CheckinSmall({
         .slice()
         .sort((a, b) => sortOrder.indexOf(a.type) - sortOrder.indexOf(b.type))
         .map((item) => {
-          switch (item.type) {
-            case "green":
-              return (
-                <GreenFeeling style={rotateStyle()}>
-                  {translate(item.word, item.type, lang)}{" "}
-                  {showRemoveIcon ? (
-                    <RemoveIcon
-                      onClick={() => removeCheckinWord(item.type, item.word)}
-                    />
-                  ) : null}
-                </GreenFeeling>
-              );
-            case "peach":
-              return (
-                <PeachFeeling style={rotateStyle()}>
-                  {translate(item.word, item.type, lang)}{" "}
-                  {showRemoveIcon ? (
-                    <RemoveIcon
-                      onClick={() => removeCheckinWord(item.type, item.word)}
-                    />
-                  ) : null}
-                </PeachFeeling>
-              );
-            case "need":
-              return (
-                <Need style={rotateStyle()}>
-                  {translate(item.word, item.type, lang)}{" "}
-                  {showRemoveIcon ? (
-                    <RemoveIcon
-                      onClick={() => removeCheckinWord(item.type, item.word)}
-                    />
-                  ) : null}
-                </Need>
-              );
-            case "strategy":
-              return (
-                <Strategy style={rotateStyle()}>
-                  {item.word}{" "}
-                  {showRemoveIcon ? (
-                    <RemoveIcon
-                      onClick={() => removeCheckinWord(item.type, item.word)}
-                    />
-                  ) : null}
-                </Strategy>
-              );
-
-            default:
-              break;
-          }
+          const C = typeSelector(item.type);
+          return (
+            <C style={rotateStyle()}>
+              {translate(item.word, item.type, lang)}{" "}
+              {showRemoveIcon && (
+                <RemoveIcon
+                  onClick={() => removeCheckinWord(item.type, item.word)}
+                />
+              )}
+            </C>
+          );
         })}
     </div>
   );
 }
+

@@ -17,7 +17,6 @@ export default function MyCheckin({ roomId, userId }) {
         setRoomUsers(queryData.users);
         // setTimer(querySnapshot.data().timer || defaultTimer);
         setRoomConfig(queryData.config);
-        debugger;
       },
       error: () => setError("grocery-list-item-get-fail"),
     });
@@ -30,7 +29,12 @@ export default function MyCheckin({ roomId, userId }) {
       <CheckinSelector
         {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
       />
-      <CheckinSmall myCheckIn={myCheckIn} roomId={roomId} userId={userId} />
+      <CheckinSmall
+        myCheckIn={myCheckIn}
+        roomId={roomId}
+        showRemoveIcon={true}
+        userId={userId}
+      />
       <button>I'm Ready</button>
       {error && <p>error</p>}
     </>
