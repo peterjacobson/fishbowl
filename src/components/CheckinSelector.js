@@ -5,6 +5,9 @@ import { Accordion } from "react-sanfona";
 import CompletionChecks from "./CompletionChecks";
 import Card from "./Card";
 import greenFeelings from "../data/greenFeelings";
+import peachFeelings from "../data/peachFeelings";
+import needs from "../data/needs";
+import strategies from "../data/strategies";
 import * as FirestoreService from "../services/firestore";
 
 import {
@@ -19,9 +22,6 @@ import {
 } from "./styledComponents";
 
 // TODO: placeholders
-const roomConfig = {
-  numGreenFeelings: 1,
-};
 const toggleGreenHelp = () => {};
 const removeCheckinWord = () => {};
 
@@ -30,9 +30,31 @@ const accordionAnimation = {
   easing: "cubic-bezier(0.420, 0.000, 0.580, 1.000)",
 };
 
+const typeSelector = (itemType, roomConfig) => {
+  switch (itemType) {
+    case "green":
+      return {
+        itemCollection: greenFeelings,
+        itemQuantity: roomConfig.numGreenFeelings,
+      };
+    case "peach":
+      return {
+        itemCollection: peachFeelings,
+        itemQuantity: roomConfig.numGreenFeelings,
+      };
+    case "need":
+      return { itemCollection: needs, itemQuantity: roomConfig.numNeeds };
+    case "strategy":
+      // TODO: Always 1?
+      return { itemCollection: strategies, itemQuantity: 1 };
+  }
+};
+
 export default function CheckinSelector({
+  itemType,
   myCheckIn,
   roomId,
+  roomConfig,
   setMyCheckIn,
   userId,
 }) {
@@ -48,22 +70,23 @@ export default function CheckinSelector({
     FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
   };
 
+  const { itemCollection, itemQuantity } = typeSelector(itemType, roomConfig);
+
   return (
     <Accordion allowMultiple={false}>
-      <DropdownWrap type="green">
+      <DropdownWrap type={itemType}>
         <Panel
           title={
             <AccordionHeader onClick={() => toggleAccordionOpen(2)}>
               <CompletionChecks
                 myCheckIn={myCheckIn}
-                numRequired={roomConfig.numGreenFeelings}
-                type="green"
+                numRequired={itemQuantity}
+                type={itemType}
               />
-              {roomConfig.numGreenFeelings === 1
-                ? "Something (comfortable) I've felt in the last 24hrs"
-                : `${converter.toWords(
-                    roomConfig.numGreenFeelings
-                  )} things I've felt in the last 24hrs`}
+              {itemQuantity === 1
+                ? "Something "
+                : `${converter.toWords(itemQuantity)} things `}
+              I've felt in the last 24hrs
               <HelpButton onClick={toggleGreenHelp} />
               <RightSpan>
                 {openAccordion === 0 ? <DropupIcon /> : <DropdownIcon />}
@@ -76,7 +99,7 @@ export default function CheckinSelector({
           expanded={openAccordion === 0}
         >
           <CollapseWrapper>
-            {greenFeelings.map((word, index) => (
+            {itemCollection.map((word, index) => (
               <Card
                 type={"green"}
                 word={word}
@@ -95,173 +118,3 @@ export default function CheckinSelector({
   );
 }
 
-//       {roomConfig ? (
-//         <>
-//           {roomConfig.numGreenFeelings > 0 ? (
-//             <DropdownWrap type="green">
-//               <Panel
-//                 title={
-//                   <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
-//                     <CompletionChecks
-//                       type="green"
-//                       numRequired={roomConfig.numGreenFeelings}
-//                     />
-//                     {roomConfig.numGreenFeelings === 1
-//                       ? "Something (comfortable) I've felt in the last 24hrs"
-//                       : `${converter.toWords(
-//                           roomConfig.numGreenFeelings
-//                         )} things I've felt in the last 24hrs`}
-//                     <HelpButton onClick={toggleGreenHelp} />
-//                     <RightSpan>
-//                       {openAccordion === 0 ? <DropupIcon /> : <DropdownIcon />}
-//                     </RightSpan>
-//                   </AccordionHeader>
-//                 }
-//                 key="1"
-//                 {...accordionAnimation}
-//                 onClick={() => toggleAccordianOpen(0)}
-//                 expanded={openAccordion === 0}
-//               >
-//                 <CollapseWrapper>
-//                   {greenFeelings.map((word, index) => (
-//                     <Card
-//                       type={"green"}
-//                       word={word}
-//                       lang={lang}
-//                       removeCheckinWord={removeCheckinWord}
-//                       addCheckinWord={addCheckinWord}
-//                       key={index}
-//                       index={index}
-//                       myCheckIn={myCheckIn}
-//                     />
-//                   ))}
-//                 </CollapseWrapper>
-//               </Panel>
-//             </DropdownWrap>
-//           ) : null}
-//           {roomConfig.numPeachFeelings > 0 ? (
-//             <DropdownWrap type="peach">
-//               <AccordionItem
-//                 title={
-//                   <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
-//                     <CompletionChecks
-//                       type="peach"
-//                       numRequired={roomConfig.numPeachFeelings}
-//                     />
-//                     {roomConfig.numPeachFeelings === 1
-//                       ? "Something (uncomfortable) I've felt in the last 24hrs"
-//                       : `${converter.toWords(
-//                           roomConfig.numPeachFeelings
-//                         )} things I've felt in the last 24hrs`}
-//                     <HelpButton onClick={togglePeachHelp} />
-//                     <RightSpan>
-//                       {openAccordion === 1 ? <DropupIcon /> : <DropdownIcon />}
-//                     </RightSpan>
-//                   </AccordionHeader>
-//                 }
-//                 key="2"
-//                 {...accordionAnimation}
-//                 onClick={() => toggleAccordianOpen(1)}
-//                 expanded={openAccordion === 1}
-//               >
-//                 <CollapseWrapper>
-//                   {peachFeelings.map((word, index) => (
-//                     <Card
-//                       type={"peach"}
-//                       word={word}
-//                       lang={lang}
-//                       removeCheckinWord={removeCheckinWord}
-//                       addCheckinWord={addCheckinWord}
-//                       key={index}
-//                       index={index}
-//                       myCheckIn={myCheckIn}
-//                     />
-//                   ))}
-//                 </CollapseWrapper>
-//               </AccordionItem>
-//             </DropdownWrap>
-//           ) : null}
-//           {roomConfig.numNeeds > 0 ? (
-//             <DropdownWrap type="need">
-//               <AccordionItem
-//                 title={
-//                   <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
-//                     <CompletionChecks
-//                       type="need"
-//                       numRequired={roomConfig.numNeeds}
-//                     />
-//                     {roomConfig.numNeeds === 1 ? (
-//                       <>
-//                         A need
-//                         <HelpButton onClick={toggleNeedsHelp} /> that's alive in
-//                         me
-//                       </>
-//                     ) : (
-//                       <>
-//                         {converter.toWords(roomConfig.numNeeds)} needs
-//                         <HelpButton onClick={toggleNeedsHelp} /> that are alive
-//                         in me
-//                       </>
-//                     )}
-//
-//                     <RightSpan>
-//                       {openAccordion === 2 ? <DropupIcon /> : <DropdownIcon />}
-//                     </RightSpan>
-//                   </AccordionHeader>
-//                 }
-//                 key="3"
-//                 {...accordionAnimation}
-//                 onClick={() => toggleAccordianOpen(2)}
-//                 expanded={openAccordion === 2}
-//               >
-//                 <CollapseWrapper>
-//                   {needs.map((word, index) => (
-//                     <Card
-//                       type={"need"}
-//                       word={word}
-//                       lang={lang}
-//                       removeCheckinWord={removeCheckinWord}
-//                       addCheckinWord={addCheckinWord}
-//                       key={index}
-//                       index={index}
-//                       myCheckIn={myCheckIn}
-//                     />
-//                   ))}
-//                 </CollapseWrapper>
-//               </AccordionItem>
-//             </DropdownWrap>
-//           ) : null}
-//           <DropdownWrap type="strategy">
-//             <AccordionItem
-//               title={
-//                 <AccordionHeader onClick={() => toggleAccordianOpen(2)}>
-//                   <CompletionChecks type="strategy" numRequired={1} />
-//                   One or more strategies to meet my needs
-//                   <RightSpan>
-//                     {openAccordion === 3 ? <DropupIcon /> : <DropdownIcon />}
-//                   </RightSpan>
-//                 </AccordionHeader>
-//               }
-//               key="4"
-//               {...accordionAnimation}
-//               onClick={() => toggleAccordianOpen(3)}
-//               expanded={openAccordion === 3}
-//             >
-//               <CollapseWrapper>
-//                 {strategies.map((word, index) => (
-//                   <Card
-//                     type={"strategy"}
-//                     word={word}
-//                     lang={lang}
-//                     removeCheckinWord={removeCheckinWord}
-//                     addCheckinWord={addCheckinWord}
-//                     key={index}
-//                     index={index}
-//                     myCheckIn={myCheckIn}
-//                   />
-//                 ))}
-//               </CollapseWrapper>
-//             </AccordionItem>
-//           </DropdownWrap>
-//         </>
-//       ) : null}

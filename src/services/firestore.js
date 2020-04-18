@@ -54,9 +54,9 @@ export const authenticateAnonymously = () => {
 export const createroom = (
   userName,
   userId,
-  checkinTime,
+  checkinTime = 60,
   checkinQuestionSet,
-  hasSpokenCheckin
+  hasSpokenCheckin = false
 ) => {
   return db.collection("rooms").add({
     created: firebase.firestore.FieldValue.serverTimestamp(),
@@ -68,16 +68,14 @@ export const createroom = (
       },
     ],
     config: {
-      // Defaults for now
+      // TODO: Defaults for now
+      hasSpokenCheckin,
       numGreenFeelings: 1,
       numPeachFeelings: 1,
       numNeeds: 1,
+      timerLength: checkinTime,
+      ...checkinQuestionSet,
     },
-    // config: {
-    //   ...checkinQuestionSet,
-    //   timerLength: checkinTime,
-    //   hasSpokenCheckin: hasSpokenCheckin,
-    // },
   });
 };
 

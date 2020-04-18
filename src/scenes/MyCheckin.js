@@ -26,7 +26,27 @@ export default function MyCheckin({ roomId, userId }) {
   return (
     <>
       <h1>Select my check-in</h1>
+
+      {roomConfig && roomConfig.numGreenFeelings > 0 && (
+        <CheckinSelector
+          itemType="green"
+          {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+        />
+      )}
+      {roomConfig && roomConfig.numPeachFeelings > 0 && (
+        <CheckinSelector
+          itemType="peach"
+          {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+        />
+      )}
+      {roomConfig && roomConfig.numNeeds > 0 && (
+        <CheckinSelector
+          itemType="need"
+          {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+        />
+      )}
       <CheckinSelector
+        itemType="strategy"
         {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
       />
       <CheckinSmall
@@ -40,3 +60,4 @@ export default function MyCheckin({ roomId, userId }) {
     </>
   );
 }
+
