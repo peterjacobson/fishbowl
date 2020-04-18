@@ -22,17 +22,11 @@ function translate(word, type, lang) {
 // TODO: hardcoded
 const lang = "en";
 
-const typeSelector = (type) => {
-  switch (type) {
-    case "green":
-      return GreenFeeling;
-    case "peach":
-      return PeachFeeling;
-    case "need":
-      return Need;
-    case "strategy":
-      return Strategy;
-  }
+const typeHash = {
+  green: GreenFeeling,
+  peach: PeachFeeling,
+  need: Need,
+  strategy: Strategy,
 };
 
 export default function CheckInSmall({
@@ -56,7 +50,7 @@ export default function CheckInSmall({
         .slice()
         .sort((a, b) => sortOrder.indexOf(a.type) - sortOrder.indexOf(b.type))
         .map((item, i) => {
-          const C = typeSelector(item.type);
+          const C = typeHash[item.type];
           return (
             <C key={i} style={rotateStyle()}>
               {translate(item.word, item.type, lang)}{" "}
