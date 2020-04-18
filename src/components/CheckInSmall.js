@@ -55,10 +55,10 @@ export default function CheckInSmall({
       {checkIn
         .slice()
         .sort((a, b) => sortOrder.indexOf(a.type) - sortOrder.indexOf(b.type))
-        .map((item) => {
+        .map((item, i) => {
           const C = typeSelector(item.type);
           return (
-            <C style={rotateStyle()}>
+            <C key={i} style={rotateStyle()}>
               {translate(item.word, item.type, lang)}{" "}
               {showRemoveIcon && (
                 <RemoveIcon onClick={() => removeCheckInWord(item.word)} />

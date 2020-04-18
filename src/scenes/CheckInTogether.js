@@ -4,7 +4,14 @@ import { navigate } from "@reach/router";
 import * as FirestoreService from "../services/firestore";
 import CheckInSmall from "../components/CheckInSmall";
 
-export default function CheckinTogether({ roomId }) {
+const CheckInWithTitle = ({ checkIn, userName }) => (
+  <>
+    <h3>{userName}'s check-in</h3>
+    <CheckInSmall checkIn={checkIn} showRemoveIcon={false} />
+  </>
+);
+
+export default function CheckInTogether({ roomId }) {
   const [error, setError] = useState(null);
   const [roomUsers, setRoomUsers] = useState([]);
   const [myCheckIn, setMyCheckIn] = useState(null);
@@ -68,7 +75,7 @@ export default function CheckinTogether({ roomId }) {
 
       {error && <p>{error}</p>}
 
-      <h3>My Check-in</h3>
+      <h3>My check-in</h3>
 
       {myCheckIn && (
         <CheckInSmall
@@ -79,13 +86,11 @@ export default function CheckinTogether({ roomId }) {
         />
       )}
 
-      <h3>Others' Check-ins</h3>
-      {checkIns.map((c) => (
-        <CheckInSmall
+      {checkIns.map((c, i) => (
+        <CheckInWithTitle
           checkIn={c.checkInWords}
-          roomId={roomId}
-          showRemoveIcon={false}
-          userId={userId}
+          key={i}
+          userName={roomUsers.find((u) => u.userId === c.userId).name}
         />
       ))}
 
