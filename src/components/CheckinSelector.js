@@ -50,6 +50,15 @@ const typeSelector = (itemType, roomConfig) => {
   }
 };
 
+const titleSelector = (itemType) => {
+  switch (itemType) {
+    case "green":
+      return "I've felt in the last 24hrs";
+    case "peach":
+      return "A need I'd love to meet";
+  }
+};
+
 export default function CheckinSelector({
   itemType,
   myCheckIn,
@@ -65,12 +74,13 @@ export default function CheckinSelector({
   };
 
   const addCheckinWord = (type, word) => {
-    const nextCheckin = [...myCheckIn, { type: type, word: word }];
+    const nextCheckin = [...myCheckIn, { type, word }];
     setMyCheckIn(nextCheckin);
     FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
   };
 
   const { itemCollection, itemQuantity } = typeSelector(itemType, roomConfig);
+  const title = titleSelector(itemType);
 
   return (
     <Accordion allowMultiple={false}>
@@ -83,10 +93,8 @@ export default function CheckinSelector({
                 numRequired={itemQuantity}
                 type={itemType}
               />
-              {itemQuantity === 1
-                ? "Something "
-                : `${converter.toWords(itemQuantity)} things `}
-              I've felt in the last 24hrs
+              Choose{" "}
+              {["green", "peach"].includes(itemType) ? "feeling" : itemType}
               <HelpButton onClick={toggleGreenHelp} />
               <RightSpan>
                 {openAccordion === 0 ? <DropupIcon /> : <DropdownIcon />}
@@ -101,7 +109,7 @@ export default function CheckinSelector({
           <CollapseWrapper>
             {itemCollection.map((word, index) => (
               <Card
-                type={"green"}
+                type={itemType}
                 word={word}
                 lang="en"
                 removeCheckinWord={removeCheckinWord}
