@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ModalProvider } from "styled-react-modal";
 import "./App.css";
 import CreateRoom from "./scenes/CreateRoom2";
+import CheckinTogether from "./scenes/CheckinTogether";
 import JoinRoom from "./scenes/JoinRoom";
 import MyCheckin from "./scenes/MyCheckin";
 
@@ -34,7 +35,7 @@ function App() {
             // {...{ roomId, onSelectUser, userId }}
           />
           <MyCheckin path="/room/:roomId/user/:userId" />
-          {/* Select Checkin */}
+          <CheckinTogether path="/room/:roomId" />
           {/* ? Spoken Checkin  */}
           {/* Next steps */}
         </Router>

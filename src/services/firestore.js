@@ -107,6 +107,8 @@ export const addUserToroom = (userName, roomId, userId) => {
     });
 };
 
+export const getCurrentUser = (f) => firebase.auth().onAuthStateChanged(f);
+
 export const updateCheckIn = (checkIn, roomId, userId) => {
   const checkInDbEntry = {
     userId: userId,

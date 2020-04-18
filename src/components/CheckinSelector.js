@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import converter from "number-to-words";
 
 import { Accordion } from "react-sanfona";
 import CompletionChecks from "./CompletionChecks";
@@ -50,15 +49,6 @@ const typeSelector = (itemType, roomConfig) => {
   }
 };
 
-const titleSelector = (itemType) => {
-  switch (itemType) {
-    case "green":
-      return "I've felt in the last 24hrs";
-    case "peach":
-      return "A need I'd love to meet";
-  }
-};
-
 export default function CheckinSelector({
   itemType,
   myCheckIn,
@@ -80,7 +70,6 @@ export default function CheckinSelector({
   };
 
   const { itemCollection, itemQuantity } = typeSelector(itemType, roomConfig);
-  const title = titleSelector(itemType);
 
   return (
     <Accordion allowMultiple={false}>
