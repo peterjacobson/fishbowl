@@ -30,7 +30,7 @@ export default function MyCheckin({ roomId, userId }) {
       <CheckinSelector
         {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
       />
-      <CheckinSmall myCheckIn={myCheckIn} />
+      <CheckinSmall myCheckIn={myCheckIn} roomId={roomId} userId={userId} />
       <button>I'm Ready</button>
       {error && <p>error</p>}
     </>
