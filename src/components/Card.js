@@ -19,15 +19,12 @@ export default function Card({
   addCheckinWord,
 }) {
   const isSelected = myCheckIn.find((item) => item.word === word);
+  function handleClick(e) {
+    e.stopPropagation();
+    isSelected ? removeCheckinWord(type, word) : addCheckinWord(type, word);
+  }
   return (
-    <StyledCard
-      key={index}
-      type={type}
-      on={isSelected}
-      onClick={() =>
-        isSelected ? removeCheckinWord(type, word) : addCheckinWord(type, word)
-      }
-    >
+    <StyledCard key={index} type={type} on={isSelected} onClick={handleClick}>
       {isSelected ? <RemoveIcon /> : <AddIcon />}
       &nbsp;&nbsp;&nbsp;
       {type === "strategy" ? (

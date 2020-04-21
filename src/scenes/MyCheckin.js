@@ -96,6 +96,14 @@ export default function MyCheckin({ roomId, userId }) {
     });
   }
 
+  const otherUsers = roomUsers.filter((user) => user.userId !== userId);
+
+  const otherUsersCheckIns = otherUsers.map((user) => (
+    <>
+      <h2>{user.name}</h2>
+    </>
+  ));
+
   return (
     <MauveBackground onClick={() => setOpenAccordion(null)}>
       <MobileWidthWrapper>
@@ -113,17 +121,28 @@ export default function MyCheckin({ roomId, userId }) {
         </RightSpan>
         <Heading>Select your check-in</Heading>
         {roomConfig ? selectors() : null}
-        <CheckInSmall
+        {/* <CheckInSmall
           checkIn={myCheckIn}
           roomId={roomId}
           setMyCheckIn={setMyCheckIn}
           showRemoveIcon={true}
           userId={userId}
-        />
+        /> */}
+        <br />
+        {otherUsersCheckIns}
+        <br />
+        {JSON.stringify(userId)}
+        <br />
+        <br />
+        {JSON.stringify(roomUsers)}
+        <br />
+        <br />
+        {JSON.stringify(myCheckIn)}
+        <br />
+        <br />
         {checkIns.length > 0
           ? checkIns.map((checkIn) => JSON.stringify(checkIn))
           : null}
-
         {/* TODO: checks before proceed */}
         {/* <button onClick={() => navigate(`/room/${roomId}`)}>I'm Ready</button> */}
         {error && <p>error</p>}
