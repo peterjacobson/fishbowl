@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import * as FirestoreService from "../services/firestore";
 import CheckInSmall from "../components/CheckInSmall";
@@ -23,6 +24,7 @@ export default function MyCheckin({ roomId, userId }) {
   const [myCheckIn, setMyCheckIn] = useState([]);
   const [roomConfig, setRoomConfig] = useState({});
   const [roomUsers, setRoomUsers] = useState([]);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
@@ -41,7 +43,9 @@ export default function MyCheckin({ roomId, userId }) {
     navigate("/");
   }
 
-  function copyInviteToClipboard() {}
+  function updateLinkCopyState() {
+    setLinkCopied(true);
+  }
 
   const labels = {
     green: "One comfortable thing I've felt in the last 24hrs",
@@ -68,11 +72,16 @@ export default function MyCheckin({ roomId, userId }) {
     <MauveBackground>
       <MobileWidthWrapper>
         <RightSpan>
-          <MauveButton>
-            <ButtonText onClick={copyInviteToClipboard}>
-              Copy invite url
-            </ButtonText>
-          </MauveButton>
+          <CopyToClipboard
+            text={`${window.location.origin}/join-room/${roomId}`}
+          >
+            <MauveButton>
+              <ButtonText onClick={updateLinkCopyState}>
+                Copy invite url
+                {linkCopied ? "  🙌 Link copied" : null}
+              </ButtonText>
+            </MauveButton>
+          </CopyToClipboard>
         </RightSpan>
         <Heading>Select your check-in</Heading>
         {roomConfig ? selectors() : null}
