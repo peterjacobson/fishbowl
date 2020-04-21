@@ -30,7 +30,9 @@ function JoinRoom(props) {
     FirestoreService.authenticateAnonymously()
       .then((userCredential) => {
         const userId = userCredential.user.uid;
-        navigate(`/room/${roomId}/user/${userId}/my-check-in`);
+        FirestoreService.addUserToroom(userName, roomId, userId).then(() => {
+          navigate(`/room/${roomId}/user/${userId}/my-check-in`);
+        });
       })
       .catch((e) => {
         console.error(e);

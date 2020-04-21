@@ -127,6 +127,10 @@ export const RightArrowIcon = styled(FiArrowRight)`
   width: 30px;
 `;
 
+export const UserCheckInWrapper = styled.div`
+  margin-bottom: 50px;
+`;
+
 export const SelectLabel = styled.p`
   font-size: 20px;
   color: white;
