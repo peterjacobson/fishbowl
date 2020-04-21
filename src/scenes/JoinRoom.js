@@ -12,6 +12,7 @@ import {
   Button,
   Error,
   CenterForm,
+  RightArrowIcon,
 } from "../components/styledComponents";
 
 function JoinRoom(props) {
@@ -89,7 +90,9 @@ function JoinRoom(props) {
         </CenterForm>
         <NavigationButtons>
           <NavigationText>Next:&nbsp;&nbsp;&nbsp;Go to room</NavigationText>
-          <Button onClick={joinRoom}>Next</Button>
+          <Button onClick={joinRoom}>
+            <RightArrowIcon />
+          </Button>
         </NavigationButtons>
       </MobileWidthWrapper>
     </BlueBackground>

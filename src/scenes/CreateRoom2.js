@@ -13,6 +13,7 @@ import {
   NavigationButtons,
   NavigationText,
   Error,
+  RightArrowIcon,
 } from "../components/styledComponents";
 
 function CreateList() {
@@ -66,7 +67,9 @@ function CreateList() {
         </CenterForm>
         <NavigationButtons>
           <NavigationText>Next: Go to room</NavigationText>
-          <Button onClick={createRoom}>Next</Button>
+          <Button onClick={createRoom}>
+            <RightArrowIcon />
+          </Button>
         </NavigationButtons>
       </MobileWidthWrapper>
     </BlueBackground>

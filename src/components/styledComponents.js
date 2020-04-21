@@ -9,7 +9,7 @@ import teReoGreen from "../data/greenFeelings";
 import teReoNeeds from "../data/needs";
 import teReoPeach from "../data/peachFeelings";
 
-import { FiCheckCircle, FiCircle } from "react-icons/fi";
+import { FiCheckCircle, FiCircle, FiArrowRight } from "react-icons/fi";
 import {
   IoIosAddCircleOutline,
   IoIosArrowDropdown,
@@ -97,6 +97,12 @@ export const Button = styled.button`
   margin-bottom: 5px;
   height: 50px;
   width: 50px;
+  cursor: pointer;
+`;
+
+export const RightArrowIcon = styled(FiArrowRight)`
+  font-size: 24px;
+  color: white;
 `;
 
 export const HeartworkLogoBig = styled.div`
