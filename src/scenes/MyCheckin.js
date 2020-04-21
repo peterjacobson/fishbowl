@@ -14,6 +14,8 @@ import {
   RightArrowIcon,
   SelectLabel,
   WordSelectorWrapper,
+  RightSpan,
+  ButtonText,
 } from "../components/styledComponents";
 
 export default function MyCheckin({ roomId, userId }) {
@@ -39,6 +41,8 @@ export default function MyCheckin({ roomId, userId }) {
     navigate("/");
   }
 
+  function copyInviteToClipboard() {}
+
   const labels = {
     green: "One comfortable thing I've felt in the last 24hrs",
     peach: "One uncomfortable thing I've felt in the last 24hrs",
@@ -63,6 +67,13 @@ export default function MyCheckin({ roomId, userId }) {
   return (
     <MauveBackground>
       <MobileWidthWrapper>
+        <RightSpan>
+          <MauveButton>
+            <ButtonText onClick={copyInviteToClipboard}>
+              Copy invite url
+            </ButtonText>
+          </MauveButton>
+        </RightSpan>
         <Heading>Select your check-in</Heading>
         {roomConfig ? selectors() : null}
         <CheckInSmall

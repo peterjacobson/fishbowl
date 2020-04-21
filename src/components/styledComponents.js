@@ -98,7 +98,7 @@ export const Button = styled.button`
   border: none;
   padding: 10px;
   color: white;
-  border-radius: 100%;
+  border-radius: 25px;
   background-color: #4e5fba;
   -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
@@ -106,7 +106,7 @@ export const Button = styled.button`
   margin-right: 5px;
   margin-bottom: 5px;
   height: 50px;
-  width: 50px;
+  /* width: 50px; */
   cursor: pointer;
 `;
 
@@ -117,9 +117,14 @@ export const MauveButton = styled(Button)`
   background-color: #bb5197;
 `;
 
+export const ButtonText = styled.span`
+  font-size: 1.2em;
+`;
+
 export const RightArrowIcon = styled(FiArrowRight)`
   font-size: 24px;
   color: white;
+  width: 30px;
 `;
 
 export const SelectLabel = styled.p`
@@ -149,7 +154,7 @@ export const MobileWidthWrapper = styled.div`
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  padding: 54px 10px;
+  padding: 10px;
   /* padding-top: 54px; */
 `;
 
@@ -419,7 +424,9 @@ export const AccordionHeader = styled.div`
 `;
 
 export const RightSpan = styled.div`
-  float: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 `;
 
 export const CheckinName = styled.h3`
