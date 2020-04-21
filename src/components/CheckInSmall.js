@@ -22,49 +22,40 @@ function translate(word, type, lang) {
 // TODO: hardcoded
 const lang = "en";
 
-const typeSelector = (type) => {
-  switch (type) {
-    case "green":
-      return GreenFeeling;
-    case "peach":
-      return PeachFeeling;
-    case "need":
-      return Need;
-    case "strategy":
-      return Strategy;
-  }
+const typeHash = {
+  green: GreenFeeling,
+  peach: PeachFeeling,
+  need: Need,
+  strategy: Strategy,
 };
 
-export default function CheckinSmall({
-  myCheckIn,
+export default function CheckInSmall({
+  checkIn,
   roomId,
-  setMyCheckIn,
+  setCheckIn,
   showRemoveIcon,
   userId,
 }) {
   const sortOrder = ["green", "peach", "need", "strategy"];
 
-  const removeCheckinWord = (type, word) => {
-    const nextCheckin = myCheckIn.filter((item) => item.word !== word);
-    setMyCheckIn(nextCheckin);
+  const removeCheckInWord = (word) => {
+    const nextCheckin = checkIn.filter((item) => item.word !== word);
+    setCheckIn(nextCheckin);
     FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
   };
 
   return (
     <div>
-      My checkin:
-      {myCheckIn
+      {checkIn
         .slice()
         .sort((a, b) => sortOrder.indexOf(a.type) - sortOrder.indexOf(b.type))
-        .map((item) => {
-          const C = typeSelector(item.type);
+        .map((item, i) => {
+          const C = typeHash[item.type];
           return (
-            <C style={rotateStyle()}>
+            <C key={i} style={rotateStyle()}>
               {translate(item.word, item.type, lang)}{" "}
               {showRemoveIcon && (
-                <RemoveIcon
-                  onClick={() => removeCheckinWord(item.type, item.word)}
-                />
+                <RemoveIcon onClick={() => removeCheckInWord(item.word)} />
               )}
             </C>
           );

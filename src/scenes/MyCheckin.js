@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { navigate } from "@reach/router";
 
 import * as FirestoreService from "../services/firestore";
-import CheckinSmall from "../components/CheckinSmall";
+import CheckInSmall from "../components/CheckInSmall";
 import CheckinSelector from "../components/CheckinSelector";
 
 export default function MyCheckin({ roomId, userId }) {
@@ -22,6 +23,10 @@ export default function MyCheckin({ roomId, userId }) {
     });
     return unsubscribe;
   }, [roomId]);
+
+  if (!roomId || !userId) {
+    navigate("/");
+  }
 
   return (
     <>
@@ -61,13 +66,16 @@ export default function MyCheckin({ roomId, userId }) {
           {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
         />
       </>
-      <CheckinSmall
-        myCheckIn={myCheckIn}
+      <CheckInSmall
+        checkIn={myCheckIn}
         roomId={roomId}
+        setMyCheckIn={setMyCheckIn}
         showRemoveIcon={true}
         userId={userId}
       />
-      <button>I'm Ready</button>
+
+      {/* TODO: checks before proceed */}
+      <button onClick={() => navigate(`/room/${roomId}`)}>I'm Ready</button>
       {error && <p>error</p>}
     </>
   );

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import converter from "number-to-words";
 
 import { Accordion } from "react-sanfona";
 import CompletionChecks from "./CompletionChecks";
@@ -30,35 +29,6 @@ const accordionAnimation = {
   easing: "cubic-bezier(0.420, 0.000, 0.580, 1.000)",
 };
 
-const typeSelector = (itemType, roomConfig) => {
-  switch (itemType) {
-    case "green":
-      return {
-        itemCollection: greenFeelings,
-        itemQuantity: roomConfig.numGreenFeelings,
-      };
-    case "peach":
-      return {
-        itemCollection: peachFeelings,
-        itemQuantity: roomConfig.numGreenFeelings,
-      };
-    case "need":
-      return { itemCollection: needs, itemQuantity: roomConfig.numNeeds };
-    case "strategy":
-      // TODO: Always 1?
-      return { itemCollection: strategies, itemQuantity: 1 };
-  }
-};
-
-const titleSelector = (itemType) => {
-  switch (itemType) {
-    case "green":
-      return "I've felt in the last 24hrs";
-    case "peach":
-      return "A need I'd love to meet";
-  }
-};
-
 export default function CheckinSelector({
   itemType,
   myCheckIn,
@@ -79,8 +49,21 @@ export default function CheckinSelector({
     FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
   };
 
-  const { itemCollection, itemQuantity } = typeSelector(itemType, roomConfig);
-  const title = titleSelector(itemType);
+  const typeHash = {
+    green: {
+      itemCollection: greenFeelings,
+      itemQuantity: roomConfig.numGreenFeelings,
+    },
+    peach: {
+      itemCollection: peachFeelings,
+      itemQuantity: roomConfig.numGreenFeelings,
+    },
+    need: { itemCollection: needs, itemQuantity: roomConfig.numNeeds },
+    // TODO: Always 1?
+    strategy: { itemCollection: strategies, itemQuantity: 1 },
+  };
+
+  const { itemCollection, itemQuantity } = typeHash[itemType];
 
   return (
     <Accordion allowMultiple={false}>
@@ -125,4 +108,3 @@ export default function CheckinSelector({
     </Accordion>
   );
 }
-
