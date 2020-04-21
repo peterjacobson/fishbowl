@@ -3,12 +3,19 @@ import { navigate } from "@reach/router";
 
 import * as FirestoreService from "../services/firestore";
 import CheckInSmall from "../components/CheckInSmall";
+import {
+  MauveBackground,
+  MobileWidthWrapper,
+  Heading,
+  NarrowCenterText,
+  UserCheckInWrapper,
+} from "../components/styledComponents";
 
 const CheckInWithTitle = ({ checkIn, userName }) => (
-  <>
-    <h3>{userName}'s check-in</h3>
+  <UserCheckInWrapper>
+    <h2>{userName}'s check-in</h2>
     <CheckInSmall checkIn={checkIn} showRemoveIcon={false} />
-  </>
+  </UserCheckInWrapper>
 );
 
 export default function CheckInTogether({ roomId }) {
@@ -60,41 +67,80 @@ export default function CheckInTogether({ roomId }) {
     return unsubscribe;
   }, [roomId, setCheckIns, setError, setMyCheckIn, userId]);
 
+  const otherUsers = roomUsers.filter((user) => user.userId !== userId);
+
+  const otherUsersCheckIns = otherUsers.map((otherUser, index) => {
+    const userCheckIn = checkIns.find(
+      (checkIn) => checkIn.userId === otherUser.userId
+    );
+
+    return (
+      <UserCheckInWrapper key={index}>
+        <h2>{otherUser.name}</h2>
+        {userCheckIn ? (
+          userCheckIn.checkInWords.length > 0 ? (
+            <CheckInSmall
+              checkIn={userCheckIn.checkInWords}
+              roomId={roomId}
+              setMyCheckIn={setMyCheckIn}
+              showRemoveIcon={true}
+              userId={userId}
+            />
+          ) : (
+            <p>hasn't selected a check-in yet</p>
+          )
+        ) : null}
+      </UserCheckInWrapper>
+    );
+  });
+
   return (
-    <>
-      <h1>Check-in Together</h1>
-      <p>
-        You each have a little time to speak to the words you chose. Everyone
-        else is called to listen with curiosity, trust, attention and aroha.
-      </p>
-      <p>
-        Trust that any responses can wait until everyone has checked in (you can
-        just do another round if it's feeling called for).
-      </p>
-      <button>Start my check-in</button>
+    <MauveBackground>
+      <MobileWidthWrapper>
+        <Heading>Check-in Together</Heading>
+        <NarrowCenterText>
+          Each person has an opportunity to speak to the check-in words they
+          have chosen
+        </NarrowCenterText>
+        <h2>My check-in</h2>
 
-      {error && <p>{error}</p>}
+        {myCheckIn && (
+          <UserCheckInWrapper>
+            <CheckInSmall
+              checkIn={myCheckIn}
+              roomId={roomId}
+              showRemoveIcon={false}
+              userId={userId}
+            />
+          </UserCheckInWrapper>
+        )}
 
-      <h3>My check-in</h3>
+        {otherUsersCheckIns}
 
-      {myCheckIn && (
-        <CheckInSmall
-          checkIn={myCheckIn}
-          roomId={roomId}
-          showRemoveIcon={false}
-          userId={userId}
-        />
-      )}
+        {/* {checkIns.map((c, i) => (
+          <CheckInWithTitle
+            checkIn={c.checkInWords}
+            key={i}
+            userName={roomUsers.find((u) => u.userId === c.userId).name}
+          />
+        ))} */}
+      </MobileWidthWrapper>
+    </MauveBackground>
+    // <>
+    //   <h1>Check-in Together</h1>
+    //   <p>
+    //     You each have a little time to speak to the words you chose. Everyone
+    //     else is called to listen with curiosity, trust, attention and aroha.
+    //   </p>
+    //   <p>
+    //     Trust that any responses can wait until everyone has checked in (you can
+    //     just do another round if it's feeling called for).
+    //   </p>
+    //   <button>Start my check-in</button>
 
-      {checkIns.map((c, i) => (
-        <CheckInWithTitle
-          checkIn={c.checkInWords}
-          key={i}
-          userName={roomUsers.find((u) => u.userId === c.userId).name}
-        />
-      ))}
+    //   {error && <p>{error}</p>}
 
-      <button>We've all checked in</button>
-    </>
+    //   <button>We've all checked in</button>
+    // </>
   );
 }

@@ -212,6 +212,13 @@ export const HelpText = styled.p`
   color: #333;
 `;
 
+export const NarrowCenterText = styled.p`
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 350px;
+  margin-bottom: 30px;
+`;
+
 export const ConfigContainer = styled.div`
   background-color: white;
   padding: 10px;
