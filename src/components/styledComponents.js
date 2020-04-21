@@ -38,7 +38,9 @@ export const BlueBackground = styled.div`
   background: linear-gradient(
       135deg,
       rgba(22, 33, 100, 1),
-      rgba(37, 50, 140, 0.8)
+      rgba(22, 33, 100, 0.95),
+      rgba(22, 33, 100, 0.9),
+      rgba(37, 50, 140, 0.7)
     ),
     url(${room4});
   background-size: cover;

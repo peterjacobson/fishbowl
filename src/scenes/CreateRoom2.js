@@ -34,7 +34,7 @@ function CreateList() {
         FirestoreService.createroom(userName, userId)
           .then((docRef) => {
             const roomId = docRef.id;
-            navigate(`/room/${roomId}/user/${userId}`);
+            navigate(`/room/${roomId}/user/${userId}/my-check-in`);
           })
           .catch((reason) => {
             setError("create-list-error");
