@@ -18,6 +18,7 @@ import {
   RightSpan,
   ButtonText,
   UserCheckInWrapper,
+  Text,
 } from "../components/styledComponents";
 
 export default function MyCheckin({ roomId, userId }) {
@@ -100,23 +101,26 @@ export default function MyCheckin({ roomId, userId }) {
   const otherUsers = roomUsers.filter((user) => user.userId !== userId);
 
   const otherUsersCheckIns = otherUsers.map((otherUser, index) => {
-    const userCheckin = checkIns.find(
+    const userCheckIn = checkIns.find(
       (checkIn) => checkIn.userId === otherUser.userId
     );
+
     return (
       <UserCheckInWrapper key={index}>
         <h2>{otherUser.name}</h2>
-        {userCheckin ? (
-          <CheckInSmall
-            checkIn={userCheckin.checkInWords}
-            roomId={roomId}
-            setMyCheckIn={setMyCheckIn}
-            showRemoveIcon={true}
-            userId={userId}
-          />
-        ) : (
-          "hasn't started checking in"
-        )}
+        {userCheckIn ? (
+          userCheckIn.checkInWords.length > 0 ? (
+            <CheckInSmall
+              checkIn={userCheckIn.checkInWords}
+              roomId={roomId}
+              setMyCheckIn={setMyCheckIn}
+              showRemoveIcon={true}
+              userId={userId}
+            />
+          ) : (
+            <p>hasn't selected a check-in yet</p>
+          )
+        ) : null}
       </UserCheckInWrapper>
     );
   });
@@ -140,6 +144,7 @@ export default function MyCheckin({ roomId, userId }) {
         {roomConfig ? selectors() : null}
 
         <br />
+        <Heading>Other's check-ins</Heading>
         {otherUsersCheckIns}
         {error && <p>error</p>}
         <NavigationButtons>
