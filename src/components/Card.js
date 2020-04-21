@@ -28,6 +28,8 @@ export default function Card({
         isSelected ? removeCheckinWord(type, word) : addCheckinWord(type, word)
       }
     >
+      {isSelected ? <RemoveIcon /> : <AddIcon />}
+      &nbsp;&nbsp;&nbsp;
       {type === "strategy" ? (
         word
       ) : lang === "ma" && ma[type][word] ? (
@@ -35,7 +37,8 @@ export default function Card({
       ) : (
         word
       )}
-      <RightSpan>{isSelected ? <RemoveIcon /> : <AddIcon />}</RightSpan>
+      {/* <RightSpan> */}
+      {/* </RightSpan> */}
     </StyledCard>
   );
 }

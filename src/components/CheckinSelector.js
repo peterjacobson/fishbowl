@@ -22,7 +22,6 @@ import {
 
 // TODO: placeholders
 const toggleGreenHelp = () => {};
-const removeCheckinWord = () => {};
 
 const accordionAnimation = {
   duration: 300,
@@ -49,6 +48,12 @@ export default function CheckinSelector({
     FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
   };
 
+  const removeCheckinWord = (type, word) => {
+    const nextCheckin = myCheckIn.filter((item) => item.word !== word);
+    setMyCheckIn(nextCheckin);
+    FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
+  };
+
   const typeHash = {
     green: {
       itemCollection: greenFeelings,
@@ -65,6 +70,16 @@ export default function CheckinSelector({
 
   const { itemCollection, itemQuantity } = typeHash[itemType];
 
+  const wordsSelected = myCheckIn
+    .filter((item) => item.type === itemType)
+    .map((item) => item.word);
+
+  const somethingSelected = wordsSelected.length > 0;
+
+  const accordionHeadingText = somethingSelected
+    ? wordsSelected.join(", ")
+    : "Pick one";
+
   return (
     <Accordion allowMultiple={false}>
       <DropdownWrap type={itemType}>
@@ -76,9 +91,8 @@ export default function CheckinSelector({
                 numRequired={itemQuantity}
                 type={itemType}
               />
-              Choose{" "}
-              {["green", "peach"].includes(itemType) ? "feeling" : itemType}
-              <HelpButton onClick={toggleGreenHelp} />
+              {accordionHeadingText}
+              {/* <HelpButton onClick={toggleGreenHelp} /> */}
               <RightSpan>
                 {openAccordion === 0 ? <DropupIcon /> : <DropdownIcon />}
               </RightSpan>

@@ -13,6 +13,7 @@ import {
   MauveButton,
   RightArrowIcon,
   SelectLabel,
+  WordSelectorWrapper,
 } from "../components/styledComponents";
 
 export default function MyCheckin({ roomId, userId }) {
@@ -38,49 +39,32 @@ export default function MyCheckin({ roomId, userId }) {
     navigate("/");
   }
 
+  const labels = {
+    green: "One comfortable thing I've felt in the last 24hrs",
+    peach: "One uncomfortable thing I've felt in the last 24hrs",
+    need: "One need that's alive in me",
+    strategy: "One strategy I'll try to meet my needs",
+  };
+
+  function selectors() {
+    return ["green", "peach", "need", "strategy"].map((itemType, index) => {
+      return (
+        <WordSelectorWrapper key={index}>
+          <SelectLabel>{labels[itemType]}</SelectLabel>
+          <CheckinSelector
+            itemType={itemType}
+            {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+          />
+        </WordSelectorWrapper>
+      );
+    });
+  }
+
   return (
     <MauveBackground>
       <MobileWidthWrapper>
         <Heading>Select your check-in</Heading>
-
-        {roomConfig && roomConfig.numGreenFeelings > 0 && (
-          <>
-            <SelectLabel>
-              One comfortable thing I've felt in the last 24 hrs
-            </SelectLabel>
-            <CheckinSelector
-              itemType="green"
-              {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
-            />
-          </>
-        )}
-        {roomConfig && roomConfig.numPeachFeelings > 0 && (
-          <>
-            <SelectLabel>
-              One uncomfortable thing I've felt in the last 24 hrs
-            </SelectLabel>
-            <CheckinSelector
-              itemType="peach"
-              {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
-            />
-          </>
-        )}
-        {roomConfig && roomConfig.numNeeds > 0 && (
-          <>
-            <SelectLabel>One need that's alive for me now</SelectLabel>
-            <CheckinSelector
-              itemType="need"
-              {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
-            />
-          </>
-        )}
-        <>
-          <SelectLabel>One strategy to meet my needs</SelectLabel>
-          <CheckinSelector
-            itemType="strategy"
-            {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
-          />
-        </>
+        {roomConfig ? selectors() : null}
         <CheckInSmall
           checkIn={myCheckIn}
           roomId={roomId}

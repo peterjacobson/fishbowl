@@ -149,7 +149,8 @@ export const MobileWidthWrapper = styled.div`
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 54px;
+  padding: 54px 10px;
+  /* padding-top: 54px; */
 `;
 
 export const Heading = styled.h1`
@@ -246,6 +247,10 @@ export const AllStrategyContainer = styled(VocabContainer)`
     ${colors.strategy[0]},
     ${colors.strategy[1]}
   );
+`;
+
+export const WordSelectorWrapper = styled.div`
+  margin-bottom: 40px;
 `;
 
 export const VocabColumn = styled.div`
@@ -362,11 +367,11 @@ export const CollapseWrapper = styled.div`
 `;
 
 export const AddIcon = styled(IoIosAddCircleOutline)`
-  font-size: 1.25em;
+  font-size: 1em;
   cursor: pointer;
 `;
 export const RemoveIcon = styled(IoIosRemoveCircleOutline)`
-  font-size: 1.25em;
+  font-size: 1em;
   cursor: pointer;
 `;
 
