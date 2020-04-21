@@ -25,6 +25,8 @@ export default function MyCheckin({ roomId, userId }) {
   const [roomConfig, setRoomConfig] = useState({});
   const [roomUsers, setRoomUsers] = useState([]);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [checkIns, setCheckIns] = useState([]);
+  const [openAccordion, setOpenAccordion] = useState(null);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
@@ -38,6 +40,23 @@ export default function MyCheckin({ roomId, userId }) {
     });
     return unsubscribe;
   }, [roomId]);
+
+  useEffect(() => {
+    const unsubscribe = FirestoreService.streamRoomCheckIns(roomId, {
+      next: (querySnapshot) => {
+        const nextCheckins = querySnapshot.docs.map((docSnapshot) =>
+          docSnapshot.data()
+        );
+        setCheckIns(nextCheckins);
+        const myNextCheckIn = nextCheckins.find((checkin) => {
+          return checkin.userId === userId;
+        });
+        if (myNextCheckIn) setMyCheckIn(myNextCheckIn.checkInWords);
+      },
+      error: () => setError("grocery-list-item-get-fail"),
+    });
+    return unsubscribe;
+  }, [roomId, setCheckIns, setMyCheckIn, userId]);
 
   if (!roomId || !userId) {
     navigate("/");
@@ -61,7 +80,16 @@ export default function MyCheckin({ roomId, userId }) {
           <SelectLabel>{labels[itemType]}</SelectLabel>
           <CheckinSelector
             itemType={itemType}
-            {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+            accordionIndex={index}
+            {...{
+              myCheckIn,
+              roomConfig,
+              roomId,
+              setMyCheckIn,
+              userId,
+              openAccordion,
+              setOpenAccordion,
+            }}
           />
         </WordSelectorWrapper>
       );
@@ -69,7 +97,7 @@ export default function MyCheckin({ roomId, userId }) {
   }
 
   return (
-    <MauveBackground>
+    <MauveBackground onClick={() => setOpenAccordion(null)}>
       <MobileWidthWrapper>
         <RightSpan>
           <CopyToClipboard
@@ -92,6 +120,9 @@ export default function MyCheckin({ roomId, userId }) {
           showRemoveIcon={true}
           userId={userId}
         />
+        {checkIns.length > 0
+          ? checkIns.map((checkIn) => JSON.stringify(checkIn))
+          : null}
 
         {/* TODO: checks before proceed */}
         {/* <button onClick={() => navigate(`/room/${roomId}`)}>I'm Ready</button> */}

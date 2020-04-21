@@ -44,11 +44,13 @@ export default function CheckinSelector({
   roomConfig,
   setMyCheckIn,
   userId,
+  openAccordion,
+  accordionIndex,
+  setOpenAccordion,
 }) {
-  const [openAccordion, setOpenAccordion] = useState(null);
-
-  const toggleAccordionOpen = (id) => {
-    setOpenAccordion(openAccordion === id ? null : id);
+  const toggleAccordionOpen = (e) => {
+    e.stopPropagation();
+    setOpenAccordion(openAccordion === accordionIndex ? null : accordionIndex);
   };
 
   const wordsSelected = myCheckIn
@@ -58,9 +60,6 @@ export default function CheckinSelector({
   const somethingSelected = wordsSelected.length > 0;
 
   const numAllowed = roomConfig[numberAllowedDict[itemType]] || 1;
-
-  console.log("roomConfig: ", roomConfig);
-  console.log("numberAllowedDict[itemType]: ", numberAllowedDict[itemType]);
 
   const addCheckinWord = (type, word) => {
     if (wordsSelected.length < numAllowed) {
@@ -85,7 +84,10 @@ export default function CheckinSelector({
       itemCollection: peachFeelings,
       itemQuantity: roomConfig.numGreenFeelings,
     },
-    need: { itemCollection: needs, itemQuantity: roomConfig.numNeeds },
+    need: {
+      itemCollection: needs,
+      itemQuantity: roomConfig.numNeeds,
+    },
     // TODO: Always 1?
     strategy: { itemCollection: strategies, itemQuantity: 1 },
   };
@@ -101,7 +103,7 @@ export default function CheckinSelector({
       <DropdownWrap type={itemType}>
         <Panel
           title={
-            <AccordionHeader onClick={() => toggleAccordionOpen(2)}>
+            <AccordionHeader onClick={toggleAccordionOpen}>
               <CompletionChecks
                 myCheckIn={myCheckIn}
                 numRequired={itemQuantity}
@@ -110,14 +112,18 @@ export default function CheckinSelector({
               {accordionHeadingText}
               {/* <HelpButton onClick={toggleGreenHelp} /> */}
               <RightSpan>
-                {openAccordion === 0 ? <DropupIcon /> : <DropdownIcon />}
+                {openAccordion === accordionIndex ? (
+                  <DropupIcon />
+                ) : (
+                  <DropdownIcon />
+                )}
               </RightSpan>
             </AccordionHeader>
           }
           key="1"
           {...accordionAnimation}
-          onClick={() => toggleAccordionOpen(0)}
-          expanded={openAccordion === 0}
+          onClick={toggleAccordionOpen}
+          expanded={openAccordion === accordionIndex}
         >
           <CollapseWrapper>
             {itemCollection.map((word, index) => (
