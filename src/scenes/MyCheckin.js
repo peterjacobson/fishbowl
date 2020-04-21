@@ -4,6 +4,16 @@ import { navigate } from "@reach/router";
 import * as FirestoreService from "../services/firestore";
 import CheckInSmall from "../components/CheckInSmall";
 import CheckinSelector from "../components/CheckinSelector";
+import {
+  MauveBackground,
+  MobileWidthWrapper,
+  Heading,
+  NavigationButtons,
+  NavigationText,
+  MauveButton,
+  RightArrowIcon,
+  SelectLabel,
+} from "../components/styledComponents";
 
 export default function MyCheckin({ roomId, userId }) {
   const [error, setError] = useState(null);
@@ -29,55 +39,72 @@ export default function MyCheckin({ roomId, userId }) {
   }
 
   return (
-    <>
-      <h1>Select my check-in</h1>
+    <MauveBackground>
+      <MobileWidthWrapper>
+        <Heading>Select your check-in</Heading>
 
-      {roomConfig && roomConfig.numGreenFeelings > 0 && (
+        {roomConfig && roomConfig.numGreenFeelings > 0 && (
+          <>
+            <SelectLabel>
+              One comfortable thing I've felt in the last 24 hrs
+            </SelectLabel>
+            <CheckinSelector
+              itemType="green"
+              {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+            />
+          </>
+        )}
+        {roomConfig && roomConfig.numPeachFeelings > 0 && (
+          <>
+            <SelectLabel>
+              One uncomfortable thing I've felt in the last 24 hrs
+            </SelectLabel>
+            <CheckinSelector
+              itemType="peach"
+              {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+            />
+          </>
+        )}
+        {roomConfig && roomConfig.numNeeds > 0 && (
+          <>
+            <SelectLabel>One need that's alive for me now</SelectLabel>
+            <CheckinSelector
+              itemType="need"
+              {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+            />
+          </>
+        )}
         <>
-          <span>A feeling I've felt in the last 24 hrs</span>
+          <SelectLabel>One strategy to meet my needs</SelectLabel>
           <CheckinSelector
-            itemType="green"
+            itemType="strategy"
             {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
           />
         </>
-      )}
-      {roomConfig && roomConfig.numPeachFeelings > 0 && (
-        <>
-          <span>A feeling I've felt in the last 24 hrs</span>
-          <CheckinSelector
-            itemType="peach"
-            {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
-          />
-        </>
-      )}
-      {roomConfig && roomConfig.numNeeds > 0 && (
-        <>
-          <span>A need I'd love to meet</span>
-          <CheckinSelector
-            itemType="need"
-            {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
-          />
-        </>
-      )}
-      <>
-        <span>A strategy to meet a need of mine</span>
-        <CheckinSelector
-          itemType="strategy"
-          {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+        <CheckInSmall
+          checkIn={myCheckIn}
+          roomId={roomId}
+          setMyCheckIn={setMyCheckIn}
+          showRemoveIcon={true}
+          userId={userId}
         />
-      </>
-      <CheckInSmall
-        checkIn={myCheckIn}
-        roomId={roomId}
-        setMyCheckIn={setMyCheckIn}
-        showRemoveIcon={true}
-        userId={userId}
-      />
 
-      {/* TODO: checks before proceed */}
-      <button onClick={() => navigate(`/room/${roomId}`)}>I'm Ready</button>
-      {error && <p>error</p>}
-    </>
+        {/* TODO: checks before proceed */}
+        {/* <button onClick={() => navigate(`/room/${roomId}`)}>I'm Ready</button> */}
+        {error && <p>error</p>}
+        <NavigationButtons>
+          <NavigationText>
+            Next:&nbsp;&nbsp;&nbsp;Check-in together
+          </NavigationText>
+          <MauveButton
+            onClick={() =>
+              navigate(`/room/${roomId}/user/${userId}/check-in-together`)
+            }
+          >
+            <RightArrowIcon />
+          </MauveButton>
+        </NavigationButtons>
+      </MobileWidthWrapper>
+    </MauveBackground>
   );
 }
-

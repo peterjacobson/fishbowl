@@ -66,7 +66,7 @@ function CreateList() {
           {error && <Error>{error}</Error>}
         </CenterForm>
         <NavigationButtons>
-          <NavigationText>Next: Go to room</NavigationText>
+          <NavigationText>Next:&nbsp;&nbsp;&nbsp;Go to room</NavigationText>
           <Button onClick={createRoom}>
             <RightArrowIcon />
           </Button>

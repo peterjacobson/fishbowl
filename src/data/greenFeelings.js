@@ -1,5 +1,4 @@
 export default [
-  "(I choose to pass)",
   "calm",
   "centered",
   "cheeky",
@@ -33,6 +32,7 @@ export default [
   "supported",
   "trusting",
   "(something else)",
+  "(I choose to pass)",
 ];
 
 export const teReoGreen = {

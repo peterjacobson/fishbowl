@@ -39,10 +39,20 @@ export const BlueBackground = styled.div`
       135deg,
       rgba(22, 33, 100, 1),
       rgba(22, 33, 100, 0.95),
-      rgba(22, 33, 100, 0.9),
-      rgba(37, 50, 140, 0.7)
+      rgba(22, 33, 100, 0.9)
     ),
     url(${room4});
+  background-size: cover;
+  height: 100%;
+`;
+
+export const MauveBackground = styled.div`
+  background: linear-gradient(
+      135deg,
+      rgba(74, 0, 51, 0.9),
+      rgba(74, 0, 51, 0.8)
+    ),
+    url(${texture1cover});
   background-size: cover;
   height: 100%;
 `;
@@ -100,9 +110,22 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
+export const BlueButton = styled(Button)`
+  background-color: #4e5fba;
+`;
+export const MauveButton = styled(Button)`
+  background-color: #bb5197;
+`;
+
 export const RightArrowIcon = styled(FiArrowRight)`
   font-size: 24px;
   color: white;
+`;
+
+export const SelectLabel = styled.p`
+  font-size: 20px;
+  color: white;
+  margin-bottom: 10px;
 `;
 
 export const HeartworkLogoBig = styled.div`
@@ -129,16 +152,21 @@ export const MobileWidthWrapper = styled.div`
   padding-top: 54px;
 `;
 
-export const SwatchHeading = styled.h1`
-  background: url(${blueswatch1});
-  background-size: cover;
+export const Heading = styled.h1`
   margin-left: auto;
   margin-right: auto;
   height: 50px;
+  line-height: 50px;
   width: 341px;
   text-align: center;
   margin-bottom: 39px;
   padding: 20px;
+`;
+
+export const SwatchHeading = styled(Heading)`
+  background: url(${blueswatch1});
+  background-size: cover;
+  background-position: center;
 `;
 
 export const Background = styled.div`
