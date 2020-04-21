@@ -50,7 +50,7 @@ export default function MyCheckin({ roomId, userId }) {
   const labels = {
     green: "One comfortable thing I've felt in the last 24hrs",
     peach: "One uncomfortable thing I've felt in the last 24hrs",
-    need: "One need that's alive in me",
+    need: "Three needs that are alive in me",
     strategy: "One strategy I'll try to meet my needs",
   };
 

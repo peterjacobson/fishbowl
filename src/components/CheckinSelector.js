@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 import { Accordion } from "react-sanfona";
+import converter from "number-to-words";
+
 import CompletionChecks from "./CompletionChecks";
 import Card from "./Card";
 import greenFeelings from "../data/greenFeelings";
@@ -28,6 +30,13 @@ const accordionAnimation = {
   easing: "cubic-bezier(0.420, 0.000, 0.580, 1.000)",
 };
 
+const numberAllowedDict = {
+  green: "numGreenFeelings",
+  peach: "numPeachFeelings",
+  need: "numNeeds",
+  strategy: "numStrategies",
+};
+
 export default function CheckinSelector({
   itemType,
   myCheckIn,
@@ -42,10 +51,23 @@ export default function CheckinSelector({
     setOpenAccordion(openAccordion === id ? null : id);
   };
 
+  const wordsSelected = myCheckIn
+    .filter((item) => item.type === itemType)
+    .map((item) => item.word);
+
+  const somethingSelected = wordsSelected.length > 0;
+
+  const numAllowed = roomConfig[numberAllowedDict[itemType]] || 1;
+
+  console.log("roomConfig: ", roomConfig);
+  console.log("numberAllowedDict[itemType]: ", numberAllowedDict[itemType]);
+
   const addCheckinWord = (type, word) => {
-    const nextCheckin = [...myCheckIn, { type, word }];
-    setMyCheckIn(nextCheckin);
-    FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
+    if (wordsSelected.length < numAllowed) {
+      const nextCheckin = [...myCheckIn, { type, word }];
+      setMyCheckIn(nextCheckin);
+      FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
+    }
   };
 
   const removeCheckinWord = (type, word) => {
@@ -70,15 +92,9 @@ export default function CheckinSelector({
 
   const { itemCollection, itemQuantity } = typeHash[itemType];
 
-  const wordsSelected = myCheckIn
-    .filter((item) => item.type === itemType)
-    .map((item) => item.word);
-
-  const somethingSelected = wordsSelected.length > 0;
-
   const accordionHeadingText = somethingSelected
     ? wordsSelected.join(", ")
-    : "Pick one";
+    : `Pick ${converter.toWords(numAllowed)}`;
 
   return (
     <Accordion allowMultiple={false}>
