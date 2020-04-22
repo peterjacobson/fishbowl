@@ -9,6 +9,8 @@ import {
   Heading,
   NarrowCenterText,
   UserCheckInWrapper,
+  MauveButton,
+  LeftArrowIcon,
 } from "../components/styledComponents";
 
 const CheckInWithTitle = ({ checkIn, userName }) => (
@@ -116,6 +118,23 @@ export default function CheckInTogether({ roomId }) {
         )}
 
         {otherUsersCheckIns}
+        <MauveButton
+          onClick={() => navigate(`/room/${roomId}/user/${userId}/my-check-in`)}
+        >
+          <LeftArrowIcon />
+        </MauveButton>
+        {/* <NavigationButtons> */}
+        {/* <NavigationText>
+            Next:&nbsp;&nbsp;&nbsp;Check-in together
+          </NavigationText> */}
+        {/* <MauveButton
+            onClick={() =>
+              navigate(`/room/${roomId}/user/${userId}/check-in-together`)
+            }
+          >
+            <RightArrowIcon />
+          </MauveButton> */}
+        {/* </NavigationButtons> */}
       </MobileWidthWrapper>
     </MauveBackground>
     // <>

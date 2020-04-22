@@ -133,6 +133,10 @@ export const RightArrowIcon = styled(FiArrowRight)`
   width: 30px;
 `;
 
+export const LeftArrowIcon = styled(RightArrowIcon)`
+  transform: rotate(180deg);
+`;
+
 export const UserCheckInWrapper = styled.div`
   margin-bottom: 50px;
 `;

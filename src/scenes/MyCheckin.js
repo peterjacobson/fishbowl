@@ -69,27 +69,33 @@ export default function MyCheckin({ roomId, userId }) {
       className: "checkin-toast",
     });
   }
-
   const prevCheckIns = usePrevious(checkIns);
 
-  checkIns
-    .filter((checkIn) => checkIn.userId !== userId)
-    .forEach((checkIn, i) => {
-      if (prevCheckIns.length > 0) {
-        const userName = roomUsers.find(
-          (user) => user.userId === checkIn.userId
-        ).name;
-        const prevCheckIn = prevCheckIns[i] || [];
-        const newItems = addedDiff(prevCheckIn, checkIn).checkInWords;
+  // function makeToasts(prevCheckIns, checkIns) {}
 
-        newItems &&
-          Object.keys(newItems).forEach((key) => {
-            const type = newItems[key].type;
-            const word = newItems[key].word;
-            makeToast({ userName: userName, type: type, word: word });
-          });
-      }
-    });
+  useEffect(() => {
+    checkIns
+      .filter((checkIn) => checkIn.userId !== userId)
+      .forEach((checkIn, i) => {
+        if (prevCheckIns.length > 0) {
+          const userName = roomUsers.find(
+            (user) => user.userId === checkIn.userId
+          ).name;
+          const prevCheckIn = prevCheckIns[i] || [];
+          const newItems = addedDiff(prevCheckIn, checkIn).checkInWords;
+          console.log("prevCheckIn: ", prevCheckIn);
+          console.log("checkIn: ", checkIn);
+          console.log("newItems: ", addedDiff(prevCheckIn, checkIn));
+
+          newItems &&
+            Object.keys(newItems).forEach((key) => {
+              const type = newItems[key].type;
+              const word = newItems[key].word;
+              makeToast({ userName: userName, type: type, word: word });
+            });
+        }
+      });
+  }, [checkIns]);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
@@ -112,6 +118,7 @@ export default function MyCheckin({ roomId, userId }) {
         );
 
         setCheckIns(nextCheckins);
+        // makeToasts(prevCheckIns, nextCheckins);
         const myNextCheckIn = nextCheckins.find((checkin) => {
           return checkin.userId === userId;
         });
