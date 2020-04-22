@@ -26,6 +26,8 @@ import {
   GreenFeeling,
   PeachFeeling,
   Strategy,
+  SnapButton,
+  ToastName,
 } from "../components/styledComponents";
 
 export default function MyCheckin({ roomId, userId }) {
@@ -52,17 +54,32 @@ export default function MyCheckin({ roomId, userId }) {
     strategy: Strategy,
   };
 
+  const numberAllowedDict = {
+    green: "numGreenFeelings",
+    peach: "numPeachFeelings",
+    need: "numNeeds",
+    strategy: "numStrategies",
+  };
+
   function Bread({ userName, type, word }) {
     const C = typeHash[type];
     return (
       <C>
-        {userName}
-        <br />
+        <ToastName>{userName}</ToastName>
         {word}
-        <br />
-        🙌SNAP
+        <SnapButton onClick={() => handleSnap({ userName, type, word })}>
+          SNAP
+        </SnapButton>
       </C>
     );
+  }
+
+  function handleSnap({ userName, type, word }) {
+    console.log("myCheckIn: ", myCheckIn);
+    const checkInOfType = myCheckIn.filter((item) => item.type === type);
+    if (checkInOfType.length < roomConfig[numberAllowedDict[type]]) {
+      addCheckinWord(type, word);
+    }
   }
 
   function makeToast(props) {
@@ -70,6 +87,13 @@ export default function MyCheckin({ roomId, userId }) {
       className: "checkin-toast",
     });
   }
+
+  function addCheckinWord(type, word) {
+    const nextCheckin = [...myCheckIn, { type, word }];
+    setMyCheckIn(nextCheckin);
+    FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
+  }
+
   const prevCheckIns = usePrevious(checkIns);
 
   // function makeToasts(prevCheckIns, checkIns) {}

@@ -123,6 +123,20 @@ export const MauveButton = styled(Button)`
   background-color: #bb5197;
 `;
 
+export const SnapButton = styled(MauveButton)`
+  margin-left: 20px;
+  padding: 10px;
+  height: 36px;
+  border-radius: 18px;
+  font-size: 0.9em;
+`;
+
+export const ToastName = styled.p`
+  font-weight: 300;
+  font-size: 1em;
+  margin-bottom: 5px;
+`;
+
 export const ButtonText = styled.span`
   font-size: 1.2em;
 `;
