@@ -3,6 +3,7 @@ import { navigate } from "@reach/router";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
 import { addedDiff } from "deep-object-diff";
+import size from "lodash.size";
 
 import * as FirestoreService from "../services/firestore";
 import CheckInSmall from "../components/CheckInSmall";
@@ -81,18 +82,19 @@ export default function MyCheckin({ roomId, userId }) {
           const userName = roomUsers.find(
             (user) => user.userId === checkIn.userId
           ).name;
-          const prevCheckIn = prevCheckIns[i] || [];
-          const newItems = addedDiff(prevCheckIn, checkIn).checkInWords;
-          console.log("prevCheckIn: ", prevCheckIn);
-          console.log("checkIn: ", checkIn);
-          console.log("newItems: ", addedDiff(prevCheckIn, checkIn));
-
-          newItems &&
+          const prevCheckIn =
+            prevCheckIns.find(
+              (prevCheckin) => prevCheckin.userId === checkIn.userId
+            ) || [];
+          const diff = addedDiff(prevCheckIn, checkIn);
+          if (size(diff) > 0) {
+            const newItems = addedDiff(prevCheckIn, checkIn).checkInWords;
             Object.keys(newItems).forEach((key) => {
               const type = newItems[key].type;
               const word = newItems[key].word;
               makeToast({ userName: userName, type: type, word: word });
             });
+          }
         }
       });
   }, [checkIns]);
