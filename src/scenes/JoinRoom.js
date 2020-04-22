@@ -13,6 +13,7 @@ import {
   Error,
   CenterForm,
   RightArrowIcon,
+  HeartworkLogoBig,
 } from "../components/styledComponents";
 
 function JoinRoom(props) {
@@ -76,6 +77,7 @@ function JoinRoom(props) {
   return (
     <BlueBackground>
       <MobileWidthWrapper>
+        <HeartworkLogoBig />
         <SwatchHeading>Join private heartwork check-in room</SwatchHeading>
         <CenterForm name="create-room" onSubmit={joinRoom}>
           <NameTextField
@@ -84,7 +86,7 @@ function JoinRoom(props) {
             label="Your name"
             type="text"
             name="userName"
-            placeholder="Your beautiful name"
+            placeholder="Your name"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />

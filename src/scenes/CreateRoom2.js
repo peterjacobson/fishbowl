@@ -59,7 +59,7 @@ function CreateList() {
             label="Your name"
             type="text"
             name="userName"
-            placeholder="Your beautiful name"
+            placeholder="Your name"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
