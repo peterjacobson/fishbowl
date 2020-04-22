@@ -62,7 +62,7 @@ export default function CheckinSelector({
   const numAllowed = roomConfig[numberAllowedDict[itemType]] || 1;
 
   const addCheckinWord = (type, word) => {
-    if (wordsSelected.length < numAllowed) {
+    if (wordsSelected.length < numAllowed + 2) {
       const nextCheckin = [...myCheckIn, { type, word }];
       setMyCheckIn(nextCheckin);
       FirestoreService.updateCheckIn(nextCheckin, roomId, userId);

@@ -75,9 +75,8 @@ export default function MyCheckin({ roomId, userId }) {
   }
 
   function handleSnap({ userName, type, word }) {
-    console.log("myCheckIn: ", myCheckIn);
     const checkInOfType = myCheckIn.filter((item) => item.type === type);
-    if (checkInOfType.length < roomConfig[numberAllowedDict[type]]) {
+    if (checkInOfType.length < roomConfig[numberAllowedDict[type]] + 2) {
       addCheckinWord(type, word);
     }
   }
@@ -160,8 +159,6 @@ export default function MyCheckin({ roomId, userId }) {
   }
 
   function updateLinkCopyState() {
-    console.log("invite copied");
-
     setLinkCopied(true);
   }
 
