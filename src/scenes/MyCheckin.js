@@ -190,41 +190,43 @@ export default function MyCheckin({ roomId, userId }) {
   });
 
   return (
-    <MauveBackground onClick={() => setOpenAccordion(null)}>
-      <MobileWidthWrapper>
-        <RightSpan>
-          <CopyToClipboard
-            text={`${window.location.origin}/join-room/${roomId}`}
-          >
-            <MauveButton onClick={updateLinkCopyState}>
-              <ButtonText>
-                Copy invite url
-                {linkCopied ? "  🙌 Link copied" : null}
-              </ButtonText>
-            </MauveButton>
-          </CopyToClipboard>
-        </RightSpan>
-        <Heading>Select your check-in</Heading>
-        {/* <Button onClick={makeToast}>TOASTMASTER</Button> */}
-        {roomConfig ? selectors() : null}
+    <>
+      <MauveBackground onClick={() => setOpenAccordion(null)}>
+        <MobileWidthWrapper>
+          <RightSpan>
+            <CopyToClipboard
+              text={`${window.location.origin}/join-room/${roomId}`}
+            >
+              <MauveButton onClick={updateLinkCopyState}>
+                <ButtonText>
+                  Copy invite url
+                  {linkCopied ? "  🙌 Link copied" : null}
+                </ButtonText>
+              </MauveButton>
+            </CopyToClipboard>
+          </RightSpan>
+          <Heading>Select your check-in</Heading>
+          {/* <Button onClick={makeToast}>TOASTMASTER</Button> */}
+          {roomConfig ? selectors() : null}
 
-        <br />
-        <Heading>Other's check-ins</Heading>
-        {otherUsersCheckIns}
-        {error && <p>error</p>}
-        <NavigationButtons>
-          <NavigationText>
-            Next:&nbsp;&nbsp;&nbsp;Check-in together
-          </NavigationText>
-          <MauveButton
-            onClick={() =>
-              navigate(`/room/${roomId}/user/${userId}/check-in-together`)
-            }
-          >
-            <RightArrowIcon />
-          </MauveButton>
-        </NavigationButtons>
-      </MobileWidthWrapper>
-    </MauveBackground>
+          <br />
+          <Heading>Other's check-ins</Heading>
+          {otherUsersCheckIns}
+          {error && <p>error</p>}
+          <NavigationButtons>
+            <NavigationText>
+              Next:&nbsp;&nbsp;&nbsp;Check-in together
+            </NavigationText>
+            <MauveButton
+              onClick={() =>
+                navigate(`/room/${roomId}/user/${userId}/check-in-together`)
+              }
+            >
+              <RightArrowIcon />
+            </MauveButton>
+          </NavigationButtons>
+        </MobileWidthWrapper>
+      </MauveBackground>
+    </>
   );
 }

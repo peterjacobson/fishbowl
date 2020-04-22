@@ -43,6 +43,7 @@ export const BlueBackground = styled.div`
     ),
     url(${room4});
   background-size: cover;
+  min-height: 100vh;
   height: 100%;
 `;
 
@@ -54,7 +55,12 @@ export const MauveBackground = styled.div`
     ),
     url(${texture1cover});
   background-size: cover;
+  min-height: 100vh;
   height: 100%;
+`;
+
+export const MauveScreenFill = styled(MauveBackground)`
+  height: 100vh;
 `;
 
 export const CenterForm = styled.form`
