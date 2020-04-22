@@ -308,3 +308,26 @@ input {
   margin-left: auto !important;
   margin-right: auto !important;
 }
+
+.checkin-toast {
+  background-color: rgba(0, 0, 0, 0) !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  height: auto !important;
+  width: auto !important;
+}
+
+.Toastify__toast-body {
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.Toastify__toast {
+  padding: 2px !important;
+  margin-bottom: 2px !important;
+}
+
+.Toastify__close-button {
+  display: none;
+}

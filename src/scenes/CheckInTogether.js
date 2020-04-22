@@ -83,7 +83,7 @@ export default function CheckInTogether({ roomId }) {
               checkIn={userCheckIn.checkInWords}
               roomId={roomId}
               setMyCheckIn={setMyCheckIn}
-              showRemoveIcon={true}
+              showRemoveIcon={false}
               userId={userId}
             />
           ) : (
@@ -116,14 +116,6 @@ export default function CheckInTogether({ roomId }) {
         )}
 
         {otherUsersCheckIns}
-
-        {/* {checkIns.map((c, i) => (
-          <CheckInWithTitle
-            checkIn={c.checkInWords}
-            key={i}
-            userName={roomUsers.find((u) => u.userId === c.userId).name}
-          />
-        ))} */}
       </MobileWidthWrapper>
     </MauveBackground>
     // <>

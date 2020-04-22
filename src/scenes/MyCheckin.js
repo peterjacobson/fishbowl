@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { navigate } from "@reach/router";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { toast } from "react-toastify";
+import { addedDiff } from "deep-object-diff";
 
 import * as FirestoreService from "../services/firestore";
 import CheckInSmall from "../components/CheckInSmall";
@@ -18,7 +20,11 @@ import {
   RightSpan,
   ButtonText,
   UserCheckInWrapper,
-  Text,
+  Button,
+  Need,
+  GreenFeeling,
+  PeachFeeling,
+  Strategy,
 } from "../components/styledComponents";
 
 export default function MyCheckin({ roomId, userId }) {
@@ -29,6 +35,61 @@ export default function MyCheckin({ roomId, userId }) {
   const [linkCopied, setLinkCopied] = useState(false);
   const [checkIns, setCheckIns] = useState([]);
   const [openAccordion, setOpenAccordion] = useState(null);
+
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+
+  const typeHash = {
+    green: GreenFeeling,
+    peach: PeachFeeling,
+    need: Need,
+    strategy: Strategy,
+  };
+
+  function Bread({ userName, type, word }) {
+    const C = typeHash[type];
+    return (
+      <C>
+        {userName}
+        <br />
+        {word}
+        <br />
+        🙌SNAP
+      </C>
+    );
+  }
+
+  function makeToast(props) {
+    toast(<Bread {...props} />, {
+      className: "checkin-toast",
+    });
+  }
+
+  const prevCheckIns = usePrevious(checkIns);
+
+  checkIns
+    .filter((checkIn) => checkIn.userId !== userId)
+    .forEach((checkIn, i) => {
+      if (prevCheckIns.length > 0) {
+        const userName = roomUsers.find(
+          (user) => user.userId === checkIn.userId
+        ).name;
+        const prevCheckIn = prevCheckIns[i] || [];
+        const newItems = addedDiff(prevCheckIn, checkIn).checkInWords;
+
+        newItems &&
+          Object.keys(newItems).forEach((key) => {
+            const type = newItems[key].type;
+            const word = newItems[key].word;
+            makeToast({ userName: userName, type: type, word: word });
+          });
+      }
+    });
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
@@ -49,6 +110,7 @@ export default function MyCheckin({ roomId, userId }) {
         const nextCheckins = querySnapshot.docs.map((docSnapshot) =>
           docSnapshot.data()
         );
+
         setCheckIns(nextCheckins);
         const myNextCheckIn = nextCheckins.find((checkin) => {
           return checkin.userId === userId;
@@ -65,6 +127,8 @@ export default function MyCheckin({ roomId, userId }) {
   }
 
   function updateLinkCopyState() {
+    console.log("invite copied");
+
     setLinkCopied(true);
   }
 
@@ -114,7 +178,7 @@ export default function MyCheckin({ roomId, userId }) {
               checkIn={userCheckIn.checkInWords}
               roomId={roomId}
               setMyCheckIn={setMyCheckIn}
-              showRemoveIcon={true}
+              showRemoveIcon={false}
               userId={userId}
             />
           ) : (
@@ -132,8 +196,8 @@ export default function MyCheckin({ roomId, userId }) {
           <CopyToClipboard
             text={`${window.location.origin}/join-room/${roomId}`}
           >
-            <MauveButton>
-              <ButtonText onClick={updateLinkCopyState}>
+            <MauveButton onClick={updateLinkCopyState}>
+              <ButtonText>
                 Copy invite url
                 {linkCopied ? "  🙌 Link copied" : null}
               </ButtonText>
@@ -141,6 +205,7 @@ export default function MyCheckin({ roomId, userId }) {
           </CopyToClipboard>
         </RightSpan>
         <Heading>Select your check-in</Heading>
+        {/* <Button onClick={makeToast}>TOASTMASTER</Button> */}
         {roomConfig ? selectors() : null}
 
         <br />
