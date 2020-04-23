@@ -8,6 +8,7 @@ import Modal from "styled-react-modal";
 import teReoGreen from "../data/greenFeelings";
 import teReoNeeds from "../data/needs";
 import teReoPeach from "../data/peachFeelings";
+import { ReactTypeformEmbed } from "react-typeform-embed";
 
 import { FiCheckCircle, FiCircle, FiArrowRight } from "react-icons/fi";
 import {
@@ -63,6 +64,11 @@ export const MauveScreenFill = styled(MauveBackground)`
   height: 100vh;
 `;
 
+export const Typeform = styled(ReactTypeformEmbed)`
+  position: relative !important;
+  height: 500px;
+`;
+
 export const CenterForm = styled.form`
   margin-top: 80px;
 `;
@@ -76,7 +82,6 @@ export const NavigationButtons = styled.div`
   margin-bottom: 80px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
   align-items: center;
   padding-right: 20px;
 `;
@@ -86,6 +91,7 @@ export const NavigationText = styled.p`
   font-size: 1.5em;
   text-align: right;
   margin-right: 25px;
+  margin-left: auto;
 `;
 
 export const NameTextField = styled.input`

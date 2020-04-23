@@ -11,6 +11,9 @@ import {
   UserCheckInWrapper,
   MauveButton,
   LeftArrowIcon,
+  NavigationButtons,
+  NavigationText,
+  RightArrowIcon,
 } from "../components/styledComponents";
 
 const CheckInWithTitle = ({ checkIn, userName }) => (
@@ -118,23 +121,23 @@ export default function CheckInTogether({ roomId }) {
         )}
 
         {otherUsersCheckIns}
-        <MauveButton
-          onClick={() => navigate(`/room/${roomId}/user/${userId}/my-check-in`)}
-        >
-          <LeftArrowIcon />
-        </MauveButton>
-        {/* <NavigationButtons> */}
-        {/* <NavigationText>
-            Next:&nbsp;&nbsp;&nbsp;Check-in together
-          </NavigationText> */}
-        {/* <MauveButton
+        <NavigationButtons>
+          <MauveButton
             onClick={() =>
-              navigate(`/room/${roomId}/user/${userId}/check-in-together`)
+              navigate(`/room/${roomId}/user/${userId}/my-check-in`)
             }
           >
+            <LeftArrowIcon />
+          </MauveButton>
+          <NavigationText>
+            Next:&nbsp;&nbsp;&nbsp;Contribute 3 mins
+          </NavigationText>
+          <MauveButton
+            onClick={() => navigate(`/room/${roomId}/user/${userId}/feedback`)}
+          >
             <RightArrowIcon />
-          </MauveButton> */}
-        {/* </NavigationButtons> */}
+          </MauveButton>
+        </NavigationButtons>
       </MobileWidthWrapper>
     </MauveBackground>
     // <>
