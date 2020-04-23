@@ -18,6 +18,7 @@ import {
   Typeform,
 } from "../components/styledComponents";
 import { relativeTimeThreshold } from "moment";
+import Footer from "../components/Footer";
 
 export default function CheckInTogether({ roomId }) {
   const [error, setError] = useState(null);
@@ -68,6 +69,7 @@ export default function CheckInTogether({ roomId }) {
             <RightArrowIcon />
           </MauveButton> */}
         </NavigationButtons>
+        <Footer />
       </MobileWidthWrapper>
     </MauveBackground>
   );

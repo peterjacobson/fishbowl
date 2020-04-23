@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import * as FirestoreService from "../services/firestore";
 import { navigate } from "@reach/router";
+
+import * as FirestoreService from "../services/firestore";
+import Footer from "../components/Footer";
 import {
   BlueBackground,
   MobileWidthWrapper,
@@ -71,6 +73,7 @@ function CreateList() {
             <RightArrowIcon />
           </Button>
         </NavigationButtons>
+        <Footer />
       </MobileWidthWrapper>
     </BlueBackground>
   );

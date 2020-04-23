@@ -15,6 +15,7 @@ import {
   RightArrowIcon,
   HeartworkLogoBig,
 } from "../components/styledComponents";
+import Footer from "../components/Footer";
 
 function JoinRoom(props) {
   const roomId = props.location.pathname.substr(11);
@@ -98,6 +99,7 @@ function JoinRoom(props) {
             <RightArrowIcon />
           </Button>
         </NavigationButtons>
+        <Footer />
       </MobileWidthWrapper>
     </BlueBackground>
     //     {/* <p>Select your name if you're returning...</p>
