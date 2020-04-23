@@ -8,7 +8,6 @@ import {
   Strategy,
   ma,
 } from "./styledComponents";
-import * as FirestoreService from "../services/firestore";
 
 function rotateStyle() {
   const angleDeg = (Math.random() - 0.5) * 4;
@@ -31,18 +30,10 @@ const typeHash = {
 
 export default function CheckInSmall({
   checkIn,
-  roomId,
-  setCheckIn,
+  removeCheckInWord,
   showRemoveIcon,
-  userId,
 }) {
   const sortOrder = ["green", "peach", "need", "strategy"];
-
-  const removeCheckInWord = (word) => {
-    const nextCheckin = checkIn.filter((item) => item.word !== word);
-    setCheckIn(nextCheckin);
-    FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
-  };
 
   return (
     <div>

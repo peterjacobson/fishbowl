@@ -1,19 +1,17 @@
-import React, { useState } from "react";
-
+import React, { useContext, useState } from "react";
 import { Accordion } from "react-sanfona";
-import CompletionChecks from "./CompletionChecks";
-import Card from "./Card";
 import greenFeelings from "../data/greenFeelings";
-import peachFeelings from "../data/peachFeelings";
 import needs from "../data/needs";
+import peachFeelings from "../data/peachFeelings";
 import strategies from "../data/strategies";
-import * as FirestoreService from "../services/firestore";
-
+import { RoomContext } from "../services/room";
+import Card from "./Card";
+import CompletionChecks from "./CompletionChecks";
 import {
   AccordionHeader,
   CollapseWrapper,
-  DropdownWrap,
   DropdownIcon,
+  DropdownWrap,
   DropupIcon,
   HelpButton,
   Panel,
@@ -22,7 +20,6 @@ import {
 
 // TODO: placeholders
 const toggleGreenHelp = () => {};
-const removeCheckinWord = () => {};
 
 const accordionAnimation = {
   duration: 300,
@@ -30,35 +27,30 @@ const accordionAnimation = {
 };
 
 export default function CheckinSelector({
+  addCheckinWord,
   itemType,
   myCheckIn,
-  roomId,
-  roomConfig,
-  setMyCheckIn,
-  userId,
+  removeCheckInWord,
 }) {
   const [openAccordion, setOpenAccordion] = useState(null);
+  const {
+    roomData: { config },
+  } = useContext(RoomContext);
 
   const toggleAccordionOpen = (id) => {
     setOpenAccordion(openAccordion === id ? null : id);
   };
 
-  const addCheckinWord = (type, word) => {
-    const nextCheckin = [...myCheckIn, { type, word }];
-    setMyCheckIn(nextCheckin);
-    FirestoreService.updateCheckIn(nextCheckin, roomId, userId);
-  };
-
   const typeHash = {
     green: {
       itemCollection: greenFeelings,
-      itemQuantity: roomConfig.numGreenFeelings,
+      itemQuantity: config.numGreenFeelings,
     },
     peach: {
       itemCollection: peachFeelings,
-      itemQuantity: roomConfig.numGreenFeelings,
+      itemQuantity: config.numGreenFeelings,
     },
-    need: { itemCollection: needs, itemQuantity: roomConfig.numNeeds },
+    need: { itemCollection: needs, itemQuantity: config.numNeeds },
     // TODO: Always 1?
     strategy: { itemCollection: strategies, itemQuantity: 1 },
   };
@@ -92,14 +84,14 @@ export default function CheckinSelector({
           <CollapseWrapper>
             {itemCollection.map((word, index) => (
               <Card
-                type={itemType}
-                word={word}
-                lang="en"
-                removeCheckinWord={removeCheckinWord}
                 addCheckinWord={addCheckinWord}
                 key={index}
                 index={index}
+                lang="en"
                 myCheckIn={myCheckIn}
+                removeCheckInWord={removeCheckInWord}
+                type={itemType}
+                word={word}
               />
             ))}
           </CollapseWrapper>

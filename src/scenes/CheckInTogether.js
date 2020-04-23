@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
-
-import * as FirestoreService from "../services/firestore";
+import React, { useContext, useEffect, useState } from "react";
 import CheckInSmall from "../components/CheckInSmall";
+import CheckInTimer from "../components/CheckInTimer";
+import { AuthContext } from "../services/auth";
+import { RoomContext } from "../services/room";
 
 const CheckInWithTitle = ({ checkIn, userName }) => (
   <>
@@ -12,53 +13,44 @@ const CheckInWithTitle = ({ checkIn, userName }) => (
 );
 
 export default function CheckInTogether({ roomId }) {
-  const [error, setError] = useState(null);
-  const [roomUsers, setRoomUsers] = useState([]);
-  const [myCheckIn, setMyCheckIn] = useState(null);
-  const [checkIns, setCheckIns] = useState([]);
-  const [userId, setUserId] = useState(null);
+  const [myCheckIn, setMyCheckIn] = useState();
+  const [otherCheckIns, setOtherCheckIns] = useState();
+
+  const auth = useContext(AuthContext);
+  const room = useContext(RoomContext);
 
   useEffect(() => {
-    FirestoreService.getCurrentUser((user) => {
-      if (user) {
-        return setUserId(user.uid);
-      }
-      navigate("/");
-    });
-  });
+    room.setRoomId(roomId);
+  }, [room, roomId]);
 
   useEffect(() => {
-    const unsubscribe = FirestoreService.streamRoom(roomId, {
-      next: (querySnapshot) => {
-        const queryData = querySnapshot.data();
-        setRoomUsers(queryData.users);
-        // setTimer(querySnapshot.data().timer || defaultTimer);
-      },
-      error: () => setError("grocery-list-item-get-fail"),
-    });
+    if (room.checkInData && room.roomData && auth.user) {
+      setOtherCheckIns(
+        room.checkInData
+          .filter((c) => c.userId !== auth.user.user.uid)
+          .map((c) => ({
+            ...c,
+            name: room.roomData.users.find((u) => u.userId === c.userId).name,
+          }))
+      );
+      setMyCheckIn(
+        room.checkInData.find((c) => c.userId === auth.user.user.uid)
+      );
+    }
+  }, [auth, room, setMyCheckIn, setOtherCheckIns]);
 
-    return unsubscribe;
-  }, [roomId, setRoomUsers]);
+  if (!room.roomData || !room.checkInData) {
+    // TODO: spinner :P
+    return "LOADING...";
+  }
 
-  useEffect(() => {
-    const unsubscribe = FirestoreService.streamRoomCheckIns(roomId, {
-      next: (querySnapshot) => {
-        const nextCheckIns = querySnapshot.docs.map((docSnapshot) => {
-          return docSnapshot.data();
-        });
-        setCheckIns(nextCheckIns.filter((c) => c.userId !== userId));
-        const myNextCheckIn = nextCheckIns.find((checkIn) => {
-          return checkIn.userId === userId;
-        });
-        if (myNextCheckIn) {
-          setMyCheckIn(myNextCheckIn.checkInWords);
-        }
-      },
-      error: () => setError("grocery-list-item-get-fail"),
-    });
+  const { user } = auth.user;
+  const { config, timer, users } = room.roomData;
 
-    return unsubscribe;
-  }, [roomId, setCheckIns, setError, setMyCheckIn, userId]);
+  const userInRoom = users.find((u) => u.userId === user.uid);
+  if (!userInRoom) {
+    navigate("/");
+  }
 
   return (
     <>
@@ -71,28 +63,30 @@ export default function CheckInTogether({ roomId }) {
         Trust that any responses can wait until everyone has checked in (you can
         just do another round if it's feeling called for).
       </p>
-      <button>Start my check-in</button>
-
-      {error && <p>{error}</p>}
+      {user && (
+        <CheckInTimer
+          checkInTime={config.timerLength}
+          roomId={roomId}
+          roomTimer={timer}
+          userId={user.uid}
+          userName={userInRoom.name}
+        />
+      )}
 
       <h3>My check-in</h3>
 
       {myCheckIn && (
-        <CheckInSmall
-          checkIn={myCheckIn}
-          roomId={roomId}
-          showRemoveIcon={false}
-          userId={userId}
-        />
+        <CheckInSmall checkIn={myCheckIn.checkInWords} showRemoveIcon={false} />
       )}
 
-      {checkIns.map((c, i) => (
-        <CheckInWithTitle
-          checkIn={c.checkInWords}
-          key={i}
-          userName={roomUsers.find((u) => u.userId === c.userId).name}
-        />
-      ))}
+      {otherCheckIns &&
+        otherCheckIns.map((c, i) => (
+          <CheckInWithTitle
+            checkIn={c.checkInWords}
+            key={i}
+            userName={c.name}
+          />
+        ))}
 
       <button>We've all checked in</button>
     </>

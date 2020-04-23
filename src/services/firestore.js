@@ -20,6 +20,8 @@ export const authenticateAnonymously = () => {
   return firebase.auth().signInAnonymously();
 };
 
+export const signOut = () => firebase.auth().signOut();
+
 // FIRESTORE DATA EXAMPLE
 // const roomObjectExampleInDB = {
 //   created: 2197091370932,
@@ -55,7 +57,11 @@ export const createroom = (
   userName,
   userId,
   checkinTime = 60,
-  checkinQuestionSet,
+  checkinQuestionSet = {
+    numGreenFeelings: 1,
+    numPeachFeelings: 1,
+    numNeeds: 1,
+  },
   hasSpokenCheckin = false
 ) => {
   return db.collection("rooms").add({
@@ -70,9 +76,6 @@ export const createroom = (
     config: {
       // TODO: Defaults for now
       hasSpokenCheckin,
-      numGreenFeelings: 1,
-      numPeachFeelings: 1,
-      numNeeds: 1,
       timerLength: checkinTime,
       ...checkinQuestionSet,
     },
@@ -107,7 +110,7 @@ export const addUserToroom = (userName, roomId, userId) => {
     });
 };
 
-export const getCurrentUser = (f) => firebase.auth().onAuthStateChanged(f);
+export const onAuthStateChanged = (f) => firebase.auth().onAuthStateChanged(f);
 
 export const updateCheckIn = (checkIn, roomId, userId) => {
   const checkInDbEntry = {
@@ -140,17 +143,23 @@ export const updateCheckIn = (checkIn, roomId, userId) => {
     });
 };
 
-export const startTimer = (timeStamp, roomId, userId, userName) => {
-  db.collection("rooms")
-    .doc(roomId)
-    .update({
-      timer: {
-        startTime: timeStamp,
-        userId: userId,
-        userName: userName,
-      },
-    });
+export const startTimer = (
+  startTimeStamp,
+  stopTimeStamp,
+  roomId,
+  userId,
+  userName
+) => {
+  db.collection("rooms").doc(roomId).update({
+    timer: {
+      startTimeStamp,
+      stopTimeStamp,
+      userId,
+      userName,
+    },
+  });
 };
+
 export const stopTimer = (roomId) => {
   db.collection("rooms").doc(roomId).update({
     timer: {},

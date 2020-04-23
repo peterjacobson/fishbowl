@@ -1,61 +1,74 @@
-import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
-
-import * as FirestoreService from "../services/firestore";
-import CheckInSmall from "../components/CheckInSmall";
+import React, { useContext, useEffect, useState } from "react";
 import CheckinSelector from "../components/CheckinSelector";
+import CheckInSmall from "../components/CheckInSmall";
+import { AuthContext } from "../services/auth";
+import { updateCheckIn } from "../services/firestore";
+import { RoomContext } from "../services/room";
 
 export default function MyCheckin({ roomId, userId }) {
-  const [error, setError] = useState(null);
   const [myCheckIn, setMyCheckIn] = useState([]);
-  const [roomConfig, setRoomConfig] = useState({});
-  const [roomUsers, setRoomUsers] = useState([]);
+
+  const auth = useContext(AuthContext);
+  const room = useContext(RoomContext);
 
   useEffect(() => {
-    const unsubscribe = FirestoreService.streamRoom(roomId, {
-      next: (querySnapshot) => {
-        const queryData = querySnapshot.data();
-        setRoomUsers(queryData.users);
-        // setTimer(querySnapshot.data().timer || defaultTimer);
-        setRoomConfig(queryData.config);
-      },
-      error: () => setError("grocery-list-item-get-fail"),
-    });
-    return unsubscribe;
-  }, [roomId]);
+    if (!room.roomData) {
+      room.setRoomId(roomId);
+    }
+  }, [room, roomId]);
 
-  if (!roomId || !userId) {
+  if (!auth.user || !room.roomData) {
+    return "LOADING...";
+  }
+
+  // TODO: ugly!
+  if (auth.user.user.uid !== userId) {
     navigate("/");
   }
+
+  const addCheckinWord = (type, word) => {
+    const nextCheckin = [...myCheckIn, { type, word }];
+    setMyCheckIn(nextCheckin);
+    updateCheckIn(nextCheckin, roomId, userId);
+  };
+
+  const removeCheckInWord = (word) => {
+    const nextCheckin = myCheckIn.filter((item) => item.word !== word);
+    setMyCheckIn(nextCheckin);
+    updateCheckIn(nextCheckin, roomId, userId);
+  };
+
+  const { numGreenFeelings, numPeachFeelings, numNeeds } = room.roomData.config;
 
   return (
     <>
       <h1>Select my check-in</h1>
 
-      {roomConfig && roomConfig.numGreenFeelings > 0 && (
+      {numGreenFeelings > 0 && (
         <>
           <span>A feeling I've felt in the last 24 hrs</span>
           <CheckinSelector
             itemType="green"
-            {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+            {...{ addCheckinWord, myCheckIn, removeCheckInWord }}
           />
         </>
       )}
-      {roomConfig && roomConfig.numPeachFeelings > 0 && (
+      {numPeachFeelings > 0 && (
         <>
           <span>A feeling I've felt in the last 24 hrs</span>
           <CheckinSelector
             itemType="peach"
-            {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+            {...{ addCheckinWord, myCheckIn, removeCheckInWord }}
           />
         </>
       )}
-      {roomConfig && roomConfig.numNeeds > 0 && (
+      {numNeeds > 0 && (
         <>
           <span>A need I'd love to meet</span>
           <CheckinSelector
             itemType="need"
-            {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+            {...{ addCheckinWord, myCheckIn, removeCheckInWord }}
           />
         </>
       )}
@@ -63,21 +76,17 @@ export default function MyCheckin({ roomId, userId }) {
         <span>A strategy to meet a need of mine</span>
         <CheckinSelector
           itemType="strategy"
-          {...{ myCheckIn, roomConfig, roomId, setMyCheckIn, userId }}
+          {...{ addCheckinWord, myCheckIn, removeCheckInWord }}
         />
       </>
       <CheckInSmall
         checkIn={myCheckIn}
-        roomId={roomId}
-        setMyCheckIn={setMyCheckIn}
+        removeCheckInWord={removeCheckInWord}
         showRemoveIcon={true}
-        userId={userId}
       />
 
       {/* TODO: checks before proceed */}
       <button onClick={() => navigate(`/room/${roomId}`)}>I'm Ready</button>
-      {error && <p>error</p>}
     </>
   );
 }
-
