@@ -47,7 +47,8 @@ export default function CheckInTogether({ roomId }) {
         <Typeform
           url="https://heartworkhq.typeform.com/to/ax5jaH"
           opacity={0}
-          style={{ position: "relative", height: "400px" }}
+          style={{ position: "relative", height: "600px" }}
+          popup={false}
         />
 
         <NavigationButtons>
