@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import logotextb from "../img/logotextb.png";
 import yourlogo from "../img/yourlogo.png";
+import heartworklogo from "../img/heartworklogo.png";
 import kadesign from "../img/kadesign.png";
 
 const HeartworkLink = styled.a`
@@ -16,6 +17,17 @@ const HeartworkLink = styled.a`
   background-position: center;
 `;
 
+const HeartworkLogoSmall = styled.span`
+  display: inline-block;
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: url(${heartworklogo});
+  background-size: cover;
+  background-position: center;
+`;
+
 const YourLogo = styled(HeartworkLink)`
   background: url(${yourlogo});
   background-size: cover;
@@ -25,15 +37,15 @@ const YourLogo = styled(HeartworkLink)`
 `;
 const KimLogo = styled(HeartworkLink)`
   background: url(${kadesign});
-  background-size: cover;
+  background-size: contain;
   background-position: center;
-  width: 120px;
+  width: 133px;
   height: 30px;
 `;
 
 const FooterContainer = styled.div`
   text-align: left;
-  margin-top: 130px;
+  margin-top: 110px;
   max-width: 370px;
   margin-left: auto;
   margin-right: auto;
@@ -64,7 +76,7 @@ export default function Footer(props) {
       <FooterText>
         Created with love by{" "}
         <Link href="https://heartwork.co.nz/" target="_blank">
-          Heartwork
+          Heartwork <HeartworkLogoSmall />
         </Link>
       </FooterText>
       <FooterText>Bought to you by our sponsors</FooterText>

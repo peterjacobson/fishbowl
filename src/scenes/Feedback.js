@@ -39,10 +39,10 @@ export default function CheckInTogether({ roomId }) {
   return (
     <MauveBackground>
       <MobileWidthWrapper>
-        <Heading>Contribute 3 mins</Heading>
+        <Heading>We value your feedback</Heading>
         <NarrowCenterText>
-          So we can make this app more awesome for you and for others around the
-          world.
+          Take 3 minutes to contribute your insights and feedback so we can make
+          this app better for yourself and others.
         </NarrowCenterText>
         <Typeform
           url="https://heartworkhq.typeform.com/to/ax5jaH"

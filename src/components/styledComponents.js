@@ -169,12 +169,12 @@ export const SelectLabel = styled.p`
 
 export const HeartworkLogoBig = styled.div`
   background: url(${logotext});
-  margin-top: 40px;
+  margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 54px;
   background-size: contain;
-  height: 121px;
+  height: 50px;
   width: 121px;
   background-repeat: no-repeat;
 `;

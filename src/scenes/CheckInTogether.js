@@ -130,7 +130,7 @@ export default function CheckInTogether({ roomId }) {
             <LeftArrowIcon />
           </MauveButton>
           <NavigationText>
-            Next:&nbsp;&nbsp;&nbsp;Contribute 3 mins
+            Next:&nbsp;&nbsp;&nbsp;We value your feedback
           </NavigationText>
           <MauveButton
             onClick={() => navigate(`/room/${roomId}/user/${userId}/feedback`)}
