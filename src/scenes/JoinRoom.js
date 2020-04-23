@@ -1,115 +1,109 @@
 import React, { useState } from "react";
-import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import * as FirestoreService from "../services/firestore";
-import styled from "styled-components";
+import { navigate } from "@reach/router";
 
+import {
+  BlueBackground,
+  MobileWidthWrapper,
+  SwatchHeading,
+  NameTextField,
+  NavigationButtons,
+  NavigationText,
+  Button,
+  Error,
+  CenterForm,
+  RightArrowIcon,
+  HeartworkLogoBig,
+} from "../components/styledComponents";
 import Footer from "../components/Footer";
-import room4 from "../img/room4.jpg";
-
-const Background = styled.div`
-  height: calc(100vh - 38px);
-  background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 1),
-      rgba(255, 255, 255, 1),
-      rgba(255, 255, 255, 0.9),
-      rgba(255, 255, 255, 0.6),
-      rgba(255, 255, 255, 0.3)
-    ),
-    url(${room4});
-  background-size: cover;
-  background-position: center;
-  padding-top: 20px;
-  padding-left: 30px;
-`;
-
-const InputName = styled.input`
-  border: none;
-  border-bottom: 3px solid #d62346;
-  font-size: 3em;
-  background: none;
-`;
 
 function JoinRoom(props) {
-  const { users, roomId, onSelectUser, onCloseroom, userId } = props;
-
+  const roomId = props.location.pathname.substr(11);
+  const [userName, setUserName] = useState("");
   const [error, setError] = useState();
-
-  function addExistingUser(e) {
+  function joinRoom(e) {
     e.preventDefault();
-    onSelectUser(e.target.innerText);
-  }
-
-  function getUserButtonList() {
-    const buttonList = users.map((user) => (
-      <button key={user.name} onClick={addExistingUser}>
-        {user.name}
-      </button>
-    ));
-    return <div className="button-group">{buttonList}</div>;
-  }
-
-  function addNewUser(e) {
-    e.preventDefault();
-    setError(null);
-
-    const userName = document.addUserToListForm.name.value;
     if (!userName) {
       setError("user-name-required");
       return;
     }
+    setError(null);
 
-    if (users.find((user) => user.name === userName)) {
-      onSelectUser(userName);
-    } else {
-      FirestoreService.addUserToroom(userName, roomId, userId)
-        .then(() => onSelectUser(userName))
-        .catch(() => setError("add-user-to-list-error"));
-    }
+    FirestoreService.authenticateAnonymously()
+      .then((userCredential) => {
+        const userId = userCredential.user.uid;
+        FirestoreService.addUserToroom(userName, roomId, userId).then(() => {
+          navigate(`/room/${roomId}/user/${userId}/my-check-in`);
+        });
+      })
+      .catch((e) => {
+        console.error(e);
+        setError("anonymous-auth-failed");
+      });
   }
 
-  function onCreateListClick(e) {
-    e.preventDefault();
-    onCloseroom();
-  }
+  // function addExistingUser(e) {
+  //   e.preventDefault();
+  //   onSelectUser(e.target.innerText);
+  // }
+
+  // function getUserButtonList() {
+  //   const buttonList = users.map((user) => (
+  //     <button key={user.name} onClick={addExistingUser}>
+  //       {user.name}
+  //     </button>
+  //   ));
+  //   return <div className="button-group">{buttonList}</div>;
+  // }
+
+  // function addNewUser(e) {
+  //   e.preventDefault();
+  //   setError(null);
+
+  //   const userName = document.addUserToListForm.name.value;
+  //   if (!userName) {
+  //     setError("user-name-required");
+  //     return;
+  //   }
+
+  //   if (users.find((user) => user.name === userName)) {
+  //     onSelectUser(userName);
+  //   } else {
+  //     FirestoreService.addUserToroom(userName, roomId, userId)
+  //       .then(() => onSelectUser(userName))
+  //       .catch(() => setError("add-user-to-list-error"));
+  //   }
+  // }
 
   return (
-    <Background>
-      <div className="join-container">
-        <h1>
-          You're invited
-          <br />
-          to a heartwork
-          <br />
-          check-in 👌
-        </h1>
-        <p>Select your name if you're returning...</p>
-        {getUserButtonList()}
-        <form name="addUserToListForm">
-          <p>...or enter your name to enter the check-in room...</p>
-          <InputName
-            type="text"
-            name="name"
+    <BlueBackground>
+      <MobileWidthWrapper>
+        <HeartworkLogoBig />
+        <SwatchHeading>Join private heartwork check-in room</SwatchHeading>
+        <CenterForm name="create-room" onSubmit={joinRoom}>
+          <NameTextField
             autoFocus={true}
-            placeholder="My name is..."
+            autoComplete="off"
+            label="Your name"
+            type="text"
+            name="userName"
+            placeholder="Your name"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
           />
-          <input
-            className="button"
-            type="submit"
-            value="Join"
-            onClick={addNewUser}
-          />
-          <ErrorMessage errorCode={error}></ErrorMessage>
-        </form>
-        <p>
-          ...or{" "}
-          <a href="/" onClick={onCreateListClick}>
-            create a new check-in room
-          </a>
-        </p>
-      </div>
-      <Footer />
-    </Background>
+          {error && <Error>{error}</Error>}{" "}
+        </CenterForm>
+        <NavigationButtons>
+          <NavigationText>Next:&nbsp;&nbsp;&nbsp;Go to room</NavigationText>
+          <Button onClick={joinRoom}>
+            <RightArrowIcon />
+          </Button>
+        </NavigationButtons>
+        <Footer />
+      </MobileWidthWrapper>
+    </BlueBackground>
+    //     {/* <p>Select your name if you're returning...</p>
+    //     {getUserButtonList()}
   );
 }
 

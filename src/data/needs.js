@@ -1,5 +1,4 @@
 export default [
-  "(I choose to pass)",
   "agency",
   "appreciation",
   "attention",
@@ -84,6 +83,7 @@ export default [
   "warmth",
   "win:win",
   "(something else)",
+  "(I choose to pass)",
 ];
 
 export const teReoNeeds = {

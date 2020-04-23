@@ -20,43 +20,43 @@ export const authenticateAnonymously = () => {
   return firebase.auth().signInAnonymously();
 };
 
-// FIRESTORE DATA
-const roomDB = {
-  created: 2197091370932,
-  createdBy: "userId",
-  users: [
-    {
-      name: "Peter",
-      userId: "ojsdoi8u3840423",
-    },
-  ],
-  timer: {
-    name: "Peter",
-    userId: "ojsdoi8u3840423",
-    startTime: 12984093289058,
-  },
-  config: {
-    timerLength: 60, //s
-    checkInFormat: ["green", "peach", "need", "need", "need"],
-  },
-};
-
-const checkInDB = {
-  userId: "0992308432",
-  userName: "Peter",
-  checkIn: [
-    { type: "need", word: "belonging" },
-    { type: "peach", word: "angry" },
-    { type: "green", word: "grateful" },
-  ],
-};
-
+// FIRESTORE DATA EXAMPLE
+// const roomObjectExampleInDB = {
+//   created: 2197091370932,
+//   createdBy: "userId",
+//   users: [
+//     {
+//       name: "Peter",
+//       userId: "ojsdoi8u3840423",
+//     },
+//   ],
+//   timer: {
+//     name: "Peter",
+//     userId: "ojsdoi8u3840423",
+//     startTime: 12984093289058,
+//   },
+//   config: {
+//     timerLength: 60, //s
+//     checkInFormat: ["green", "peach", "need", "need", "need"],
+//   },
+// };
+//
+// const checkInOjectExampleinDB = {
+//   userId: "0992308432",
+//   userName: "Peter",
+//   checkIn: [
+//     { type: "need", word: "belonging" },
+//     { type: "peach", word: "angry" },
+//     { type: "green", word: "grateful" },
+//   ],
+// };
+//
 export const createroom = (
   userName,
   userId,
-  checkinTime,
+  checkinTime = 60,
   checkinQuestionSet,
-  hasSpokenCheckin
+  hasSpokenCheckin = false
 ) => {
   return db.collection("rooms").add({
     created: firebase.firestore.FieldValue.serverTimestamp(),
@@ -68,9 +68,14 @@ export const createroom = (
       },
     ],
     config: {
-      ...checkinQuestionSet,
+      // TODO: Defaults for now
+      hasSpokenCheckin,
+      numGreenFeelings: 1,
+      numPeachFeelings: 1,
+      numNeeds: 3,
+      numStrategies: 1,
       timerLength: checkinTime,
-      hasSpokenCheckin: hasSpokenCheckin,
+      ...checkinQuestionSet,
     },
   });
 };
@@ -102,6 +107,8 @@ export const addUserToroom = (userName, roomId, userId) => {
       }),
     });
 };
+
+export const getCurrentUser = (f) => firebase.auth().onAuthStateChanged(f);
 
 export const updateCheckIn = (checkIn, roomId, userId) => {
   const checkInDbEntry = {

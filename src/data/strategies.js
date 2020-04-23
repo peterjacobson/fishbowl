@@ -1,5 +1,4 @@
 export default [
-  "(I choose to pass)",
   "reflect if what I see outside is an expression of something inside me?",
   "let something go",
   "accept something",
@@ -27,4 +26,5 @@ export default [
   "journal",
   "express a feeling",
   "(something else)",
+  "(I choose to pass)",
 ];

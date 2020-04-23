@@ -1,5 +1,4 @@
 export default [
-  "(I choose to pass)",
   "agitated, turbulent",
   "angry",
   "anxious",
@@ -34,6 +33,7 @@ export default [
   "worried, uneasy",
   "yearning",
   "(something else)",
+  "(I choose to pass)",
 ];
 
 export const teReoPeach = {
