@@ -20,6 +20,7 @@
     "moment-duration-format": "^2.3.2",
     "normalize.css": "^8.0.1",
     "number-to-words": "^1.2.4",
+    "prop-types": "^15.7.2",
     "pure-react-carousel": "^1.27.0",
     "rc-collapse": "^1.11.8",
     "rc-progress": "^2.5.2",
@@ -43,6 +44,8 @@
     "react-toastify": "^5.5.0",
     "react-typeform-embed": "^0.2.1",
     "react-use": "^13.27.1",
+    "react-spring": "^7.2.8",
+    "react-with-gesture": "^4.0.8",
     "scroll-js": "^3.2.0",
     "styled-components": "^5.0.1",
     "styled-react-modal": "^2.0.1"
