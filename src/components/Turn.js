@@ -12,15 +12,17 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
 
   const {
     round,
-    teams,
+    team0,
+    team1,
     wordPhrases,
     roundWordPhrasesLeft,
     currentTeam,
     points,
     currentPlayers,
   } = room;
+  const teams = [team0, team1];
 
-  const roundIsEnded = roundWordPhrasesLeft.length === 0;
+  const roundIsEnded = roundWordPhrasesLeft.length <= 1;
 
   function teamGotIt() {
     const nextPoints = points.map((points, team) =>
@@ -36,7 +38,7 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
       const nextRoundWordPhrasesLeft = _.shuffle(wordPhrases);
       const nextRound = round + 1;
       const nextCurrentPlayers = currentPlayers.map((player, i) =>
-        i === currentTeam ? player + (1 % teams[i].length) : player
+        i === currentTeam ? (player + 1) % teams[i].length : player
       );
       const nextTeam = currentTeam === 0 ? 1 : 0;
       FirestoreService.teamGotItOuttaWords(

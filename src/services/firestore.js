@@ -118,7 +118,7 @@ export const teamGotItOuttaWords = (
   nextCurrentTeam
 ) => {
   return db.collection("rooms").doc(roomId).update({
-    roundWordPhrasessLeft: nextRoundWordPhrasesLeft,
+    roundWordPhrasesLeft: nextRoundWordPhrasesLeft,
     points: nextPoints,
     turnActive: false,
     roundActive: false,
