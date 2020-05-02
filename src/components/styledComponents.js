@@ -20,7 +20,8 @@ export const colors = {
   strategy: ["#d62346", "#f0aa71"],
 };
 
-export const teamColors = ["#1792C8", "#88C072"];
+// export const teamColors = ["#1792C8", "#88C072"];
+export const teamColors = ["#3be7fe", "#a3e803"];
 
 export const WhiteFadeBackground = styled.div`
   padding: 20px;
