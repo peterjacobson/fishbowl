@@ -63,11 +63,17 @@ export default function EditGame({ room, roomId, teamsFormed }) {
   }
 
   function removePlayer(team, userId) {
-    //
+    const updatedTeam = {
+      [`team${team}`]: teams[team].filter((user) => user.userId !== userId),
+    };
+    FirestoreService.updateTeam(roomId, updatedTeam);
   }
 
   function addPlayer(team, user) {
-    //
+    const updatedTeam = {
+      [`team${team}`]: [...teams[team], user],
+    };
+    FirestoreService.updateTeam(roomId, updatedTeam);
   }
 
   function removePlayerList(players, team) {

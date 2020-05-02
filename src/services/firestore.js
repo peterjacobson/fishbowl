@@ -61,6 +61,10 @@ export const addUserToroom = (
     });
 };
 
+export const updateTeam = (roomId, updatedTeam) => {
+  return db.collection("rooms").doc(roomId).update(updatedTeam);
+};
+
 export const createTeams = (roomId, teams, teamNames) => {
   return db
     .collection("rooms")
