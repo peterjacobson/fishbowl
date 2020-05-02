@@ -21,7 +21,7 @@ export default function FishBowl(props) {
   // Some helpful derived state ---------------------
   const [error, setError] = useState(null);
   const [room, setRoom] = useState({});
-  const { points, team0, team1, teamNames, currentPlayers } = room;
+  const { points, teamNames, currentPlayers } = room;
   const players = room.users;
   const creatorId = room.createdBy;
   const creatorName = _.get(

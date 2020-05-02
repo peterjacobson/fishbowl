@@ -11,6 +11,9 @@ import {
 export function Turns({ room }) {
   const userId =
     window.location.pathname.match(/(?<=(user\/))(.*?)(?=(\/bowl))/g)[0] || "";
+  const roomId =
+    window.location.pathname.match(/(?<=(room\/))(.*?)(?=(\/user))/g)[0] || "";
+
   const {
     teamNames,
     currentTeam,
@@ -47,7 +50,9 @@ export function Turns({ room }) {
     </p>
   );
 
-  function startTurn() {}
+  function startTurn() {
+    FirestoreService.startTurn(roomId, Date.now());
+  }
 
   const preTurn = iAmTurnPlayer ? (
     <ButtonWithText onClick={startTurn}>START MY TURN</ButtonWithText>
