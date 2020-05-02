@@ -86,8 +86,7 @@ export function Teams({
             <ColWidth key={i}>
               <TeamColorBackground team={i}>
                 <Points team={i}>{points ? points[i] : null}</Points>
-                {teamNames[i]}
-                <br />
+                <b>{teamNames[i]}</b>
                 {playerList(teams[i])}
               </TeamColorBackground>
             </ColWidth>

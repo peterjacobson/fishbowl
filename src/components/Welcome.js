@@ -14,14 +14,19 @@ export function Welcome({
 }) {
   const preTeams = (
     <FullWidth>
-      <WhiteBackground>Welcome {playerName}</WhiteBackground>
+      <WhiteBackground>
+        Welcome <b>{playerName}</b>
+      </WhiteBackground>
     </FullWidth>
   );
 
   const postTeams = (
     <FullWidth>
       <TeamColorBackground team={playerTeamId}>
-        Hi {playerName}, you're team {playerTeamName}
+        <p>
+          Hi <b>{playerName}</b>, you're team <br />
+          <b>{playerTeamName}</b>
+        </p>
       </TeamColorBackground>
     </FullWidth>
   );

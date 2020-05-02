@@ -41,7 +41,7 @@ export const WhiteBackground = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 400px;
-  padding: 8px;
+  padding: 13px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
@@ -59,7 +59,7 @@ export const FullWidth = styled.div`
 
 export const TeamColorBackground = styled(WhiteBackground)`
   border-style: solid;
-  border-width: 6px;
+  border-width: 10px;
   border-color: ${(props) => teamColors[props.team]};
 `;
 

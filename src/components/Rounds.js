@@ -11,7 +11,7 @@ import {
 import { rounds } from "../data/roundData";
 import { Turns } from "./Turns";
 
-export function Rounds({ room, iAmCreator, creatorName, roomId }) {
+export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
   function startRound() {
     const roundWordPhrases = _.shuffle(room.wordPhrases);
     FirestoreService.startRound(roomId, roundWordPhrases);
@@ -30,6 +30,8 @@ export function Rounds({ room, iAmCreator, creatorName, roomId }) {
   const roundContent = (
     <>
       Round {room.round + 1}: {_.get(rounds, [room.round, "name"], null)}
+      {_.get(rounds, [room.round, "rules"], "")}
+      <br />
       <br />
       {room.roundActive ? <Turns {...{ room }} /> : preRound}
     </>
@@ -43,9 +45,9 @@ export function Rounds({ room, iAmCreator, creatorName, roomId }) {
     );
   }
 
-  return (
+  return teamsFormed ? (
     <FullWidth>
-      <RoundWrapper>{roundContent}</RoundWrapper>
+      <WhiteBackground>{roundContent}</WhiteBackground>
     </FullWidth>
-  );
+  ) : null;
 }

@@ -138,6 +138,7 @@ body,
   width: 100%; */
   /* height: 100%; */
   margin: 0px !important;
+  font-size: 1.08em;
 }
 
 h1,
@@ -153,6 +154,7 @@ p {
   font-family: "Rubik", sans-serif !important;
   font-weight: 300;
   color: black !important;
+  font-size: 1.08em;
 }
 
 div {
@@ -183,7 +185,7 @@ p {
 }
 
 b {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 form {
