@@ -2,6 +2,7 @@ import React from "react";
 import _ from "lodash";
 import * as FirestoreService from "../services/firestore";
 
+import Turn from "./Turn";
 import {
   ButtonWithText,
   TeamColorBackground,
@@ -68,8 +69,6 @@ export function Turns({ room }) {
     </p>
   );
 
-  const duringTurn = "DURINGTURN";
-
   return (
     <>
       <TeamColorBackground team={currentTeam}>
@@ -79,7 +78,11 @@ export function Turns({ room }) {
         </h2>
         <VertSpacer />
         <VertSpacer />
-        {turnActive ? duringTurn : preTurn}
+        {turnActive ? (
+          <Turn {...{ room, iAmTurnPlayer, iAmTurnTeam }} />
+        ) : (
+          preTurn
+        )}
       </TeamColorBackground>
     </>
   );

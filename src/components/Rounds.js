@@ -30,7 +30,10 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
 
   const roundContent = (
     <>
-      Round {room.round + 1}: {_.get(rounds, [room.round, "name"], null)}
+      <p>
+        Round {room.round + 1}:{" "}
+        <b>{_.get(rounds, [room.round, "name"], null)}</b>
+      </p>
       {_.get(rounds, [room.round, "rules"], "")}
       <VertSpacer />
       <VertSpacer />
