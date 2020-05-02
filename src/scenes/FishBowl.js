@@ -10,6 +10,7 @@ import {
 } from "../components/styledComponents";
 import { Welcome } from "../components/Welcome";
 import { Teams } from "../components/Teams";
+import { Rounds } from "../components/Rounds";
 
 export default function FishBowl(props) {
   const roomId =
@@ -79,6 +80,7 @@ export default function FishBowl(props) {
                 teamsFormed,
               }}
             />
+            <Rounds {...{ room, iAmCreator, creatorName }} />
           </WhiteFadeBackground>
         </MobileWidthWrapper>
       </MauveBackground>
