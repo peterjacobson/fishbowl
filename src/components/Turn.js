@@ -20,7 +20,7 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
     currentTeam,
     points,
     currentPlayers,
-    startTime,
+    turnStartTime,
   } = room;
   const teams = [team0, team1];
 
@@ -84,7 +84,7 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
       </h3>
       <VertSpacer />
       <ButtonWithText onClick={teamGotIt}>DONE - NEXT!</ButtonWithText>
-      <EasyTimer startTime={startTime} endTurn={endTurn} />
+      <EasyTimer turnStartTime={turnStartTime} endTurn={endTurn} />
     </>
   );
 
@@ -93,7 +93,10 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
       <h3>
         <b>Guess the Word/Phrase!!!</b>
       </h3>
-      <EasyTimer startTime={startTime} endTurn={() => console.log("dummy")} />
+      <EasyTimer
+        turnStartTime={turnStartTime}
+        endTurn={() => console.log("dummy")}
+      />
     </>
   );
   const otherTeamsTurn = (
@@ -101,7 +104,10 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
       <p>
         <b>Relax</b>, just keep the other team honest ;)
       </p>
-      <EasyTimer startTime={startTime} endTurn={() => console.log("dummy")} />
+      <EasyTimer
+        turnStartTime={turnStartTime}
+        endTurn={() => console.log("dummy")}
+      />
     </>
   );
 

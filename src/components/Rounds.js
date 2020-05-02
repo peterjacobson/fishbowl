@@ -4,7 +4,6 @@ import _ from "lodash";
 import * as FirestoreService from "../services/firestore";
 import {
   WhiteBackground,
-  TeamColorBackground,
   FullWidth,
   ButtonWithText,
   VertSpacer,

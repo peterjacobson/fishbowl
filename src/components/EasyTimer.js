@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export default function EasyTimer(props) {
   const [timeRemaining, setTimeRemaining] = useState(60);
-  const timerLength = props.timerLength * 1000; // ms
+  const timerLength = 60 * 1000; // ms
 
   function ticker() {
     return setInterval(() => {
