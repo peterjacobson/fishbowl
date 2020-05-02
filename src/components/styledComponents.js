@@ -1,17 +1,10 @@
-import { AccordionItem } from "react-sanfona";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FaQuestionCircle } from "react-icons/fa";
 import styled from "styled-components";
 import Modal from "styled-react-modal";
 import { ReactTypeformEmbed } from "react-typeform-embed";
 
-import { FiCheckCircle, FiCircle, FiArrowRight } from "react-icons/fi";
-import {
-  IoIosAddCircleOutline,
-  IoIosArrowDropdown,
-  IoIosArrowDropup,
-  IoIosRemoveCircleOutline,
-} from "react-icons/io";
+import { FiArrowRight } from "react-icons/fi";
 
 // import room4 from "../img/room4.jpg";
 // import room4 from "../img/pinapples.jpg";

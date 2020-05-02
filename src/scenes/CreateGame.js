@@ -11,7 +11,6 @@ import {
   SwatchHeading,
   HeartworkLogoBig,
   NameTextField,
-  Centerer,
   CenterForm,
   Button,
   NavigationButtons,
