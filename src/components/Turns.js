@@ -58,7 +58,7 @@ export function Turns({ room }) {
   const preTurn = iAmTurnPlayer ? (
     <ButtonWithText onClick={startTurn}>START MY TURN</ButtonWithText>
   ) : (
-    <p>
+    <>
       Waiting for {turnPlayer.name} to start their turn.
       <VertSpacer />
       {iAmTurnPlayer
@@ -66,7 +66,7 @@ export function Turns({ room }) {
         : iAmTurnTeam
         ? preTurnActiveTeamMessage
         : preTurnInactiveTeamMessage}
-    </p>
+    </>
   );
 
   return (

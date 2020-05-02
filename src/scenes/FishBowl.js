@@ -11,6 +11,7 @@ import {
 import { Welcome } from "../components/Welcome";
 import { Teams } from "../components/Teams";
 import { Rounds } from "../components/Rounds";
+import EditGame from "../components/EditGame";
 
 export default function FishBowl(props) {
   const roomId =
@@ -83,6 +84,7 @@ export default function FishBowl(props) {
             <Rounds
               {...{ room, iAmCreator, creatorName, roomId, teamsFormed }}
             />
+            {iAmCreator ? <EditGame {...{ room, roomId }} /> : null}
           </WhiteFadeBackground>
         </MobileWidthWrapper>
       </MauveBackground>

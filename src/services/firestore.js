@@ -86,3 +86,45 @@ export const startTurn = (roomId, startTime) => {
     turnStartTime: startTime,
   });
 };
+
+export const endTurn = (
+  roomId,
+  nextCurrentPlayers,
+  nextCurrentTeam,
+  nextRoundWordPhrasesLeft
+) => {
+  return db.collection("rooms").doc(roomId).update({
+    turnActive: false,
+    turnStartTime: null,
+    currentPlayers: nextCurrentPlayers,
+    currentTeam: nextCurrentTeam,
+    roundWordPhrasesLeft: nextRoundWordPhrasesLeft,
+  });
+};
+
+export const teamGotIt = (roomId, nextRoundWordPhrasesLeft, nextPoints) => {
+  return db.collection("rooms").doc(roomId).update({
+    roundWordPhrasesLeft: nextRoundWordPhrasesLeft,
+    points: nextPoints,
+  });
+};
+
+export const teamGotItOuttaWords = (
+  roomId,
+  nextRoundWordPhrasesLeft,
+  nextPoints,
+  nextRound,
+  nextCurrentPlayers,
+  nextCurrentTeam
+) => {
+  return db.collection("rooms").doc(roomId).update({
+    roundWordPhrasessLeft: nextRoundWordPhrasesLeft,
+    points: nextPoints,
+    turnActive: false,
+    roundActive: false,
+    round: nextRound,
+    currentPlayers: nextCurrentPlayers,
+    currentTeam: nextCurrentTeam,
+  });
+  /// End turn too - increment currentPlayers cound
+};
