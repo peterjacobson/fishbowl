@@ -18,7 +18,9 @@ import {
   IoIosRemoveCircleOutline,
 } from "react-icons/io";
 
-import room4 from "../img/room4.jpg";
+// import room4 from "../img/room4.jpg";
+// import room4 from "../img/pinapples.jpg";
+import room4 from "../img/art2.jpg";
 import texture1cover from "../img/texture1cover.png";
 import blueswatch1 from "../img/blueswatch1.png";
 import logotextb from "../img/logotextb.png";
@@ -35,8 +37,10 @@ export const colors = {
   strategy: ["#d62346", "#f0aa71"],
 };
 
+export const teamColors = ["#1792C8", "#88C072"];
+
 export const WhiteFadeBackground = styled.div`
-  padding: -200px 40px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -55,12 +59,25 @@ export const WhiteBackground = styled.div`
   flex-direction: column;
   max-width: 400px;
   padding: 8px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
   border-radius: 10px;
   background-color: white;
   -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  text-align: center;
+`;
+
+export const FullWidth = styled.div`
+  width: 100%;
+`;
+
+export const TeamColorBackground = styled(WhiteBackground)`
+  border-style: solid;
+  border-width: 6px;
+  border-color: ${(props) => teamColors[props.team]};
 `;
 
 export const MauveBackground = styled.div`
@@ -68,6 +85,10 @@ export const MauveBackground = styled.div`
   background-size: cover;
   min-height: 100vh;
   height: 100%;
+`;
+
+export const RowWrapper = styled.div`
+  display: flex;
 `;
 
 export const FeedbackBackground = styled.div`
@@ -286,6 +307,11 @@ export const NarrowCenterText = styled.p`
   max-width: 350px;
   margin-bottom: 30px;
   z-index: 10;
+`;
+
+export const VerticalCenterer = styled.div`
+  margin-top: auto;
+  margin-bottom: auto;
 `;
 
 export const ConfigContainer = styled.div`

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import _ from "lodash";
 
 import * as FirestoreService from "../services/firestore";
@@ -8,11 +7,10 @@ import {
   MauveBackground,
   MobileWidthWrapper,
   Heading,
-  MauveButton,
-  ButtonText,
   WhiteFadeBackground,
-  RightSpan,
 } from "../components/styledComponents";
+import { Welcome } from "../components/Welcome";
+import { Teams } from "../components/Teams";
 
 export default function FishBowl(props) {
   const roomId =
@@ -20,11 +18,31 @@ export default function FishBowl(props) {
   const userId =
     props.location.pathname.match(/(?<=(user\/))(.*?)(?=(\/bowl))/g)[0] || "";
 
+  // Some helpful derived state ---------------------
   const [error, setError] = useState(null);
   const [room, setRoom] = useState({});
-  const [linkCopied, setLinkCopied] = useState(false);
-
-  const teamsFormed = room.teams === undefined ? false : true;
+  const { points, team0, team1, teamNames, currentPlayers } = room;
+  const players = room.users;
+  const creatorId = room.createdBy;
+  const creatorName = _.get(
+    _.find(players, (user) => user.userId === creatorId),
+    "name"
+  );
+  const teams = [room.team0, room.team1] || [];
+  const iAmCreator = userId === creatorId;
+  const playerName = _.get(
+    _.find(room.users, (user) => user.userId === userId),
+    "name",
+    ""
+  );
+  const teamsFormed = room.team1 === undefined ? false : true;
+  const playerTeamId = teams
+    ? teams.findIndex((team) =>
+        _.find(team, (player) => player.userId === userId)
+      )
+    : null;
+  const playerTeamName = _.get(room, ["teamNames", playerTeamId], null);
+  // -------------------------------------------
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
@@ -41,29 +59,27 @@ export default function FishBowl(props) {
     navigate("/");
   }
 
-  function updateLinkCopyState() {
-    setLinkCopied(true);
-  }
-
-  const CopyLinkButton = (
-    <RightSpan>
-      <CopyToClipboard text={`${window.location.origin}/join-room/${roomId}`}>
-        <MauveButton onClick={updateLinkCopyState}>
-          <ButtonText>
-            Copy invite url
-            {linkCopied ? "  🙌 Link copied" : null}
-          </ButtonText>
-        </MauveButton>
-      </CopyToClipboard>
-    </RightSpan>
-  );
-
   return (
     <>
       <MauveBackground>
         <MobileWidthWrapper>
           <WhiteFadeBackground>
-            <Welcome></Welcome>
+            <Welcome
+              {...{ teamsFormed, playerName, playerTeamName, playerTeamId }}
+            />
+            <Teams
+              {...{
+                points,
+                teams,
+                teamNames,
+                players,
+                currentPlayers,
+                creatorName,
+                iAmCreator,
+                roomId,
+                teamsFormed,
+              }}
+            />
           </WhiteFadeBackground>
         </MobileWidthWrapper>
       </MauveBackground>

@@ -105,33 +105,11 @@ export const stopTimer = (roomId) => {
     timer: {},
   });
 };
-// export const startTimer = (timeStamp, roomId, userId) => {
-//   db.collection("rooms")
-//     .doc(roomId)
-//     .collection("timers")
-//     .get()
-//     .then(querySnapshot => querySnapshot.docs)
-//     .then(timers => {
-//       if (timers.length < 1) {
-//         db.collection("rooms")
-//           .doc(roomId)
-//           .collection("timers")
-//           .add({
-//             startTime: timeStamp,
-//             roomId: roomId,
-//             userId: userId
-//           });
-//       } else {
-//         db.collection("rooms")
-//           .doc(roomId)
-//           .collection("timers")
-//           .doc(timers[0].id)
-//           .update({
-//             startTime: timeStamp,
-//             roomId: roomId,
-//             userId: userId
-//           });
-//       }
-//       // console.log(timers[0].data());
-//     });
-// };
+
+export const createTeams = (roomId, teams, teamNames) => {
+  return db.collection("rooms").doc(roomId).update({
+    team0: teams[0],
+    team1: teams[1],
+    teamNames: teamNames,
+  });
+};
