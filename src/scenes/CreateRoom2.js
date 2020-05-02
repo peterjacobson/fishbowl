@@ -38,13 +38,14 @@ function CreateList() {
       return;
     }
     setError(null);
+
     const userId = uuidv4();
-    console.log("userId: ", userId);
     const wordPhrasesList = _.values(wordPhrases);
+
     FirestoreService.createroom(userName, userId, wordPhrasesList)
       .then((docRef) => {
         const roomId = docRef.id;
-        navigate(`/room/${roomId}/user/${userId}/my-check-in`);
+        navigate(`/room/${roomId}/user/${userId}/bowl`);
       })
       .catch((reason) => {
         setError("create-list-error");
