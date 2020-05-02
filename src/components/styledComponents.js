@@ -136,6 +136,13 @@ export const NavigationText = styled.p`
   margin-left: auto;
 `;
 
+export const LowKeyButtonWrapper = styled.div`
+  margin-top: 100px;
+  max-width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+`;
+
 export const NameTextField = styled.input`
   border: none;
   background: none;

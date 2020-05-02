@@ -7,10 +7,14 @@ import {
   MauveBackground,
   MobileWidthWrapper,
   WhiteFadeBackground,
+  AdminButton,
+  VertSpacer,
+  WhiteBackground,
 } from "../components/styledComponents";
 import { Welcome } from "../components/Welcome";
 import { Teams } from "../components/Teams";
 import { Rounds } from "../components/Rounds";
+import { ChangePlayer } from "../components/ChangePlayer";
 import EditGame from "../components/EditGame";
 
 export default function FishBowl(props) {
@@ -84,6 +88,7 @@ export default function FishBowl(props) {
             <Rounds
               {...{ room, iAmCreator, creatorName, roomId, teamsFormed }}
             />
+            <ChangePlayer />
             {iAmCreator ? (
               <EditGame {...{ room, roomId, teamsFormed }} />
             ) : null}
