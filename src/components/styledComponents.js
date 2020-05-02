@@ -143,7 +143,7 @@ export const Button = styled.button`
   padding: 10px;
   color: white;
   border-radius: 25px;
-  background-color: #4e5fba;
+  background-color: #e02cb8;
   -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
