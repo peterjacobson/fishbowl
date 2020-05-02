@@ -1,15 +1,32 @@
 import React, { useEffect, useState } from "react";
-import {
-  WhiteBackground,
-  ButtonWithText,
-  RowWrapper,
-} from "./styledComponents";
 import _ from "lodash";
+import styled from "styled-components";
 
 import * as FirestoreService from "../services/firestore";
 import { TeamColorBackground } from "../components/styledComponents";
 import { CopyInviteUrl } from "./CopyInviteUrl";
 import { firstTeamWords, secondTeamWords } from "../data/teamNameWords";
+import {
+  WhiteBackground,
+  ButtonWithText,
+  RowWrapper,
+  teamColors,
+} from "./styledComponents";
+
+const Points = styled.div`
+  border-radius: 100%;
+  border-color: ${(props) => teamColors[props.team]};
+  border-style: solid;
+  border-width: 6px;
+  height: 30px;
+  width: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  line-height: 30px;
+  margin-top: -30px;
+  background: white;
+`;
 
 export function Teams({
   points,
@@ -62,6 +79,7 @@ export function Teams({
       {teamNames
         ? [0, 1].map((i) => (
             <TeamColorBackground team={i}>
+              <Points team={i}>{points ? points[i] : null}</Points>
               {teamNames[i]}
               <br />
               {playerList(teams[i])}

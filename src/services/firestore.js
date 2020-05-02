@@ -107,9 +107,13 @@ export const stopTimer = (roomId) => {
 };
 
 export const createTeams = (roomId, teams, teamNames) => {
-  return db.collection("rooms").doc(roomId).update({
-    team0: teams[0],
-    team1: teams[1],
-    teamNames: teamNames,
-  });
+  return db
+    .collection("rooms")
+    .doc(roomId)
+    .update({
+      team0: teams[0],
+      team1: teams[1],
+      teamNames: teamNames,
+      points: [0, 0],
+    });
 };
