@@ -7,57 +7,12 @@ const firebaseConfig = {
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
   databaseURL: "https://zoom-heartwork-guide.firebaseio.com",
-  // storageBucket: "zoom-heartwork-guide.appspot.com",
-  // messagingSenderId: "611561058284",
-  // appId: "1:611561058284:web:01509a7f1136d4faf65ac9",
-  // measurementId: "G-3F1HQ3JJK4"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-export const authenticateAnonymously = () => {
-  return firebase.auth().signInAnonymously();
-};
-
-// FIRESTORE DATA EXAMPLE
-// const roomObjectExampleInDB = {
-//   created: 2197091370932,
-//   createdBy: "userId",
-//   users: [
-//     {
-//       name: "Peter",
-//       userId: "ojsdoi8u3840423",
-//     },
-//   ],
-//   timer: {
-//     name: "Peter",
-//     userId: "ojsdoi8u3840423",
-//     startTime: 12984093289058,
-//   },
-//   config: {
-//     timerLength: 60, //s
-//     checkInFormat: ["green", "peach", "need", "need", "need"],
-//   },
-// };
-//
-// const checkInOjectExampleinDB = {
-//   userId: "0992308432",
-//   userName: "Peter",
-//   checkIn: [
-//     { type: "need", word: "belonging" },
-//     { type: "peach", word: "angry" },
-//     { type: "green", word: "grateful" },
-//   ],
-// };
-//
-export const createroom = (
-  userName,
-  userId,
-  checkinTime = 60,
-  checkinQuestionSet,
-  hasSpokenCheckin = false
-) => {
+export const createroom = (userName, userId, wordPhrasesList) => {
   return db.collection("rooms").add({
     created: firebase.firestore.FieldValue.serverTimestamp(),
     createdBy: userId,
@@ -67,16 +22,7 @@ export const createroom = (
         name: userName,
       },
     ],
-    config: {
-      // TODO: Defaults for now
-      hasSpokenCheckin,
-      numGreenFeelings: 1,
-      numPeachFeelings: 1,
-      numNeeds: 3,
-      numStrategies: 1,
-      timerLength: checkinTime,
-      ...checkinQuestionSet,
-    },
+    wordPhrases: wordPhrasesList,
   });
 };
 

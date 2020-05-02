@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as FirestoreService from "../services/firestore";
 import { navigate } from "@reach/router";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   BlueBackground,
@@ -28,18 +29,11 @@ function JoinRoom(props) {
       return;
     }
     setError(null);
+    const userId = uuidv4();
 
-    FirestoreService.authenticateAnonymously()
-      .then((userCredential) => {
-        const userId = userCredential.user.uid;
-        FirestoreService.addUserToroom(userName, roomId, userId).then(() => {
-          navigate(`/room/${roomId}/user/${userId}/my-check-in`);
-        });
-      })
-      .catch((e) => {
-        console.error(e);
-        setError("anonymous-auth-failed");
-      });
+    FirestoreService.addUserToroom(userName, roomId, userId).then(() => {
+      navigate(`/room/${roomId}/user/${userId}/my-check-in`);
+    });
   }
 
   // function addExistingUser(e) {

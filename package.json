@@ -13,6 +13,7 @@
     "deep-object-diff": "^1.1.0",
     "fast-array-diff": "^0.2.0",
     "firebase": "^7.9.1",
+    "lodash": "^4.17.15",
     "lodash.chunk": "^4.2.0",
     "lodash.get": "^4.4.2",
     "lodash.size": "^4.2.0",
@@ -41,14 +42,15 @@
     "react-scripts": "3.3.1",
     "react-select": "^3.1.0",
     "react-slider": "^1.0.3",
+    "react-spring": "^7.2.8",
     "react-toastify": "^5.5.0",
     "react-typeform-embed": "^0.2.1",
     "react-use": "^13.27.1",
-    "react-spring": "^7.2.8",
     "react-with-gesture": "^4.0.8",
     "scroll-js": "^3.2.0",
     "styled-components": "^5.0.1",
-    "styled-react-modal": "^2.0.1"
+    "styled-react-modal": "^2.0.1",
+    "uuid": "^8.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
