@@ -7,6 +7,7 @@ import {
   WhiteBackground,
   FullWidth,
   TeamColorBackground,
+  LowKeyButtonWrapper,
 } from "./styledComponents";
 import { CopyInviteUrl } from "./CopyInviteUrl";
 import { firstTeamWords, secondTeamWords } from "../data/teamNameWords";
@@ -86,6 +87,26 @@ export default function EditGame({ room, roomId, teamsFormed }) {
     FirestoreService.updateRoom(roomId, teamNames);
   }
 
+  function endRound() {
+    const roomUpdate = {
+      round: room.round + 1,
+      roundActive: false,
+      turnActive: false,
+      roundWordPhrasesLeft: _.shuffle(room.wordPhrases),
+    };
+    FirestoreService.updateRoom(roomId, roomUpdate);
+  }
+
+  function goBackARound() {
+    const roomUpdate = {
+      round: room.round - 1,
+      roundActive: false,
+      turnActive: false,
+      roundWordPhrasesLeft: _.shuffle(room.wordPhrases),
+    };
+    FirestoreService.updateRoom(roomId, roomUpdate);
+  }
+
   function removePlayerList(players, team) {
     return players
       ? players.map((player, i) => (
@@ -118,7 +139,7 @@ export default function EditGame({ room, roomId, teamsFormed }) {
   }
 
   return (
-    <WhiteBackground>
+    <LowKeyButtonWrapper>
       <CopyInviteUrl admin />
       {teamsFormed ? (
         <AdminButton onClick={endTurn}>End Turn</AdminButton>
@@ -129,9 +150,9 @@ export default function EditGame({ room, roomId, teamsFormed }) {
         </AdminButton>
       ) : null}
       {editingTeams ? editTeams() : null}
-      <AdminButton onClick={randomiseTeamNames}>
-        Randomise Team Names
-      </AdminButton>
-    </WhiteBackground>
+      <AdminButton onClick={randomiseTeamNames}>Reset Team Names</AdminButton>
+      <AdminButton onClick={endRound}>End Round</AdminButton>
+      <AdminButton onClick={goBackARound}>Go Back a Round</AdminButton>
+    </LowKeyButtonWrapper>
   );
 }

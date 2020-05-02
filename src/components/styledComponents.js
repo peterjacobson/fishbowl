@@ -83,9 +83,12 @@ export const MauveBackground = styled.div`
 
 export const RowWrapper = styled.div`
   display: flex;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  flex-direction: row;
+  align-items: stretch;
+  /* width: 100%; */
+  /* max-width: 414px; */
+  margin-left: -20px;
+  margin-right: -20px;
 `;
 
 export const BigText = styled.span`
@@ -141,6 +144,7 @@ export const LowKeyButtonWrapper = styled.div`
   max-width: 300px;
   margin-right: auto;
   margin-left: auto;
+  text-align: center;
 `;
 
 export const NameTextField = styled.input`
@@ -178,12 +182,12 @@ export const ButtonWithText = styled(Button)`
 `;
 
 export const AdminButton = styled(Button)`
-  background-color: grey;
+  background-color: rgba(255, 255, 255, 0.5);
   font-size: 1em;
-  line-height: 6px;
+  line-height: 0px;
   padding: 20px;
   height: 30px;
-  color: white !important;
+  color: #2a3076 !important;
 `;
 
 export const BlueButton = styled(Button)`
@@ -272,7 +276,6 @@ export const HeartworkLogoBig = styled.div`
 `;
 
 export const Centerer = styled.div`
-  padding: 20px;
   margin-left: auto;
   margin-right: auto;
 `;

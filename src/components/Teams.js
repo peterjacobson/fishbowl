@@ -6,6 +6,7 @@ import * as FirestoreService from "../services/firestore";
 import {
   TeamColorBackground,
   VertSpacer,
+  Centerer,
 } from "../components/styledComponents";
 import { CopyInviteUrl } from "./CopyInviteUrl";
 import { firstTeamWords, secondTeamWords } from "../data/teamNameWords";
@@ -33,8 +34,9 @@ const Points = styled.div`
 `;
 
 const ColWidth = styled.div`
-  flex-grow: 1;
+  /* flex-grow: 1; */
   margin: 0px 5px;
+  width: 50%;
 `;
 
 export function Teams({
@@ -99,19 +101,21 @@ export function Teams({
   );
 
   const postTeams = (
-    <RowWrapper>
-      {teamNames
-        ? [0, 1].map((i) => (
-            <ColWidth key={i}>
-              <TeamColorBackground team={i}>
-                <Points team={i}>{points ? points[i] : null}</Points>
-                <b>{teamNames[i]}</b>
-                {playerList(teams[i])}
-              </TeamColorBackground>
-            </ColWidth>
-          ))
-        : null}
-    </RowWrapper>
+    <Centerer>
+      <RowWrapper>
+        {teamNames
+          ? [0, 1].map((i) => (
+              <ColWidth key={i}>
+                <TeamColorBackground team={i}>
+                  <Points team={i}>{points ? points[i] : null}</Points>
+                  <b>{teamNames[i]}</b>
+                  {playerList(teams[i])}
+                </TeamColorBackground>
+              </ColWidth>
+            ))
+          : null}
+      </RowWrapper>
+    </Centerer>
   );
 
   return <>{teamsFormed ? postTeams : preTeams}</>;
