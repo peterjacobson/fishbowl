@@ -74,39 +74,6 @@ function JoinRoom(props) {
     });
   }
 
-  // function addExistingUser(e) {
-  //   e.preventDefault();
-  //   onSelectUser(e.target.innerText);
-  // }
-
-  // function getUserButtonList() {
-  //   const buttonList = users.map((user) => (
-  //     <button key={user.name} onClick={addExistingUser}>
-  //       {user.name}
-  //     </button>
-  //   ));
-  //   return <div className="button-group">{buttonList}</div>;
-  // }
-
-  // function addNewUser(e) {
-  //   e.preventDefault();
-  //   setError(null);
-
-  //   const userName = document.addUserToListForm.name.value;
-  //   if (!userName) {
-  //     setError("user-name-required");
-  //     return;
-  //   }
-
-  //   if (users.find((user) => user.name === userName)) {
-  //     onSelectUser(userName);
-  //   } else {
-  //     FirestoreService.addUserToroom(userName, roomId, userId)
-  //       .then(() => onSelectUser(userName))
-  //       .catch(() => setError("add-user-to-list-error"));
-  //   }
-  // }
-
   function openUserRoom(existingUserId) {
     navigate(`/room/${roomId}/user/${existingUserId}/bowl`);
   }
