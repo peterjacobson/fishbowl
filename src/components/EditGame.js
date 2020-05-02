@@ -107,16 +107,26 @@ export default function EditGame({ room, roomId, teamsFormed }) {
     FirestoreService.updateRoom(roomId, roomUpdate);
   }
 
+  function setAdmin(userId) {
+    const roomUpdate = {
+      createdBy: userId,
+    };
+    FirestoreService.updateRoom(roomId, roomUpdate);
+  }
+
   function removePlayerList(players, team) {
     return players
       ? players.map((player, i) => (
-          <div key={i}>
+          <TeamColorBackground team={team} key={i}>
             {player.name}{" "}
             <AdminButton onClick={() => removePlayer(team, player.userId)}>
               remove
             </AdminButton>
+            <AdminButton onClick={() => setAdmin(player.userId)}>
+              setAdmin
+            </AdminButton>
             <br />
-          </div>
+          </TeamColorBackground>
         ))
       : null;
   }
