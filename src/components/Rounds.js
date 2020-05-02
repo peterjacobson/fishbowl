@@ -9,6 +9,7 @@ import {
   ButtonWithText,
 } from "./styledComponents";
 import { rounds } from "../data/roundData";
+import { Turns } from "./Turns";
 
 export function Rounds({ room, iAmCreator, creatorName, roomId }) {
   function startRound() {
@@ -30,7 +31,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId }) {
     <>
       Round {room.round + 1}: {_.get(rounds, [room.round, "name"], null)}
       <br />
-      {room.roundActive ? "TURNS" : preRound}
+      {room.roundActive ? <Turns {...{ room }} /> : preRound}
     </>
   );
 
