@@ -10,6 +10,7 @@ import {
   AdminButton,
   VertSpacer,
   WhiteBackground,
+  VerticalCenterer,
 } from "../components/styledComponents";
 import { Welcome } from "../components/Welcome";
 import { Teams } from "../components/Teams";
@@ -69,29 +70,31 @@ export default function FishBowl(props) {
       <MauveBackground>
         <MobileWidthWrapper>
           <WhiteFadeBackground>
-            <Welcome
-              {...{ teamsFormed, playerName, playerTeamName, playerTeamId }}
-            />
-            <Teams
-              {...{
-                points,
-                teams,
-                teamNames,
-                players,
-                currentPlayers,
-                creatorName,
-                iAmCreator,
-                roomId,
-                teamsFormed,
-              }}
-            />
-            <Rounds
-              {...{ room, iAmCreator, creatorName, roomId, teamsFormed }}
-            />
-            <ChangePlayer />
-            {iAmCreator ? (
-              <EditGame {...{ room, roomId, teamsFormed }} />
-            ) : null}
+            <VerticalCenterer>
+              <Welcome
+                {...{ teamsFormed, playerName, playerTeamName, playerTeamId }}
+              />
+              <Teams
+                {...{
+                  points,
+                  teams,
+                  teamNames,
+                  players,
+                  currentPlayers,
+                  creatorName,
+                  iAmCreator,
+                  roomId,
+                  teamsFormed,
+                }}
+              />
+              <Rounds
+                {...{ room, iAmCreator, creatorName, roomId, teamsFormed }}
+              />
+              <ChangePlayer />
+              {iAmCreator ? (
+                <EditGame {...{ room, roomId, teamsFormed }} />
+              ) : null}
+            </VerticalCenterer>
           </WhiteFadeBackground>
         </MobileWidthWrapper>
       </MauveBackground>
