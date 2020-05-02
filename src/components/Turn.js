@@ -77,7 +77,7 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
 
   const myTurn = (
     <>
-      Express this to your team:
+      Make your team guess:
       <br />
       <h3>
         <b>{_.get(roundWordPhrasesLeft, 0, "loading...")}</b>
