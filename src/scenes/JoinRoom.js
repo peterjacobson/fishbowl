@@ -25,7 +25,7 @@ import Footer from "../components/Footer";
 
 function JoinRoom(props) {
   const roomId = props.location.pathname.substr(11);
-  const [roomUsers, setRoomUsers] = useState([]);
+  const [room, setRoom] = useState({ users: [] });
   const [userName, setUserName] = useState("");
   const [error, setError] = useState();
   const wordPhraseIndexes = [0, 1, 2];
@@ -39,12 +39,12 @@ function JoinRoom(props) {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
       next: (querySnapshot) => {
         const queryData = querySnapshot.data();
-        setRoomUsers(queryData.users);
+        setRoom(queryData);
       },
       error: () => setError("grocery-list-item-get-fail"),
     });
     return unsubscribe;
-  }, [roomId, setRoomUsers]);
+  }, [roomId, setRoom]);
 
   function joinRoom(e) {
     e.preventDefault();
@@ -56,12 +56,19 @@ function JoinRoom(props) {
 
     const userId = uuidv4();
     const wordPhrasesList = _.values(wordPhrases);
+    const nextWordPhrasesList = [...room.wordPhrases, ...wordPhrasesList];
+
+    const nextRoundWordPhrasesLeft = _.shuffle([
+      ...room.roundWordPhrasesLeft,
+      ...wordPhrasesList,
+    ]);
 
     FirestoreService.addUserToroom(
       userName,
       roomId,
       userId,
-      wordPhrasesList
+      nextWordPhrasesList,
+      nextRoundWordPhrasesLeft
     ).then(() => {
       navigate(`/room/${roomId}/user/${userId}/bowl`);
     });
@@ -118,7 +125,7 @@ function JoinRoom(props) {
             <br />
             <br />
             <NarrowCenterText>Rejoin as:</NarrowCenterText>
-            {roomUsers.map((user) => {
+            {room.users.map((user) => {
               return (
                 <ButtonWithText onClick={() => openUserRoom(user.userId)}>
                   {user.name}

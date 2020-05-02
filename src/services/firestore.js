@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import _ from "lodash";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -23,6 +24,7 @@ export const createroom = (userName, userId, wordPhrasesList) => {
       },
     ],
     wordPhrases: wordPhrasesList,
+    roundWordPhrasesLeft: wordPhrasesList,
   });
 };
 
@@ -34,15 +36,13 @@ export const streamRoom = (roomId, observer) => {
   return db.collection("rooms").doc(roomId).onSnapshot(observer);
 };
 
-export const streamRoomCheckIns = (roomId, observer) => {
-  return db
-    .collection("rooms")
-    .doc(roomId)
-    .collection("checkIns")
-    .onSnapshot(observer);
-};
-
-export const addUserToroom = (userName, roomId, userId) => {
+export const addUserToroom = (
+  userName,
+  roomId,
+  userId,
+  nextWordPhrases,
+  nextRoundWordPhrasesLeft
+) => {
   return db
     .collection("rooms")
     .doc(roomId)
@@ -51,6 +51,8 @@ export const addUserToroom = (userName, roomId, userId) => {
         userId: userId,
         name: userName,
       }),
+      wordPhrases: nextWordPhrases,
+      roundWordPhrasesLeft: nextRoundWordPhrasesLeft,
     });
 };
 
