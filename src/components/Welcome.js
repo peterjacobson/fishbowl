@@ -26,7 +26,5 @@ export function Welcome({
     </FullWidth>
   );
 
-  console.log("playerTeamName: ", playerTeamName);
-
   return <>{teamsFormed ? postTeams : preTeams}</>;
 }

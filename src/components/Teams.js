@@ -83,7 +83,7 @@ export function Teams({
     <RowWrapper>
       {teamNames
         ? [0, 1].map((i) => (
-            <ColWidth>
+            <ColWidth key={i}>
               <TeamColorBackground team={i}>
                 <Points team={i}>{points ? points[i] : null}</Points>
                 {teamNames[i]}
