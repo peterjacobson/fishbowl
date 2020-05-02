@@ -25,6 +25,12 @@ export const createroom = (userName, userId, wordPhrasesList) => {
     ],
     wordPhrases: wordPhrasesList,
     roundWordPhrasesLeft: wordPhrasesList,
+    round: 0, // five rounds, 0-4
+    roundActive: false,
+    turnActive: false,
+    currentTeam: 0, // set team who's turn it is.
+    currentPlayers: [0, 0], // set active player. when I finish my turn, it checks my index and sets the next index to be that +1 % team length
+    turnStartTime: null, // set with Date.now() on turn start
   });
 };
 
