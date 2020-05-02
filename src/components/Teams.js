@@ -3,7 +3,10 @@ import _ from "lodash";
 import styled from "styled-components";
 
 import * as FirestoreService from "../services/firestore";
-import { TeamColorBackground } from "../components/styledComponents";
+import {
+  TeamColorBackground,
+  VertSpacer,
+} from "../components/styledComponents";
 import { CopyInviteUrl } from "./CopyInviteUrl";
 import { firstTeamWords, secondTeamWords } from "../data/teamNameWords";
 import {
@@ -11,6 +14,7 @@ import {
   ButtonWithText,
   RowWrapper,
   teamColors,
+  BigText,
 } from "./styledComponents";
 
 const Points = styled.div`
@@ -65,8 +69,17 @@ export function Teams({
 
   const preTeams = (
     <WhiteBackground>
-      Players in the room:
-      <br />
+      <p>
+        Ideally you'll have <b>6-12 players</b> in the game!
+      </p>
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
+      <p>
+        <BigText>{players ? players.length : null} players</BigText> in the
+        room:
+      </p>
+      <VertSpacer />
       {playerList(players)}
       <br />
       <CopyInviteUrl />
@@ -74,7 +87,13 @@ export function Teams({
       Once all the players are here, {creatorName} will make the teams
       <br />
       {iAmCreator ? (
-        <ButtonWithText onClick={createTeams}>Create Teams</ButtonWithText>
+        <>
+          <VertSpacer />
+          <VertSpacer />
+
+          <VertSpacer />
+          <ButtonWithText onClick={createTeams}>Create Teams</ButtonWithText>
+        </>
       ) : null}
     </WhiteBackground>
   );

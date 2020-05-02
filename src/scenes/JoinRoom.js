@@ -20,6 +20,7 @@ import {
   WhiteBackground,
   ButtonWithText,
   NarrowCenterText,
+  WhiteCircle,
 } from "../components/styledComponents";
 import Footer from "../components/Footer";
 
@@ -82,6 +83,7 @@ function JoinRoom(props) {
     <BlueBackground>
       <MobileWidthWrapper>
         <WhiteFadeBackground>
+          <WhiteCircle />
           <WhiteBackground>
             <HeartworkLogoBig />
             <SwatchHeading>
@@ -89,8 +91,6 @@ function JoinRoom(props) {
               <br />
               🐠Fishbowl Game🐠
             </SwatchHeading>
-            <br />
-            <br />
             <NarrowCenterText>Rejoin as:</NarrowCenterText>
             {room.users.map((user) => {
               return (
@@ -99,7 +99,6 @@ function JoinRoom(props) {
                 </ButtonWithText>
               );
             })}
-            <br />
             <NarrowCenterText>or join as a new player</NarrowCenterText>
             <CenterForm name="create-room" onSubmit={joinRoom}>
               <NameTextField
@@ -121,7 +120,7 @@ function JoinRoom(props) {
                     label="Your name"
                     type="text"
                     name="userName"
-                    placeholder={`word / phrase ${i + 1}`}
+                    placeholder={`word or phrase ${i + 1}`}
                     value={wordPhrases[i]}
                     onChange={(e) =>
                       setWordPhrases({ ...wordPhrases, [i]: e.target.value })
@@ -129,8 +128,11 @@ function JoinRoom(props) {
                   />
                 );
               })}
-              <br />
-              {error && <Error>{error}</Error>}{" "}
+              {error && <Error>{error}</Error>} <br />
+              <p>
+                the words/phrases can be things like "chair", "running", "set
+                free", "falling in love", "Italy" or "Lady Gaga"
+              </p>
             </CenterForm>
             <NavigationButtons>
               <NavigationText>Next:&nbsp;&nbsp;&nbsp;Go to game</NavigationText>

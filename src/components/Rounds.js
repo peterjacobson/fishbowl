@@ -33,7 +33,9 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
       {iAmCreator ? (
         <ButtonWithText onClick={startRound}>START ROUND</ButtonWithText>
       ) : (
-        `${creatorName} will start the round when ya'll are ready!`
+        <p>
+          <b>{creatorName}</b> will start the round when ya'll are ready!
+        </p>
       )}
     </>
   );

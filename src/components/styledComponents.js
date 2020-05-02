@@ -42,7 +42,12 @@ export const VertSpacer = styled.div`
   height: 6px;
 `;
 
+export const NegativeSpacer = styled.div`
+  height: -30px;
+`;
+
 export const WhiteBackground = styled.div`
+  z-index: 1;
   display: flex;
   flex-direction: column;
   max-width: 400px;
@@ -83,6 +88,11 @@ export const RowWrapper = styled.div`
   margin-right: auto;
 `;
 
+export const BigText = styled.span`
+  font-size: 1.4em;
+  font-weight: 600;
+`;
+
 export const FeedbackBackground = styled.div`
   background-color: white;
   -webkit-box-shadow: 0px 0px 87px 107px rgba(255, 255, 255, 1);
@@ -102,7 +112,7 @@ export const Typeform = styled(ReactTypeformEmbed)`
 `;
 
 export const CenterForm = styled.form`
-  margin-top: 30px;
+  margin-top: 6px;
 `;
 
 export const Error = styled.p`
@@ -110,8 +120,8 @@ export const Error = styled.p`
 `;
 
 export const NavigationButtons = styled.div`
-  margin-top: 80px;
-  margin-bottom: 80px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -120,9 +130,9 @@ export const NavigationButtons = styled.div`
 
 export const NavigationText = styled.p`
   font-weight: 400;
-  font-size: 1.5em;
+  font-size: 1.2em;
   text-align: right;
-  margin-right: 25px;
+  margin-right: 10px;
   margin-left: auto;
 `;
 
@@ -130,7 +140,7 @@ export const NameTextField = styled.input`
   border: none;
   background: none;
   border-bottom: 1px solid black;
-  font-size: 3em !important;
+  font-size: 1.8em !important;
   margin-left: auto !important;
   margin-right: auto !important;
   margin-bottom: 10px;
@@ -157,6 +167,15 @@ export const Button = styled.button`
 export const ButtonWithText = styled(Button)`
   font-size: 1.4em;
   line-height: 1em;
+  color: white !important;
+`;
+
+export const AdminButton = styled(Button)`
+  background-color: grey;
+  font-size: 1em;
+  line-height: 6px;
+  padding: 20px;
+  height: 30px;
   color: white !important;
 `;
 
@@ -218,13 +237,28 @@ export const SelectLabel = styled.p`
   margin-right: auto;
 `;
 
+export const WhiteCircle = styled.div`
+  background-color: white;
+  height: 106px;
+  width: 106px;
+  margin-bottom: -53px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 100%;
+  -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  z-index: 0;
+`;
+
 export const HeartworkLogoBig = styled.div`
   background: url(${logotextb});
-  margin-top: 30px;
+  margin-top: -48px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 54px;
   background-size: contain;
+  background-position: center;
   height: 50px;
   width: 121px;
   background-repeat: no-repeat;
@@ -244,21 +278,21 @@ export const MobileWidthWrapper = styled.div`
   /* padding-top: 54px; */
 `;
 
-export const Heading = styled.h1`
+export const Heading = styled.h3`
   margin-left: auto;
+  margin-top: 15px;
+  font-weight: 400;
   margin-right: auto;
-  height: 50px;
-  line-height: 50px;
-  width: 341px;
+  line-height: 1.3em;
+  /* width: 341px; */
   text-align: center;
-  margin-bottom: 39px;
   /* padding: 20px; */
 `;
 
 export const SwatchHeading = styled(Heading)`
   /* background: url(${blueswatch1}); */
-  background-size: cover;
-  background-position: center;
+  /* background-size: cover;
+  background-position: center; */
 `;
 
 export const Background = styled.div`
@@ -298,7 +332,8 @@ export const NarrowCenterText = styled.p`
   margin-left: auto;
   margin-right: auto;
   max-width: 350px;
-  margin-bottom: 30px;
+  margin-top: 10px;
+  margin-bottom: 3px;
   z-index: 10;
 `;
 

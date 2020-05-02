@@ -84,7 +84,9 @@ export default function FishBowl(props) {
             <Rounds
               {...{ room, iAmCreator, creatorName, roomId, teamsFormed }}
             />
-            {iAmCreator ? <EditGame {...{ room, roomId }} /> : null}
+            {iAmCreator ? (
+              <EditGame {...{ room, roomId, teamsFormed }} />
+            ) : null}
           </WhiteFadeBackground>
         </MobileWidthWrapper>
       </MauveBackground>

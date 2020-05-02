@@ -9,6 +9,8 @@ import {
   BlueBackground,
   MobileWidthWrapper,
   SwatchHeading,
+  NegativeSpacer,
+  WhiteCircle,
   HeartworkLogoBig,
   NameTextField,
   CenterForm,
@@ -57,12 +59,16 @@ function CreateList() {
     <BlueBackground>
       <MobileWidthWrapper>
         <WhiteFadeBackground>
+          <NegativeSpacer />
+          <WhiteCircle />
           <WhiteBackground>
             <HeartworkLogoBig />
             <SwatchHeading>
-              Create your heartwork
+              Create your Heartwork
               <br />
               🐠Fishbowl Game🐠
+              <br />
+              For 6-12 players
             </SwatchHeading>
             <CenterForm name="create-room" onSubmit={createRoom}>
               <NameTextField
@@ -84,7 +90,7 @@ function CreateList() {
                     label="Your name"
                     type="text"
                     name="userName"
-                    placeholder={`word / phrase ${i + 1}`}
+                    placeholder={`word or phrase ${i + 1}`}
                     value={wordPhrases[i]}
                     onChange={(e) =>
                       setWordPhrases({ ...wordPhrases, [i]: e.target.value })
@@ -92,11 +98,15 @@ function CreateList() {
                   />
                 );
               })}
-              <br />
               {error && <Error>{error}</Error>}
+              <br />
+              <p>
+                the words/phrases can be things like "chair", "running", "set
+                free", "falling in love", "Italy" or "Lady Gaga"
+              </p>
             </CenterForm>
             <NavigationButtons>
-              <NavigationText>Next:&nbsp;&nbsp;&nbsp;Go to game</NavigationText>
+              <NavigationText>Next:&nbsp;Go to game</NavigationText>
               <Button onClick={createRoom}>
                 <RightArrowIcon />
               </Button>
