@@ -21,7 +21,7 @@ import {
 // import room4 from "../img/room4.jpg";
 // import room4 from "../img/pinapples.jpg";
 import room4 from "../img/art2.jpg";
-import texture1cover from "../img/texture1cover.png";
+// import texture1cover from "../img/texture1cover.png";
 import blueswatch1 from "../img/blueswatch1.png";
 import logotextb from "../img/logotextb.png";
 export const ma = {

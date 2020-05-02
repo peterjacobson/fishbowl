@@ -6,7 +6,6 @@ import * as FirestoreService from "../services/firestore";
 import {
   MauveBackground,
   MobileWidthWrapper,
-  Heading,
   WhiteFadeBackground,
 } from "../components/styledComponents";
 import { Welcome } from "../components/Welcome";

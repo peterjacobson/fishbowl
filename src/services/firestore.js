@@ -1,7 +1,6 @@
 import * as firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
-import _ from "lodash";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
