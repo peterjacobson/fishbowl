@@ -9,6 +9,7 @@ import {
   TeamColorBackground,
 } from "./styledComponents";
 import { CopyInviteUrl } from "./CopyInviteUrl";
+import { firstTeamWords, secondTeamWords } from "../data/teamNameWords";
 
 export default function EditGame({ room, roomId, teamsFormed }) {
   const {
@@ -66,14 +67,23 @@ export default function EditGame({ room, roomId, teamsFormed }) {
     const updatedTeam = {
       [`team${team}`]: teams[team].filter((user) => user.userId !== userId),
     };
-    FirestoreService.updateTeam(roomId, updatedTeam);
+    FirestoreService.updateRoom(roomId, updatedTeam);
   }
 
   function addPlayer(team, user) {
     const updatedTeam = {
       [`team${team}`]: [...teams[team], user],
     };
-    FirestoreService.updateTeam(roomId, updatedTeam);
+    FirestoreService.updateRoom(roomId, updatedTeam);
+  }
+
+  function randomiseTeamNames() {
+    const firstWords = _.shuffle(firstTeamWords).slice(0, 2);
+    const secondWords = _.shuffle(secondTeamWords).slice(0, 2);
+    const teamNames = {
+      teamNames: [0, 1].map((i) => firstWords[i] + " " + secondWords[i]),
+    };
+    FirestoreService.updateRoom(roomId, teamNames);
   }
 
   function removePlayerList(players, team) {
@@ -119,6 +129,9 @@ export default function EditGame({ room, roomId, teamsFormed }) {
         </AdminButton>
       ) : null}
       {editingTeams ? editTeams() : null}
+      <AdminButton onClick={randomiseTeamNames}>
+        Randomise Team Names
+      </AdminButton>
     </WhiteBackground>
   );
 }
