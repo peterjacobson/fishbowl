@@ -149,10 +149,10 @@ input,
 form,
 button,
 p {
+  font-family: "Sen", sans-serif;
   font-family: "Rubik", sans-serif !important;
   font-weight: 300;
-  /* font-family: "Sen", sans-serif; */
-  color: white !important;
+  color: black !important;
 }
 
 div {
@@ -191,32 +191,32 @@ form {
 }
 
 input {
-  font-size: 1.5em !important;
+  /* font-size: 1.5em !important; */
 }
 
-/* input {
-  font-family: "Caveat", cursive;
-  font-size: 2em;
-} */
+input {
+  font-family: "Caveat", cursive !important;
+  font-size: 4em !important;
+}
 
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
-  color: white;
+  /* color: white; */
   font-style: italic;
 }
 ::-moz-placeholder {
   /* Firefox 19+ */
-  color: white;
+  /* color: white; */
   font-style: italic;
 }
 :-ms-input-placeholder {
   /* IE 10+ */
-  color: white;
+  /* color: white; */
   font-style: italic;
 }
 :-moz-placeholder {
   /* Firefox 18- */
-  color: white;
+  /* color: white; */
   font-style: italic;
 }
 
@@ -330,4 +330,8 @@ input {
 
 .Toastify__close-button {
   display: none;
+}
+
+fieldset {
+  text-align: center !important;
 }

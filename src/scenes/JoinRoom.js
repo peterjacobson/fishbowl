@@ -16,6 +16,10 @@ import {
   CenterForm,
   RightArrowIcon,
   HeartworkLogoBig,
+  WhiteFadeBackground,
+  WhiteBackground,
+  ButtonWithText,
+  NarrowCenterText,
 } from "../components/styledComponents";
 import Footer from "../components/Footer";
 
@@ -103,54 +107,65 @@ function JoinRoom(props) {
   return (
     <BlueBackground>
       <MobileWidthWrapper>
-        <HeartworkLogoBig />
-        <SwatchHeading>Join private heartwork check-in room</SwatchHeading>
-        Rejoin as:
-        {roomUsers.map((user) => {
-          return (
-            <Button onClick={() => openUserRoom(user.userId)}>
-              {user.name}
-            </Button>
-          );
-        })}
-        <br /> or join as a new player
-        <CenterForm name="create-room" onSubmit={joinRoom}>
-          <NameTextField
-            autoFocus={true}
-            autoComplete="off"
-            label="Your name"
-            type="text"
-            name="userName"
-            placeholder="Your name"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          {wordPhraseIndexes.map((i) => {
-            return (
+        <WhiteFadeBackground>
+          <WhiteBackground>
+            <HeartworkLogoBig />
+            <SwatchHeading>
+              Join heartwork
+              <br />
+              🐠Fishbowl Game🐠
+            </SwatchHeading>
+            <br />
+            <br />
+            <NarrowCenterText>Rejoin as:</NarrowCenterText>
+            {roomUsers.map((user) => {
+              return (
+                <ButtonWithText onClick={() => openUserRoom(user.userId)}>
+                  {user.name}
+                </ButtonWithText>
+              );
+            })}
+            <br />
+            <NarrowCenterText>or join as a new player</NarrowCenterText>
+            <CenterForm name="create-room" onSubmit={joinRoom}>
               <NameTextField
-                key={i}
+                autoFocus={true}
                 autoComplete="off"
-                required={true}
                 label="Your name"
                 type="text"
                 name="userName"
-                placeholder={`word / phrase ${i + 1}`}
-                value={wordPhrases[i]}
-                onChange={(e) =>
-                  setWordPhrases({ ...wordPhrases, [i]: e.target.value })
-                }
+                placeholder="Your name"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
               />
-            );
-          })}
-          <br />
-          {error && <Error>{error}</Error>}{" "}
-        </CenterForm>
-        <NavigationButtons>
-          <NavigationText>Next:&nbsp;&nbsp;&nbsp;Go to room</NavigationText>
-          <Button onClick={joinRoom}>
-            <RightArrowIcon />
-          </Button>
-        </NavigationButtons>
+              {wordPhraseIndexes.map((i) => {
+                return (
+                  <NameTextField
+                    key={i}
+                    autoComplete="off"
+                    required={true}
+                    label="Your name"
+                    type="text"
+                    name="userName"
+                    placeholder={`word / phrase ${i + 1}`}
+                    value={wordPhrases[i]}
+                    onChange={(e) =>
+                      setWordPhrases({ ...wordPhrases, [i]: e.target.value })
+                    }
+                  />
+                );
+              })}
+              <br />
+              {error && <Error>{error}</Error>}{" "}
+            </CenterForm>
+            <NavigationButtons>
+              <NavigationText>Next:&nbsp;&nbsp;&nbsp;Go to game</NavigationText>
+              <Button onClick={joinRoom}>
+                <RightArrowIcon />
+              </Button>
+            </NavigationButtons>
+          </WhiteBackground>
+        </WhiteFadeBackground>
         <Footer />
       </MobileWidthWrapper>
     </BlueBackground>

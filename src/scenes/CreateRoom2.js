@@ -18,6 +18,8 @@ import {
   NavigationText,
   Error,
   RightArrowIcon,
+  WhiteFadeBackground,
+  WhiteBackground,
 } from "../components/styledComponents";
 
 function CreateList() {
@@ -55,50 +57,54 @@ function CreateList() {
   return (
     <BlueBackground>
       <MobileWidthWrapper>
-        <HeartworkLogoBig />
-        <SwatchHeading>
-          Create your heartwork
-          <br />
-          🐠Fishbowl Game🐠
-        </SwatchHeading>
-        <CenterForm name="create-room" onSubmit={createRoom}>
-          <NameTextField
-            autoFocus={true}
-            autoComplete="off"
-            label="Your name"
-            type="text"
-            name="userName"
-            placeholder="Your name"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          {wordPhraseIndexes.map((i) => {
-            return (
+        <WhiteFadeBackground>
+          <WhiteBackground>
+            <HeartworkLogoBig />
+            <SwatchHeading>
+              Create your heartwork
+              <br />
+              🐠Fishbowl Game🐠
+            </SwatchHeading>
+            <CenterForm name="create-room" onSubmit={createRoom}>
               <NameTextField
-                key={i}
+                autoFocus={true}
                 autoComplete="off"
-                required={true}
                 label="Your name"
                 type="text"
                 name="userName"
-                placeholder={`word / phrase ${i + 1}`}
-                value={wordPhrases[i]}
-                onChange={(e) =>
-                  setWordPhrases({ ...wordPhrases, [i]: e.target.value })
-                }
+                placeholder="Your name"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
               />
-            );
-          })}
-          <br />
-          {error && <Error>{error}</Error>}
-        </CenterForm>
-        <NavigationButtons>
-          <NavigationText>Next:&nbsp;&nbsp;&nbsp;Go to game</NavigationText>
-          <Button onClick={createRoom}>
-            <RightArrowIcon />
-          </Button>
-        </NavigationButtons>
-        <Footer />
+              {wordPhraseIndexes.map((i) => {
+                return (
+                  <NameTextField
+                    key={i}
+                    autoComplete="off"
+                    required={true}
+                    label="Your name"
+                    type="text"
+                    name="userName"
+                    placeholder={`word / phrase ${i + 1}`}
+                    value={wordPhrases[i]}
+                    onChange={(e) =>
+                      setWordPhrases({ ...wordPhrases, [i]: e.target.value })
+                    }
+                  />
+                );
+              })}
+              <br />
+              {error && <Error>{error}</Error>}
+            </CenterForm>
+            <NavigationButtons>
+              <NavigationText>Next:&nbsp;&nbsp;&nbsp;Go to game</NavigationText>
+              <Button onClick={createRoom}>
+                <RightArrowIcon />
+              </Button>
+            </NavigationButtons>
+          </WhiteBackground>
+          <Footer />
+        </WhiteFadeBackground>
       </MobileWidthWrapper>
     </BlueBackground>
   );

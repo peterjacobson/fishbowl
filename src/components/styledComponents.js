@@ -5,9 +5,9 @@ import { FaQuestionCircle } from "react-icons/fa";
 import ReactSlider from "react-slider";
 import styled from "styled-components";
 import Modal from "styled-react-modal";
-import teReoGreen from "../data/greenFeelings";
-import teReoNeeds from "../data/needs";
-import teReoPeach from "../data/peachFeelings";
+import { teReoGreen } from "../data/greenFeelings";
+import { teReoNeeds } from "../data/needs";
+import { teReoPeach } from "../data/peachFeelings";
 import { ReactTypeformEmbed } from "react-typeform-embed";
 
 import { FiCheckCircle, FiCircle, FiArrowRight } from "react-icons/fi";
@@ -21,7 +21,7 @@ import {
 import room4 from "../img/room4.jpg";
 import texture1cover from "../img/texture1cover.png";
 import blueswatch1 from "../img/blueswatch1.png";
-import logotext from "../img/logotext.png";
+import logotextb from "../img/logotextb.png";
 export const ma = {
   green: teReoGreen,
   peach: teReoPeach,
@@ -35,29 +35,46 @@ export const colors = {
   strategy: ["#d62346", "#f0aa71"],
 };
 
+export const WhiteFadeBackground = styled.div`
+  padding: -200px 40px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+`;
+
 export const BlueBackground = styled.div`
-  background: linear-gradient(
-      135deg,
-      rgba(22, 33, 100, 1),
-      rgba(22, 33, 100, 0.95),
-      rgba(22, 33, 100, 0.9)
-    ),
-    url(${room4});
+  background: url(${room4});
   background-size: cover;
   min-height: 100vh;
   height: 100%;
 `;
 
+export const WhiteBackground = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  padding: 8px;
+  margin: auto;
+  border-radius: 10px;
+  background-color: white;
+  -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+`;
+
 export const MauveBackground = styled.div`
-  background: linear-gradient(
-      135deg,
-      rgba(74, 0, 51, 0.9),
-      rgba(74, 0, 51, 0.8)
-    ),
-    url(${texture1cover});
+  background: url(${room4});
   background-size: cover;
   min-height: 100vh;
   height: 100%;
+`;
+
+export const FeedbackBackground = styled.div`
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 87px 107px rgba(255, 255, 255, 1);
+  -moz-box-shadow: 0px 0px 87px 107px rgba(255, 255, 255, 1);
+  box-shadow: 0px 0px 87px 107px rgba(255, 255, 255, 1);
 `;
 
 export const MauveScreenFill = styled(MauveBackground)`
@@ -67,10 +84,12 @@ export const MauveScreenFill = styled(MauveBackground)`
 export const Typeform = styled(ReactTypeformEmbed)`
   position: relative !important;
   height: 500px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const CenterForm = styled.form`
-  margin-top: 80px;
+  margin-top: 30px;
 `;
 
 export const Error = styled.p`
@@ -97,11 +116,11 @@ export const NavigationText = styled.p`
 export const NameTextField = styled.input`
   border: none;
   background: none;
-  border-bottom: 1px solid white;
-  font-size: 1.5em !important;
+  border-bottom: 1px solid black;
+  font-size: 3em !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  margin-top: 30px;
+  margin-bottom: 10px;
   text-align: center;
   display: flex;
 `;
@@ -122,11 +141,24 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
+export const ButtonWithText = styled(Button)`
+  font-size: 1.4em;
+  color: white !important;
+`;
+
 export const BlueButton = styled(Button)`
   background-color: #4e5fba;
 `;
 export const MauveButton = styled(Button)`
   background-color: #bb5197;
+`;
+
+export const CopyTextButton = styled(Button)`
+  background-color: #bb5197;
+  margin-top: 5px;
+  padding: 10px;
+  height: auto;
+  font-size: 0.9em;
 `;
 
 export const SnapButton = styled(MauveButton)`
@@ -145,6 +177,7 @@ export const ToastName = styled.p`
 
 export const ButtonText = styled.span`
   font-size: 1.2em;
+  color: white;
 `;
 
 export const RightArrowIcon = styled(FiArrowRight)`
@@ -165,10 +198,14 @@ export const SelectLabel = styled.p`
   font-size: 20px;
   color: white;
   margin-bottom: 10px;
+  text-align: center;
+  max-width: 250px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const HeartworkLogoBig = styled.div`
-  background: url(${logotext});
+  background: url(${logotextb});
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
@@ -189,7 +226,7 @@ export const MobileWidthWrapper = styled.div`
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  padding: 10px;
+  /* padding: 10px; */
   /* padding-top: 54px; */
 `;
 
@@ -201,11 +238,11 @@ export const Heading = styled.h1`
   width: 341px;
   text-align: center;
   margin-bottom: 39px;
-  padding: 20px;
+  /* padding: 20px; */
 `;
 
 export const SwatchHeading = styled(Heading)`
-  background: url(${blueswatch1});
+  /* background: url(${blueswatch1}); */
   background-size: cover;
   background-position: center;
 `;
@@ -248,6 +285,7 @@ export const NarrowCenterText = styled.p`
   margin-right: auto;
   max-width: 350px;
   margin-bottom: 30px;
+  z-index: 10;
 `;
 
 export const ConfigContainer = styled.div`
@@ -362,6 +400,100 @@ export const CheckInItem = styled.div`
   font-size: 1.3em;
   color: white;
   display: inline-block;
+`;
+
+export const CardDisplay = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 50px;
+`;
+
+export const CardOuter = styled.div`
+  margin-top: -20px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  padding: 10px 10px;
+  font-size: 1.3em;
+  color: white;
+  box-sizing: border-box;
+  width: 195px;
+  height: 280px;
+  display: inline-block;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(
+    to bottom right,
+    ${(props) => colors[props.type][0]},
+    ${(props) => colors[props.type][1]}
+  );
+`;
+
+export const CardOuterBig = styled.div`
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(
+    to bottom right,
+    ${(props) => colors[props.type][0]},
+    ${(props) => colors[props.type][1]}
+  );
+  padding: 40px;
+  padding-top: 60px;
+  border-radius: 20px;
+  height: 350px;
+`;
+
+export const CardMāori = styled.p`
+  color: white !important;
+  font-size: 1.3em;
+  text-align: center;
+  margin-top: 10px;
+`;
+export const CardEnglish = styled.p`
+  color: white !important;
+  margin-top: 10px;
+  font-size: 1.2em;
+  text-align: center;
+`;
+
+export const CardBreakdown = styled.p`
+  color: white !important;
+  margin-top: 10px;
+  font-size: 0.8em;
+`;
+
+export const StoryPart = styled.p`
+  color: white !important;
+  margin-bottom: 5px;
+`;
+
+export const CardMāoriBig = styled.p`
+  color: white !important;
+  font-size: 1.7em;
+  text-align: center;
+  margin-top: 30px;
+`;
+export const CardEnglishBig = styled.p`
+  color: white !important;
+  margin-top: 30px;
+  font-size: 1.5em;
+  text-align: center;
+`;
+
+export const CardBreakdownBig = styled.p`
+  color: white !important;
+  margin-top: 60px;
+  font-size: 1.1em;
+`;
+
+export const StoryPartBig = styled.p`
+  color: white !important;
+  margin-bottom: 5px;
+`;
+
+export const B = styled.b`
+  font-weight: 400;
 `;
 
 export const PeachFeeling = styled(CheckInItem)`
@@ -539,6 +671,13 @@ export const Question = styled.p`
   padding: 5px 20px;
   color: white;
   border-radius: 5px;
+`;
+
+export const CheckInHeading = styled.h2`
+  text-align: center;
+  max-width: 250px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const CheckinQuestions = styled.div`
