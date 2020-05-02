@@ -63,7 +63,8 @@ export const FullWidth = styled.div`
 
 export const TeamColorBackground = styled(WhiteBackground)`
   border-style: solid;
-  border-width: 10px;
+  border-width: 13px;
+  border-radius: 22px;
   border-color: ${(props) => teamColors[props.team]};
 `;
 
@@ -154,6 +155,7 @@ export const Button = styled.button`
 
 export const ButtonWithText = styled(Button)`
   font-size: 1.4em;
+  line-height: 1em;
   color: white !important;
 `;
 
