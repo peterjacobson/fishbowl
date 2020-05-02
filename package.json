@@ -54,7 +54,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "deploy": "react-scripts build && firebase deploy",
+    "deploy": "react-scripts build && firebase use fishbowl && firebase deploy",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
