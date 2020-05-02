@@ -29,7 +29,7 @@ const Points = styled.div`
 `;
 
 const ColWidth = styled.div`
-  width: 200px;
+  flex-grow: 1;
   margin: 0px 5px;
 `;
 

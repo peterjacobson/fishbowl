@@ -72,6 +72,7 @@ export const MauveBackground = styled.div`
 
 export const RowWrapper = styled.div`
   display: flex;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 `;
