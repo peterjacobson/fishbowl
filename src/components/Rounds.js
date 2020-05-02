@@ -38,14 +38,6 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
     </>
   );
 
-  function RoundWrapper(props) {
-    return room.roundActive ? (
-      <TeamColorBackground team={room.currentTeam} children={props.children} />
-    ) : (
-      <WhiteBackground {...{ ...props }} />
-    );
-  }
-
   return teamsFormed ? (
     <FullWidth>
       <WhiteBackground>{roundContent}</WhiteBackground>

@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import styled from "styled-components";
+import * as FirestoreService from "../services/firestore";
 
 import {
   ButtonWithText,
@@ -47,8 +47,10 @@ export function Turns({ room }) {
     </p>
   );
 
+  function startTurn() {}
+
   const preTurn = iAmTurnPlayer ? (
-    <ButtonWithText>START MY TURN</ButtonWithText>
+    <ButtonWithText onClick={startTurn}>START MY TURN</ButtonWithText>
   ) : (
     <p>
       Waiting for {turnPlayer.name} to start their turn.

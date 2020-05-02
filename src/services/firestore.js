@@ -61,30 +61,6 @@ export const addUserToroom = (
     });
 };
 
-export const startRound = (roomId, roundWordPhrases) => {
-  return db.collection("rooms").doc(roomId).update({
-    roundActive: true,
-    roundWordPhrasesLeft: roundWordPhrases,
-  });
-};
-
-export const startTimer = (timeStamp, roomId, userId, userName) => {
-  db.collection("rooms")
-    .doc(roomId)
-    .update({
-      timer: {
-        startTime: timeStamp,
-        userId: userId,
-        userName: userName,
-      },
-    });
-};
-export const stopTimer = (roomId) => {
-  db.collection("rooms").doc(roomId).update({
-    timer: {},
-  });
-};
-
 export const createTeams = (roomId, teams, teamNames) => {
   return db
     .collection("rooms")
@@ -95,4 +71,18 @@ export const createTeams = (roomId, teams, teamNames) => {
       teamNames: teamNames,
       points: [0, 0],
     });
+};
+
+export const startRound = (roomId, roundWordPhrases) => {
+  return db.collection("rooms").doc(roomId).update({
+    roundActive: true,
+    roundWordPhrasesLeft: roundWordPhrases,
+  });
+};
+
+export const startTurn = (roomId, startTime) => {
+  return db.collection("rooms").doc(roomId).update({
+    turnActive: true,
+    turnStartTime: startTime,
+  });
 };
