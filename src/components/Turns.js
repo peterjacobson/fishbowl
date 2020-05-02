@@ -2,7 +2,11 @@ import React from "react";
 import _ from "lodash";
 import styled from "styled-components";
 
-import { ButtonWithText, TeamColorBackground } from "./styledComponents";
+import {
+  ButtonWithText,
+  TeamColorBackground,
+  VertSpacer,
+} from "./styledComponents";
 
 export function Turns({ room }) {
   const userId =
@@ -31,19 +35,15 @@ export function Turns({ room }) {
     <p>
       <b>GET READY TO GUESS</b> {turnPlayer.name}'s words/phrases
       <br />
-      <br />
       <b>Pin {turnPlayer.name}'s video so you don't lose them!</b>
     </p>
   );
 
   const preTurnInactiveTeamMessage = (
     <p>
-      <b>RELAX</b>
-      <br />
-      it's the other teams turn next. Sit back and enjoy the show.
-      <br />
-      <br />
-      Oh, and make sure they don't cheat!
+      <b>RELAX: </b>
+      it's the other teams turn next. Sit back and enjoy the show. Oh, and make
+      sure they don't cheat!
     </p>
   );
 
@@ -52,6 +52,7 @@ export function Turns({ room }) {
   ) : (
     <p>
       Waiting for {turnPlayer.name} to start their turn.
+      <VertSpacer />
       {iAmTurnPlayer
         ? null
         : iAmTurnTeam
@@ -69,7 +70,8 @@ export function Turns({ room }) {
         <h2>
           <b>Player: {turnPlayer.name}</b>
         </h2>
-        <br />
+        <VertSpacer />
+        <VertSpacer />
         {turnActive ? duringTurn : preTurn}
       </TeamColorBackground>
     </>

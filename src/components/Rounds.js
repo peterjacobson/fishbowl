@@ -7,6 +7,7 @@ import {
   TeamColorBackground,
   FullWidth,
   ButtonWithText,
+  VertSpacer,
 } from "./styledComponents";
 import { rounds } from "../data/roundData";
 import { Turns } from "./Turns";
@@ -31,8 +32,8 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
     <>
       Round {room.round + 1}: {_.get(rounds, [room.round, "name"], null)}
       {_.get(rounds, [room.round, "rules"], "")}
-      <br />
-      <br />
+      <VertSpacer />
+      <VertSpacer />
       {room.roundActive ? <Turns {...{ room }} /> : preRound}
     </>
   );

@@ -37,11 +37,15 @@ export const BlueBackground = styled.div`
   height: 100%;
 `;
 
+export const VertSpacer = styled.div`
+  height: 6px;
+`;
+
 export const WhiteBackground = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 400px;
-  padding: 13px;
+  padding: 10px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
