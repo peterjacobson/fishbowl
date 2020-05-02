@@ -16,6 +16,7 @@ export default function EditGame({ room, roomId, teamsFormed }) {
     currentTeam,
     team0,
     team1,
+    users,
     roundWordPhrasesLeft,
   } = room;
   const teams = [team0, team1];
@@ -28,7 +29,6 @@ export default function EditGame({ room, roomId, teamsFormed }) {
     //update currentTeam
     //shuffle wordsleft
     const nextRoundWordPhrasesLeft = _.shuffle(roundWordPhrasesLeft.slice(1));
-    console.log("teams: ", teams);
     const nextCurrentPlayers = currentPlayers.map((player, i) =>
       i === currentTeam ? (player + 1) % teams[i].length : player
     );
@@ -41,6 +41,11 @@ export default function EditGame({ room, roomId, teamsFormed }) {
     );
   }
 
+  const playersWithoutTeams = users.filter(
+    (user) =>
+      !_.find(_.flatten(teams), (teamie) => teamie.userId === user.userId)
+  );
+
   function editTeams() {
     return (
       <FullWidth>
@@ -50,11 +55,18 @@ export default function EditGame({ room, roomId, teamsFormed }) {
         <TeamColorBackground team={1}>
           {removePlayerList(team1, 1)}
         </TeamColorBackground>
+        <TeamColorBackground>
+          {addPlayerList(playersWithoutTeams)}
+        </TeamColorBackground>
       </FullWidth>
     );
   }
 
   function removePlayer(team, userId) {
+    //
+  }
+
+  function addPlayer(team, user) {
     //
   }
 
@@ -65,6 +77,23 @@ export default function EditGame({ room, roomId, teamsFormed }) {
             {player.name}{" "}
             <AdminButton onClick={() => removePlayer(team, player.userId)}>
               remove
+            </AdminButton>
+            <br />
+          </div>
+        ))
+      : null;
+  }
+
+  function addPlayerList(players) {
+    return players
+      ? players.map((player, i) => (
+          <div key={i}>
+            {player.name}{" "}
+            <AdminButton onClick={() => addPlayer(0, player)}>
+              add blue
+            </AdminButton>
+            <AdminButton onClick={() => addPlayer(1, player)}>
+              add green
             </AdminButton>
             <br />
           </div>
