@@ -11,6 +11,7 @@ import {
 } from "./styledComponents";
 import { rounds } from "../data/roundData";
 import { Turns } from "./Turns";
+import Confetti from "react-confetti";
 
 export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
   function startRound() {
@@ -20,6 +21,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
 
   const preRound = (
     <>
+      <Confetti recycle={false} />
       {iAmCreator ? (
         <ButtonWithText onClick={startRound}>START ROUND</ButtonWithText>
       ) : (

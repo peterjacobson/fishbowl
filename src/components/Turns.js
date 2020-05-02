@@ -8,6 +8,7 @@ import {
   TeamColorBackground,
   VertSpacer,
 } from "./styledComponents";
+import Confetti from "react-confetti";
 
 export function Turns({ room }) {
   const userId =
@@ -45,6 +46,7 @@ export function Turns({ room }) {
 
   const preTurnInactiveTeamMessage = (
     <p>
+      <Confetti recycle={false} />
       <b>RELAX: </b>
       it's the other teams turn next. Sit back and enjoy the show. Oh, and make
       sure they don't cheat!
