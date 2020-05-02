@@ -72,6 +72,8 @@ export const MauveBackground = styled.div`
 
 export const RowWrapper = styled.div`
   display: flex;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const FeedbackBackground = styled.div`

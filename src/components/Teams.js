@@ -28,6 +28,11 @@ const Points = styled.div`
   background: white;
 `;
 
+const ColWidth = styled.div`
+  width: 200px;
+  margin: 0px 5px;
+`;
+
 export function Teams({
   points,
   teams,
@@ -78,12 +83,14 @@ export function Teams({
     <RowWrapper>
       {teamNames
         ? [0, 1].map((i) => (
-            <TeamColorBackground team={i}>
-              <Points team={i}>{points ? points[i] : null}</Points>
-              {teamNames[i]}
-              <br />
-              {playerList(teams[i])}
-            </TeamColorBackground>
+            <ColWidth>
+              <TeamColorBackground team={i}>
+                <Points team={i}>{points ? points[i] : null}</Points>
+                {teamNames[i]}
+                <br />
+                {playerList(teams[i])}
+              </TeamColorBackground>
+            </ColWidth>
           ))
         : null}
     </RowWrapper>

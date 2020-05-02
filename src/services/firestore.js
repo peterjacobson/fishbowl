@@ -61,37 +61,11 @@ export const addUserToroom = (
     });
 };
 
-export const getCurrentUser = (f) => firebase.auth().onAuthStateChanged(f);
-
-export const updateCheckIn = (checkIn, roomId, userId) => {
-  const checkInDbEntry = {
-    userId: userId,
-    checkInWords: checkIn,
-  };
-  db.collection("rooms")
-    .doc(roomId)
-    .collection("checkIns")
-    .get()
-    .then((querySnapshot) => querySnapshot.docs)
-    .then((checkIns) =>
-      checkIns.find((checkIn) => checkIn.data().userId === userId)
-    )
-    .then((matchingCheckIn) => {
-      if (!matchingCheckIn) {
-        return db
-          .collection("rooms")
-          .doc(roomId)
-          .collection("checkIns")
-          .add(checkInDbEntry);
-      } else {
-        return db
-          .collection("rooms")
-          .doc(roomId)
-          .collection("checkIns")
-          .doc(matchingCheckIn.id)
-          .update(checkInDbEntry);
-      }
-    });
+export const startRound = (roomId, roundWordPhrases) => {
+  return db.collection("rooms").doc(roomId).update({
+    roundActive: true,
+    roundWordPhrasesLeft: roundWordPhrases,
+  });
 };
 
 export const startTimer = (timeStamp, roomId, userId, userName) => {

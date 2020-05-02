@@ -80,7 +80,7 @@ export default function FishBowl(props) {
                 teamsFormed,
               }}
             />
-            <Rounds {...{ room, iAmCreator, creatorName }} />
+            <Rounds {...{ room, iAmCreator, creatorName, roomId }} />
           </WhiteFadeBackground>
         </MobileWidthWrapper>
       </MauveBackground>
