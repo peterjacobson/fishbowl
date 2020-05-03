@@ -176,7 +176,9 @@ export const Button = styled.button`
 `;
 
 export const ButtonWithText = styled(Button)`
-  font-size: 1.4em;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  font-size: 1.3em;
   line-height: 1em;
   color: white !important;
 `;

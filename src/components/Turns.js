@@ -7,6 +7,7 @@ import {
   ButtonWithText,
   TeamColorBackground,
   VertSpacer,
+  AdminButton,
 } from "./styledComponents";
 import Confetti from "react-confetti";
 
@@ -56,9 +57,27 @@ export function Turns({ room }) {
   function startTurn() {
     FirestoreService.startTurn(roomId, Date.now());
   }
+  function skipMyTurn() {
+    const update = {
+      currentPlayers: currentPlayers.map((playerIndex, i) =>
+        i === currentTeam ? (playerIndex + 1) % teams[i].length : playerIndex
+      ),
+    };
+    FirestoreService.updateRoom(roomId, update);
+  }
 
   const preTurn = iAmTurnPlayer ? (
-    <ButtonWithText onClick={startTurn}>START MY TURN</ButtonWithText>
+    <>
+      <ButtonWithText onClick={startTurn}>START MY TURN</ButtonWithText>
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
+      <AdminButton onClick={skipMyTurn}>Pass to next teamie</AdminButton>
+    </>
   ) : (
     <>
       Waiting for {turnPlayer.name} to start their turn.
