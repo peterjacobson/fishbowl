@@ -21,6 +21,7 @@ import {
   ButtonWithText,
   NarrowCenterText,
   WhiteCircle,
+  VertSpacer,
 } from "../components/styledComponents";
 import Footer from "../components/Footer";
 
@@ -94,9 +95,13 @@ function JoinRoom(props) {
             <NarrowCenterText>Rejoin as:</NarrowCenterText>
             {room.users.map((user) => {
               return (
-                <ButtonWithText onClick={() => openUserRoom(user.userId)}>
-                  {user.name}
-                </ButtonWithText>
+                <>
+                  <ButtonWithText onClick={() => openUserRoom(user.userId)}>
+                    {user.name}
+                  </ButtonWithText>
+                  <VertSpacer />
+                  <VertSpacer />
+                </>
               );
             })}
             <NarrowCenterText>or join as a new player</NarrowCenterText>
