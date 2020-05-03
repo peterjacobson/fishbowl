@@ -5,7 +5,7 @@ import { AdminButton, LowKeyButtonWrapper } from "./styledComponents";
 
 export function ChangePlayer() {
   const roomId =
-    window.location.pathname.match(/(?<=(room\/))(.*?)(?=(\/user))/g)[0] || "";
+    window.location.pathname.match(/room\/(.*?)\//g)[0].slice(5, -1) || "";
 
   return (
     <LowKeyButtonWrapper>

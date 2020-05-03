@@ -43,10 +43,12 @@ export default function EditGame({ room, roomId, teamsFormed }) {
     );
   }
 
-  const playersWithoutTeams = users.filter(
-    (user) =>
-      !_.find(_.flatten(teams), (teamie) => teamie.userId === user.userId)
-  );
+  const playersWithoutTeams = teamsFormed
+    ? users.filter(
+        (user) =>
+          !_.find(_.flatten(teams), (teamie) => teamie.userId === user.userId)
+      )
+    : [];
 
   function editTeams() {
     return (

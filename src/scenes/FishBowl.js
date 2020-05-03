@@ -20,9 +20,9 @@ import EditGame from "../components/EditGame";
 
 export default function FishBowl(props) {
   const roomId =
-    props.location.pathname.match(/(?<=(room\/))(.*?)(?=(\/user))/g)[0] || "";
+    props.location.pathname.match(/room\/(.*?)\//g)[0].slice(5, -1) || "";
   const userId =
-    props.location.pathname.match(/(?<=(user\/))(.*?)(?=(\/bowl))/g)[0] || "";
+    props.location.pathname.match(/user\/(.*?)\//g)[0].slice(5, -1) || "";
 
   // Some helpful derived state ---------------------
   const [error, setError] = useState(null);

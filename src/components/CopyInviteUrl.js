@@ -7,7 +7,7 @@ export function CopyInviteUrl(props) {
   const { admin } = props;
   const [linkCopied, setLinkCopied] = useState(false);
   const roomId =
-    window.location.pathname.match(/(?<=(room\/))(.*?)(?=(\/user))/g)[0] || "";
+    window.location.pathname.match(/room\/(.*?)\//g)[0].slice(5, -1) || "";
   return admin ? (
     <CopyToClipboard text={`${window.location.origin}/join-room/${roomId}`}>
       <AdminButton onClick={() => setLinkCopied(true)}>

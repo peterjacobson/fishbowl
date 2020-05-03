@@ -18,7 +18,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
   const { round, points, roundActive, teamNames, team0, team1 } = room;
   const teams = [team0, team1];
   const userId =
-    window.location.pathname.match(/(?<=(user\/))(.*?)(?=(\/bowl))/g)[0] || "";
+    window.location.pathname.match(/user\/(.*?)\//g)[0].slice(5, -1) || "";
 
   function startRound() {
     const roundWordPhrases = _.shuffle(room.wordPhrases);

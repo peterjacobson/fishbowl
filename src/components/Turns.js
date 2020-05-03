@@ -12,9 +12,9 @@ import Confetti from "react-confetti";
 
 export function Turns({ room }) {
   const userId =
-    window.location.pathname.match(/(?<=(user\/))(.*?)(?=(\/bowl))/g)[0] || "";
+    window.location.pathname.match(/user\/(.*?)\//g)[0].slice(5, -1) || "";
   const roomId =
-    window.location.pathname.match(/(?<=(room\/))(.*?)(?=(\/user))/g)[0] || "";
+    window.location.pathname.match(/room\/(.*?)\//g)[0].slice(5, -1) || "";
 
   const {
     teamNames,
