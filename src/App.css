@@ -196,12 +196,8 @@ form {
 }
 
 input {
-  /* font-size: 1.5em !important; */
-}
-
-input {
   font-family: "Caveat", cursive !important;
-  font-size: 4em !important;
+  font-size: 1.3em !important;
 }
 
 ::-webkit-input-placeholder {
@@ -225,116 +221,8 @@ input {
   font-style: italic;
 }
 
-/* button,
-.button {
-  border: none;
-  padding: 10px;
-  color: white;
-  background: linear-gradient(to bottom right, #d62346, #f0aa71);
-  -webkit-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
-  margin-right: 5px;
-  margin-bottom: 5px;
-} */
-
-.aws-btn {
-  --slider-height-percentage: 100%;
-  --slider-transition-duration: 700ms;
-  --organic-arrow-thickness: 6px;
-  --organic-arrow-border-radius: 25px;
-  --organic-arrow-height: 40px;
-  --control-button-width: 10%;
-  --control-button-height: 25%;
-  --control-button-background: transparent;
-  --control-bullet-color: #2d5182;
-  --control-bullet-active-color: #26456f;
-  --loader-bar-color: #851515;
-  --loader-bar-height: 6px;
-}
-
 .organic-arrow {
   color: #ff0da5;
-}
-
-.awssld {
-  --organic-arrow-color: #d62346 !important;
-  --content-background-color: rgba(0, 0, 0, 0) !important;
-}
-
-.awssld__controls button {
-  background: none !important;
-  box-shadow: none !important;
-}
-
-.awssld__content {
-  align-items: flex-start !important;
-  /* height */
-}
-
-.awssld__box {
-  /* height: 0; */
-}
-
-.awssld__container {
-  height: 100vh !important;
-}
-
-.carousel,
-.carousel__slider--horizontal {
-  height: 100% !important;
-  overflow: scroll !important;
-}
-
-.carousel__slider-tray-wrap--horizontal {
-  overflow-x: hidden;
-}
-
-/* -----MAterial UI ------- */
-
-.MuiInputLabel-animated {
-  color: white !important;
-  font-family: "Rubik", sans-serif !important;
-}
-
-.MuiInput-underline,
-.MuiInput-underline:before {
-  border-color: white !important;
-}
-
-.MuiInputBase-input,
-.MuiInput-input {
-  color: white !important;
-  font-family: "Rubik", sans-serif !important;
-  font-size: 1.5em;
-}
-
-.MuiFormControl-root {
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-.checkin-toast {
-  background-color: rgba(0, 0, 0, 0) !important;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-  height: auto !important;
-  width: auto !important;
-}
-
-.Toastify__toast-body {
-  display: flex !important;
-  justify-content: flex-end !important;
-}
-
-.Toastify__toast {
-  padding: 2px !important;
-  margin-bottom: 2px !important;
-}
-
-.Toastify__close-button {
-  display: none;
 }
 
 fieldset {

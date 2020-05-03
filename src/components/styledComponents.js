@@ -148,10 +148,11 @@ export const LowKeyButtonWrapper = styled.div`
 `;
 
 export const NameTextField = styled.input`
+  /* max-width: 300px; */
   border: none;
   background: none;
   border-bottom: 1px solid black;
-  font-size: 1.8em !important;
+  /* font-size: 1.5em !important; */
   margin-left: auto !important;
   margin-right: auto !important;
   margin-bottom: 10px;
