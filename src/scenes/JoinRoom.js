@@ -89,9 +89,9 @@ function JoinRoom(props) {
           <WhiteBackground>
             <HeartworkLogoBig />
             <SwatchHeading>
-              Join heartwork
+              Join this
               <br />
-              🐠Fishbowl Game🐠
+              🐠Fishbowl Game
             </SwatchHeading>
             {/* <WhatIsFishbowl /> */}
             <NarrowCenterText>Rejoin as:</NarrowCenterText>
@@ -127,7 +127,7 @@ function JoinRoom(props) {
                     label="Your name"
                     type="text"
                     name="userName"
-                    placeholder={`word or phrase ${i + 1}`}
+                    placeholder={`🐠(word or phrase) ${i + 1}`}
                     value={wordPhrases[i]}
                     onChange={(e) =>
                       setWordPhrases({ ...wordPhrases, [i]: e.target.value })
@@ -137,7 +137,7 @@ function JoinRoom(props) {
               })}
               {error && <Error>{error}</Error>} <br />
               <p>
-                the words/phrases can be things like "chair", "running", "set
+                the 🐠 (words or phrases) can be things like "chair", "running",
                 free", "falling in love", "Italy" or "Lady Gaga"
               </p>
             </CenterForm>

@@ -65,12 +65,12 @@ function CreateList() {
           <WhiteBackground>
             <HeartworkLogoBig />
             <SwatchHeading>
-              Create your Heartwork
+              Create your
               <br />
-              🐠Fishbowl Game🐠
+              🐠Fishbowl Game
               <br />
-              For 6-12 players
             </SwatchHeading>
+            For 6-12 players
             {/* <WhatIsFishbowl /> */}
             <CenterForm name="create-room" onSubmit={createRoom}>
               <NameTextField
@@ -92,7 +92,7 @@ function CreateList() {
                     label="Your name"
                     type="text"
                     name="userName"
-                    placeholder={`word or phrase ${i + 1}`}
+                    placeholder={`🐠(word or phrase) ${i + 1}`}
                     value={wordPhrases[i]}
                     onChange={(e) =>
                       setWordPhrases({ ...wordPhrases, [i]: e.target.value })
@@ -103,8 +103,8 @@ function CreateList() {
               {error && <Error>{error}</Error>}
               <br />
               <p>
-                the words/phrases can be things like "chair", "running", "set
-                free", "falling in love", "Italy" or "Lady Gaga"
+                the 🐠 (words or phrases) can be things like "chair", "running",
+                "set free", "falling in love", "Italy" or "Lady Gaga"
               </p>
             </CenterForm>
             <NavigationButtons>
