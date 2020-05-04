@@ -1,3 +1,4 @@
+import React from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FaQuestionCircle } from "react-icons/fa";
 import styled from "styled-components";
@@ -22,6 +23,26 @@ export const colors = {
 
 // export const teamColors = ["#1792C8", "#88C072"];
 export const teamColors = ["#3be7fe", "#a3e803"];
+
+export const UnsplashCreditWrapper = styled.div`
+  text-align: center;
+  font-size: 0.8em;
+`;
+
+export function UnsplashCredit() {
+  return (
+    <UnsplashCreditWrapper>
+      {" "}
+      Photo by{" "}
+      <a
+        target="_blank"
+        href="https://unsplash.com/@steve_j?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      >
+        Steve Johnson on Unsplash
+      </a>
+    </UnsplashCreditWrapper>
+  );
+}
 
 export const WhiteFadeBackground = styled.div`
   padding: 20px;

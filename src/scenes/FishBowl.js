@@ -11,6 +11,8 @@ import {
   VertSpacer,
   WhiteBackground,
   VerticalCenterer,
+  Centerer,
+  UnsplashCredit,
 } from "../components/styledComponents";
 import { Welcome } from "../components/Welcome";
 import { Teams } from "../components/Teams";
@@ -112,6 +114,7 @@ export default function FishBowl(props) {
             </VerticalCenterer>
           </WhiteFadeBackground>
         </MobileWidthWrapper>
+        <UnsplashCredit />
       </MauveBackground>
     </>
   );

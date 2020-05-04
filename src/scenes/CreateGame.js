@@ -21,6 +21,7 @@ import {
   RightArrowIcon,
   WhiteFadeBackground,
   WhiteBackground,
+  UnsplashCredit,
 } from "../components/styledComponents";
 // import WhatIsFishbowl from "../components/WhatIsFishbowl";
 
@@ -117,6 +118,7 @@ function CreateList() {
           <Footer />
         </WhiteFadeBackground>
       </MobileWidthWrapper>
+      <UnsplashCredit />
     </BlueBackground>
   );
 }

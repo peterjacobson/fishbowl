@@ -22,6 +22,7 @@ import {
   NarrowCenterText,
   WhiteCircle,
   VertSpacer,
+  UnsplashCredit,
 } from "../components/styledComponents";
 // import WhatIsFishbowl from "../components/WhatIsFishbowl";
 import Footer from "../components/Footer";
@@ -151,6 +152,7 @@ function JoinRoom(props) {
         </WhiteFadeBackground>
         <Footer />
       </MobileWidthWrapper>
+      <UnsplashCredit />
     </BlueBackground>
     //     {/* <p>Select your name if you're returning...</p>
     //     {getUserButtonList()}
