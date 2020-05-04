@@ -84,10 +84,11 @@ export const startRound = (roomId, roundWordPhrases) => {
   });
 };
 
-export const startTurn = (roomId, startTime) => {
+export const startTurn = (roomId, startTime, nextRoundWordPhrasesLeft) => {
   return db.collection("rooms").doc(roomId).update({
     turnActive: true,
     turnStartTime: startTime,
+    roundWordPhrasesLeft: nextRoundWordPhrasesLeft,
   });
 };
 
@@ -95,14 +96,20 @@ export const endTurn = (
   roomId,
   nextCurrentPlayers,
   nextCurrentTeam,
-  nextRoundWordPhrasesLeft
+  nextRoundWordPhrasesLeft,
+  roundWordPhrasesLeft
 ) => {
+  console.log("------------: ");
+  console.log("END TURN: ");
+  console.log("roundWordPhrasesLeft: ", roundWordPhrasesLeft);
+  console.log("nextRoundWordPhrasesLeft: ", nextRoundWordPhrasesLeft);
+  console.log("------------: ");
+  if (nextRoundWordPhrasesLeft.length > roundWordPhrasesLeft) return null;
   return db.collection("rooms").doc(roomId).update({
     turnActive: false,
     turnStartTime: null,
     currentPlayers: nextCurrentPlayers,
     currentTeam: nextCurrentTeam,
-    roundWordPhrasesLeft: nextRoundWordPhrasesLeft,
   });
 };
 

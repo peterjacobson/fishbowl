@@ -23,6 +23,7 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
     turnStartTime,
   } = room;
   const teams = [team0, team1];
+  console.log("roundWordPhrasesLeft: ", roundWordPhrasesLeft);
 
   const roundIsEnded = roundWordPhrasesLeft.length <= 1;
 
@@ -57,24 +58,6 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
     }
   }
 
-  function endTurn() {
-    //update turnActive
-    //update currentPlayers
-    //update currentTeam
-    //shuffle wordsleft
-    const nextRoundWordPhrasesLeft = _.shuffle(roundWordPhrasesLeft.slice(1));
-    const nextCurrentPlayers = currentPlayers.map((player, i) =>
-      i === currentTeam ? (player + 1) % teams[i].length : player
-    );
-    const nextCurrentTeam = currentTeam === 0 ? 1 : 0;
-    FirestoreService.endTurn(
-      roomId,
-      nextCurrentPlayers,
-      nextCurrentTeam,
-      nextRoundWordPhrasesLeft
-    );
-  }
-
   const myTurn = (
     <>
       Make your team guess:
@@ -84,7 +67,7 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
       </h3>
       <VertSpacer />
       <ButtonWithText onClick={teamGotIt}>DONE - NEXT!</ButtonWithText>
-      <EasyTimer turnStartTime={turnStartTime} endTurn={endTurn} />
+      <EasyTimer {...{ turnStartTime, room, iAmTurnPlayer }} />
     </>
   );
 
@@ -93,10 +76,7 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
       <h3>
         <b>Guess the Word/Phrase!!!</b>
       </h3>
-      <EasyTimer
-        turnStartTime={turnStartTime}
-        endTurn={() => console.log("dummy")}
-      />
+      <EasyTimer {...{ turnStartTime, room, iAmTurnPlayer }} />
     </>
   );
   const otherTeamsTurn = (
@@ -104,10 +84,7 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
       <p>
         <b>Relax</b>, just keep the other team honest ;)
       </p>
-      <EasyTimer
-        turnStartTime={turnStartTime}
-        endTurn={() => console.log("dummy")}
-      />
+      <EasyTimer {...{ turnStartTime, room, iAmTurnPlayer }} />
     </>
   );
 

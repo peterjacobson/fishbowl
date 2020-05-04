@@ -24,6 +24,7 @@ export function Turns({ room }) {
     team1,
     currentPlayers,
     turnActive,
+    roundWordPhrasesLeft,
   } = room;
   const teams = [team0, team1];
   const turnPlayer = _.get(
@@ -55,7 +56,11 @@ export function Turns({ room }) {
   );
 
   function startTurn() {
-    FirestoreService.startTurn(roomId, Date.now());
+    FirestoreService.startTurn(
+      roomId,
+      Date.now(),
+      _.shuffle(roundWordPhrasesLeft)
+    );
   }
   function skipMyTurn() {
     const update = {
