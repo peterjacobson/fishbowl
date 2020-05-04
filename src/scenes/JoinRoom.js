@@ -133,7 +133,7 @@ function JoinRoom(props) {
                   />
                 );
               })}
-              {error && <Error>{error}</Error>} <br />}
+              {error && <Error>{error}</Error>} <br />
               <p>
                 the words/phrases can be things like "chair", "running", "set
                 free", "falling in love", "Italy" or "Lady Gaga"
