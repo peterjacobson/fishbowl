@@ -1,6 +1,7 @@
 import React from "react";
 import _ from "lodash";
 import { navigate } from "@reach/router";
+import Confetti from "react-confetti";
 
 import * as FirestoreService from "../services/firestore";
 import {
@@ -13,7 +14,7 @@ import {
 } from "./styledComponents";
 import { rounds } from "../data/roundData";
 import { Turns } from "./Turns";
-import Confetti from "react-confetti";
+import Typeform from "./Typeform";
 
 export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
   const {
@@ -70,8 +71,15 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
     (player) => player.userId === userId
   );
 
-  const winningTeamMessage =
-    "Nice work team! You're so in sync you could be a boy band";
+  const winningTeamMessage = (
+    <>
+      🐠🐠🐠🐠🐠🐠🐠🐠🐠
+      <br />
+      YOU ARE THE FISHIEST FISHES! You're so in sync you could be a boy band
+      <br />
+      🐠🐠🐠🐠🐠🐠🐠🐠🐠
+    </>
+  );
   const losingTeamMessage =
     "Nice try! It's all about practice. Actually it's all about connecting. But if you want the GLORY, try again...";
 
@@ -83,11 +91,20 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
     <>
       <h2>GAME OVER</h2>
       <TeamColorBackground team={winningTeam}>
-        <h1>
-          <b>{teamNames ? teamNames[winningTeam] : null} WIN</b>
-        </h1>
+        <h2>
+          <b>
+            {teamNames ? teamNames[winningTeam] : null} <br />
+            WIN
+          </b>
+        </h2>
       </TeamColorBackground>
       {iAmOnWinningTeam ? winningTeamMessage : losingTeamMessage}
+      <VertSpacer />
+      <Typeform />
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
       <VertSpacer />
       <ButtonWithText onClick={startNewGame}>START A NEW GAME</ButtonWithText>
     </>

@@ -229,6 +229,7 @@ export const ButtonWithText = styled(Button)`
   height: auto;
   line-height: 1em;
   color: white !important;
+  z-index: 100;
 `;
 
 export const AdminButton = styled(Button)`
