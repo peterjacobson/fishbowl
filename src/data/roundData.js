@@ -22,7 +22,8 @@ export const rounds = [
     name: "One word",
     rules: (
       <>
-        <h3>ONLY ONE WORD</h3> no actions, sounds or gestures
+        <h3>ONLY ONE WORD</h3> no words from given phrase. no actions, sounds or
+        gestures
       </>
     ),
   },

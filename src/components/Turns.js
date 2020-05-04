@@ -103,7 +103,6 @@ export function Turns({ room }) {
           <b>Player: {turnPlayer.name}</b>
         </h2>
         <VertSpacer />
-        <VertSpacer />
         {turnActive ? (
           <Turn {...{ room, iAmTurnPlayer, iAmTurnTeam }} />
         ) : (

@@ -22,6 +22,7 @@ import {
   WhiteFadeBackground,
   WhiteBackground,
 } from "../components/styledComponents";
+// import WhatIsFishbowl from "../components/WhatIsFishbowl";
 
 function CreateList() {
   const [userName, setUserName] = useState("");
@@ -70,6 +71,7 @@ function CreateList() {
               <br />
               For 6-12 players
             </SwatchHeading>
+            {/* <WhatIsFishbowl /> */}
             <CenterForm name="create-room" onSubmit={createRoom}>
               <NameTextField
                 autoFocus={true}

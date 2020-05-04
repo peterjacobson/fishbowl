@@ -23,6 +23,7 @@ import {
   WhiteCircle,
   VertSpacer,
 } from "../components/styledComponents";
+// import WhatIsFishbowl from "../components/WhatIsFishbowl";
 import Footer from "../components/Footer";
 
 function JoinRoom(props) {
@@ -92,6 +93,7 @@ function JoinRoom(props) {
               <br />
               🐠Fishbowl Game🐠
             </SwatchHeading>
+            {/* <WhatIsFishbowl /> */}
             <NarrowCenterText>Rejoin as:</NarrowCenterText>
             {room.users.map((user) => {
               return (

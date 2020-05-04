@@ -180,6 +180,7 @@ export const ButtonWithText = styled(Button)`
   margin-right: 0px;
   margin-bottom: 0px;
   font-size: 1.3em;
+  height: auto;
   line-height: 1em;
   color: white !important;
 `;
@@ -187,10 +188,16 @@ export const ButtonWithText = styled(Button)`
 export const AdminButton = styled(Button)`
   background-color: rgba(255, 255, 255, 0.8);
   font-size: 1em;
-  line-height: 0px;
-  padding: 20px;
-  height: 30px;
+  line-height: 1em;
+  height: auto;
   color: #2a3076 !important;
+`;
+
+export const WhatIsButton = styled(AdminButton)`
+  max-width: 350px;
+  height: 60px;
+  line-height: 1em;
+  padding: 0;
 `;
 
 export const BlueButton = styled(Button)`
@@ -323,7 +330,7 @@ export const HelpButton = styled(FaQuestionCircle)`
 `;
 
 export const StyledModal = Modal.styled`
-  max-width: 660px;
+  max-width: 350px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -332,6 +339,8 @@ export const ModalInner = styled.div`
   padding: 20px 30px;
   background-color: white;
   max-width: 440px;
+  max-height: 600px;
+  overflow: scroll;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -339,6 +348,10 @@ export const ModalInner = styled.div`
 export const HelpText = styled.p`
   margin-left: 10px;
   color: #333;
+`;
+
+export const ModalText = styled.p`
+  font-size: 0.9em;
 `;
 
 export const NarrowCenterText = styled.p`

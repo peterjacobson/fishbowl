@@ -18,7 +18,7 @@ export default function EasyTimer({ turnStartTime, room, iAmTurnPlayer }) {
   const roomId =
     window.location.pathname.match(/room\/(.*?)\//g)[0].slice(5, -1) || "";
   const [timeRemaining, setTimeRemaining] = useState(60);
-  const timerLength = 5 * 1000; // ms
+  const timerLength = 60 * 1000; // ms
 
   function ticker() {
     return setInterval((roundWordPhrasesLeft) => {
