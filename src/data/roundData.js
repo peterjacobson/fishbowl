@@ -35,7 +35,7 @@ export const rounds = [
     ),
   },
   {
-    name: "One sound",
+    name: "One sound (Final Round)",
     rules: (
       <>
         <h3>ONLY ONE SOUND</h3>no words, poses, actions or gestures

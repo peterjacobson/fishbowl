@@ -31,7 +31,7 @@ function CreateList() {
     return { ...obj, [i]: "" };
   }, {});
   const [wordPhrases, setWordPhrases] = useState(initialWordPhraseState);
-  const unfilledWordPhrases = _.find(wordPhrases, (word) => word === "");
+  const unfilledWordPhrases = _.find(wordPhrases, (word) => word === "") === "";
 
   // Create the room
   function createRoom(e) {

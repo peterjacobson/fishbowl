@@ -35,7 +35,7 @@ function JoinRoom(props) {
     return { ...obj, [i]: "" };
   }, {});
   const [wordPhrases, setWordPhrases] = useState(initialWordPhraseState);
-  const unfilledWordPhrases = _.find(wordPhrases, (word) => word === "");
+  const unfilledWordPhrases = _.find(wordPhrases, (word) => word === "") === "";
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamRoom(roomId, {
