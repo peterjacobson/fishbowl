@@ -94,7 +94,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
         <h2>
           <b>
             {teamNames ? teamNames[winningTeam] : null} <br />
-            WIN
+            🎊🥳WIN🥳🎊
           </b>
         </h2>
       </TeamColorBackground>
