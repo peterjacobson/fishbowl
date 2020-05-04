@@ -17,6 +17,7 @@ import { Teams } from "../components/Teams";
 import { Rounds } from "../components/Rounds";
 import { ChangePlayer } from "../components/ChangePlayer";
 import EditGame from "../components/EditGame";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function FishBowl(props) {
   const roomId =
@@ -48,6 +49,8 @@ export default function FishBowl(props) {
       )
     : null;
   const playerTeamName = _.get(room, ["teamNames", playerTeamId], null);
+  const isLoading =
+    Object.keys(room).length === 0 && room.constructor === Object;
   // -------------------------------------------
 
   useEffect(() => {
@@ -71,30 +74,41 @@ export default function FishBowl(props) {
         <MobileWidthWrapper>
           <WhiteFadeBackground>
             <VerticalCenterer>
-              <Welcome
-                {...{ teamsFormed, playerName, playerTeamName, playerTeamId }}
-              />
-              <Teams
-                {...{
-                  points,
-                  teams,
-                  teamNames,
-                  players,
-                  currentPlayers,
-                  creatorName,
-                  iAmCreator,
-                  roomId,
-                  teamsFormed,
-                  userId,
-                }}
-              />
-              <Rounds
-                {...{ room, iAmCreator, creatorName, roomId, teamsFormed }}
-              />
-              <ChangePlayer />
-              {iAmCreator ? (
-                <EditGame {...{ room, roomId, teamsFormed }} />
-              ) : null}
+              {isLoading ? (
+                <LoadingSpinner />
+              ) : (
+                <>
+                  <Welcome
+                    {...{
+                      teamsFormed,
+                      playerName,
+                      playerTeamName,
+                      playerTeamId,
+                    }}
+                  />
+                  <Teams
+                    {...{
+                      points,
+                      teams,
+                      teamNames,
+                      players,
+                      currentPlayers,
+                      creatorName,
+                      iAmCreator,
+                      roomId,
+                      teamsFormed,
+                      userId,
+                    }}
+                  />
+                  <Rounds
+                    {...{ room, iAmCreator, creatorName, roomId, teamsFormed }}
+                  />
+                  <ChangePlayer />
+                  {iAmCreator ? (
+                    <EditGame {...{ room, roomId, teamsFormed }} />
+                  ) : null}
+                </>
+              )}
             </VerticalCenterer>
           </WhiteFadeBackground>
         </MobileWidthWrapper>
