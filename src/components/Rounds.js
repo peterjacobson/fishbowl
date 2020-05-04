@@ -73,13 +73,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
   );
 
   const winningTeamMessage = (
-    <>
-      🐠🐠🐠🐠🐠🐠🐠🐠🐠
-      <br />
-      YOU ARE THE FISHIEST FISHES! You're so in sync you could be a boy band
-      <br />
-      🐠🐠🐠🐠🐠🐠🐠🐠🐠
-    </>
+    <>YOU ARE THE FISHIEST FISHES! You're so in sync you could be a boy band</>
   );
   const losingTeamMessage =
     "Nice try! It's all about practice. Actually it's all about connecting. But if you want the GLORY, try again...";
