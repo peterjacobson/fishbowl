@@ -158,6 +158,10 @@ p {
   font-size: 1.11em;
 }
 
+i {
+  font-style: italic;
+}
+
 div {
   font-family: "Sen", sans-serif;
 }

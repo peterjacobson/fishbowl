@@ -68,10 +68,23 @@ export const FullWidth = styled.div`
 `;
 
 export const TeamColorBackground = styled(WhiteBackground)`
+  padding: 0px;
   border-style: solid;
   border-width: 13px;
   border-radius: 22px;
   border-color: ${(props) => teamColors[props.team]};
+`;
+
+export const TeamColorFill = styled(WhiteBackground)`
+  padding: 0px;
+  padding-bottom: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: ${(props) => teamColors[props.team]};
+`;
+
+export const Padding = styled.div`
+  padding: 5px;
 `;
 
 export const MauveBackground = styled.div`
@@ -105,6 +118,13 @@ export const FeedbackBackground = styled.div`
 
 export const MauveScreenFill = styled(MauveBackground)`
   height: 100vh;
+`;
+
+export const TeamNames = styled.span`
+  /* color: white; */
+  font-size: 0.8em;
+  font-weight: 600;
+  margin-top: -6px;
 `;
 
 export const Typeform = styled(ReactTypeformEmbed)`

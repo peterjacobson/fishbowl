@@ -8,6 +8,7 @@ import {
   TeamColorBackground,
   VertSpacer,
   AdminButton,
+  Padding,
 } from "./styledComponents";
 import Confetti from "react-confetti";
 
@@ -40,18 +41,16 @@ export function Turns({ room }) {
 
   const preTurnActiveTeamMessage = (
     <p>
-      <b>GET READY TO GUESS</b> {turnPlayer.name}'s words/phrases
+      Get ready to guess {turnPlayer.name}'s words and phrases
       <br />
-      <b>Pin {turnPlayer.name}'s video so you don't lose them!</b>
+      <i>Pin {turnPlayer.name}'s video!</i>
     </p>
   );
 
   const preTurnInactiveTeamMessage = (
     <p>
       <Confetti recycle={false} />
-      <b>RELAX: </b>
-      it's the other teams turn next. Sit back and enjoy the show. Oh, and make
-      sure they don't cheat!
+      Sit back and enjoy the show. Oh, and make sure they don't cheat!
     </p>
   );
 
@@ -73,6 +72,7 @@ export function Turns({ room }) {
 
   const preTurn = iAmTurnPlayer ? (
     <>
+      <p>Get your team to guess as many words and phrases as possible in 60s</p>
       <ButtonWithText onClick={startTurn}>START MY TURN</ButtonWithText>
       <VertSpacer />
       <VertSpacer />
@@ -85,7 +85,6 @@ export function Turns({ room }) {
     </>
   ) : (
     <>
-      Waiting for {turnPlayer.name} to start their turn.
       <VertSpacer />
       {iAmTurnPlayer
         ? null
@@ -98,16 +97,24 @@ export function Turns({ room }) {
   return (
     <>
       <TeamColorBackground team={currentTeam}>
-        <b>Turn: {teamNames[currentTeam]}</b>
-        <h2>
-          <b>Player: {turnPlayer.name}</b>
-        </h2>
-        <VertSpacer />
-        {turnActive ? (
-          <Turn {...{ room, iAmTurnPlayer, iAmTurnTeam }} />
-        ) : (
-          preTurn
-        )}
+        <Padding>
+          {iAmTurnPlayer
+            ? "My Turn!"
+            : iAmTurnTeam
+            ? "Our Turn!"
+            : "Their Turn"}
+          <br />
+          <b>Team {teamNames[currentTeam]}</b>
+          <h2>
+            <b>{turnPlayer.name}</b>
+          </h2>
+          <VertSpacer />
+          {turnActive ? (
+            <Turn {...{ room, iAmTurnPlayer, iAmTurnTeam }} />
+          ) : (
+            preTurn
+          )}
+        </Padding>
       </TeamColorBackground>
     </>
   );

@@ -4,9 +4,10 @@ import styled from "styled-components";
 
 import * as FirestoreService from "../services/firestore";
 import {
-  TeamColorBackground,
+  TeamColorFill,
   VertSpacer,
   Centerer,
+  TeamNames,
 } from "../components/styledComponents";
 import { CopyInviteUrl } from "./CopyInviteUrl";
 import { firstTeamWords, secondTeamWords } from "../data/teamNameWords";
@@ -29,12 +30,12 @@ const Points = styled.div`
   margin-right: auto;
   text-align: center;
   line-height: 30px;
-  margin-top: -30px;
+  margin-top: -20px;
   background: white;
+  color: black;
 `;
 
 const ColWidth = styled.div`
-  /* flex-grow: 1; */
   margin: 0px 5px;
   width: 50%;
 `;
@@ -49,14 +50,15 @@ export function Teams({
   iAmCreator,
   roomId,
   teamsFormed,
+  userId,
 }) {
   function playerList(players) {
     return players
       ? players.map((player, i) => (
-          <div key={i}>
-            {player.name}
+          <p key={i}>
+            {player.userId === userId ? <b>Me~{player.name}</b> : player.name}
             <br />
-          </div>
+          </p>
         ))
       : null;
   }
@@ -106,11 +108,15 @@ export function Teams({
         {teamNames
           ? [0, 1].map((i) => (
               <ColWidth key={i}>
-                <TeamColorBackground team={i}>
+                <TeamColorFill team={i}>
                   <Points team={i}>{points ? points[i] : null}</Points>
-                  <b>{teamNames[i]}</b>
+                  <TeamNames team={i}>
+                    Team
+                    <br />
+                    {teamNames[i]}
+                  </TeamNames>
                   {playerList(teams[i])}
-                </TeamColorBackground>
+                </TeamColorFill>
               </ColWidth>
             ))
           : null}

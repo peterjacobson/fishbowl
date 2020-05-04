@@ -31,5 +31,5 @@ export function Welcome({
     </FullWidth>
   );
 
-  return <>{teamsFormed ? postTeams : preTeams}</>;
+  return <>{teamsFormed ? null : preTeams}</>;
 }

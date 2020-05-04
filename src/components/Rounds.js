@@ -47,7 +47,6 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
       </p>
       {_.get(rounds, [round, "rules"], "")}
       <VertSpacer />
-      <VertSpacer />
       {roundActive ? <Turns {...{ room }} /> : preRound}
     </>
   );
