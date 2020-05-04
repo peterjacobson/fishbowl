@@ -15,25 +15,9 @@ import {
   WhiteBackground,
   ButtonWithText,
   RowWrapper,
-  teamColors,
   BigText,
+  Points,
 } from "./styledComponents";
-
-const Points = styled.div`
-  border-radius: 100%;
-  border-color: ${(props) => teamColors[props.team]};
-  border-style: solid;
-  border-width: 6px;
-  height: 30px;
-  width: 30px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  line-height: 30px;
-  margin-top: -20px;
-  background: white;
-  color: black;
-`;
 
 const ColWidth = styled.div`
   margin: 0px 5px;
@@ -109,7 +93,7 @@ export function Teams({
           ? [0, 1].map((i) => (
               <ColWidth key={i}>
                 <TeamColorFill team={i}>
-                  <Points team={i}>{points ? points[i] : null}</Points>
+                  <Points team={i}>{points ? points[i] : null}🐠</Points>
                   <TeamNames team={i}>
                     Team
                     <br />

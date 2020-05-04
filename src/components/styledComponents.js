@@ -102,6 +102,7 @@ export const RowWrapper = styled.div`
   /* max-width: 414px; */
   margin-left: -20px;
   margin-right: -20px;
+  margin-bottom: 20px;
 `;
 
 export const BigText = styled.span`
@@ -111,6 +112,27 @@ export const BigText = styled.span`
 
 export const SmallText = styled.p`
   font-size: 0.8em;
+`;
+
+export const Points = styled.div`
+  border-radius: 30px;
+  border-color: ${(props) => teamColors[props.team]};
+  border-style: solid;
+  border-width: 6px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  line-height: 30px;
+  margin-top: -20px;
+  background: white;
+  padding: 0px 6px;
+  color: black;
+`;
+
+export const FishBowlWrapper = styled(Points)`
+  margin-top: -30px;
+  border-color: white;
 `;
 
 export const FeedbackBackground = styled.div`

@@ -9,13 +9,22 @@ import {
   ButtonWithText,
   VertSpacer,
   TeamColorBackground,
+  FishBowlWrapper,
 } from "./styledComponents";
 import { rounds } from "../data/roundData";
 import { Turns } from "./Turns";
 import Confetti from "react-confetti";
 
 export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
-  const { round, points, roundActive, teamNames, team0, team1 } = room;
+  const {
+    round,
+    points,
+    roundActive,
+    teamNames,
+    team0,
+    team1,
+    roundWordPhrasesLeft,
+  } = room;
   const teams = [team0, team1];
   const userId =
     window.location.pathname.match(/user\/(.*?)\//g)[0].slice(5, -1) || "";
@@ -42,10 +51,14 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
 
   const roundContent = (
     <>
+      <FishBowlWrapper>
+        {roundWordPhrasesLeft ? roundWordPhrasesLeft.length : ".."}🐠 in bowl
+      </FishBowlWrapper>
       <p>
-        Round {round + 1}: <b>{_.get(rounds, [round, "name"], null)}</b>
+        Round {round + 1}/5: <b>{_.get(rounds, [round, "name"], null)}</b>
       </p>
       {_.get(rounds, [round, "rules"], "")}
+      <br />
       <VertSpacer />
       {roundActive ? <Turns {...{ room }} /> : preRound}
     </>
