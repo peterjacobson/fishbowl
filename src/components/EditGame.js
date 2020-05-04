@@ -20,10 +20,12 @@ export default function EditGame({ room, roomId, teamsFormed }) {
     team1,
     users,
     roundWordPhrasesLeft,
+    points,
   } = room;
   const teams = [team0, team1];
 
   const [editingTeams, setEditingTeams] = useState(false);
+  const [editingPoints, setEditingPoints] = useState(false);
 
   function endTurn() {
     //update turnActive
@@ -150,21 +152,49 @@ export default function EditGame({ room, roomId, teamsFormed }) {
       : null;
   }
 
+  function updatePoints(team, increment) {
+    const roomUpdate = {
+      points: points.map((fish, i) => (i === team ? fish + increment : fish)),
+    };
+    FirestoreService.updateRoom(roomId, roomUpdate);
+  }
+
+  function editPoints() {
+    return (
+      <>
+        <AdminButton onClick={() => updatePoints(0, -1)}>
+          blue remove
+        </AdminButton>
+        <AdminButton onClick={() => updatePoints(0, 1)}>blue add</AdminButton>
+        <AdminButton onClick={() => updatePoints(1, -1)}>
+          green remove
+        </AdminButton>
+        <AdminButton onClick={() => updatePoints(1, 1)}>green add</AdminButton>
+      </>
+    );
+  }
+
   return (
     <LowKeyButtonWrapper>
-      <CopyInviteUrl admin />
       {teamsFormed ? (
-        <AdminButton onClick={endTurn}>End Turn</AdminButton>
+        <>
+          <CopyInviteUrl admin />
+          <AdminButton onClick={endTurn}>End Turn</AdminButton>
+          <AdminButton onClick={() => setEditingPoints(!editingPoints)}>
+            Edit Points
+          </AdminButton>
+          {editingPoints ? editPoints() : null}
+          <AdminButton onClick={() => setEditingTeams(!editingTeams)}>
+            EDIT Teams
+          </AdminButton>
+          {editingTeams ? editTeams() : null}
+          <AdminButton onClick={randomiseTeamNames}>
+            Reset Team Names
+          </AdminButton>
+          <AdminButton onClick={endRound}>End Round</AdminButton>
+          <AdminButton onClick={goBackARound}>Go Back a Round</AdminButton>
+        </>
       ) : null}
-      {teamsFormed ? (
-        <AdminButton onClick={() => setEditingTeams(!editingTeams)}>
-          EDIT Teams
-        </AdminButton>
-      ) : null}
-      {editingTeams ? editTeams() : null}
-      <AdminButton onClick={randomiseTeamNames}>Reset Team Names</AdminButton>
-      <AdminButton onClick={endRound}>End Round</AdminButton>
-      <AdminButton onClick={goBackARound}>Go Back a Round</AdminButton>
     </LowKeyButtonWrapper>
   );
 }

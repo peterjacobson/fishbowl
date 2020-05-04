@@ -186,6 +186,8 @@ export const NavigationText = styled.p`
 `;
 
 export const LowKeyButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-top: 100px;
   max-width: 300px;
   margin-right: auto;
@@ -238,6 +240,7 @@ export const AdminButton = styled(Button)`
   line-height: 1em;
   height: auto;
   color: #2a3076 !important;
+  z-index: 100;
 `;
 
 export const WhatIsButton = styled(AdminButton)`
