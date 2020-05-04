@@ -1,9 +1,10 @@
 import React from "react";
+import { JumpingFish, JumpingFishBar } from "./styledComponents";
 
 export default function LoadingSpinner() {
   return (
-    <>
-      <h1 className="rotating">🐠</h1>
-    </>
+    <JumpingFishBar className="rotating">
+      <JumpingFish>🐠</JumpingFish>
+    </JumpingFishBar>
   );
 }

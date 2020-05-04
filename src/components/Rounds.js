@@ -15,6 +15,7 @@ import {
 import { rounds } from "../data/roundData";
 import { Turns } from "./Turns";
 import Typeform from "./Typeform";
+import LoadingSpinner from "./LoadingSpinner";
 
 export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
   const {
@@ -112,6 +113,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
 
   return teamsFormed ? (
     <FullWidth>
+      {endGame ? <LoadingSpinner /> : null}
       <WhiteBackground>
         {endGame ? endGameContent : roundContent}
       </WhiteBackground>

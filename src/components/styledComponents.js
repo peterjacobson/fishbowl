@@ -31,6 +31,16 @@ export const WhiteFadeBackground = styled.div`
   min-height: 100vh;
 `;
 
+export const JumpingFish = styled.h1`
+  margin-right: auto;
+  width: 30px;
+  transform: rotate(270deg);
+`;
+
+export const JumpingFishBar = styled.div`
+  height: 0px;
+`;
+
 export const BlueBackground = styled.div`
   background: url(${room4});
   background-size: cover;
