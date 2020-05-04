@@ -2,7 +2,12 @@ import React from "react";
 import _ from "lodash";
 
 import * as FirestoreService from "../services/firestore";
-import { ButtonWithText, VertSpacer } from "./styledComponents";
+import {
+  ButtonWithText,
+  VertSpacer,
+  SmallText,
+  AdminButton,
+} from "./styledComponents";
 import EasyTimer from "./EasyTimer";
 
 export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
@@ -58,16 +63,42 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
     }
   }
 
+  function cheated() {
+    if (roundWordPhrasesLeft.length === 1) {
+      const nextRoundWordPhrasesLeft = _.shuffle(roundWordPhrasesLeft);
+      const nextCurrentPlayers = currentPlayers.map((player, i) =>
+        i === currentTeam ? (player + 1) % teams[i].length : player
+      );
+      const nextCurrentTeam = currentTeam === 0 ? 1 : 0;
+      FirestoreService.endTurn(
+        roomId,
+        nextCurrentPlayers,
+        nextCurrentTeam,
+        nextRoundWordPhrasesLeft,
+        roundWordPhrasesLeft
+      );
+    } else {
+      const nextRoundWordPhrasesLeft = _.shuffle(roundWordPhrasesLeft);
+      FirestoreService.cheated(roomId, nextRoundWordPhrasesLeft);
+    }
+  }
+
   const myTurn = (
     <>
-      Make your team guess:
-      <br />
+      <SmallText>Make your team guess:</SmallText>
+      <VertSpacer />
       <h3>
         <b>{_.get(roundWordPhrasesLeft, 0, "loading...")}</b>
       </h3>
       <VertSpacer />
       <ButtonWithText onClick={teamGotIt}>DONE - NEXT!</ButtonWithText>
+      <VertSpacer />
       <EasyTimer {...{ turnStartTime, room, iAmTurnPlayer }} />
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
+      <AdminButton onClick={cheated}>☠️Cheated☠️ next</AdminButton>
     </>
   );
 

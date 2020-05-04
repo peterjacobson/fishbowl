@@ -109,6 +109,10 @@ export const BigText = styled.span`
   font-weight: 600;
 `;
 
+export const SmallText = styled.p`
+  font-size: 0.8em;
+`;
+
 export const FeedbackBackground = styled.div`
   background-color: white;
   -webkit-box-shadow: 0px 0px 87px 107px rgba(255, 255, 255, 1);

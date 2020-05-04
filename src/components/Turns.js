@@ -72,13 +72,9 @@ export function Turns({ room }) {
 
   const preTurn = iAmTurnPlayer ? (
     <>
-      <p>Get your team to guess as many words and phrases as possible in 60s</p>
       <ButtonWithText onClick={startTurn}>START MY TURN</ButtonWithText>
       <VertSpacer />
-      <VertSpacer />
-      <VertSpacer />
-      <VertSpacer />
-      <VertSpacer />
+      <p>Get your team to guess as many words and phrases as possible in 60s</p>
       <VertSpacer />
       <VertSpacer />
       <AdminButton onClick={skipMyTurn}>Pass to next teamie</AdminButton>

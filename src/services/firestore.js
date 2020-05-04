@@ -120,6 +120,12 @@ export const teamGotIt = (roomId, nextRoundWordPhrasesLeft, nextPoints) => {
   });
 };
 
+export const cheated = (roomId, nextRoundWordPhrasesLeft) => {
+  return db.collection("rooms").doc(roomId).update({
+    roundWordPhrasesLeft: nextRoundWordPhrasesLeft,
+  });
+};
+
 export const teamGotItOuttaWords = (
   roomId,
   nextRoundWordPhrasesLeft,
