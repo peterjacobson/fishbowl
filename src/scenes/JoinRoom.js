@@ -26,6 +26,7 @@ import {
 } from "../components/styledComponents";
 import WhatIsFishbowl from "../components/WhatIsFishbowl";
 import Footer from "../components/Footer";
+import { Needs } from "../components/Needs";
 
 function JoinRoom(props) {
   const roomId = props.location.pathname.substr(11);
@@ -82,6 +83,9 @@ function JoinRoom(props) {
     navigate(`/room/${roomId}/user/${existingUserId}/bowl`);
   }
 
+    const needs = ["contribution", "play", "connection", "humour", "vitality", "sponteneity", "creativity", "growth", "communication", "belonging", "+more"]
+
+
   return (
     <BlueBackground>
       <MobileWidthWrapper>
@@ -89,6 +93,9 @@ function JoinRoom(props) {
           <WhiteCircle />
           <WhiteBackground>
             <HeartworkLogoBig />
+            <VertSpacer/>
+            <VertSpacer/>
+            <Needs {...{needs}}/>
             <SwatchHeading>
               Join this
               <br />

@@ -22,8 +22,10 @@ import {
   WhiteFadeBackground,
   WhiteBackground,
   UnsplashCredit,
+  VertSpacer,
 } from "../components/styledComponents";
 import WhatIsFishbowl from "../components/WhatIsFishbowl";
+import { Needs } from "../components/Needs";
 
 function CreateList() {
   const [userName, setUserName] = useState("");
@@ -57,6 +59,8 @@ function CreateList() {
       });
   }
 
+  const needs = ["contribution", "play", "connection", "humour", "vitality", "sponteneity", "creativity", "growth", "communication", "belonging", "+more"]
+
   return (
     <BlueBackground>
       <MobileWidthWrapper>
@@ -65,6 +69,10 @@ function CreateList() {
           <WhiteCircle />
           <WhiteBackground>
             <HeartworkLogoBig />
+            <VertSpacer/>
+            <VertSpacer/>
+            To meet your needs for<br/>
+            <Needs {...{needs}}/>
             <SwatchHeading>
               Create your
               <br />
