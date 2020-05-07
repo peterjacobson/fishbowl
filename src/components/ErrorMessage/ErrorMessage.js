@@ -1,6 +1,6 @@
 import React from "react";
 import "./ErrorMessage.css";
-import { ErrorMessageP } from "../styledComponents";
+import { Error} from "../styledComponents";
 
 function ErrorMessage(props) {
   const { errorCode } = props;
@@ -9,8 +9,8 @@ function ErrorMessage(props) {
     switch (errorCode) {
       case "anonymous-auth-failed":
         return "Anonymous authentication failed. Try again.";
-      case "grocery-list-not-found":
-        return "The grocery list could not be found. Try creating a new one.";
+      case "all-fields-required":
+        return "You gotta put your name and all three 🐠fishies (words or phrases)";
       case "grocery-list-get-fail":
         return "Failed to retrieve the grocery list. Try again.";
       case "add-list-item-error":
@@ -33,9 +33,9 @@ function ErrorMessage(props) {
   }
 
   return errorCode ? (
-    <ErrorMessageP>
+    <Error>
       {getErrorMessage()} {props.children}
-    </ErrorMessageP>
+    </Error>
   ) : null;
 }
 
