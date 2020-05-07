@@ -71,7 +71,7 @@ function CreateList() {
             <HeartworkLogoBig />
             <VertSpacer/>
             <VertSpacer/>
-            To meet your needs for<br/>
+            To meet human needs for<br/>
             <Needs {...{needs}}/>
             <SwatchHeading>
               Create your

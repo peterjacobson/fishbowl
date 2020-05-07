@@ -95,6 +95,7 @@ function JoinRoom(props) {
             <HeartworkLogoBig />
             <VertSpacer/>
             <VertSpacer/>
+            To meet human needs for
             <Needs {...{needs}}/>
             <SwatchHeading>
               Join this
