@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import _ from "lodash";
 import styled from "styled-components";
 
@@ -19,6 +19,7 @@ import {
   Points,
 } from "./styledComponents";
 import EditRounds from "./EditRounds";
+import { getRoomId } from "../services/urlData";
 
 const ColWidth = styled.div`
   margin: 0px 5px;
@@ -36,8 +37,30 @@ export function Teams({
   roomId,
   teamsFormed,
   userId,
-  room
+  room,
 }) {
+  const [numPlayers, setNumPlayers] = useState(6);
+  const [numRounds, setNumRounds] = useState(5);
+  const [numFishPerPlayer, setNumFishPerPlayer] = useState(3);
+
+  const turnTime =
+    numFishPerPlayer === 3 ? 60 : numFishPerPlayer === 2 ? 40 : 30;
+
+  const updateFirestore = () => {
+    const roomId = getRoomId();
+    const usedWordPhrases = _.shuffle(room.wordPhrases).slice(
+      (3 - numFishPerPlayer) * (room.wordPhrases.length / 3)
+    );
+    console.log("usedWordPhrases: ", usedWordPhrases);
+    const update = {
+      numRounds,
+      numFishPerPlayer,
+      turnTime,
+      usedWordPhrases,
+    };
+    FirestoreService.updateRoom(roomId, update);
+  };
+
   function playerList(players) {
     return players
       ? players.map((player, i) => (
@@ -55,6 +78,7 @@ export function Teams({
     const secondWords = _.shuffle(secondTeamWords).slice(0, 2);
     const teamNames = [0, 1].map((i) => firstWords[i] + " " + secondWords[i]);
     FirestoreService.createTeams(roomId, teams, teamNames);
+    updateFirestore()
   }
 
   const preTeams = (
@@ -80,13 +104,24 @@ export function Teams({
       <VertSpacer />
       {iAmCreator && players.length >= 4 ? (
         <>
-          <ButtonWithText onClick={createTeams}>Create Teams</ButtonWithText>
+          <ButtonWithText onClick={createTeams}>🐠Start Game</ButtonWithText>
           <VertSpacer />
           <VertSpacer />
           <VertSpacer />
         </>
       ) : null}
-      {iAmCreator ? <EditRounds wordPhrases={room.wordPhrases}/> : null}
+      {iAmCreator ? (
+        <EditRounds
+          {...{
+            numPlayers,
+            setNumPlayers,
+            numRounds,
+            setNumRounds,
+            numFishPerPlayer,
+            setNumFishPerPlayer,
+          }}
+        />
+      ) : null}
     </WhiteBackground>
   );
 

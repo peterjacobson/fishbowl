@@ -42,30 +42,15 @@ const SliderTrack = styled.div`
 
 const Track = (props, state) => <SliderTrack {...props} index={state.index} />;
 
-export default function EditRounds({ wordPhrases }) {
+export default function EditRounds({
+  numPlayers,
+  setNumPlayers,
+  numRounds,
+  setNumRounds,
+  numFishPerPlayer,
+  setNumFishPerPlayer,
+}) {
   const [showingEdit, setShowingEdit] = useState(false);
-  const [numPlayers, setNumPlayers] = useState(6);
-  const [numRounds, setNumRounds] = useState(5);
-  const [numFishPerPlayer, setNumFishPerPlayer] = useState(3);
-
-  const turnTime =
-    numFishPerPlayer === 3 ? 60 : numFishPerPlayer === 2 ? 40 : 30;
-
-  const updateFirestore = ({ nextNumRounds, nextNumFishPerPlayer }) => {
-    const roomId = getRoomId();
-    const nextFishNum = nextNumFishPerPlayer || numFishPerPlayer
-    const usedWordPhrases = _.shuffle(wordPhrases).slice(
-      (3 - nextFishNum) * (wordPhrases.length / 3)
-    );
-    console.log("usedWordPhrases: ", usedWordPhrases);
-    const update = {
-      numRounds: nextNumRounds || numRounds,
-      numFishPerPlayer: nextNumFishPerPlayer || numFishPerPlayer,
-      turnTime: nextFishNum === 3 ? 60 : nextFishNum === 2 ? 40 : 30,
-      usedWordPhrases,
-    };
-    FirestoreService.updateRoom(roomId, update);
-  };
 
   function estGameMins() {
     const avgSecondsToGuessFish = 20;
@@ -79,16 +64,6 @@ export default function EditRounds({ wordPhrases }) {
 
   function toggleShowing() {
     setShowingEdit(!showingEdit);
-  }
-
-  function updateNumRounds(value) {
-    setNumRounds(value);
-    updateFirestore({ nextNumRounds: value });
-  }
-
-  function updateNumFishPerPlayer(value) {
-    setNumFishPerPlayer(value);
-    updateFirestore({ nextNumFishPerPlayer: value });
   }
 
   return (
@@ -115,7 +90,7 @@ export default function EditRounds({ wordPhrases }) {
             renderTrack={Track}
             renderThumb={Thumb("rounds")}
             value={numRounds}
-            onChange={updateNumRounds}
+            onChange={setNumRounds}
           />
           <VertSpacer />
           <VertSpacer />
@@ -126,7 +101,7 @@ export default function EditRounds({ wordPhrases }) {
             renderTrack={Track}
             renderThumb={Thumb("🐠fish/player")}
             value={numFishPerPlayer}
-            onChange={updateNumFishPerPlayer}
+            onChange={setNumFishPerPlayer}
           />
           <VertSpacer />
           <VertSpacer />
