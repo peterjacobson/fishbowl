@@ -94,6 +94,12 @@ export const WhiteBackground = styled.div`
   text-align: center;
 `;
 
+export const ErrorMessageP = styled.p`
+  border-width: 3px;
+  border-style: solid;
+  border-color: #e02cb8;
+`;
+
 export const FullWidth = styled.div`
   width: 100%;
 `;
@@ -197,6 +203,9 @@ export const CenterForm = styled.form`
 
 export const Error = styled.p`
   text-align: center;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #e02cb8;
 `;
 
 export const NavigationButtons = styled.div`

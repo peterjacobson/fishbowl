@@ -1,5 +1,6 @@
 import React from "react";
 import "./ErrorMessage.css";
+import { ErrorMessageP } from "../styledComponents";
 
 function ErrorMessage(props) {
   const { errorCode } = props;
@@ -32,9 +33,9 @@ function ErrorMessage(props) {
   }
 
   return errorCode ? (
-    <p className="error">
+    <ErrorMessageP>
       {getErrorMessage()} {props.children}
-    </p>
+    </ErrorMessageP>
   ) : null;
 }
 
