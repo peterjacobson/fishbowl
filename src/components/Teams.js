@@ -18,6 +18,7 @@ import {
   BigText,
   Points,
 } from "./styledComponents";
+import EditRounds from "./EditRounds";
 
 const ColWidth = styled.div`
   margin: 0px 5px;
@@ -73,16 +74,18 @@ export function Teams({
       <CopyInviteUrl />
       <br />
       Once all the players are here, {creatorName} will make the teams
-      <br />
-      {iAmCreator && players.length > 1 ? (
+      <VertSpacer />
+      <VertSpacer />
+      <VertSpacer />
+      {iAmCreator && players.length >= 4 ? (
         <>
-          <VertSpacer />
-          <VertSpacer />
-
-          <VertSpacer />
           <ButtonWithText onClick={createTeams}>Create Teams</ButtonWithText>
+          <VertSpacer />
+          <VertSpacer />
+          <VertSpacer />
         </>
       ) : null}
+      {iAmCreator ? <EditRounds /> : null}
     </WhiteBackground>
   );
 

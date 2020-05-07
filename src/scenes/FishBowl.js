@@ -44,7 +44,8 @@ export default function FishBowl(props) {
     "name",
     ""
   );
-  const teamsFormed = room.team1 === undefined ? false : true;
+  const teamsFormed = !!_.get(room, ["team1","length"], false)
+  console.log("teamsFormed: ", teamsFormed);
   const playerTeamId = teams
     ? teams.findIndex((team) =>
         _.find(team, (player) => player.userId === userId)

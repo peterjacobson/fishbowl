@@ -280,10 +280,12 @@ export const CloseModalButton = styled(AdminButton)`
 `;
 
 export const WhatIsButton = styled(AdminButton)`
+  margin-right: auto;
+  margin-left: auto;
   max-width: 350px;
   height: 60px;
   line-height: 1em;
-  padding: 0;
+  padding: 0px 30px;
 `;
 
 export const BlueButton = styled(Button)`

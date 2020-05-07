@@ -11,14 +11,15 @@ export default function EasyTimer({ turnStartTime, room, iAmTurnPlayer }) {
     currentTeam,
     team0,
     team1,
+    turnTime,
   } = room;
   const teams = [team0, team1];
   const userId =
     window.location.pathname.match(/user\/(.*?)\//g)[0].slice(5, -1) || "";
   const roomId =
     window.location.pathname.match(/room\/(.*?)\//g)[0].slice(5, -1) || "";
-  const [timeRemaining, setTimeRemaining] = useState(60);
-  const timerLength = 60 * 1000; // ms
+  const [timeRemaining, setTimeRemaining] = useState(turnTime);
+  const timerLength = turnTime * 1000; // ms
 
   function ticker() {
     return setInterval((roundWordPhrasesLeft) => {

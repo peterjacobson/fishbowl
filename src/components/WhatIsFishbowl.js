@@ -21,7 +21,7 @@ export default function WhatIsFishbowl() {
   return (
     <>
       <WhatIsButton onClick={() => setModalOpen(true)}>
-        <h4>What is Fishbowl?</h4>
+        <h4>What is 🐠Fishbowl?</h4>
       </WhatIsButton>
       <StyledModal
         isOpen={modalOpen}

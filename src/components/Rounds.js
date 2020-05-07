@@ -26,6 +26,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
     team0,
     team1,
     roundWordPhrasesLeft,
+    numRounds,
   } = room;
   const teams = [team0, team1];
   const userId =
@@ -36,7 +37,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
     FirestoreService.startRound(roomId, roundWordPhrases);
   }
 
-  const endGame = round > 4;
+  const endGame = round > numRounds - 1;
 
   const preRound = (
     <>
@@ -57,7 +58,8 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
         {roundWordPhrasesLeft ? roundWordPhrasesLeft.length : ".."}🐠 in bowl
       </FishBowlWrapper>
       <p>
-        Round {round + 1}/5: <b>{_.get(rounds, [round, "name"], null)}</b>
+        Round {round + 1}/{numRounds}:{" "}
+        <b>{_.get(rounds, [round, "name"], null)}</b>
       </p>
       {_.get(rounds, [round, "rules"], "")}
       <br />
@@ -78,8 +80,14 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
   const losingTeamMessage =
     "Nice try! It's all about practice. Actually it's all about connecting. But if you want the GLORY, try again...";
 
-  function startNewGame() {
-    navigate("/");
+  function playAgain() {
+    const roomUpdate = {
+      team0: [],
+      team1: [],
+      roundActive: false,
+      round: 0,
+    };
+    FirestoreService.updateRoom(roomId, roomUpdate);
   }
 
   const endGameContent = (
@@ -109,7 +117,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
       <VertSpacer />
       <VertSpacer />
       <VertSpacer />
-      <ButtonWithText onClick={startNewGame}>START A NEW GAME</ButtonWithText>
+      <ButtonWithText onClick={playAgain}>PLAY AGAIN!</ButtonWithText>
     </>
   );
 

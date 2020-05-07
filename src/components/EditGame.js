@@ -26,6 +26,7 @@ export default function EditGame({ room, roomId, teamsFormed }) {
 
   const [editingTeams, setEditingTeams] = useState(false);
   const [editingPoints, setEditingPoints] = useState(false);
+  const [showReset, setShowReset] = useState(false);
 
   function endTurn() {
     //update turnActive
@@ -118,6 +119,16 @@ export default function EditGame({ room, roomId, teamsFormed }) {
     FirestoreService.updateRoom(roomId, roomUpdate);
   }
 
+  function resetGame() {
+    const roomUpdate = {
+      team0: [],
+      team1: [],
+      roundActive: false,
+      round: 0,
+    };
+    FirestoreService.updateRoom(roomId, roomUpdate);
+  }
+
   function removePlayerList(players, team) {
     return players
       ? players.map((player, i) => (
@@ -193,6 +204,14 @@ export default function EditGame({ room, roomId, teamsFormed }) {
           </AdminButton>
           <AdminButton onClick={endRound}>End Round</AdminButton>
           <AdminButton onClick={goBackARound}>Go Back a Round</AdminButton>
+          <AdminButton onClick={() => setShowReset(!showReset)}>
+            Reset Whole Game
+          </AdminButton>
+          {showReset ? (
+            <AdminButton onClick={resetGame}>
+              Sure you want to <b>reset the whole Game?</b>
+            </AdminButton>
+          ) : null}
         </>
       ) : null}
     </LowKeyButtonWrapper>

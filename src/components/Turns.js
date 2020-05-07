@@ -26,6 +26,7 @@ export function Turns({ room }) {
     currentPlayers,
     turnActive,
     roundWordPhrasesLeft,
+    turnTime,
   } = room;
   const teams = [team0, team1];
   const turnPlayer = _.get(
@@ -74,7 +75,7 @@ export function Turns({ room }) {
     <>
       <ButtonWithText onClick={startTurn}>START MY TURN</ButtonWithText>
       <VertSpacer />
-      <p>Get your team to guess as many words and phrases as possible in 60s</p>
+      <p>Get your team to guess as many words and phrases as possible in {turnTime}s</p>
       <VertSpacer />
       <VertSpacer />
       <AdminButton onClick={skipMyTurn}>Pass to next teamie</AdminButton>
