@@ -33,7 +33,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
     window.location.pathname.match(/user\/(.*?)\//g)[0].slice(5, -1) || "";
 
   function startRound() {
-    const roundWordPhrases = _.shuffle(room.wordPhrases);
+    const roundWordPhrases = _.shuffle(room.usedWordPhrases);
     FirestoreService.startRound(roomId, roundWordPhrases);
   }
 
@@ -81,13 +81,7 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
     "Nice try! It's all about practice. Actually it's all about connecting. But if you want the GLORY, try again...";
 
   function playAgain() {
-    const roomUpdate = {
-      team0: [],
-      team1: [],
-      roundActive: false,
-      round: 0,
-    };
-    FirestoreService.updateRoom(roomId, roomUpdate);
+    navigate("/")
   }
 
   const endGameContent = (

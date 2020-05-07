@@ -101,6 +101,7 @@ export default function FishBowl(props) {
                       roomId,
                       teamsFormed,
                       userId,
+                      room
                     }}
                   />
                   <Rounds

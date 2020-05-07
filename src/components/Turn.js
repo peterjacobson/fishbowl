@@ -20,7 +20,7 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
     round,
     team0,
     team1,
-    wordPhrases,
+    usedWordPhrases,
     roundWordPhrasesLeft,
     currentTeam,
     points,
@@ -43,7 +43,7 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
       // update points
       // update currentPlayers
       // update currentTeam
-      const nextRoundWordPhrasesLeft = _.shuffle(wordPhrases);
+      const nextRoundWordPhrasesLeft = _.shuffle(usedWordPhrases);
       const nextRound = round + 1;
       const nextCurrentPlayers = currentPlayers.map((player, i) =>
         i === currentTeam ? (player + 1) % teams[i].length : player

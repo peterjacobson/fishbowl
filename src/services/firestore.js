@@ -23,6 +23,7 @@ export const createroom = (userName, userId, wordPhrasesList) => {
       },
     ],
     wordPhrases: wordPhrasesList,
+    usedWordPhrases: [],
     roundWordPhrasesLeft: wordPhrasesList,
     round: 0, // five rounds, 0-4
     roundActive: false,
@@ -59,7 +60,6 @@ export const addUserToroom = (
         name: userName,
       }),
       wordPhrases: nextWordPhrases,
-      roundWordPhrasesLeft: nextRoundWordPhrasesLeft,
     });
 };
 

@@ -36,6 +36,7 @@ export function Teams({
   roomId,
   teamsFormed,
   userId,
+  room
 }) {
   function playerList(players) {
     return players
@@ -85,7 +86,7 @@ export function Teams({
           <VertSpacer />
         </>
       ) : null}
-      {iAmCreator ? <EditRounds /> : null}
+      {iAmCreator ? <EditRounds wordPhrases={room.wordPhrases}/> : null}
     </WhiteBackground>
   );
 
