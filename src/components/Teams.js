@@ -57,6 +57,7 @@ export function Teams({
       numFishPerPlayer,
       turnTime,
       usedWordPhrases,
+      roundWordPhrasesLeft: _.shuffle(usedWordPhrases)
     };
     FirestoreService.updateRoom(roomId, update);
   };
