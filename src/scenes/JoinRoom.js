@@ -150,12 +150,10 @@ function JoinRoom(props) {
                 free", "falling in love", "Italy" or "Lady Gaga"
               </p>
             </CenterForm>
-            <NavigationButtons>
-              <NavigationText>Next:&nbsp;&nbsp;&nbsp;Go to game</NavigationText>
-              <Button onClick={joinRoom}>
-                <RightArrowIcon />
-              </Button>
-            </NavigationButtons>
+            <VertSpacer/>
+              <ButtonWithText onClick={joinRoom}>
+                JOIN THE GAME
+              </ButtonWithText>
           </WhiteBackground>
         </WhiteFadeBackground>
         <Footer />

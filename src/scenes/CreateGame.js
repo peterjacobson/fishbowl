@@ -23,6 +23,7 @@ import {
   WhiteBackground,
   UnsplashCredit,
   VertSpacer,
+  ButtonWithText,
 } from "../components/styledComponents";
 import WhatIsFishbowl from "../components/WhatIsFishbowl";
 import { Needs } from "../components/Needs";
@@ -59,7 +60,19 @@ function CreateList() {
       });
   }
 
-  const needs = ["contribution", "play", "connection", "humour", "vitality", "sponteneity", "creativity", "growth", "communication", "belonging", "+more"]
+  const needs = [
+    "contribution",
+    "play",
+    "connection",
+    "humour",
+    "vitality",
+    "sponteneity",
+    "creativity",
+    "growth",
+    "communication",
+    "belonging",
+    "+more",
+  ];
 
   return (
     <BlueBackground>
@@ -69,10 +82,11 @@ function CreateList() {
           <WhiteCircle />
           <WhiteBackground>
             <HeartworkLogoBig />
-            <VertSpacer/>
-            <VertSpacer/>
-            To meet human needs for<br/>
-            <Needs {...{needs}}/>
+            <VertSpacer />
+            <VertSpacer />
+            To meet human needs for
+            <br />
+            <Needs {...{ needs }} />
             <SwatchHeading>
               Create your
               <br />
@@ -116,12 +130,10 @@ function CreateList() {
                 "set free", "falling in love", "Italy" or "Lady Gaga"
               </p>
             </CenterForm>
-            <NavigationButtons>
-              <NavigationText>Next:&nbsp;Go to game</NavigationText>
-              <Button onClick={createRoom}>
-                <RightArrowIcon />
-              </Button>
-            </NavigationButtons>
+            <VertSpacer/>
+            <ButtonWithText onClick={createRoom}>
+              Create Fishbowl Game Room
+            </ButtonWithText>
           </WhiteBackground>
           <Footer />
         </WhiteFadeBackground>
