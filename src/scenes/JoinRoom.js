@@ -27,6 +27,7 @@ import {
 import WhatIsFishbowl from "../components/WhatIsFishbowl";
 import Footer from "../components/Footer";
 import { Needs } from "../components/Needs";
+import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 
 function JoinRoom(props) {
   const roomId = props.location.pathname.substr(11);
@@ -93,10 +94,10 @@ function JoinRoom(props) {
           <WhiteCircle />
           <WhiteBackground>
             <HeartworkLogoBig />
-            <VertSpacer/>
-            <VertSpacer/>
+            <VertSpacer />
+            <VertSpacer />
             To meet human needs for
-            <Needs {...{needs}}/>
+            <Needs {...{ needs }} />
             <SwatchHeading>
               Join this
               <br />
@@ -144,16 +145,14 @@ function JoinRoom(props) {
                   />
                 );
               })}
-              {error && <Error>{error}</Error>} <br />
+              {error && <ErrorMessage errorCode={error} />}
               <p>
                 the 🐠 (words or phrases) can be things like "chair", "running",
                 free", "falling in love", "Italy" or "Lady Gaga"
               </p>
             </CenterForm>
-            <VertSpacer/>
-              <ButtonWithText onClick={joinRoom}>
-                JOIN THE GAME
-              </ButtonWithText>
+            <VertSpacer />
+            <ButtonWithText onClick={joinRoom}>JOIN THE GAME</ButtonWithText>
           </WhiteBackground>
         </WhiteFadeBackground>
         <Footer />

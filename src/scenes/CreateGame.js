@@ -27,6 +27,7 @@ import {
 } from "../components/styledComponents";
 import WhatIsFishbowl from "../components/WhatIsFishbowl";
 import { Needs } from "../components/Needs";
+import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 
 function CreateList() {
   const [userName, setUserName] = useState("");
@@ -123,7 +124,7 @@ function CreateList() {
                   />
                 );
               })}
-              {error && <Error>{error}</Error>}
+              {error && <ErrorMessage errorCode={error}/>}
               <br />
               <p>
                 the 🐠 (words or phrases) can be things like "chair", "running",
