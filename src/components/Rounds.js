@@ -99,6 +99,14 @@ export function Rounds({ room, iAmCreator, creatorName, roomId, teamsFormed }) {
       <VertSpacer />
       <VertSpacer />
       <VertSpacer />
+      <ButtonWithText
+        onClick={() =>
+          window.open("https://www.patreon.com/bePatron?u=34850603", "_blank")
+        }
+      >
+        Become a Patron!
+      </ButtonWithText>
+      <VertSpacer />
       <VertSpacer />
       <VertSpacer />
       <ButtonWithText onClick={startNewGame}>START A NEW GAME</ButtonWithText>

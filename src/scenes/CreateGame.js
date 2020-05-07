@@ -23,7 +23,7 @@ import {
   WhiteBackground,
   UnsplashCredit,
 } from "../components/styledComponents";
-// import WhatIsFishbowl from "../components/WhatIsFishbowl";
+import WhatIsFishbowl from "../components/WhatIsFishbowl";
 
 function CreateList() {
   const [userName, setUserName] = useState("");
@@ -72,7 +72,7 @@ function CreateList() {
               <br />
             </SwatchHeading>
             For 6-12 players
-            {/* <WhatIsFishbowl /> */}
+            <WhatIsFishbowl />
             <CenterForm name="create-room" onSubmit={createRoom}>
               <NameTextField
                 autoFocus={true}

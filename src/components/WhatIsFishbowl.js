@@ -2,16 +2,17 @@ import React, { useState } from "react";
 
 import { rounds } from "../data/roundData";
 import {
-  AdminButton,
   StyledModal,
   ModalInner,
   ModalText,
   WhatIsButton,
+  CloseModalButton,
+  VertSpacer,
 } from "./styledComponents";
 import Modal from "styled-react-modal";
 
 export default function WhatIsFishbowl() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
 
   function toggleModal(e) {
     setModalOpen(!modalOpen);
@@ -20,37 +21,78 @@ export default function WhatIsFishbowl() {
   return (
     <>
       <WhatIsButton onClick={() => setModalOpen(true)}>
-        <h3>What is Fishbowl?</h3>
+        <h4>What is Fishbowl?</h4>
       </WhatIsButton>
       <StyledModal
         isOpen={modalOpen}
-        onBackgroundClick={toggleModal}
+        onBackgroundClick={() => setModalOpen(false)}
         onEscapeKeydown={toggleModal}
       >
         <ModalInner>
-          <AdminButton onClick={() => setModalOpen(false)}>Close</AdminButton>
+          <CloseModalButton onClick={() => setModalOpen(false)}>
+            Close
+          </CloseModalButton>
+          <h2>🤷‍♀️What is 🐠Fishbowl?</h2>
+          <VertSpacer />
+          <VertSpacer />
           <ModalText>
-            Fishbowl is a creative game based on Charades and Articulate.
+            🐠Fishbowl is a <b>creative communication</b> team game based on
+            Charades and Articulate.
           </ModalText>
-          <h4>Game setup</h4>
+          <VertSpacer />
           <ModalText>
-            Each player gets three slips of paper, and they write one word or
-            short phrase on each slip
+            It's infinitely variable, as gameplay depends on what players put in
+            the fishbowl and the creativity of the players
           </ModalText>
+          <VertSpacer />
+          <VertSpacer />
+          <VertSpacer />
+          <VertSpacer />
+          <h2>👾Game setup</h2>
           <ModalText>
-            All these slips go into a <b>Fishbowl</b> or hat, hence the name "Fishbowl"
+            <b>1.</b> Each player adds three 🐠fish (words or short phrases) to
+            the (🐠fishbowl)
           </ModalText>
-          <ModalText>Players are split into two teams</ModalText>
-          <h4>Game play</h4>
-          <ModalText>There are Five Rounds</ModalText>
-          {rounds.map(round => (
-            <>
-              <h
-              </>
-          ))}
+          <VertSpacer />
+          <VertSpacer />
+          <ModalText>
+            <b>2.</b> Players are split into two teams
+          </ModalText>
+          <VertSpacer />
+          <VertSpacer />
+          <VertSpacer />
+          <VertSpacer />
+          <h2>🥳Game play</h2>
+          <ModalText>
+            There are five <b>rounds</b>
+          </ModalText>
+          <VertSpacer />
+          <ModalText>
+            In each <b>round</b>, teams take <b>1 min turns</b> to get as many
+            🐠fish as possible
+          </ModalText>
+          <VertSpacer />
+          <ModalText>
+            In each <b>1 min turn</b>, one player from the active team has to get their team to guess as many 🐠fish as possible, while sticking to the <b>round rules</b>
+          </ModalText>
+          <VertSpacer />
+          <VertSpacer />
+          <ul>
+            {rounds.map((round, i) => (
+              <li>
+                <b>
+                  Round{i + 1}: {round.name}
+                </b>
+                {round.rules}
+                <VertSpacer />
+                <VertSpacer />
+              </li>
+            ))}
+          </ul>
           <ModalText></ModalText>
-          <ModalText>{JSON.stringify(rounds)}</ModalText>
-          <AdminButton onClick={() => setModalOpen(false)}>Close</AdminButton>
+          <CloseModalButton onClick={() => setModalOpen(false)}>
+            Close
+          </CloseModalButton>
         </ModalInner>
       </StyledModal>
     </>

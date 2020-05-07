@@ -273,6 +273,11 @@ export const AdminButton = styled(Button)`
   color: #2a3076 !important;
   z-index: 100;
 `;
+export const CloseModalButton = styled(AdminButton)`
+  color: white !important;
+  float: right;
+  background-color: #e02cb8;
+`;
 
 export const WhatIsButton = styled(AdminButton)`
   max-width: 350px;
@@ -411,13 +416,14 @@ export const HelpButton = styled(FaQuestionCircle)`
 `;
 
 export const StyledModal = Modal.styled`
-  max-width: 350px;
+  width: 95vw;
+  max-width: 450px;
   margin-left: auto;
   margin-right: auto;
 `;
 
 export const ModalInner = styled.div`
-  padding: 20px 30px;
+  padding: 5px 5px;
   background-color: white;
   max-width: 440px;
   max-height: 600px;
