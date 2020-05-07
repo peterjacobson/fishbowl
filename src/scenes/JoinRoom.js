@@ -24,7 +24,7 @@ import {
   VertSpacer,
   UnsplashCredit,
 } from "../components/styledComponents";
-// import WhatIsFishbowl from "../components/WhatIsFishbowl";
+import WhatIsFishbowl from "../components/WhatIsFishbowl";
 import Footer from "../components/Footer";
 
 function JoinRoom(props) {
@@ -94,7 +94,7 @@ function JoinRoom(props) {
               <br />
               🐠Fishbowl Game
             </SwatchHeading>
-            {/* <WhatIsFishbowl /> */}
+            <WhatIsFishbowl />
             <NarrowCenterText>Rejoin as:</NarrowCenterText>
             {room.users.map((user) => {
               return (

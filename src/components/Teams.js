@@ -74,7 +74,7 @@ export function Teams({
       <br />
       Once all the players are here, {creatorName} will make the teams
       <br />
-      {iAmCreator ? (
+      {iAmCreator && players.length > 1 ? (
         <>
           <VertSpacer />
           <VertSpacer />
