@@ -91,14 +91,14 @@ export default function Turn({ room, iAmTurnPlayer, iAmTurnTeam }) {
         <b>{_.get(roundWordPhrasesLeft, 0, "loading...")}</b>
       </h3>
       <VertSpacer />
-      <ButtonWithText onClick={teamGotIt}>DONE - NEXT!</ButtonWithText>
+      <ButtonWithText onClick={teamGotIt}>MY TEAM GUESSED IT 🙌</ButtonWithText>
       <VertSpacer />
       <EasyTimer {...{ turnStartTime, room, iAmTurnPlayer }} />
       <VertSpacer />
       <VertSpacer />
       <VertSpacer />
       <VertSpacer />
-      <AdminButton onClick={cheated}>☠️Cheated☠️ next</AdminButton>
+      <AdminButton onClick={cheated}>I cheated, or <br/>I don't know this word</AdminButton>
     </>
   );
 
